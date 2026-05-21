@@ -13,8 +13,8 @@
   --border: #d8c8c8;
   --tile-bg: #f0dede;
 
-  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
 
   --nav-h: 56px;
   --gutter: 48px;
@@ -84,6 +84,12 @@ a {
   border-bottom: 1px solid var(--border);
 }
 
+.hero-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
 .hero-title {
   font-family: var(--font-serif);
   font-size: clamp(3rem, 8vw, 7.5rem);
@@ -91,6 +97,13 @@ a {
   line-height: 1.0;
   letter-spacing: -0.02em;
   max-width: 14ch;
+}
+
+.hero-lottie {
+  width: clamp(60px, 6vw, 96px);
+  height: clamp(60px, 6vw, 96px);
+  flex-shrink: 0;
+  margin-top: 0.15em;
 }
 
 .hero-tagline {
