@@ -14,7 +14,7 @@
   --tile-bg: #f0dede;
 
   --font-sans: 'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
 
   --nav-h: 56px;
   --gutter: 48px;
@@ -93,7 +93,8 @@ a {
 .hero-title {
   font-family: var(--font-display);
   font-size: clamp(1.25rem, 7vw, 7.5rem);
-  font-weight: 500;
+  font-weight: 400;
+  font-style: italic;
   line-height: 1.0;
   letter-spacing: -0.02em;
   white-space: nowrap;
