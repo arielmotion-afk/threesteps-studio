@@ -624,6 +624,38 @@ a {
   }
 }
 
+/* ─── Lottie grid ────────────────────────────────────────────── */
+.lottie-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.lottie-tile {
+  aspect-ratio: 1;
+  background-color: var(--tile-bg);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lottie-tile lottie-player {
+  width: 100%;
+  height: 100%;
+}
+
+.project-tile--lottie {
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 700px) {
+  .lottie-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* ─── UGC page ───────────────────────────────────────────────── */
 .ugc-section {
   padding: 72px var(--gutter) 96px;
