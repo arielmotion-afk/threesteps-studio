@@ -129,9 +129,15 @@ a {
 .project-tile {
   aspect-ratio: 4 / 3;
   background-color: var(--tile-bg);
+  background-size: cover;
+  background-position: center;
   cursor: pointer;
   overflow: hidden;
   position: relative;
+}
+
+.project-tile[data-video] .tile-inner {
+  background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 50%);
 }
 
 .tile-inner {
@@ -140,11 +146,11 @@ a {
   display: flex;
   align-items: flex-end;
   padding: 20px;
-  transition: background-color 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .project-tile:hover .tile-inner {
-  background-color: rgba(26, 26, 26, 0.04);
+  opacity: 0.85;
 }
 
 .tile-label {
@@ -152,6 +158,56 @@ a {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+.project-tile[data-video] .tile-label {
+  color: rgba(255,255,255,0.85);
+}
+
+/* ─── Lightbox ───────────────────────────────────────────────── */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10, 5, 5, 0.9);
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.is-open {
+  display: flex;
+}
+
+.lightbox-frame {
+  width: min(90vw, 1100px);
+  aspect-ratio: 16 / 9;
+  position: relative;
+}
+
+.lightbox-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  transition: color 0.15s ease;
+}
+
+.lightbox-close:hover {
+  color: #fff;
 }
 
 /* ─── Footer ─────────────────────────────────────────────────── */
