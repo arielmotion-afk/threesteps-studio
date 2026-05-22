@@ -14,40 +14,6 @@ document.querySelectorAll('.project-tile[data-video]').forEach(function (tile) {
   img.src = 'https://img.youtube.com/vi/' + id + '/maxresdefault.jpg';
 });
 
-// Lightbox
-(function () {
-  var lightbox = document.getElementById('lightbox');
-  var iframe   = document.getElementById('lightbox-iframe');
-  var closeBtn = document.getElementById('lightbox-close');
-  if (!lightbox) return;
-
-  function open(videoId) {
-    iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
-    lightbox.classList.add('is-open');
-    lightbox.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function close() {
-    lightbox.classList.remove('is-open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    iframe.src = '';
-    document.body.style.overflow = '';
-  }
-
-  document.querySelectorAll('.project-tile[data-video]').forEach(function (tile) {
-    tile.addEventListener('click', function () { open(tile.dataset.video); });
-  });
-
-  closeBtn.addEventListener('click', close);
-  lightbox.addEventListener('click', function (e) {
-    if (e.target === lightbox) close();
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') close();
-  });
-}());
-
 // Lottie hero animation — drop animations/hero.json to activate
 (function () {
   var el = document.getElementById('lottie-hero');
