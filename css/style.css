@@ -641,7 +641,6 @@ a {
 
 .lottie-tile {
   aspect-ratio: 1;
-  background-color: var(--tile-bg);
   overflow: hidden;
   display: flex;
   align-items: center;
