@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Three Steps Studio</title>
+  <meta name="description" content="Get in touch with Ariel Paz — motion designer and creative strategist.">
+  <meta property="og:title" content="Contact — Three Steps Studio">
+  <meta property="og:description" content="Motion designer and creative strategist available for projects.">
+  <meta property="og:image" content="https://threesteps.studio/images/profile-black.png">
+  <meta property="og:url" content="https://threesteps.studio/contact.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://threesteps.studio/images/profile-black.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Three Steps Studio</a>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-title-row">
+        <h1 class="hero-title">Let's Work Together</h1>
+      </div>
+      <p class="hero-tagline">Available for projects &amp; collaborations</p>
+    </section>
+
+    <section class="contact-page">
+      <div class="contact-page-inner">
+
+        <div class="contact-profile">
+          <img src="images/profile-black.png" alt="Ariel Paz" class="contact-avatar">
+          <div class="contact-bio">
+            <p class="contact-bio-category">Motion Design &amp; Creative Strategy</p>
+            <p class="contact-bio-body">Senior motion designer with 8+ years of experience creating high-impact video content, motion graphics, and visual assets for global audiences. Skilled in end-to-end video production and editing — from initial brief to final cut.</p>
+            <p class="contact-bio-body">Experienced at leading creative teams, managing production workflows, and delivering campaigns across digital platforms. Combines strong design execution with a sharp understanding of strategy, storytelling, and product-driven creativity.</p>
+            <ul class="contact-skills">
+              <li>Motion Design</li>
+              <li>Video Production &amp; Editing</li>
+              <li>UGC &amp; AI Content</li>
+              <li>Creative Strategy</li>
+              <li>Team Leadership</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="contact-methods">
+          <h2 class="contact-methods-label">Get in Touch</h2>
+          <div class="contact-cards">
+
+            <a href="mailto:arielmotion@gmail.com?subject=Let's%20work%20together" class="contact-card">
+              <span class="contact-card-icon">✉</span>
+              <div>
+                <span class="contact-card-title">Email</span>
+                <span class="contact-card-value">arielmotion@gmail.com</span>
+              </div>
+            </a>
+
+            <a href="https://wa.me/972545872899" target="_blank" rel="noopener" class="contact-card">
+              <span class="contact-card-icon">💬</span>
+              <div>
+                <span class="contact-card-title">WhatsApp</span>
+                <span class="contact-card-value">+972-545-872-899</span>
+              </div>
+            </a>
+
+            <a href="https://www.linkedin.com/in/ariel-paz-motion/" target="_blank" rel="noopener" class="contact-card">
+              <span class="contact-card-icon">in</span>
+              <div>
+                <span class="contact-card-title">LinkedIn</span>
+                <span class="contact-card-value">ariel-paz-motion</span>
+              </div>
+            </a>
+
+          </div>
+
+          <form class="contact-form" onsubmit="handleContactForm(event)">
+            <div class="contact-form-row">
+              <input type="text" name="name" placeholder="Your name" required class="contact-input">
+              <input type="email" name="email" placeholder="Your email" required class="contact-input">
+            </div>
+            <textarea name="message" placeholder="Tell me about your project…" required rows="5" class="contact-input contact-textarea"></textarea>
+            <button type="submit" class="contact-submit">Send Message</button>
+          </form>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-name">Three Steps Studio</span>
+      <div class="footer-links">
+        <a href="mailto:arielmotion@gmail.com">arielmotion@gmail.com</a>
+        <a href="tel:+972545872899">+972-545-872-899</a>
+        <a href="https://www.linkedin.com/in/ariel-paz-motion/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function handleContactForm(e) {
+      e.preventDefault();
+      var name = e.target.name.value;
+      var email = e.target.email.value;
+      var message = e.target.message.value;
+      var subject = encodeURIComponent('Project inquiry from ' + name);
+      var body = encodeURIComponent('Hi Ariel,\n\n' + message + '\n\nBest,\n' + name + '\n' + email);
+      window.location.href = 'mailto:arielmotion@gmail.com?subject=' + subject + '&body=' + body;
+    }
+  </script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
