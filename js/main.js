@@ -1,17 +1,8 @@
 // Three Steps Studio — main.js
 
-// YouTube thumbnails
-document.querySelectorAll('.project-tile[data-video]').forEach(function (tile) {
-  var id = tile.dataset.video;
-  var img = new Image();
-  img.onload = function () {
-    tile.style.backgroundImage = 'url(' + img.src + ')';
-  };
-  img.onerror = function () {
-    // maxresdefault not available, fall back
-    tile.style.backgroundImage = 'url(https://img.youtube.com/vi/' + id + '/hqdefault.jpg)';
-  };
-  img.src = 'https://img.youtube.com/vi/' + id + '/maxresdefault.jpg';
+// Tile thumbnails
+document.querySelectorAll('.project-tile[data-thumb]').forEach(function (tile) {
+  tile.style.backgroundImage = 'url(' + tile.dataset.thumb + ')';
 });
 
 // Lottie hero animation — drop animations/hero.json to activate
