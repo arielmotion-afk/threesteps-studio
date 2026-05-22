@@ -386,3 +386,41 @@ a {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ─── UGC page ───────────────────────────────────────────────── */
+.ugc-section {
+  padding: 64px var(--gutter) 80px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ugc-section-label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  font-family: var(--font-sans);
+  margin-bottom: 32px;
+}
+
+.ugc-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2px;
+}
+
+.ugc-tile {
+  aspect-ratio: 9 / 16;
+}
+
+@media (max-width: 900px) {
+  .ugc-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .ugc-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
