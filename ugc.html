@@ -33,46 +33,53 @@
       <h2 class="ugc-section-label">UGC</h2>
       <div class="ugc-grid">
 
-        <article class="ugc-tile">
-          <video autoplay muted playsinline loop controls>
+        <article class="ugc-tile" data-src="videos/ugc/UGC-01.mp4">
+          <video autoplay muted playsinline loop>
             <source src="videos/ugc/UGC-01.mp4" type="video/mp4">
           </video>
+          <div class="ugc-tile-overlay"><span class="ugc-play-icon">&#9654;</span></div>
         </article>
 
-        <article class="ugc-tile">
-          <video autoplay muted playsinline loop controls>
+        <article class="ugc-tile" data-src="videos/ugc/UGC-02.mp4">
+          <video autoplay muted playsinline loop>
             <source src="videos/ugc/UGC-02.mp4" type="video/mp4">
           </video>
+          <div class="ugc-tile-overlay"><span class="ugc-play-icon">&#9654;</span></div>
         </article>
 
-        <article class="ugc-tile">
-          <video autoplay muted playsinline loop controls>
+        <article class="ugc-tile" data-src="videos/ugc/UGC-03.mp4">
+          <video autoplay muted playsinline loop>
             <source src="videos/ugc/UGC-03.mp4" type="video/mp4">
           </video>
+          <div class="ugc-tile-overlay"><span class="ugc-play-icon">&#9654;</span></div>
         </article>
 
-        <article class="ugc-tile">
-          <video autoplay muted playsinline loop controls>
+        <article class="ugc-tile" data-src="videos/ugc/UGC-04.mp4">
+          <video autoplay muted playsinline loop>
             <source src="videos/ugc/UGC-04.mp4" type="video/mp4">
           </video>
+          <div class="ugc-tile-overlay"><span class="ugc-play-icon">&#9654;</span></div>
         </article>
 
-        <article class="ugc-tile">
-          <video autoplay muted playsinline loop controls>
+        <article class="ugc-tile" data-src="videos/ugc/UGC-05.mp4">
+          <video autoplay muted playsinline loop>
             <source src="videos/ugc/UGC-05.mp4" type="video/mp4">
           </video>
+          <div class="ugc-tile-overlay"><span class="ugc-play-icon">&#9654;</span></div>
         </article>
 
-        <article class="ugc-tile">
-          <video autoplay muted playsinline loop controls>
+        <article class="ugc-tile" data-src="videos/ugc/UGC-06.mp4">
+          <video autoplay muted playsinline loop>
             <source src="videos/ugc/UGC-06.mp4" type="video/mp4">
           </video>
+          <div class="ugc-tile-overlay"><span class="ugc-play-icon">&#9654;</span></div>
         </article>
 
-        <article class="ugc-tile">
-          <video autoplay muted playsinline loop controls>
+        <article class="ugc-tile" data-src="videos/ugc/UGC-07.mp4">
+          <video autoplay muted playsinline loop>
             <source src="videos/ugc/UGC-07.mp4" type="video/mp4">
           </video>
+          <div class="ugc-tile-overlay"><span class="ugc-play-icon">&#9654;</span></div>
         </article>
 
       </div>
@@ -82,16 +89,25 @@
       <h2 class="ugc-section-label">AI UGC</h2>
       <div class="ugc-grid">
 
-        <article class="ugc-tile">
-          <video autoplay muted playsinline loop controls>
+        <article class="ugc-tile" data-src="videos/ugc/AI-UGC-01.mp4">
+          <video autoplay muted playsinline loop>
             <source src="videos/ugc/AI-UGC-01.mp4" type="video/mp4">
           </video>
+          <div class="ugc-tile-overlay"><span class="ugc-play-icon">&#9654;</span></div>
         </article>
 
       </div>
     </section>
 
   </main>
+
+  <div class="ugc-lightbox" id="ugcLightbox" role="dialog" aria-modal="true">
+    <div class="ugc-lightbox-backdrop"></div>
+    <div class="ugc-lightbox-frame">
+      <button class="ugc-lightbox-close" id="ugcLightboxClose" aria-label="Close">&#x2715;</button>
+      <video class="ugc-lightbox-video" id="ugcLightboxVideo" playsinline controls></video>
+    </div>
+  </div>
 
   <footer class="footer" id="contact">
     <div class="footer-inner">

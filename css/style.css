@@ -391,7 +391,7 @@ a {
 
 /* ─── UGC page ───────────────────────────────────────────────── */
 .ugc-section {
-  padding: 64px var(--gutter) 80px;
+  padding: 72px var(--gutter) 96px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -402,13 +402,13 @@ a {
   color: var(--muted);
   font-weight: 500;
   font-family: var(--font-sans);
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .ugc-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 2px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
 }
 
 .ugc-tile {
@@ -416,6 +416,8 @@ a {
   position: relative;
   overflow: hidden;
   background-color: var(--tile-bg);
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .ugc-tile video {
@@ -426,14 +428,103 @@ a {
   object-fit: cover;
 }
 
+.ugc-tile-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.2s ease;
+}
+
+.ugc-tile:hover .ugc-tile-overlay {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.ugc-play-icon {
+  color: #fff;
+  font-size: 2rem;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  line-height: 1;
+}
+
+.ugc-tile:hover .ugc-play-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ─── UGC Lightbox ───────────────────────────────────────────── */
+.ugc-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+
+.ugc-lightbox.is-open {
+  display: flex;
+}
+
+.ugc-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 5, 5, 0.88);
+  cursor: pointer;
+}
+
+.ugc-lightbox-frame {
+  position: relative;
+  z-index: 1;
+  width: min(90vh * 9 / 16, 88vw);
+  max-height: 90vh;
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+}
+
+.ugc-lightbox-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.ugc-lightbox-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 2;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: rgba(255,255,255,0.85);
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 6px 8px;
+  border-radius: 50%;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.ugc-lightbox-close:hover {
+  color: #fff;
+  background: rgba(0,0,0,0.75);
+}
+
 @media (max-width: 900px) {
   .ugc-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 540px) {
   .ugc-grid {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 }
