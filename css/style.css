@@ -407,7 +407,7 @@ a {
 
 .ugc-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 260px));
   gap: 16px;
 }
 
@@ -417,7 +417,6 @@ a {
   overflow: hidden;
   background-color: var(--tile-bg);
   cursor: pointer;
-  border-radius: 8px;
 }
 
 .ugc-tile video {
@@ -484,7 +483,6 @@ a {
   width: min(90vh * 9 / 16, 88vw);
   max-height: 90vh;
   aspect-ratio: 9 / 16;
-  border-radius: 10px;
   overflow: hidden;
   background: #000;
 }
