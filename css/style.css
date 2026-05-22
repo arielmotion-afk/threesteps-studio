@@ -210,6 +210,63 @@ a {
   color: #fff;
 }
 
+/* ─── About ──────────────────────────────────────────────────── */
+.about {
+  padding: 96px var(--gutter) 112px;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-inner {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  max-width: 860px;
+}
+
+.about-avatar {
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.about-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.0;
+  margin-bottom: 6px;
+}
+
+.about-role {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.about-bio {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text);
+  max-width: 520px;
+}
+
+@media (max-width: 600px) {
+  .about-inner {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .about-avatar {
+    width: 120px;
+    height: 120px;
+  }
+}
+
 /* ─── Footer ─────────────────────────────────────────────────── */
 .footer {
   border-top: 1px solid var(--border);
