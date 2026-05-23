@@ -1087,7 +1087,7 @@ a {
   position: relative;
   padding: 120px var(--gutter) 140px;
   text-align: center;
-  background: #0d0809;
+  background: var(--bg);
   overflow: hidden;
 }
 
@@ -1096,10 +1096,10 @@ a {
   position: absolute;
   inset: -60%;
   background:
-    radial-gradient(ellipse at 25% 55%, rgba(160, 50, 75, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse at 75% 25%, rgba(40, 60, 110, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 55% 80%, rgba(100, 35, 110, 0.4) 0%, transparent 55%),
-    radial-gradient(ellipse at 15% 20%, rgba(180, 80, 60, 0.3) 0%, transparent 45%);
+    radial-gradient(ellipse at 30% 60%, rgba(200, 90, 115, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 72% 28%, rgba(185, 130, 190, 0.13) 0%, transparent 50%),
+    radial-gradient(ellipse at 55% 80%, rgba(215, 100, 125, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 18% 22%, rgba(230, 110, 90, 0.1) 0%, transparent 45%);
   animation: aurora 14s ease-in-out infinite alternate;
   pointer-events: none;
 }
@@ -1129,14 +1129,14 @@ a {
   font-size: clamp(2.75rem, 6vw, 5rem);
   font-weight: 400;
   line-height: 1.0;
-  color: var(--bg);
+  color: var(--text);
   margin-bottom: 16px;
 }
 
 .cta-email {
   font-size: 0.875rem;
   letter-spacing: 0.06em;
-  color: rgba(253, 240, 240, 0.4);
+  color: var(--muted);
   margin-bottom: 40px;
 }
 
@@ -1161,26 +1161,26 @@ a {
 }
 
 .cta-btn--primary {
-  background: var(--bg);
-  color: var(--text);
-  border: 1.5px solid var(--bg);
+  background: var(--text);
+  color: var(--bg);
+  border: 1.5px solid var(--text);
 }
 
 .cta-btn--primary:hover {
   background: transparent;
-  color: var(--bg);
+  color: var(--text);
 }
 
 .cta-btn--outline {
   background: transparent;
-  color: var(--bg);
-  border: 1.5px solid rgba(253, 240, 240, 0.25);
+  color: var(--text);
+  border: 1.5px solid rgba(26, 26, 26, 0.25);
 }
 
 .cta-btn--outline:hover {
-  background: var(--bg);
-  color: var(--text);
-  border-color: var(--bg);
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
 }
 
 .cta-btn svg {
