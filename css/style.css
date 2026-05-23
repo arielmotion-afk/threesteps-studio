@@ -630,6 +630,23 @@ a {
   display: block;
 }
 
+.process-grid--free {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  align-items: start;
+}
+
+.process-grid--free img {
+  width: 100%;
+  height: auto;
+  object-fit: unset;
+}
+
+.process-grid--free .img-full {
+  grid-column: span 2;
+}
+
 @media (max-width: 700px) {
   .project-header {
     grid-template-columns: 1fr;
