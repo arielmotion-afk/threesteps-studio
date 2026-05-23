@@ -674,12 +674,17 @@ a {
 
 .lottie-tile--large {
   aspect-ratio: unset;
-  min-height: 480px;
+  min-height: 960px;
 }
 
 .lottie-tile lottie-player {
   width: 100%;
   height: 100%;
+}
+
+.lottie-grid--2col .lottie-tile lottie-player {
+  width: 80%;
+  height: 80%;
 }
 
 .project-tile--lottie {
