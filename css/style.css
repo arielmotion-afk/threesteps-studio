@@ -423,6 +423,11 @@ a {
   line-height: 1.75;
   color: var(--text);
   max-width: 520px;
+  margin-bottom: 1em;
+}
+
+.about-bio:last-child {
+  margin-bottom: 0;
 }
 
 @media (max-width: 600px) {
