@@ -285,42 +285,34 @@ a {
 
 .contact-card {
   display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 24px;
-  background: var(--tile-bg);
-  transition: background 0.15s ease;
+  align-items: baseline;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
   text-decoration: none;
   color: inherit;
+  transition: opacity 0.15s ease;
+}
+
+.contact-card:first-child {
+  border-top: 1px solid var(--border);
 }
 
 .contact-card:hover {
-  background: var(--border);
-}
-
-.contact-card-icon {
-  font-size: 1.1rem;
-  width: 28px;
-  text-align: center;
-  flex-shrink: 0;
-  font-style: normal;
-  font-family: var(--font-sans);
-  font-weight: 700;
-  color: var(--text);
+  opacity: 0.6;
 }
 
 .contact-card-title {
-  display: block;
   font-size: 0.6875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 3px;
+  min-width: 96px;
+  flex-shrink: 0;
 }
 
 .contact-card-value {
-  display: block;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   color: var(--text);
 }
 
@@ -474,7 +466,6 @@ a {
 .footer-links a {
   font-size: 0.75rem;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--muted);
   transition: color 0.15s ease;
 }
