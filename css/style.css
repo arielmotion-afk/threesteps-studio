@@ -115,6 +115,14 @@ a {
   color: var(--muted);
 }
 
+.ugc-intro {
+  margin-top: 24px;
+  max-width: 560px;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
 /* ─── Work Grid ──────────────────────────────────────────────── */
 .work {
   padding: 80px var(--gutter) 120px;
