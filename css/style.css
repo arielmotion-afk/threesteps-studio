@@ -104,18 +104,26 @@ a {
   line-height: 1.0;
   letter-spacing: -0.02em;
   white-space: nowrap;
-  background: linear-gradient(115deg, #1a1a1a 0%, #7a3042 35%, #c4607a 55%, #7a3042 75%, #1a1a1a 100%);
-  background-size: 250% auto;
+  background: linear-gradient(90deg,
+    #1a1a1a 0%,
+    #1a1a1a 15%,
+    #7a2e44 35%,
+    #c05070 50%,
+    #7a2e44 65%,
+    #1a1a1a 85%,
+    #1a1a1a 100%
+  );
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: hero-gradient 8s ease-in-out infinite;
+  animation: hero-gradient 9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 @keyframes hero-gradient {
-  0%   { background-position: 0% center; }
-  50%  { background-position: 100% center; }
-  100% { background-position: 0% center; }
+  0%   { background-position: 100% center; }
+  50%  { background-position: 0%   center; }
+  100% { background-position: 100% center; }
 }
 
 .hero-lottie {
