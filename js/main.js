@@ -43,6 +43,19 @@ document.querySelectorAll('.project-tile[data-thumb]').forEach(function (tile) {
   });
 }());
 
+// Mobile video: autoplay muted, tap to reveal controls
+(function () {
+  if (!('ontouchstart' in window) && window.innerWidth >= 768) return;
+  document.querySelectorAll('video[controls]').forEach(function (video) {
+    video.removeAttribute('controls');
+    function showControls() {
+      video.setAttribute('controls', '');
+    }
+    video.addEventListener('click', showControls, { once: true });
+    video.addEventListener('touchend', showControls, { once: true });
+  });
+}());
+
 // Lottie hero animation — drop animations/hero.json to activate
 (function () {
   var el = document.getElementById('lottie-hero');
