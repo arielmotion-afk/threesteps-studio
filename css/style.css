@@ -613,6 +613,11 @@ a {
   gap: 2px;
 }
 
+.process-grid--2col {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 560px;
+}
+
 .process-placeholder {
   aspect-ratio: 1;
   background-color: var(--tile-bg);
