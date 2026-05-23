@@ -630,10 +630,38 @@ a {
 }
 
 /* ─── Lottie grid ────────────────────────────────────────────── */
+.lottie-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.lottie-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lottie-section-desc {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
 .lottie-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
+}
+
+.lottie-grid--2col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.lottie-grid--solo {
+  grid-template-columns: 1fr;
+  max-width: 50%;
 }
 
 .lottie-tile {
@@ -642,6 +670,11 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.lottie-tile--large {
+  aspect-ratio: unset;
+  min-height: 480px;
 }
 
 .lottie-tile lottie-player {
