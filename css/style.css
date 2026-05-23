@@ -516,8 +516,9 @@ a {
 }
 
 .project-video-wrap {
-  aspect-ratio: 16 / 9;
+  height: calc(80vh - var(--nav-h));
   background: #111;
+  overflow: hidden;
 }
 
 .project-video-wrap iframe,
@@ -526,7 +527,7 @@ a {
   height: 100%;
   border: none;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .project-content {
