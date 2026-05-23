@@ -104,6 +104,18 @@ a {
   line-height: 1.0;
   letter-spacing: -0.02em;
   white-space: nowrap;
+  background: linear-gradient(115deg, #1a1a1a 0%, #7a3042 35%, #c4607a 55%, #7a3042 75%, #1a1a1a 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: hero-gradient 8s ease-in-out infinite;
+}
+
+@keyframes hero-gradient {
+  0%   { background-position: 0% center; }
+  50%  { background-position: 100% center; }
+  100% { background-position: 0% center; }
 }
 
 .hero-lottie {
@@ -1064,12 +1076,37 @@ a {
 
 /* ─── CTA section ────────────────────────────────────────────── */
 .cta-section {
-  background: var(--text);
+  position: relative;
   padding: 120px var(--gutter) 140px;
   text-align: center;
+  background: #0d0809;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  background:
+    radial-gradient(ellipse at 25% 55%, rgba(160, 50, 75, 0.55) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 25%, rgba(40, 60, 110, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 55% 80%, rgba(100, 35, 110, 0.4) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 20%, rgba(180, 80, 60, 0.3) 0%, transparent 45%);
+  animation: aurora 14s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes aurora {
+  0%   { transform: translate(0%,   0%)   scale(1);    }
+  25%  { transform: translate(4%,  -7%)   scale(1.04); }
+  50%  { transform: translate(-5%,  4%)   scale(0.97); }
+  75%  { transform: translate(3%,   6%)   scale(1.03); }
+  100% { transform: translate(-3%, -4%)   scale(1.01); }
 }
 
 .cta-inner {
+  position: relative;
+  z-index: 1;
   max-width: 560px;
   margin: 0 auto;
   display: flex;
