@@ -5,6 +5,15 @@ document.querySelectorAll('.project-tile[data-thumb]').forEach(function (tile) {
   tile.style.backgroundImage = 'url(' + tile.dataset.thumb + ')';
 });
 
+// Hide tiles with no media (no data-thumb, no lottie, not a text tile)
+document.querySelectorAll('.project-tile').forEach(function (tile) {
+  if (tile.dataset.thumb) return;
+  if (tile.querySelector('lottie-player')) return;
+  if (tile.classList.contains('project-tile--text')) return;
+  var link = tile.closest('.project-tile-link');
+  if (link) link.style.display = 'none';
+});
+
 // UGC lightbox
 (function () {
   var lightbox = document.getElementById('ugcLightbox');

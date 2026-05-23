@@ -123,6 +123,21 @@ a {
   color: var(--text);
 }
 
+.hero-descriptor {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .hero-descriptor {
+    display: block;
+    margin-top: 14px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text);
+    font-weight: 400;
+  }
+}
+
 /* ─── Work Grid ──────────────────────────────────────────────── */
 .work {
   padding: 80px var(--gutter) 120px;
@@ -144,10 +159,6 @@ a {
   position: relative;
 }
 
-.project-tile[data-video] .tile-inner {
-  background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 50%);
-}
-
 .tile-inner {
   width: 100%;
   height: 100%;
@@ -155,6 +166,7 @@ a {
   align-items: flex-end;
   padding: 20px;
   transition: opacity 0.2s ease;
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%);
 }
 
 .project-tile:hover .tile-inner {
@@ -165,11 +177,21 @@ a {
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(255,255,255,0.9);
 }
 
-.project-tile[data-video] .tile-label {
-  color: rgba(255,255,255,0.85);
+/* Text-only tiles (no image) */
+.project-tile--text {
+  background-color: var(--tile-bg);
+}
+
+.project-tile--text .tile-inner {
+  background: none;
+  align-items: flex-end;
+}
+
+.project-tile--text .tile-label {
+  color: var(--muted);
 }
 
 /* ─── Lightbox ───────────────────────────────────────────────── */
@@ -487,6 +509,17 @@ a {
   color: var(--text);
 }
 
+.footer-icon-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  transition: color 0.15s ease;
+}
+
+.footer-icon-link:hover {
+  color: var(--text);
+}
+
 /* ─── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 900px) {
   :root {
@@ -498,6 +531,12 @@ a {
   }
 }
 
+@media (max-width: 700px) {
+  .work-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 540px) {
   .hero {
     padding: 64px var(--gutter) 56px;
@@ -505,10 +544,6 @@ a {
 
   .hero-tagline {
     margin-top: 16px;
-  }
-
-  .work-grid {
-    grid-template-columns: 1fr;
   }
 
   .nav-links {
@@ -599,7 +634,7 @@ a {
 }
 
 .ad-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-style: italic;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 400;
@@ -670,6 +705,7 @@ a {
   display: flex;
   gap: 24px;
   font-size: 0.9375rem;
+  align-items: baseline;
 }
 
 .credit-role {
@@ -999,5 +1035,103 @@ a {
 @media (max-width: 540px) {
   .ugc-grid {
     gap: 10px;
+  }
+}
+
+/* ─── Ad section description ─────────────────────────────────── */
+.ad-description {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 560px;
+  margin-top: 20px;
+}
+
+/* ─── Project description (text-only pages) ──────────────────── */
+.project-desc-body {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--text);
+  max-width: 560px;
+  margin-top: 0;
+}
+
+/* ─── CTA section ────────────────────────────────────────────── */
+.cta-section {
+  padding: 120px var(--gutter) 140px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.cta-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.cta-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.0;
+}
+
+.cta-sub {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 460px;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.cta-btn:hover {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+.cta-btn svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 540px) {
+  .cta-section {
+    padding: 80px var(--gutter) 100px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .cta-btn {
+    justify-content: center;
   }
 }
