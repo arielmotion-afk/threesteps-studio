@@ -175,7 +175,7 @@ a {
   align-items: flex-end;
   padding: 20px;
   transition: opacity 0.2s ease;
-  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%);
+  background: linear-gradient(to top, rgba(0,0,0,0.28) 0%, transparent 55%);
 }
 
 .project-tile:hover .tile-inner {
