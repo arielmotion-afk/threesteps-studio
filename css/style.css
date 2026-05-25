@@ -584,7 +584,7 @@ a {
   height: 100%;
   border: none;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .project-content {
