@@ -605,6 +605,7 @@ a {
 }
 
 .vc-play-btn,
+.vc-vol-btn,
 .vc-fs-btn {
   background: none;
   border: none;
@@ -616,7 +617,7 @@ a {
   flex-shrink: 0;
   transition: color 0.12s;
 }
-.vc-play-btn:hover, .vc-fs-btn:hover { color: #fff; }
+.vc-play-btn:hover, .vc-vol-btn:hover, .vc-fs-btn:hover { color: #fff; }
 
 .vc-cur, .vc-dur {
   font-size: 11.5px;

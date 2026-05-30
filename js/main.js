@@ -83,6 +83,8 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
 
   var SVG_PLAY  = '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M8 5v14l11-7z"/></svg>';
   var SVG_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+  var SVG_VOL   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="18" height="18"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>';
+  var SVG_MUTE  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="18" height="18"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
   var SVG_FS    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="18" height="18"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>';
 
   document.querySelectorAll('.project-video-wrap video, .spot-video-wrap video').forEach(function (video) {
@@ -103,6 +105,7 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
           '<input class="vc-seek-input" type="range" min="0" max="1000" step="1" value="0">' +
         '</div>' +
         '<span class="vc-dur">—:——</span>' +
+        '<button class="vc-vol-btn" aria-label="Toggle mute">' + SVG_MUTE + SVG_VOL + '</button>' +
         '<button class="vc-fs-btn" aria-label="Fullscreen">' + SVG_FS + '</button>' +
       '</div>';
     wrap.appendChild(vc);
@@ -114,6 +117,9 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
     var durEl    = vc.querySelector('.vc-dur');
     var seekInput = vc.querySelector('.vc-seek-input');
     var seekFill  = vc.querySelector('.vc-seek-fill');
+    var volBtn   = vc.querySelector('.vc-vol-btn');
+    var muteIcon = volBtn.querySelectorAll('svg')[0];
+    var volIcon  = volBtn.querySelectorAll('svg')[1];
     var fsBtn    = vc.querySelector('.vc-fs-btn');
 
     pauseIcon.style.display = 'none';
@@ -181,6 +187,19 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
       show();
     });
     seekInput.addEventListener('click', function (e) { e.stopPropagation(); });
+
+    // Mute / unmute
+    function updateVolState() {
+      muteIcon.style.display = video.muted ? 'block' : 'none';
+      volIcon.style.display  = video.muted ? 'none'  : 'block';
+    }
+    updateVolState();
+    volBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      video.muted = !video.muted;
+      updateVolState();
+      show();
+    });
 
     // Fullscreen
     fsBtn.addEventListener('click', function (e) {
