@@ -814,7 +814,8 @@ a {
 
 .credit-role {
   color: var(--muted);
-  min-width: 140px;
+  width: 220px;
+  flex-shrink: 0;
   font-size: 0.8125rem;
   letter-spacing: 0.04em;
 }
@@ -908,7 +909,8 @@ a {
   }
 
   .credit-role {
-    min-width: unset;
+    width: unset;
+    flex-shrink: 1;
     font-size: 0.625rem;
   }
 
