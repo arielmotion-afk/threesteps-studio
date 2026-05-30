@@ -194,8 +194,8 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
       }
     });
 
-    // Click / tap on wrap
-    wrap.addEventListener('click', function (e) {
+    // Click / tap on wrap or video directly
+    function handleToggle(e) {
       if (e.target.closest('.vc-bar')) return; // controls handle themselves
       if (mobile) {
         if (!wrap.classList.contains('vc-active')) {
@@ -208,7 +208,9 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
         video.paused || video.ended ? video.play() : video.pause();
         show();
       }
-    });
+    }
+    wrap.addEventListener('click', handleToggle);
+    video.addEventListener('click', handleToggle);
 
     // Desktop hover
     if (!mobile) {
