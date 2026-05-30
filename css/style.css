@@ -565,6 +565,99 @@ a {
   }
 }
 
+/* ─── Custom video controls ─────────────────────────────────── */
+.project-video-wrap,
+.spot-video-wrap { position: relative; cursor: pointer; }
+
+.vc {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+}
+
+.vc-active .vc { opacity: 1; pointer-events: auto; }
+
+@media (hover: hover) {
+  .project-video-wrap:hover .vc,
+  .spot-video-wrap:hover .vc { opacity: 1; pointer-events: auto; }
+}
+
+.vc-grad {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(0,0,0,0.38) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.vc-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 13px;
+}
+
+.vc-play-btn,
+.vc-fs-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color 0.12s;
+}
+.vc-play-btn:hover, .vc-fs-btn:hover { color: #fff; }
+
+.vc-cur, .vc-dur {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.82);
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  min-width: 32px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.vc-seek-wrap {
+  flex: 1;
+  position: relative;
+  height: 3px;
+  background: rgba(255,255,255,0.28);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: height 0.12s ease;
+}
+.vc-seek-wrap:hover { height: 5px; }
+
+.vc-seek-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: #fff;
+  border-radius: 3px;
+  pointer-events: none;
+  width: 0%;
+}
+
+.vc-seek-input {
+  position: absolute;
+  left: 0; right: 0;
+  top: -10px; bottom: -10px;
+  height: calc(100% + 20px);
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+}
+
 /* ─── Project page ───────────────────────────────────────────── */
 .project-tile-link {
   display: block;
