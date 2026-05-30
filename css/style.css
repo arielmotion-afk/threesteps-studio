@@ -261,6 +261,11 @@ a {
   max-width: 1100px;
 }
 
+.contact-page-inner--solo {
+  grid-template-columns: 1fr;
+  max-width: 560px;
+}
+
 .contact-profile {
   display: flex;
   flex-direction: column;
