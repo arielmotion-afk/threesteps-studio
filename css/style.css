@@ -841,7 +841,8 @@ a {
   background-color: var(--tile-bg);
 }
 
-.process-grid img {
+.process-grid img,
+.process-grid video {
   width: 100%;
   height: 100%;
   object-fit: cover;
