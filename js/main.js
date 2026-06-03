@@ -1,8 +1,21 @@
 // Three Steps Studio — main.js
 
-// Tile thumbnails
+// Tile thumbnails + hover animation swap
 document.querySelectorAll('.project-tile[data-thumb]').forEach(function (tile) {
   tile.style.backgroundImage = 'url(' + tile.dataset.thumb + ')';
+
+  if (!tile.dataset.anim) return;
+
+  // Preload the GIF so it's ready on first hover
+  var img = new Image();
+  img.src = tile.dataset.anim;
+
+  tile.addEventListener('mouseenter', function () {
+    tile.style.backgroundImage = 'url(' + tile.dataset.anim + ')';
+  });
+  tile.addEventListener('mouseleave', function () {
+    tile.style.backgroundImage = 'url(' + tile.dataset.thumb + ')';
+  });
 });
 
 // Hide tiles with no media (no data-thumb, no lottie, not a text tile)
