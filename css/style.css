@@ -1083,6 +1083,25 @@ a {
   transform: scale(1);
 }
 
+.ugc-client-label {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+
+.ugc-tile:hover .ugc-client-label {
+  opacity: 1;
+}
+
 /* ─── UGC Lightbox ───────────────────────────────────────────── */
 .ugc-lightbox {
   display: none;
