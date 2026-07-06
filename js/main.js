@@ -84,6 +84,42 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
     .catch(function () {});
 }());
 
+// ─── Work grid tag filter ─────────────────────────────────────
+(function () {
+  var btns = document.querySelectorAll('.filter-btn');
+  if (!btns.length) return;
+
+  var tileLinksByTag = {};
+  var allTileLinks = [];
+
+  document.querySelectorAll('.project-tile-link[data-tags]').forEach(function (link) {
+    link.dataset.tags.split(' ').forEach(function (tag) {
+      if (!tileLinksByTag[tag]) tileLinksByTag[tag] = [];
+      tileLinksByTag[tag].push(link);
+    });
+    allTileLinks.push(link);
+  });
+
+  var ugcLink = document.getElementById('ugc-tile-link');
+
+  btns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var filter = btn.dataset.filter;
+      btns.forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+
+      allTileLinks.forEach(function (link) {
+        var tags = link.dataset.tags.split(' ');
+        link.style.display = (filter === 'all' || tags.indexOf(filter) !== -1) ? '' : 'none';
+      });
+
+      if (ugcLink) {
+        ugcLink.style.display = (filter === 'ugc' || filter === 'ai') ? '' : 'none';
+      }
+    });
+  });
+}());
+
 // ─── Custom video controls (project pages) ───────────────────
 (function () {
   var mobile = window.matchMedia('(hover: none)').matches;

@@ -42,9 +42,20 @@
     </section>
 
     <section class="work" id="work">
+
+      <div class="work-filters" id="workFilters">
+        <button class="filter-btn is-active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="motion-graphics">Motion Graphics</button>
+        <button class="filter-btn" data-filter="product-video">Product Video</button>
+        <button class="filter-btn" data-filter="ai">AI</button>
+        <button class="filter-btn" data-filter="social">Social</button>
+        <button class="filter-btn" data-filter="ugc">UGC</button>
+        <button class="filter-btn" data-filter="lottie">Lottie</button>
+      </div>
+
       <div class="work-grid">
 
-        <a href="projects/project-15.html" class="project-tile-link">
+        <a href="projects/project-15.html" class="project-tile-link" data-tags="motion-graphics ai">
           <article class="project-tile" data-thumb="images/thumbnails/yaap-poster.jpg" data-anim="images/thumbnails/YAAP.gif">
             <div class="tile-inner">
               <span class="tile-label">YAAP</span>
@@ -52,7 +63,7 @@
           </article>
         </a>
 
-        <a href="projects/project-13.html" class="project-tile-link">
+        <a href="projects/project-13.html" class="project-tile-link" data-tags="social motion-graphics ai ugc">
           <article class="project-tile" data-thumb="images/thumbnails/elementor%20thumbnail.png" data-anim="images/thumbnails/elementor.gif">
             <div class="tile-inner">
               <span class="tile-label">Elementor</span>
@@ -60,7 +71,7 @@
           </article>
         </a>
 
-        <a href="projects/project-02.html" class="project-tile-link">
+        <a href="projects/project-02.html" class="project-tile-link" data-tags="product-video motion-graphics ai">
           <article class="project-tile" data-video="Pm9ceDOkRoI" data-thumb="images/thumbnails/Maestro%20thumbnail.jpg">
             <div class="tile-inner">
               <span class="tile-label">Maestro</span>
@@ -68,7 +79,7 @@
           </article>
         </a>
 
-        <a href="projects/project-12.html" class="project-tile-link">
+        <a href="projects/project-12.html" class="project-tile-link" data-tags="product-video motion-graphics ai">
           <article class="project-tile" data-thumb="images/thumbnails/notch%20thumbnail.png" data-anim="animations/thumbnails/adam-preview.gif">
             <div class="tile-inner">
               <span class="tile-label">Notch</span>
@@ -76,7 +87,7 @@
           </article>
         </a>
 
-        <a href="projects/project-01.html" class="project-tile-link">
+        <a href="projects/project-01.html" class="project-tile-link" data-tags="product-video motion-graphics ai">
           <article class="project-tile" data-thumb="images/thumbnails/island%20thumbnail.png" data-anim="animations/thumbnails/01.gif">
             <div class="tile-inner">
               <span class="tile-label">Island.io</span>
@@ -84,7 +95,7 @@
           </article>
         </a>
 
-        <a href="projects/project-11.html" class="project-tile-link">
+        <a href="projects/project-11.html" class="project-tile-link" data-tags="product-video motion-graphics ai">
           <article class="project-tile" data-thumb="images/thumbnails/noma.png" data-anim="animations/thumbnails/Noma-Agentic-Risk-Map.gif">
             <div class="tile-inner">
               <span class="tile-label">Noma</span>
@@ -92,7 +103,7 @@
           </article>
         </a>
 
-        <a href="projects/project-03.html" class="project-tile-link">
+        <a href="projects/project-03.html" class="project-tile-link" data-tags="product-video social motion-graphics ai">
           <article class="project-tile" data-thumb="images/thumbnails/jamba.jpg" data-anim="images/process/Jamba%20Trailer/thumbnail.gif" style="background-position: left center;">
             <div class="tile-inner">
               <span class="tile-label">Jamba</span>
@@ -100,7 +111,7 @@
           </article>
         </a>
 
-        <a href="projects/project-04.html" class="project-tile-link">
+        <a href="projects/project-04.html" class="project-tile-link" data-tags="motion-graphics ai">
           <article class="project-tile" data-thumb="images/thumbnails/sounds%20familiar%20thumbnail.png">
             <div class="tile-inner">
               <span class="tile-label">Wordtune Motion Graphics</span>
@@ -108,7 +119,7 @@
           </article>
         </a>
 
-        <a href="projects/project-07.html" class="project-tile-link">
+        <a href="projects/project-07.html" class="project-tile-link" data-tags="lottie">
           <article class="project-tile project-tile--lottie">
             <lottie-player src="animations/treasure-01.json" background="transparent" speed="1" loop autoplay style="position:absolute;inset:0;width:100%;height:100%;"></lottie-player>
             <div class="tile-inner">
@@ -117,7 +128,7 @@
           </article>
         </a>
 
-        <a href="projects/project-10.html" class="project-tile-link">
+        <a href="projects/project-10.html" class="project-tile-link" data-tags="motion-graphics">
           <article class="project-tile" data-thumb="images/thumbnails/dont%20sweat%20it.png">
             <div class="tile-inner">
               <span class="tile-label">Wordtune Video Productions</span>
@@ -125,6 +136,14 @@
           </article>
         </a>
 
+
+        <a href="ugc.html" class="project-tile-link" id="ugc-tile-link" style="display:none" data-tags="ugc ai">
+          <article class="project-tile project-tile--text">
+            <div class="tile-inner">
+              <span class="tile-label">UGC</span>
+            </div>
+          </article>
+        </a>
 
         <a href="projects/project-14.html" class="project-tile-link" style="display:none">
           <article class="project-tile project-tile--text">

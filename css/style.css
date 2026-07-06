@@ -152,6 +152,42 @@ a {
   padding: 80px var(--gutter) 120px;
 }
 
+.work-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.filter-btn {
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 14px;
+  background: none;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  font-family: inherit;
+}
+
+.filter-btn:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.filter-btn.is-active {
+  color: var(--bg);
+  background: var(--text);
+  border-color: var(--text);
+}
+
+.project-tile-link.is-hidden {
+  display: none !important;
+}
+
 .work-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
