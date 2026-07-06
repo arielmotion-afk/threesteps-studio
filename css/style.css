@@ -722,6 +722,23 @@ a {
   margin-top: 8px;
 }
 
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.project-tag {
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 3px 10px;
+}
+
 .project-rule {
   border: none;
   border-top: 1px solid var(--border);
