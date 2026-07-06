@@ -803,11 +803,15 @@ a {
 .spot-video-wrap--portrait {
   aspect-ratio: 4 / 5;
   max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .spot-video-wrap--square {
   aspect-ratio: 1 / 1;
   max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .portrait-pair {
@@ -818,6 +822,18 @@ a {
 
 .portrait-pair .spot-video-wrap--portrait {
   max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.portrait-pair--small {
+  grid-template-columns: repeat(2, minmax(0, 260px));
+  justify-content: center;
+  gap: 16px;
+}
+
+.portrait-pair--small .spot-video-wrap--portrait {
+  aspect-ratio: 9 / 16;
 }
 
 .spot-placeholder-label {
