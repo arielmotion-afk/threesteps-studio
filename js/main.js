@@ -105,6 +105,7 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
   });
 
   var ugcLink = document.getElementById('ugc-tile-link');
+  var ugcTags = ugcLink ? (ugcLink.dataset.tags || '').split(' ') : [];
 
   btns.forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -113,14 +114,15 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
       btn.classList.add('is-active');
 
       allTileLinks.forEach(function (link) {
+        if (link === ugcLink) return; // handled separately
         var tags = link.dataset.tags.split(' ');
         link.style.display = (filter === 'all' || tags.indexOf(filter) !== -1) ? '' : 'none';
       });
 
       if (ugcLink) {
-        var showUgc = filter === 'ugc' || filter === 'ai';
+        var showUgc = filter !== 'all' && ugcTags.indexOf(filter) !== -1;
         ugcLink.style.display = showUgc ? '' : 'none';
-        ugcLink.style.order = showUgc ? '-1' : '';
+        ugcLink.style.order = (filter === 'ugc' || filter === 'ai') ? '-1' : '';
       }
     });
   });
