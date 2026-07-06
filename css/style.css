@@ -1053,11 +1053,16 @@ a {
 
 .lottie-grid--2col {
   grid-template-columns: repeat(2, 1fr);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .lottie-grid--solo {
   grid-template-columns: 1fr;
-  max-width: 85%;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .lottie-tile {
@@ -1070,7 +1075,7 @@ a {
 
 .lottie-tile--large {
   aspect-ratio: unset;
-  min-height: 1632px;
+  min-height: 480px;
 }
 
 .lottie-tile lottie-player {
