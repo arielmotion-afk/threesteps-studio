@@ -783,6 +783,26 @@ a {
   justify-content: center;
 }
 
+.spot-video-wrap--portrait {
+  aspect-ratio: 4 / 5;
+  max-width: 540px;
+}
+
+.spot-video-wrap--square {
+  aspect-ratio: 1 / 1;
+  max-width: 640px;
+}
+
+.portrait-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap, 16px);
+}
+
+.portrait-pair .spot-video-wrap--portrait {
+  max-width: none;
+}
+
 .spot-placeholder-label {
   font-size: 0.6875rem;
   letter-spacing: 0.16em;
