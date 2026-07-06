@@ -2,7 +2,9 @@
 
 // Tile thumbnails + hover animation swap
 document.querySelectorAll('.project-tile[data-thumb]').forEach(function (tile) {
+  var thumbPos = tile.dataset.thumbPos || 'center center';
   tile.style.backgroundImage = 'url(' + tile.dataset.thumb + ')';
+  tile.style.backgroundPosition = thumbPos;
 
   if (!tile.dataset.anim) return;
 
@@ -12,9 +14,11 @@ document.querySelectorAll('.project-tile[data-thumb]').forEach(function (tile) {
 
   tile.addEventListener('mouseenter', function () {
     tile.style.backgroundImage = 'url(' + tile.dataset.anim + ')';
+    tile.style.backgroundPosition = 'center center';
   });
   tile.addEventListener('mouseleave', function () {
     tile.style.backgroundImage = 'url(' + tile.dataset.thumb + ')';
+    tile.style.backgroundPosition = thumbPos;
   });
 });
 
