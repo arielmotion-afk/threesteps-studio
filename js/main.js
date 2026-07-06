@@ -118,7 +118,9 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
       });
 
       if (ugcLink) {
-        ugcLink.style.display = (filter === 'ugc' || filter === 'ai') ? '' : 'none';
+        var showUgc = filter === 'ugc' || filter === 'ai';
+        ugcLink.style.display = showUgc ? '' : 'none';
+        ugcLink.style.order = showUgc ? '-1' : '';
       }
     });
   });
