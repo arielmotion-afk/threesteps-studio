@@ -175,8 +175,9 @@ a {
 }
 
 .filter-btn:hover {
-  color: var(--text);
-  border-color: var(--text);
+  background-color: #e8b4b4;
+  border-color: #e8b4b4;
+  color: #1a1a1a;
 }
 
 .filter-btn.is-active {
@@ -728,6 +729,7 @@ a {
 .project-content {
   padding: 64px var(--gutter) 120px;
   max-width: 1200px;
+  margin: 0 auto;
 }
 
 .project-header {
@@ -777,7 +779,7 @@ a {
   border-radius: 100px;
   padding: 3px 10px;
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-  cursor: default;
+  cursor: pointer;
 }
 
 .project-tag:hover {

@@ -108,6 +108,40 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
     .catch(function () {});
 }());
 
+// ─── Project page tags → homepage filter links ───────────────
+(function () {
+  var tagMap = {
+    'lottie': 'lottie',
+    'lottie animation': 'lottie',
+    'in-app animation': 'lottie',
+    'product video': 'product-video',
+    'motion graphics': 'motion-graphics',
+    'social': 'social',
+    'social media': 'social',
+    'ugc': 'ugc',
+    'ai': 'ai',
+    'ai content': 'ai',
+  };
+  var isProjectPage = !document.querySelector('.work-grid');
+  if (!isProjectPage) return;
+  document.querySelectorAll('.project-tag').forEach(function (tag) {
+    var filter = tagMap[tag.textContent.trim().toLowerCase()];
+    if (!filter) return;
+    tag.addEventListener('click', function () {
+      window.location.href = '../index.html?filter=' + filter + '#work';
+    });
+  });
+}());
+
+// ─── Homepage: activate filter from URL param ────────────────
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var filter = params.get('filter');
+  if (!filter) return;
+  var btn = document.querySelector('.filter-btn[data-filter="' + filter + '"]');
+  if (btn) btn.click();
+}());
+
 // ─── Work grid tag filter ─────────────────────────────────────
 (function () {
   var btns = document.querySelectorAll('.filter-btn');
