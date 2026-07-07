@@ -70,6 +70,10 @@ a {
   color: var(--text);
 }
 
+.nav-back ~ .nav-logo {
+  display: none;
+}
+
 .nav-logo {
   font-size: 0.75rem;
   font-weight: 400;
@@ -123,6 +127,13 @@ a {
   letter-spacing: -0.02em;
   white-space: nowrap;
   color: var(--text);
+}
+
+@media (max-width: 540px) {
+  .hero-title {
+    white-space: normal;
+    font-size: clamp(2.5rem, 12vw, 3.5rem);
+  }
 }
 
 .hero-lottie {
@@ -746,6 +757,7 @@ a {
 .project-content {
   padding: 64px var(--gutter) 120px;
   max-width: 1200px;
+  margin: 0 auto;
 }
 
 .project-header {
@@ -997,6 +1009,11 @@ a {
 }
 
 @media (max-width: 700px) {
+  .project-content {
+    padding-top: 40px;
+    padding-bottom: 72px;
+  }
+
   .project-header {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -1171,6 +1188,17 @@ a {
 @media (max-width: 700px) {
   .lottie-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lottie-tile--large {
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .lottie-grid--solo-xl,
+  .lottie-grid--solo,
+  .lottie-grid--2col {
+    max-width: 100%;
   }
 }
 
