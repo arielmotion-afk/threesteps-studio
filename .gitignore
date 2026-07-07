@@ -1,1 +1,6 @@
 .claude/
+videos-original-hq/
+videos-to-add/
+videos-compressed/
+.DS_Store
+**/.DS_Store

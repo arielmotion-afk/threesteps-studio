@@ -1,5 +1,20 @@
 // Three Steps Studio — main.js
 
+// Back button on project pages
+(function () {
+  var isProject = window.location.pathname.match(/\/(projects\/|ugc\.html)/);
+  if (!isProject) return;
+  var nav = document.querySelector('.nav');
+  if (!nav) return;
+  var isSubdir = window.location.pathname.indexOf('/projects/') !== -1;
+  var backHref = isSubdir ? '../index.html#work' : 'index.html#work';
+  var btn = document.createElement('a');
+  btn.href = backHref;
+  btn.className = 'nav-back';
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Back';
+  nav.insertBefore(btn, nav.firstChild);
+}());
+
 // Throttle lottie-player elements with data-fps to a lower frame rate
 document.querySelectorAll('lottie-player[data-fps]').forEach(function (player) {
   var fps = parseInt(player.dataset.fps, 10);
