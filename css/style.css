@@ -771,10 +771,22 @@ a {
   font-family: var(--font-display);
   font-style: normal;
   font-stretch: condensed;
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
   font-weight: 700;
   line-height: 1.0;
   margin-bottom: 12px;
+}
+
+.lottie-section-title {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-stretch: condensed;
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 8px;
 }
 
 .project-category {
@@ -1196,9 +1208,22 @@ a {
   }
 
   .lottie-grid--solo-xl,
-  .lottie-grid--solo,
-  .lottie-grid--2col {
+  .lottie-grid--solo {
     max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .lottie-grid--2col {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .lottie-grid--2col .lottie-tile lottie-player {
+    width: 100%;
+    height: 100%;
   }
 }
 
