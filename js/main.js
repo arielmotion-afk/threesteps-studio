@@ -1,5 +1,25 @@
 // Three Steps Studio — main.js
 
+// Throttle lottie-player elements with data-fps to a lower frame rate
+document.querySelectorAll('lottie-player[data-fps]').forEach(function (player) {
+  var fps = parseInt(player.dataset.fps, 10);
+  if (!fps || fps <= 0) return;
+  function init() {
+    var anim = player.getLottie && player.getLottie();
+    if (!anim || !anim.totalFrames) return;
+    anim.pause();
+    var frame = 0;
+    var increment = (anim.totalFrames / anim.getDuration()) / fps;
+    setInterval(function () {
+      anim.goToAndStop(Math.floor(frame), true);
+      frame = (frame + increment) % anim.totalFrames;
+    }, 1000 / fps);
+  }
+  player.addEventListener('ready', init);
+  // In case already loaded
+  if (player.getLottie && player.getLottie()) init();
+});
+
 // Tile thumbnails + hover animation swap
 document.querySelectorAll('.project-tile[data-thumb]').forEach(function (tile) {
   var thumbPos = tile.dataset.thumbPos || 'center center';
