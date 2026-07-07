@@ -248,6 +248,20 @@ a {
   opacity: 0.85;
 }
 
+.tile-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-tile:hover .tile-video {
+  opacity: 1;
+}
+
 .tile-label {
   font-size: 0.75rem;
   letter-spacing: 0.1em;
