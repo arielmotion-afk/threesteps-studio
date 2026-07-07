@@ -14,7 +14,7 @@
   --tile-bg: #f0dede;
 
   --font-sans: 'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Book Antiqua', Palatino, 'Palatino Linotype', Georgia, serif;
+  --font-display: 'Helvetica Neue', 'Arial Narrow', Arial, sans-serif;
 
   --nav-h: 56px;
   --gutter: 48px;
@@ -99,8 +99,9 @@ a {
 .hero-title {
   font-family: var(--font-display);
   font-size: clamp(2.75rem, 7vw, 7.5rem);
-  font-weight: 400;
-  font-style: italic;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: condensed;
   line-height: 1.0;
   letter-spacing: -0.02em;
   white-space: nowrap;
@@ -482,9 +483,10 @@ a {
 
 .about-title {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;
+  font-stretch: condensed;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.0;
   margin-bottom: 6px;
 }
@@ -737,9 +739,10 @@ a {
 
 .project-title {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;
+  font-stretch: condensed;
   font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.0;
   margin-bottom: 12px;
 }
@@ -797,9 +800,10 @@ a {
 
 .spot-title {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;
+  font-stretch: condensed;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
-  font-weight: 400;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -1112,6 +1116,14 @@ a {
   overflow: hidden;
 }
 
+.project-tile--lottie .tile-inner {
+  transition: none;
+}
+
+.project-tile--lottie:hover .tile-inner {
+  opacity: 1;
+}
+
 .project-tile--wip {
   background-color: var(--tile-bg);
 }
@@ -1329,9 +1341,10 @@ a {
 
 .cta-headline {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;
+  font-stretch: condensed;
   font-size: clamp(2.75rem, 6vw, 5rem);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.0;
   color: var(--text);
   margin-bottom: 16px;
