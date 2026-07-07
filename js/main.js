@@ -122,13 +122,14 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
     'ai': 'ai',
     'ai content': 'ai',
   };
-  var isProjectPage = !document.querySelector('.work-grid');
-  if (!isProjectPage) return;
+  if (document.querySelector('.work-grid')) return;
+  var isSubdir = window.location.pathname.indexOf('/projects/') !== -1;
+  var base = isSubdir ? '../index.html' : 'index.html';
   document.querySelectorAll('.project-tag').forEach(function (tag) {
     var filter = tagMap[tag.textContent.trim().toLowerCase()];
     if (!filter) return;
     tag.addEventListener('click', function () {
-      window.location.href = '../index.html?filter=' + filter + '#work';
+      window.location.href = base + '?filter=' + filter + '#work';
     });
   });
 }());
