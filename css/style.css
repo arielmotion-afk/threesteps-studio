@@ -1080,6 +1080,11 @@ a {
   justify-content: center;
 }
 
+.lottie-tile--scaled {
+  transform: scale(1.2);
+  overflow: visible;
+}
+
 .lottie-tile--large {
   aspect-ratio: unset;
   height: 816px;
