@@ -1076,11 +1076,11 @@ a {
   .credit-role {
     width: unset;
     flex-shrink: 1;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
   }
 
   .credits-list li {
-    font-size: 1rem;
+    font-size: 0.875rem;
   }
 }
 
