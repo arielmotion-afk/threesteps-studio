@@ -13,8 +13,8 @@
   --border: #d8c8c8;
   --tile-bg: #f0dede;
 
-  --font-sans: 'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-sans: Futura, 'Century Gothic', 'Trebuchet MS', sans-serif;
+  --font-display: 'Book Antiqua', Palatino, 'Palatino Linotype', Georgia, serif;
 
   --nav-h: 56px;
   --gutter: 48px;
