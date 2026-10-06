@@ -21,6 +21,12 @@
 </head>
 <body>
 
+  <div class="hero-fabric" id="hero-fabric" aria-hidden="true">
+    <div class="hero-fabric-fallback"></div>
+    <canvas id="hero-fabric-gl"></canvas>
+    <div class="hero-fabric-grain"></div>
+  </div>
+
   <nav class="nav">
     <a href="index.html" class="nav-logo">Ariel Paz<span class="nav-logo-suffix">&nbsp;&mdash;&nbsp;Motion Design &amp; Video Editing</span></a>
     <ul class="nav-links">
@@ -35,10 +41,9 @@
     <section class="hero">
       <div class="hero-title-row">
         <h1 class="hero-title">Three Steps Studio</h1>
-        <div class="hero-lottie" id="lottie-hero" aria-hidden="true"></div>
       </div>
       <p class="hero-tagline">Always Moving.</p>
-      <p class="hero-descriptor">I make things move. Motion graphics, videos, brands.</p>
+      <p class="hero-descriptor">Product &amp; UX motion designer. Lottie, Rive and code — interfaces, AI products and brands, built to ship.</p>
     </section>
 
     <section class="work" id="work">
@@ -213,5 +218,6 @@
 
   <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
   <script src="js/main.js?v=3"></script>
+  <script src="js/hero-fabric.js?v=1"></script>
 </body>
 </html>
