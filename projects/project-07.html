@@ -3,18 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product & Web Animations — Three Steps Studio</title>
-  <meta property="og:title" content="WT Illustrations — Three Steps Studio">
-  <meta property="og:description" content="Animated illustrations for Wordtune.">
+  <title>UI & Interactive Motion — Three Steps Studio</title>
+  <meta name="description" content="UI & Interactive Motion — Three Steps Studio.">
+  <meta property="og:title" content="UI & Interactive Motion — Three Steps Studio">
+  <meta property="og:description" content="Motion design by Three Steps Studio.">
   <meta property="og:image" content="https://threesteps.studio/images/og-image.jpg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://threesteps.studio/images/og-image.jpg">
   <link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
   <link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .orb-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 64px 0 80px;
+    }
+    .orb-frame {
+      width: 100%;
+      max-width: 520px;
+      aspect-ratio: 1;
+      border: none;
+      display: block;
+      background: transparent;
+    }
+    .orb-caption {
+      margin-top: 20px;
+      font-size: 0.8125rem;
+      color: var(--text);
+      opacity: 0.45;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-style: italic;
+    }
+    .section-divider {
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
 
@@ -33,15 +65,48 @@
 
       <div class="project-header">
         <div>
-          <h1 class="project-title">Product & Web Animations</h1>
-          <p class="project-category">Lottie · In-App Animation</p>
+          <h1 class="project-title">UI & Interactive Motion</h1>
+          <p class="project-category">Lottie · In-App Animation · Code</p>
         </div>
-      <div class="project-tags">
-        <span class="project-tag">Wordtune</span>
-        <span class="project-tag">Lottie Animation</span>
-        <span class="project-tag">In-App Animation</span>
+        <div class="project-tags">
+          <span class="project-tag">Lottie Animation</span>
+          <span class="project-tag">In-App Animation</span>
+          <span class="project-tag">Code Animation</span>
+          <span class="project-tag">Rive</span>
+        </div>
+        <p class="project-description">UI animations, interactive code experiments, and Lottie animations built for products — from onboarding moments to voice-reactive interfaces.</p>
       </div>
-        <p class="project-description">Subtle, playful animations applied to in-app illustrations — enhancing the user experience without distracting from the product's functionality. The result: lightweight, polished Lottie files that add warmth and personality to the interface.</p>
+
+      <hr class="project-rule">
+
+      <div class="lottie-section">
+        <div class="lottie-section-header">
+          <h2 class="lottie-section-title">Voice-Reactive Orb</h2>
+          <p class="lottie-section-desc">A voice-reactive orb built entirely in CSS and JavaScript — gradient blobs, SVG displacement filters, 3D specular shading, and real-time mic reactivity via Web Audio API. Scale and glow respond to your voice.</p>
+        </div>
+        <div class="orb-section">
+          <iframe
+            class="orb-frame"
+            src="orb.html"
+            allow="microphone"
+            title="Voice-reactive orb"
+            scrolling="no"
+          ></iframe>
+          <p class="orb-caption">Talk to me</p>
+        </div>
+      </div>
+
+      <hr class="project-rule">
+
+      <div class="lottie-section">
+        <div class="lottie-section-header">
+          <h2 class="lottie-section-title">Squish Stack</h2>
+          <p class="lottie-section-desc">Interactive physics toy built in Rive: idle breathing, pokeable blocks, hover sway, constraint-linked stack, and a triple-poke topple + rebuild driven entirely by the state machine.</p>
+        </div>
+        <div class="orb-section">
+          <canvas id="squish-stack-canvas" class="orb-frame"></canvas>
+          <p class="orb-caption">Poke it</p>
+        </div>
       </div>
 
       <hr class="project-rule">
@@ -162,6 +227,22 @@
   </footer>
 
   <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
+  <script src="https://unpkg.com/@rive-app/webgl2@2"></script>
+  <script>
+    const canvas = document.getElementById('squish-stack-canvas');
+    const r = new rive.Rive({
+      src: '../animations/squish-stack.riv',
+      canvas: canvas,
+      artboard: 'Squish_Stack',
+      stateMachines: 'Stack_SM',
+      autoplay: true,
+      layout: new rive.Layout({ fit: rive.Fit.Contain }),
+      onLoad: () => {
+        r.resizeDrawingSurfaceToCanvas();
+        window.addEventListener('resize', () => r.resizeDrawingSurfaceToCanvas());
+      },
+    });
+  </script>
   <script src="../js/main.js?v=3"></script>
 </body>
 </html>

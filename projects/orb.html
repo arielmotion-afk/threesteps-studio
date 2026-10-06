@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice-reactive orb</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #FDF0F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #orb-stage {
+    position: relative;
+    width: 340px;
+    height: 340px;
+  }
+
+  #orb-wrapper {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    transform: scale(1);
+    will-change: transform, box-shadow;
+    background: var(--bg-color, #FDF0F0);
+  }
+
+  #orb-gradient {
+    position: absolute;
+    inset: 0;
+    --bx1: 23%;   --by1: 27.8%; --sx1: 62%; --sy1: 48%; --hue1: 230; --light1: 32;
+    --bx2: 13.4%; --by2: 74.5%; --sx2: 42%; --sy2: 34%; --hue2: 198; --light2: 95;
+    --bx3: 68.6%; --by3: 13.9%; --sx3: 38%; --sy3: 30%; --hue3: 211; --light3: 71;
+    --bx4: 81.1%; --by4: 82.6%; --sx4: 46%; --sy4: 36%; --hue4: 22;  --light4: 60;
+    --bx5: 50.4%; --by5: 51.3%; --sx5: 70%; --sy5: 65%; --hue5: 174; --light5: 95;
+    --jx1: 0%; --jy1: 0%; --jx2: 0%; --jy2: 0%; --jx3: 0%; --jy3: 0%; --jx4: 0%; --jy4: 0%; --jx5: 0%; --jy5: 0%;
+    --hx: 50%;   --hy: 50%;
+    --halpha: 0;
+    --inner-user-alpha: 0;
+    --inner-agent-alpha: 0;
+    --inner-agent-alpha-top: 0;
+    --bg-color: #FDF0F0;
+    --spec-x: 26%;    --spec-y: 20%;   --spec-size: 18%; --spec-alpha: 0.55;
+    --sphere-x: 24%;  --sphere-y: 16%; --sphere-alpha: 0.3;
+    --spec2-x: 62%;   --spec2-y: 78%;  --spec2-size: 32%; --spec2-alpha: 0;
+    --brush-angle: 315deg; --brush-opacity: 0;
+  }
+
+  #orb-blobs {
+    position: absolute;
+    inset: 0;
+    filter: url(#global-deform-filter);
+  }
+
+  #orb-blobs > div, #orb-highlight, #orb-agent-glow-top, #orb-shine-spec, #orb-shine-spec2 {
+    position: absolute;
+    inset: 0;
+  }
+
+  #orb-base {
+    filter: url(#base-filter);
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 78%, rgba(200,205,215,0.35) 0%, rgba(238,240,243,0) 62%),
+      var(--bg-color);
+  }
+
+  #shape-1 {
+    filter: url(#shape-filter-1);
+    background: radial-gradient(ellipse var(--sx1) var(--sy1) at calc(var(--bx1) + var(--jx1)) calc(var(--by1) + var(--jy1)), hsl(var(--hue1), 72%, calc(var(--light1) * 1%)) 0%, hsl(var(--hue1), 88%, calc((var(--light1) + 25) * 1%)) 30%, hsl(var(--hue1), 95%, calc((var(--light1) + 42) * 1%)) 48%, hsla(var(--hue1), 95%, calc((var(--light1) + 42) * 1%), 0.3) 72%, hsla(var(--hue1), 95%, calc((var(--light1) + 42) * 1%), 0) 100%);
+  }
+
+  #shape-2 {
+    filter: url(#shape-filter-2);
+    background: radial-gradient(ellipse var(--sx2) var(--sy2) at calc(var(--bx2) + var(--jx2)) calc(var(--by2) + var(--jy2)), hsla(var(--hue2), 80%, calc(var(--light2) * 1%), 0.55) 0%, hsla(var(--hue2), 80%, calc(var(--light2) * 1%), 0.22) 55%, hsla(var(--hue2), 80%, calc(var(--light2) * 1%), 0) 100%);
+  }
+
+  #shape-3 {
+    filter: url(#shape-filter-3);
+    background: radial-gradient(ellipse var(--sx3) var(--sy3) at calc(var(--bx3) + var(--jx3)) calc(var(--by3) + var(--jy3)), hsla(var(--hue3), 100%, calc(var(--light3) * 1%), 0.35) 0%, hsla(var(--hue3), 100%, calc(var(--light3) * 1%), 0.14) 55%, hsla(var(--hue3), 100%, calc(var(--light3) * 1%), 0) 100%);
+  }
+
+  #shape-4 {
+    filter: url(#shape-filter-4);
+    background: radial-gradient(ellipse var(--sx4) var(--sy4) at calc(var(--bx4) + var(--jx4)) calc(var(--by4) + var(--jy4)), hsl(var(--hue4), 88%, calc(var(--light4) * 1%)) 0%, hsla(var(--hue4), 90%, calc((var(--light4) - 10) * 1%), 0.55) 32%, hsla(var(--hue4), 90%, calc((var(--light4) - 17) * 1%), 0.5) 48%, hsla(var(--hue4), 90%, calc((var(--light4) - 17) * 1%), 0.18) 72%, hsla(var(--hue4), 90%, calc((var(--light4) - 17) * 1%), 0) 100%);
+  }
+
+  #shape-5 {
+    filter: url(#shape-filter-5);
+    background: radial-gradient(ellipse var(--sx5) var(--sy5) at calc(var(--bx5) + var(--jx5)) calc(var(--by5) + var(--jy5)), hsla(var(--hue5), 60%, calc(var(--light5) * 1%), 0.55) 0%, hsla(var(--hue5), 60%, calc(var(--light5) * 1%), 0) 100%);
+  }
+
+  #orb-shine-sphere {
+    mix-blend-mode: overlay;
+    background: radial-gradient(circle at var(--sphere-x) var(--sphere-y), rgba(255,255,255,var(--sphere-alpha)) 0%, rgba(255,255,255,0) 45%, rgba(0,0,0,0) 60%, rgba(0,0,0, calc(var(--sphere-alpha) * 0.55)) 100%);
+  }
+
+  #orb-brush {
+    -webkit-mask-image: radial-gradient(circle at var(--sphere-x) var(--sphere-y), rgba(255,255,255,1) 0%, rgba(255,255,255,0.55) 38%, rgba(255,255,255,0) 78%);
+    mask-image: radial-gradient(circle at var(--sphere-x) var(--sphere-y), rgba(255,255,255,1) 0%, rgba(255,255,255,0.55) 38%, rgba(255,255,255,0) 78%);
+    mix-blend-mode: overlay;
+  }
+  #orb-brush-inner {
+    position: absolute;
+    inset: -25%;
+    filter: url(#brush-filter);
+    opacity: var(--brush-opacity, 0);
+    transform: rotate(var(--brush-angle, 0deg));
+    transform-origin: 50% 50%;
+  }
+
+  #orb-highlight {
+    background:
+      radial-gradient(circle at 50% 50%, rgba(123,178,255,var(--inner-user-alpha)) 0%, rgba(123,178,255,0) 70%),
+      radial-gradient(circle at var(--hx) var(--hy), rgba(255,255,255,var(--halpha)) 0%, rgba(255,255,255,0) 42%);
+  }
+
+  #orb-agent-glow {
+    filter: blur(6px);
+    background: radial-gradient(circle at 50% 50%, rgba(252,238,176,var(--inner-agent-alpha)) 0%, rgba(252,238,176,0) 80%);
+  }
+
+  #orb-agent-glow-top {
+    background: radial-gradient(circle at 50% 50%, rgba(255,252,235,var(--inner-agent-alpha-top)) 0%, rgba(255,252,235,0) 80%);
+  }
+
+  #orb-shine-spec {
+    background: radial-gradient(circle at var(--spec-x) var(--spec-y), rgba(255,255,255,var(--spec-alpha)) 0%, rgba(255,255,255,0) var(--spec-size));
+  }
+
+  #orb-shine-spec2 {
+    background: radial-gradient(circle at var(--spec2-x) var(--spec2-y), rgba(255,255,255,var(--spec2-alpha)) 0%, rgba(255,255,255,0) var(--spec2-size));
+  }
+
+  #orb-grain {
+    position: absolute;
+    inset: 0;
+    filter: url(#grain-filter);
+    mix-blend-mode: overlay;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+
+  #unicorn-embed-wrapper {
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: screen;
+    opacity: var(--unicorn-opacity, 0.85);
+    pointer-events: none;
+    overflow: hidden;
+  }
+  #unicorn-embed {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1440px;
+    height: 900px;
+    transform: translate(-50%, -50%) translate(var(--unicorn-x, 0px), var(--unicorn-y, 0px)) scale(var(--unicorn-scale, 0.22));
+    transform-origin: center center;
+  }
+</style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="grain-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="noise" />
+      <feColorMatrix in="noise" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.9 0" />
+    </filter>
+    <filter id="base-filter" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise" />
+      <feDisplacementMap class="noise-displace" in="SourceGraphic" in2="noise" scale="58" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+      <feGaussianBlur in="displaced" stdDeviation="10" />
+    </filter>
+    <filter id="shape-filter-1" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise" />
+      <feDisplacementMap class="noise-displace" in="SourceGraphic" in2="noise" scale="58" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+      <feGaussianBlur class="feather-blur" data-key="1" in="displaced" stdDeviation="16" />
+    </filter>
+    <filter id="shape-filter-2" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise" />
+      <feDisplacementMap class="noise-displace" in="SourceGraphic" in2="noise" scale="58" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+      <feGaussianBlur class="feather-blur" data-key="2" in="displaced" stdDeviation="16" />
+    </filter>
+    <filter id="shape-filter-3" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise" />
+      <feDisplacementMap class="noise-displace" in="SourceGraphic" in2="noise" scale="58" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+      <feGaussianBlur class="feather-blur" data-key="3" in="displaced" stdDeviation="16" />
+    </filter>
+    <filter id="shape-filter-4" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise" />
+      <feDisplacementMap class="noise-displace" in="SourceGraphic" in2="noise" scale="58" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+      <feGaussianBlur class="feather-blur" data-key="4" in="displaced" stdDeviation="16" />
+    </filter>
+    <filter id="shape-filter-5" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise" />
+      <feDisplacementMap class="noise-displace" in="SourceGraphic" in2="noise" scale="58" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+      <feGaussianBlur class="feather-blur" data-key="5" in="displaced" stdDeviation="16" />
+    </filter>
+    <filter id="global-deform-filter" x="-60%" y="-60%" width="220%" height="220%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.007" numOctaves="2" seed="3" result="noise" />
+      <feDisplacementMap id="global-displace" in="SourceGraphic" in2="noise" scale="40" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    <filter id="brush-filter" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9 0.015" numOctaves="2" seed="5" result="brushNoise" />
+      <feColorMatrix in="brushNoise" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 1.6 -0.35" />
+    </filter>
+  </svg>
+
+  <div id="orb-stage">
+    <div id="orb-wrapper">
+      <div id="orb-gradient">
+        <div id="orb-blobs">
+          <div id="orb-base"></div>
+          <div id="orb-agent-glow"></div>
+          <div id="shape-1" class="shape-layer"></div>
+          <div id="shape-2" class="shape-layer"></div>
+          <div id="shape-3" class="shape-layer"></div>
+          <div id="shape-4" class="shape-layer"></div>
+          <div id="shape-5" class="shape-layer"></div>
+          <div id="orb-shine-sphere"></div>
+          <div id="orb-brush"><div id="orb-brush-inner"></div></div>
+        </div>
+        <div id="orb-highlight"></div>
+        <div id="orb-agent-glow-top"></div>
+        <div id="orb-shine-spec"></div>
+        <div id="orb-shine-spec2"></div>
+      </div>
+      <div id="orb-grain"></div>
+      <div id="unicorn-embed-wrapper">
+        <div id="unicorn-embed" data-us-project="b0jrndPxkWvadM4gZSY9?update=1.0"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.2.8/dist/unicornStudio.umd.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      if (window.UnicornStudio && window.UnicornStudio.init) window.UnicornStudio.init();
+    });
+  </script>
+
+  <script>
+    const stage = document.getElementById('orb-stage');
+    const wrapper = document.getElementById('orb-wrapper');
+    const gradientEl = document.getElementById('orb-gradient');
+
+    const VOLUME_SMOOTHING = 0.6;
+    const SCALE_SENSITIVITY = 0.9;
+    const IDLE_BREATH_SPEED = 0.0018;
+    const IDLE_BREATH_AMOUNT = 0.04;
+    const SPRING_FOLLOW = { stiffness: 210, damping: 16 };
+
+    const USER_SPEAKING_THRESHOLD = 0.05;
+    const INNER_USER_GLOW_MAX_ALPHA = 0.18;
+    const INNER_AGENT_GLOW_MAX_ALPHA = 1.0;
+    const INNER_AGENT_GLOW_TOP_MAX_ALPHA = 0.15;
+    const GLOW_SPRING = { stiffness: 120, damping: 20 };
+    const OUTER_GLOW = { hue: 209, brightness: 0, intensity: 16, radius: 48 };
+
+    const SHINE = {
+      angle: 315, rimIntensity: 65, rimDepth: 55, rimBlur: 22,
+      specSize: 26, specIntensity: 80, sphereFalloff: 55,
+      brushAmount: 40, spec2Intensity: 55,
+    };
+    const SPEC2_OFFSET_DEG = 150;
+    const SPEC2_R = 30;
+    let shineShadowCSS = '';
+
+    function updateShineShadow() {
+      const rad = (SHINE.angle - 90) * Math.PI / 180;
+      const ux = Math.cos(rad), uy = Math.sin(rad);
+      const offset = 9;
+      const lx = ux * offset, ly = uy * offset;
+      const rimAlpha = SHINE.rimIntensity / 100;
+      const depthAlpha = SHINE.rimDepth / 100;
+      shineShadowCSS =
+        `inset ${lx.toFixed(1)}px ${ly.toFixed(1)}px ${SHINE.rimBlur}px rgba(255,255,255,${rimAlpha.toFixed(3)}), ` +
+        `inset ${(-lx).toFixed(1)}px ${(-ly).toFixed(1)}px ${(SHINE.rimBlur * 1.4).toFixed(1)}px rgba(0,0,0,${depthAlpha.toFixed(3)})`;
+    }
+
+    function updateShinePosition() {
+      const rad = (SHINE.angle - 90) * Math.PI / 180;
+      const ux = Math.cos(rad), uy = Math.sin(rad);
+      const specR = 30;
+      gradientEl.style.setProperty('--spec-x', `${(50 + ux * specR).toFixed(1)}%`);
+      gradientEl.style.setProperty('--spec-y', `${(50 + uy * specR).toFixed(1)}%`);
+      gradientEl.style.setProperty('--spec-size', `${SHINE.specSize}%`);
+      gradientEl.style.setProperty('--spec-alpha', (SHINE.specIntensity / 100).toFixed(3));
+      const sphereR = 38;
+      gradientEl.style.setProperty('--sphere-x', `${(50 + ux * sphereR).toFixed(1)}%`);
+      gradientEl.style.setProperty('--sphere-y', `${(50 + uy * sphereR).toFixed(1)}%`);
+      gradientEl.style.setProperty('--sphere-alpha', (SHINE.sphereFalloff / 100).toFixed(3));
+      const rad2 = ((SHINE.angle + SPEC2_OFFSET_DEG) - 90) * Math.PI / 180;
+      const ux2 = Math.cos(rad2), uy2 = Math.sin(rad2);
+      gradientEl.style.setProperty('--spec2-x', `${(50 + ux2 * SPEC2_R).toFixed(1)}%`);
+      gradientEl.style.setProperty('--spec2-y', `${(50 + uy2 * SPEC2_R).toFixed(1)}%`);
+      gradientEl.style.setProperty('--spec2-alpha', (SHINE.spec2Intensity / 100 * 0.6).toFixed(3));
+      gradientEl.style.setProperty('--brush-angle', `${SHINE.angle}deg`);
+      gradientEl.style.setProperty('--brush-opacity', (SHINE.brushAmount / 100 * 0.18).toFixed(3));
+    }
+
+    function applyShine() { updateShineShadow(); updateShinePosition(); }
+
+    const UNICORN = { scale: 22, x: 0, y: 0, opacity: 85 };
+    function applyUnicorn() {
+      wrapper.style.setProperty('--unicorn-scale', (UNICORN.scale / 100).toFixed(3));
+      wrapper.style.setProperty('--unicorn-x', `${UNICORN.x}px`);
+      wrapper.style.setProperty('--unicorn-y', `${UNICORN.y}px`);
+      wrapper.style.setProperty('--unicorn-opacity', (UNICORN.opacity / 100).toFixed(3));
+    }
+
+    let noiseValue = 58;
+    function setNoise(v) {
+      noiseValue = v;
+      document.querySelectorAll('.noise-displace').forEach((el) => el.setAttribute('scale', v));
+    }
+    function setShapeFeather(key, v) {
+      const blurEl = document.querySelector(`.feather-blur[data-key="${key}"]`);
+      if (blurEl) blurEl.setAttribute('stdDeviation', v);
+    }
+
+    let warpValue = 40;
+    function setWarp(v) {
+      warpValue = v;
+      document.getElementById('global-displace').setAttribute('scale', v);
+    }
+
+    function setBgColor(v) {
+      wrapper.style.setProperty('--bg-color', v);
+    }
+
+    let userGlowValue = 0, userGlowVelocity = 0;
+    let agentGlowValue = 0, agentGlowVelocity = 0;
+    window.__agentSpeaking = false;
+    window.setAgentSpeaking = function (speaking) { window.__agentSpeaking = !!speaking; };
+
+    function isAgentSpeakingNow() {
+      return window.__agentSpeaking || smoothedVolume > USER_SPEAKING_THRESHOLD;
+    }
+
+    const MOUSE_REACT = { radius: 160, follow: 25, intensity: 45, softness: 70 };
+    const HIGHLIGHT_SPRING = { stiffness: 90, damping: 18 };
+    let highlightAlphaValue = 0, highlightAlphaVelocity = 0;
+    let highlightXValue = 50, highlightXVelocity = 0;
+    let highlightYValue = 50, highlightYVelocity = 0;
+    let mouseX = null, mouseY = null;
+
+    window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+
+    function springStep(current, velocity, target, cfg, dt) {
+      const force = (target - current) * cfg.stiffness - velocity * cfg.damping;
+      velocity += force * dt;
+      current += velocity * dt;
+      return [current, velocity];
+    }
+
+    function updateMouseHighlight(dt) {
+      const rect = wrapper.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      let targetAlpha = 0;
+      let targetX = highlightXValue;
+      let targetY = highlightYValue;
+      if (mouseX !== null) {
+        const dx = mouseX - cx;
+        const dy = mouseY - cy;
+        const dist = Math.hypot(dx, dy);
+        if (dist < MOUSE_REACT.radius) {
+          const proximity = 1 - dist / MOUSE_REACT.radius;
+          targetAlpha = Math.pow(proximity, 2) * (MOUSE_REACT.intensity / 100);
+          const followAmt = MOUSE_REACT.follow / 100;
+          targetX = 50 + (dx / rect.width) * 100 * followAmt;
+          targetY = 50 + (dy / rect.height) * 100 * followAmt;
+        }
+      }
+      [highlightAlphaValue, highlightAlphaVelocity] = springStep(highlightAlphaValue, highlightAlphaVelocity, targetAlpha, HIGHLIGHT_SPRING, dt);
+      [highlightXValue, highlightXVelocity] = springStep(highlightXValue, highlightXVelocity, targetX, HIGHLIGHT_SPRING, dt);
+      [highlightYValue, highlightYVelocity] = springStep(highlightYValue, highlightYVelocity, targetY, HIGHLIGHT_SPRING, dt);
+      gradientEl.style.setProperty('--halpha', Math.max(0, highlightAlphaValue).toFixed(3));
+      gradientEl.style.setProperty('--hx', `${highlightXValue.toFixed(1)}%`);
+      gradientEl.style.setProperty('--hy', `${highlightYValue.toFixed(1)}%`);
+    }
+
+    function updateGlow(dt) {
+      const agentSpeakingNow = isAgentSpeakingNow();
+      const userTarget = (!agentSpeakingNow && smoothedVolume > USER_SPEAKING_THRESHOLD) ? 1 : 0;
+      const agentTarget = agentSpeakingNow ? 1 : 0;
+      [userGlowValue, userGlowVelocity] = springStep(userGlowValue, userGlowVelocity, userTarget, GLOW_SPRING, dt);
+      [agentGlowValue, agentGlowVelocity] = springStep(agentGlowValue, agentGlowVelocity, agentTarget, GLOW_SPRING, dt);
+      const glowMaxAlpha = OUTER_GLOW.intensity / 100;
+      const userAlpha = Math.max(0, Math.min(1, userGlowValue)) * glowMaxAlpha;
+      const glowColor = `${OUTER_GLOW.hue}, 90%, ${OUTER_GLOW.brightness}%`;
+      wrapper.style.boxShadow = `${shineShadowCSS}, 0 0 ${OUTER_GLOW.radius}px hsla(${glowColor}, ${userAlpha.toFixed(3)})`;
+      const innerUserAlpha = Math.max(0, Math.min(1, userGlowValue)) * INNER_USER_GLOW_MAX_ALPHA;
+      const innerAgentAlpha = Math.max(0, Math.min(1, agentGlowValue)) * INNER_AGENT_GLOW_MAX_ALPHA;
+      const innerAgentAlphaTop = Math.max(0, Math.min(1, agentGlowValue)) * INNER_AGENT_GLOW_TOP_MAX_ALPHA;
+      gradientEl.style.setProperty('--inner-agent-alpha-top', innerAgentAlphaTop.toFixed(3));
+      gradientEl.style.setProperty('--inner-user-alpha', innerUserAlpha.toFixed(3));
+      gradientEl.style.setProperty('--inner-agent-alpha', innerAgentAlpha.toFixed(3));
+    }
+
+    let smoothedVolume = 0;
+    let audioCtx, analyser, dataArray;
+    let scaleValue = 0.2, scaleVelocity = 0;
+    let lastTime = null;
+    let rafId = null;
+
+    wrapper.style.opacity = '0';
+    wrapper.style.transition = 'opacity 900ms ease-out';
+    requestAnimationFrame(() => requestAnimationFrame(() => { wrapper.style.opacity = '1'; }));
+
+    function getVolume() {
+      analyser.getByteFrequencyData(dataArray);
+      let sum = 0;
+      for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+      return (sum / dataArray.length) / 255;
+    }
+
+    function tick(time) {
+      if (lastTime === null) lastTime = time;
+      const dt = Math.min((time - lastTime) / 1000, 0.05);
+      lastTime = time;
+      const rawVolume = analyser ? getVolume() : 0;
+      smoothedVolume += (rawVolume - smoothedVolume) * 0.15;
+      const breath = Math.sin(time * IDLE_BREATH_SPEED) * IDLE_BREATH_AMOUNT;
+      const volumeScale = isAgentSpeakingNow() ? 0 : smoothedVolume * SCALE_SENSITIVITY;
+      const targetScale = 1 + breath + volumeScale;
+      [scaleValue, scaleVelocity] = springStep(scaleValue, scaleVelocity, targetScale, SPRING_FOLLOW, dt);
+      wrapper.style.transform = `scale(${Math.max(scaleValue, 0.001).toFixed(3)})`;
+      updateGlow(dt);
+      updateMouseHighlight(dt);
+      updateMicroJitter(time / 1000);
+      rafId = requestAnimationFrame(tick);
+    }
+
+    const JITTER_AMP = 2.2;
+    function updateMicroJitter(t) {
+      for (const key of Object.keys(SHAPES)) {
+        const phase = Number(key) * 2.1;
+        const jx = (Math.sin(t * 0.9 + phase) * 0.6 + Math.sin(t * 1.7 + phase * 1.3) * 0.4) * JITTER_AMP;
+        const jy = (Math.cos(t * 0.8 + phase * 1.5) * 0.6 + Math.sin(t * 1.4 + phase * 0.7) * 0.4) * JITTER_AMP;
+        gradientEl.style.setProperty(`--jx${key}`, `${jx.toFixed(2)}%`);
+        gradientEl.style.setProperty(`--jy${key}`, `${jy.toFixed(2)}%`);
+      }
+    }
+
+    async function start() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioCtx.createMediaStreamSource(stream);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        analyser.smoothingTimeConstant = VOLUME_SMOOTHING;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        source.connect(analyser);
+        lastTime = null;
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(tick);
+      } catch (err) {
+        console.warn('Mic access denied or unavailable:', err);
+        rafId = requestAnimationFrame(tick);
+      }
+    }
+    start();
+
+    const SHAPES = {
+      1: { label: 'Top left',     hue: 230, light: 32, bx: 23,   by: 27.8, baseSX: 62, baseSY: 48, locWiggle: 72, sizeWiggle: 79, feather: 16 },
+      2: { label: 'Bottom left',  hue: 198, light: 95, bx: 13.4, by: 74.5, baseSX: 42, baseSY: 34, locWiggle: 64, sizeWiggle: 30, feather: 16 },
+      3: { label: 'Top right',    hue: 211, light: 71, bx: 68.6, by: 13.9, baseSX: 38, baseSY: 30, locWiggle: 50, sizeWiggle: 47, feather: 16 },
+      4: { label: 'Bottom right', hue: 22,  light: 60, bx: 81.1, by: 82.6, baseSX: 46, baseSY: 36, locWiggle: 77, sizeWiggle: 30, feather: 16 },
+      5: { label: 'Inner glow',   hue: 174, light: 95, bx: 50.4, by: 51.3, baseSX: 70, baseSY: 65, locWiggle: 30, sizeWiggle: 25, feather: 16 },
+    };
+
+    const locationTimers = {};
+    const sizeTimers = {};
+    const POSITION_MIN = -60;
+    const POSITION_MAX = 160;
+
+    function clampPercent(v) { return Math.max(POSITION_MIN, Math.min(POSITION_MAX, v)); }
+    function mapRange(v, inMin, inMax, outMin, outMax) {
+      const t = Math.max(0, Math.min(1, (v - inMin) / (inMax - inMin)));
+      return outMin + t * (outMax - outMin);
+    }
+
+    function animateVar(prop, toValue, duration) {
+      if (window.Motion && window.Motion.animate) {
+        window.Motion.animate(gradientEl, { [prop]: toValue }, { duration, ease: 'easeInOut' });
+      } else {
+        gradientEl.style.setProperty(prop, toValue);
+      }
+    }
+
+    function applyHue(key) { gradientEl.style.setProperty(`--hue${key}`, SHAPES[key].hue); }
+    function applyLightness(key) { gradientEl.style.setProperty(`--light${key}`, SHAPES[key].light); }
+    function applyBasePosition(key) {
+      gradientEl.style.setProperty(`--bx${key}`, `${SHAPES[key].bx}%`);
+      gradientEl.style.setProperty(`--by${key}`, `${SHAPES[key].by}%`);
+    }
+
+    function scheduleLocationWander(key) {
+      clearTimeout(locationTimers[key]);
+      const s = SHAPES[key];
+      const amp = mapRange(s.locWiggle, 0, 100, 2, 26);
+      const duration = mapRange(s.locWiggle, 0, 100, 13, 2.5);
+      if (s.locWiggle <= 0) return;
+      const targetX = clampPercent(s.bx + (Math.random() * 2 - 1) * amp);
+      const targetY = clampPercent(s.by + (Math.random() * 2 - 1) * amp);
+      animateVar(`--bx${key}`, `${targetX.toFixed(1)}%`, duration);
+      animateVar(`--by${key}`, `${targetY.toFixed(1)}%`, duration * (0.8 + Math.random() * 0.4));
+      locationTimers[key] = setTimeout(() => scheduleLocationWander(key), duration * 1000);
+    }
+
+    function scheduleSizeWander(key) {
+      clearTimeout(sizeTimers[key]);
+      const s = SHAPES[key];
+      const amp = mapRange(s.sizeWiggle, 0, 100, 0.02, 0.9);
+      const duration = mapRange(s.sizeWiggle, 0, 100, 11, 2);
+      if (s.sizeWiggle <= 0) return;
+      const targetSX = s.baseSX * (1 + (Math.random() * 2 - 1) * amp);
+      const targetSY = s.baseSY * (1 + (Math.random() * 2 - 1) * amp);
+      animateVar(`--sx${key}`, `${targetSX.toFixed(1)}%`, duration);
+      animateVar(`--sy${key}`, `${targetSY.toFixed(1)}%`, duration * (0.8 + Math.random() * 0.4));
+      sizeTimers[key] = setTimeout(() => scheduleSizeWander(key), duration * 1000);
+    }
+
+    function initShape(key) {
+      applyHue(key);
+      applyLightness(key);
+      applyBasePosition(key);
+      setShapeFeather(key, SHAPES[key].feather);
+      gradientEl.style.setProperty(`--sx${key}`, `${SHAPES[key].baseSX}%`);
+      gradientEl.style.setProperty(`--sy${key}`, `${SHAPES[key].baseSY}%`);
+      scheduleLocationWander(key);
+      scheduleSizeWander(key);
+    }
+
+    setNoise(noiseValue);
+    setWarp(warpValue);
+    setBgColor('#FDF0F0');
+    applyShine();
+    applyUnicorn();
+    for (const key of Object.keys(SHAPES)) { initShape(key); }
+  </script>
+
+</body>
+</html>
