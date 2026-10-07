@@ -41,8 +41,6 @@
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip { border: 1px solid rgba(0,0,0,.1); background: rgba(255,255,255,.88); border-radius: 999px; padding: 8px 14px; font: 500 13px var(--display); cursor: pointer; }
   .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .readout { font-family: var(--label); font-size: 12px; background: rgba(255,255,255,.88); padding: 10px 14px; line-height: 1.7; min-width: 220px; }
-  .readout b { font-weight: 500; }
 
   /* long-form body: sticky label column + content column */
   .block { display: grid; grid-template-columns: 1fr 2fr; gap: var(--gutter); padding-top: 96px; }
@@ -152,7 +150,6 @@
           <button class="chip" data-state="speaking">Speaking</button>
           <button class="chip" data-state="error">Error</button>
         </div>
-        <div class="readout" id="readout"></div>
       </div>
     </div>
 
@@ -237,19 +234,10 @@
   const vio = new IntersectionObserver((es) => es.forEach((e) => { e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause(); }), { threshold: 0.15 });
   document.querySelectorAll('video').forEach((v) => { v.muted = true; vio.observe(v); });
 
-  // Orb: chips + live readout drive the same iframe
-  const orb = document.getElementById('orb'), readout = document.getElementById('readout');
-  const SPEC = {
-    idle:      ['0', 'scale 1.00–1.04 · 3.2s breathe', 'colour drifts slowly'],
-    listening: ['1', 'scale 1 + level × 0.9', 'ripples · colour quickens with voice'],
-    thinking:  ['2', 'scale 0.84', 'colour flows 3× faster'],
-    speaking:  ['3', 'breathes with the voice, up to +10%', 'calm, steady colour'],
-    error:     ['4', 'shake 10px → 0 in 600ms', 'red rim · back to idle in 1200ms'],
-  };
+  // Orb: the state chips drive the iframe
+  const orb = document.getElementById('orb');
   function mark(s) {
     document.querySelectorAll('[data-state]').forEach((el) => el.classList.toggle('on', el.dataset.state === s));
-    const [n, motion, glow] = SPEC[s];
-    readout.innerHTML = `<b>state</b> = ${n} (${s})<br><b>motion</b> ${motion}<br><b>light</b> ${glow}`;
   }
   function go(s) { orb.contentWindow.postMessage({ type: 'orb-state', state: s }, '*'); mark(s); }
   document.querySelectorAll('[data-state]').forEach((el) => el.addEventListener('click', () => go(el.dataset.state)));
