@@ -27,7 +27,7 @@
 <style>
   /* ─── Hero ─── */
   .hero { padding-top: 72px; }
-  .hero-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
+  .hero-top { display: flex; justify-content: flex-end; align-items: center; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
   .status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-family: var(--label); font-size: 12px; }
   .status i { width: 8px; height: 8px; border-radius: 50%; background: #1DB954; box-shadow: 0 0 0 4px rgba(29,185,84,.15); }
   .hero-title { font-size: clamp(48px, 8.6vw, 132px); line-height: .92; font-weight: 600; letter-spacing: -.05em; max-width: 14ch; }
@@ -164,7 +164,6 @@
   <!-- ═════════ HERO ═════════ -->
   <section class="hero wrap">
     <div class="hero-top">
-      <span class="status"><i></i>Open to motion design roles · Switzerland / remote</span>
       <p class="mono hero-tools">After Effects · Lottie · Rive · Code · AI<br>Marketing · Product · Social</p>
     </div>
     <h1 class="hero-title">Motion for the product and the <span class="swap" id="heroSwap"><span class="on">launch.</span><span>campaign.</span><span>ad.</span><span>feed.</span></span></h1>
@@ -175,8 +174,8 @@
     <!-- Temporary hero until the showreel is ready: crossfades short clips of the work.
          To use the showreel instead, replace this block with one <video autoplay muted loop playsinline>. -->
     <div class="reel rv" id="reel" tabindex="0" aria-roledescription="carousel" aria-label="Selected work">
-      <video class="reel-v is-on" muted playsinline preload="auto"></video>
-      <video class="reel-v" muted playsinline preload="auto"></video>
+      <video class="reel-v is-on" muted loop playsinline preload="auto"></video>
+      <video class="reel-v" muted loop playsinline preload="auto"></video>
       <a class="reel-label" id="reel-label" href="#"><span id="reel-name"></span> ↗</a>
       <button class="reel-arrow reel-arrow--prev" id="reel-prev" type="button" aria-label="Previous project">←</button>
       <button class="reel-arrow reel-arrow--next" id="reel-next" type="button" aria-label="Next project">→</button>
