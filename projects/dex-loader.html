@@ -113,7 +113,7 @@
   .poses { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
   .pose { display: flex; flex-direction: column; background: #fff; border: 0; padding: 0; text-align: left; margin: 0; }
   .pose .pv { display: block; aspect-ratio: 4 / 3; overflow: hidden; display: grid; place-items: center; position: relative; }
-  .pose lottie-player { width: 100%; aspect-ratio: 600 / 400; transform: scale(1.7); pointer-events: none; }
+  .pose img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .pose-cap { display: block; flex: 1; padding: 12px 14px 14px; border-top: 1px solid var(--line); }
   .pose-cap .mono { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
   .pose-cap b { font-weight: 500; font-size: 15px; }
@@ -190,11 +190,11 @@
 
     <div class="lab" id="lab">
       <div class="poses">
-        <figure class="pose" data-frame="6"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 0–9</span><b>One block splits</b></span></figure>
-        <figure class="pose" data-frame="16"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 10–23</span><b>The logo assembles</b></span></figure>
-        <figure class="pose" data-frame="54"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 24–85</span><b>Blocks become app icons</b></span></figure>
-        <figure class="pose" data-frame="90"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 86–97</span><b>Full colour</b></span></figure>
-        <figure class="pose" data-frame="104"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 98–109</span><b>Back to one block</b></span></figure>
+        <figure class="pose"><span class="pv"><img src="../images/process/dex/stage-split.svg" alt="One block split along a diagonal"></span><span class="pose-cap"><span class="mono">Frames 0–9</span><b>One block splits</b></span></figure>
+        <figure class="pose"><span class="pv"><img src="../images/process/dex/stage-f16.png" alt="Blocks assembling into the Dex logo"></span><span class="pose-cap"><span class="mono">Frames 10–23</span><b>The logo assembles</b></span></figure>
+        <figure class="pose"><span class="pv"><img src="../images/process/dex/stage-icons.svg" alt="Coloured blocks streaming into the logo"></span><span class="pose-cap"><span class="mono">Frames 24–85</span><b>Colour streams in</b></span></figure>
+        <figure class="pose"><span class="pv"><img src="../images/process/dex/stage-f90.png" alt="The logo in full colour"></span><span class="pose-cap"><span class="mono">Frames 86–97</span><b>Full colour</b></span></figure>
+        <figure class="pose"><span class="pv"><img src="../images/process/dex/stage-collapse.svg" alt="The logo collapsing back to one block"></span><span class="pose-cap"><span class="mono">Frames 98–109</span><b>Back to one block</b></span></figure>
       </div>
     </div>
 
@@ -269,17 +269,6 @@
 }());
 </script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
-<script>
-// Key poses: each thumbnail holds one frame of the loader.
-window.addEventListener('load', () => {
-  document.querySelectorAll('.pose').forEach((f) => {
-    const p = f.querySelector('lottie-player');
-    const still = () => { p.pause(); p.seek(+f.dataset.frame); };
-    p.addEventListener('ready', still);
-    still();
-  });
-});
-</script>
 <script src="../js/v2.js"></script>
 </body>
 </html>
