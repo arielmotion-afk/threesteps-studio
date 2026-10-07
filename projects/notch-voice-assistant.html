@@ -35,13 +35,13 @@
   .facts dt { font-family: var(--label); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; }
   .facts dd { font-size: 15px; }
 
-  .stage { margin-top: 56px; border-radius: 28px; overflow: hidden; background: var(--blush); position: relative; aspect-ratio: 16 / 8.5; }
+  .stage { margin-top: 56px; overflow: hidden; background: var(--blush); position: relative; aspect-ratio: 16 / 8.5; }
   .stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
   .stage-ui { position: absolute; left: 20px; right: 20px; bottom: 20px; display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip { border: 1px solid rgba(0,0,0,.1); background: rgba(255,255,255,.88); border-radius: 999px; padding: 8px 14px; font: 500 13px var(--display); cursor: pointer; }
   .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .readout { font-family: var(--label); font-size: 12px; background: rgba(255,255,255,.88); border-radius: 12px; padding: 10px 14px; line-height: 1.7; min-width: 220px; }
+  .readout { font-family: var(--label); font-size: 12px; background: rgba(255,255,255,.88); padding: 10px 14px; line-height: 1.7; min-width: 220px; }
   .readout b { font-weight: 500; }
 
   /* long-form body: sticky label column + content column */
@@ -55,10 +55,10 @@
 
   .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
   .refs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 32px; }
-  .refs img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; }
+  .refs img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
   .cap { font-family: var(--label); font-size: 13px; color: var(--muted); margin-top: 10px !important; }
   figure { margin: 0; }
-  .screen { margin-top: 28px; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 0 var(--line), 0 24px 60px rgba(60, 30, 50, .10); background: #F8F9FA; }
+  .screen { margin-top: 28px; overflow: hidden; box-shadow: 0 1px 0 var(--line), 0 24px 60px rgba(60, 30, 50, .10); background: #F8F9FA; }
   .screen img { width: 100%; height: auto; }
   .screen.flat { box-shadow: none; background: none; }
   /* Earlier orb passes, rebuilt live for the process gallery */
@@ -78,7 +78,7 @@
   .ov-shade { mix-blend-mode: overlay; background: radial-gradient(circle at 30% 24%, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 42%, rgba(0,0,0,0) 56%, rgba(0,0,0,.5) 100%); }
   .ov-spec { background: radial-gradient(circle at 31% 25%, rgba(255,255,255,.95) 0%, rgba(255,255,255,.35) 7%, rgba(255,255,255,0) 18%), radial-gradient(circle at 70% 82%, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 22%); box-shadow: inset 6px 6px 16px rgba(255,255,255,.55), inset -12px -14px 34px rgba(25, 20, 70, .32); }
   .ov-grain { opacity: .14; mix-blend-mode: overlay; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
-  .shot { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; }
+  .shot { position: relative; overflow: hidden; aspect-ratio: 4 / 3; }
   .shot .ph { position: absolute; left: 12px; bottom: 12px; z-index: 1; }
   .shot .mini-orb-stage { background: var(--surface); }
   .shot .mini-orb { width: 46%; }
@@ -96,7 +96,7 @@
   .kpi b { display: block; font-size: 48px; font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 8px; }
   .kpi span { color: var(--ink-2); font-size: 15px; }
 
-  .next { display: block; margin-top: 140px; border-radius: 28px; overflow: hidden; position: relative; aspect-ratio: 16 / 6; background: #000; }
+  .next { display: block; margin-top: 140px; overflow: hidden; position: relative; aspect-ratio: 16 / 6; background: #000; }
   .next video { width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity var(--dur-medium) var(--ease-standard), transform 900ms var(--ease-standard); }
   .next:hover video { opacity: .9; transform: scale(1.03); }
   .next-label { position: absolute; left: 28px; bottom: 24px; color: #fff; }

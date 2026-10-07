@@ -26,13 +26,13 @@
 
     /* Device-specific product videos: desktop cut on wide screens, mobile cut on phones */
     .device-videos { display: flex; flex-direction: column; gap: 24px; max-width: 1120px; width: 100%; margin: 0 auto; }
-    .device-video { display: block; width: 100%; height: auto; border-radius: 16px; background: #1b1b1b; }
+    .device-video { display: block; width: 100%; height: auto; background: #1b1b1b; }
     /* Product & web animations: one block per client, facts left, media right */
     .pw-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 8px; }
     .pw-jump a { font-size: 13px; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border); color: var(--text); text-decoration: none; }
     .pw-jump a:hover { border-color: var(--text); }
     .pw-block { padding: 72px 0; border-top: 1px solid rgba(0,0,0,.08); scroll-margin-top: 80px; }
-    .pw-head { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: end; margin-bottom: 28px; }
+    .pw-head { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: end; margin-bottom: 40px; }
     .pw-name { font-size: 32px; line-height: 1.1; margin: 0 0 10px; }
     .pw-what { font-size: 16px; line-height: 1.55; opacity: .75; margin: 0; max-width: 52ch; }
     .pw-facts { display: flex; flex-wrap: wrap; gap: 14px 28px; margin: 0; font-size: 13px; justify-content: flex-end; }
@@ -63,7 +63,7 @@
     /* lightbox */
     .pw-lightbox { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 4vmin; background: rgba(20,16,18,.82); cursor: zoom-out; }
     .pw-lightbox.is-open { display: flex; }
-    .pw-lightbox-inner { position: relative; border-radius: 16px; overflow: hidden; background: #fff; }
+    .pw-lightbox-inner { position: relative; overflow: hidden; background: #fff; }
     .pw-lightbox-inner > * { display: block; width: 100%; height: 100%; max-height: 88vh; object-fit: contain; }
     @media (max-width: 860px) {
       .pw-block { padding: 48px 0; }
@@ -75,6 +75,7 @@
       .pw-row { flex-wrap: wrap; }
       .pw-row > .pw-tile { flex-basis: 100% !important; }
       .pw-row > .pw-tile--sq { flex-basis: calc(50% - 6px) !important; }   /* squares and portraits two-up */
+      .pw-row--solo .pw-tile { width: 100%; }
     }
   </style>
 </head>
@@ -107,7 +108,7 @@
       </div>
 
       <nav class="pw-jump" aria-label="Clients on this page">
-        <a href="#dex">Dex</a><a href="#clears">Clears</a><a href="#imagen">ImagenAI</a><a href="#wordtune">Wordtune</a><a href="#ai21">AI21 Jamba</a><a href="#sweet">Sweet</a>
+        <a href="#dex">Dex</a><a href="#imagen">ImagenAI</a><a href="#clears">Clears</a><a href="#wordtune">Wordtune</a><a href="#sweet">Sweet</a><a href="#tego">Tego</a><a href="#ai21">AI21 Jamba</a>
       </nav>
 
       <section class="pw-block" id="dex">
@@ -119,17 +120,6 @@
           <div class="pw-row pw-row--solo"><button class="pw-tile" type="button" style="flex:1.5;--r:1.5;aspect-ratio:600/400" aria-label="Open animation"><lottie-player src="../animations/Dex_Loader.json" background="transparent" speed="1" loop autoplay data-fps="12"></lottie-player></button></div>
         </div>
       </section>
-
-      <section class="pw-block" id="clears">
-        <header class="pw-head">
-          <div><h2 class="pw-name">Clears</h2><p class="pw-what">Header animation for Clears, a platform that coordinates AI agents across engineering work, from requirements to merged code.</p></div>
-          <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design</dd></div><div><dt>Format</dt><dd>Lottie</dd></div><div><dt>Design</dt><dd>Mark Gerkules</dd></div><div><dt>Year</dt><dd><span class="ph">[year]</span></dd></div></dl>
-        </header>
-        <div class="pw-media">
-          <div class="pw-row pw-row--solo"><button class="pw-tile" type="button" style="flex:1.778;--r:1.778;aspect-ratio:1920/1080" aria-label="Open animation"><lottie-player src="../animations/01 Header.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
-        </div>
-      </section>
-
       <section class="pw-block" id="imagen">
         <header class="pw-head">
           <div><h2 class="pw-name">ImagenAI</h2><p class="pw-what">Animations for ImagenAI's new website, showing the product's photo editing workflow.</p></div>
@@ -139,7 +129,15 @@
           <div class="pw-row"><button class="pw-tile pw-tile--video" type="button" style="flex:1.825;aspect-ratio:1500/822" aria-label="Open video"><video class="device-video" muted loop playsinline data-desktop="../videos/imagen-01-desktop.mp4" data-desktop-poster="../images/thumbnails/imagen-01-desktop-poster.jpg" data-mobile="../videos/imagen-01-mobile.mp4" data-mobile-poster="../images/thumbnails/imagen-01-mobile-poster.jpg"></video></button><button class="pw-tile pw-tile--video" type="button" style="flex:1.825;aspect-ratio:1500/822" aria-label="Open video"><video class="device-video" muted loop playsinline data-desktop="../videos/imagen-04-desktop.mp4" data-desktop-poster="../images/thumbnails/imagen-04-desktop-poster.jpg" data-mobile="../videos/imagen-04-mobile.mp4" data-mobile-poster="../images/thumbnails/imagen-04-mobile-poster.jpg"></video></button></div>
         </div>
       </section>
-
+      <section class="pw-block" id="clears">
+        <header class="pw-head">
+          <div><h2 class="pw-name">Clears</h2><p class="pw-what">Header animation for Clears, a platform that coordinates AI agents across engineering work, from requirements to merged code.</p></div>
+          <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design</dd></div><div><dt>Format</dt><dd>Lottie</dd></div><div><dt>Design</dt><dd>Mark Gerkules</dd></div><div><dt>Year</dt><dd><span class="ph">[year]</span></dd></div></dl>
+        </header>
+        <div class="pw-media">
+          <div class="pw-row pw-row--solo"><button class="pw-tile" type="button" style="flex:1.778;--r:1.778;aspect-ratio:1920/1080" aria-label="Open animation"><lottie-player src="../animations/01 Header.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
+        </div>
+      </section>
       <section class="pw-block" id="wordtune">
         <header class="pw-head">
           <div><h2 class="pw-name">Wordtune</h2><p class="pw-what">In-app illustrations for the Wordtune product, and animations for its marketing website.</p></div>
@@ -153,17 +151,6 @@
           <div class="pw-row"><button class="pw-tile" type="button" style="flex:1.238;aspect-ratio:650/525" aria-label="Open: Editor animation"><img src="../animations/web-animations/46949587-ebd4-4391-8134-a473491fa7ea_rw_1200.gif" alt="Editor animation" loading="lazy"></button><button class="pw-tile" type="button" style="flex:1.238;aspect-ratio:650/525" aria-label="Open: Editor animation"><img src="../animations/web-animations/6b4c4e59-2b05-4c5d-8d0e-2867fd315457_rw_1200.gif" alt="Editor animation" loading="lazy"></button><button class="pw-tile" type="button" style="flex:1.238;aspect-ratio:650/525" aria-label="Open: Editor animation"><img src="../animations/web-animations/d339d362-c2c5-461c-8387-32bb5d1e5db3_rw_1200.gif" alt="Editor animation" loading="lazy"></button></div>
         </div>
       </section>
-
-      <section class="pw-block" id="ai21">
-        <header class="pw-head">
-          <div><h2 class="pw-name">AI21 Jamba</h2><p class="pw-what">Loader research for the Jamba chat interface: how the wait while the model thinks could look and feel.</p></div>
-          <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design, research</dd></div><div><dt>Format</dt><dd>Lottie</dd></div><div><dt>Year</dt><dd><span class="ph">[year]</span></dd></div></dl>
-        </header>
-        <div class="pw-media">
-          <div class="pw-row"><button class="pw-tile" type="button" style="flex:2.056;aspect-ratio:1980/963" aria-label="Open animation"><lottie-player src="../animations/loaders-research.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
-        </div>
-      </section>
-
       <section class="pw-block" id="sweet">
         <header class="pw-head">
           <div><h2 class="pw-name">Sweet by Elementor</h2><p class="pw-what">Website and onboarding animations for Sweet, a sub-brand of Elementor.</p></div>
@@ -172,6 +159,25 @@
         <div class="pw-media">
           <div class="pw-row"><button class="pw-tile pw-tile--clear" type="button" style="flex:1.778;aspect-ratio:1984/1116" aria-label="Open animation"><lottie-player src="../animations/Sweet Web 01.json" background="transparent" speed="1" loop autoplay></lottie-player></button><button class="pw-tile pw-tile--sq pw-tile--clear" type="button" style="flex:0.667;aspect-ratio:452/678" aria-label="Open animation"><lottie-player src="../animations/Sweet Onboarding.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
           <div class="pw-row"><button class="pw-tile pw-tile--clear" type="button" style="flex:1.477;aspect-ratio:1920/1300" aria-label="Open animation"><lottie-player src="../animations/sweet-hero-transparent.json" background="transparent" speed="1" loop autoplay></lottie-player></button><button class="pw-tile pw-tile--clear" type="button" style="flex:1.778;aspect-ratio:1920/1080" aria-label="Open animation"><lottie-player src="../animations/Sweet Spiral High.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
+        </div>
+      </section>
+      <section class="pw-block" id="tego">
+        <header class="pw-head">
+          <div><h2 class="pw-name">Tego</h2><p class="pw-what">Hero animation for Tego, a platform that gives organisations visibility and control over what their AI agents can access.</p></div>
+          <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design</dd></div><div><dt>Format</dt><dd>Lottie, desktop and mobile versions</dd></div><div><dt>Year</dt><dd><span class="ph">[year]</span></dd></div></dl>
+        </header>
+        <div class="pw-media">
+          <div class="pw-row pw-row--solo"><button class="pw-tile pw-tile--device" type="button" aria-label="Open animation"
+            data-desktop="../animations/tego-hero.json" data-desktop-ar="2100/1280" data-mobile="../animations/tego-hero-mobile.json" data-mobile-ar="375/787"></button></div>
+        </div>
+      </section>
+      <section class="pw-block" id="ai21">
+        <header class="pw-head">
+          <div><h2 class="pw-name">AI21 Jamba</h2><p class="pw-what">Loader research for the Jamba chat interface: how the wait while the model thinks could look and feel.</p></div>
+          <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design, research</dd></div><div><dt>Format</dt><dd>Lottie</dd></div><div><dt>Year</dt><dd><span class="ph">[year]</span></dd></div></dl>
+        </header>
+        <div class="pw-media">
+          <div class="pw-row"><button class="pw-tile" type="button" style="flex:2.056;aspect-ratio:1980/963" aria-label="Open animation"><lottie-player src="../animations/loaders-research.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
         </div>
       </section>
 
@@ -239,6 +245,28 @@
     });
     box.addEventListener('click', close);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }());
+  </script>
+  <script>
+  // Device Lotties (Tego): desktop file on wide screens, mobile file on phones; only the matching one loads.
+  (function () {
+    var tiles = document.querySelectorAll('.pw-tile--device');
+    if (!tiles.length) return;
+    var phone = window.matchMedia('(max-width: 700px)');
+    function pick() {
+      var cut = phone.matches ? 'mobile' : 'desktop';
+      tiles.forEach(function (t) {
+        var src = t.dataset[cut], ar = t.dataset[cut + 'Ar'], parts = ar.split('/');
+        t.style.aspectRatio = ar; t.style.setProperty('--r', parts[0] / parts[1]);
+        var lp = t.querySelector('lottie-player');
+        if (lp && lp.getAttribute('src') === src) return;
+        if (lp) lp.remove();
+        lp = document.createElement('lottie-player');
+        ['background:transparent', 'speed:1', 'loop:', 'autoplay:'].forEach(function (kv) { var p = kv.split(':'); lp.setAttribute(p[0], p[1]); });
+        lp.setAttribute('src', src); t.appendChild(lp);
+      });
+    }
+    pick(); phone.addEventListener('change', pick);
   }());
   </script>
 </body>

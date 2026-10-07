@@ -79,11 +79,10 @@
   .cases { display: grid; grid-template-columns: 1fr 1fr; gap: 56px var(--gutter); }
   .case { display: flex; flex-direction: column; gap: 14px; }
   .case.is-hidden { display: none; }
-  .case-media { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 10; background: var(--surface); isolation: isolate; }
+  .case-media { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--surface); isolation: isolate; }
   .case-media > video, .case-media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   /* hover: a slight darker overlay fades in; nothing moves, so playing video never jitters */
-  .case-shell { position: relative; border-radius: var(--radius); }
-  .mini .case-shell { border-radius: 16px; }
+  .case-shell { position: relative; }
   .case-media::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
     background: rgb(12, 10, 14); opacity: 0; transition: opacity var(--dur-medium) var(--ease-standard); }   /* under the tag and ↗ badge */
   @media (hover: hover) { .case:hover .case-media::before, .mini:hover .case-media::before { opacity: .14; } }
@@ -117,11 +116,10 @@
     -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent); }
   .minis.at-end { -webkit-mask-image: none; mask-image: none; }
   .minis::-webkit-scrollbar { display: none; }
-  .minis:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; border-radius: 16px; }
+  .minis:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
   .minis > .mini.rv { transform: none; }   /* fade only inside the scroller: no vertical overflow */
   .minis > .mini { flex: 0 0 clamp(260px, calc((100% - 2 * var(--gutter)) / 3.3), 420px); scroll-snap-align: start; }
   .mini { display: flex; flex-direction: column; gap: 12px; }
-  .mini .case-media { border-radius: 16px; }
   .mini h4 { font-size: 17px; font-weight: 600; letter-spacing: -.015em; }
 
   /* ─── About ─── */
@@ -146,8 +144,6 @@
     .cases { row-gap: 40px; }
     .hero-tools { text-align: left; }
   }
-  /* Media corners are square: rounded clipping on video left a thin dark arc on light footage */
-  .case-media, .reel, .case-shell, .mini .case-media, .mini .case-shell { border-radius: 0; }
 </style>
 </head>
 <body>
