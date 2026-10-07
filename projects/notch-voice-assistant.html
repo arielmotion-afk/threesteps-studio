@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notch Voice Assistant Case Study — Ariel Paz</title>
+<meta name="description" content="Case study: the voice assistant orb for Notch’s AI agents. Agent avatars, seven colourways and five voice states, shipped in Notch’s product.">
+<meta property="og:title" content="Notch Voice Assistant — Ariel Paz">
+<meta property="og:description" content="Case study: the voice assistant orb for Notch’s AI agents. Agent avatars, seven colourways and five voice states, shipped in Notch’s product.">
+<meta property="og:image" content="https://threesteps.studio/images/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ariel Paz: Motion for the product and the launch.">
+<meta property="og:url" content="https://threesteps.studio/projects/notch-voice-assistant.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ariel Paz · Three Steps Studio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://threesteps.studio/images/og-image.jpg">
+<link rel="canonical" href="https://threesteps.studio/projects/notch-voice-assistant.html">
+<link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/v2.css">
+<style>
+  /* Case study template: works for product or marketing work.
+     Fixed skeleton → Overview · Problem · Process · The motion · Spec · Outcome · Next. */
+  .cs-hero { padding-top: 64px; }
+  .back { font-family: var(--label); font-size: 12px; color: var(--muted); display: inline-flex; gap: 6px; margin-bottom: 40px; }
+  .back:hover { color: var(--ink); }
+  .cs-title { font-size: clamp(44px, 7vw, 104px); line-height: .95; font-weight: 600; letter-spacing: -.05em; max-width: 14ch; }
+  .cs-summary { font-size: 21px; color: var(--ink-2); max-width: 52ch; margin-top: 28px; }
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--ink); }
+  .facts dt { font-family: var(--label); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; }
+  .facts dd { font-size: 15px; }
+
+  .stage { margin-top: 56px; border-radius: 28px; overflow: hidden; background: var(--blush); position: relative; aspect-ratio: 16 / 8.5; }
+  .stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .stage-ui { position: absolute; left: 20px; right: 20px; bottom: 20px; display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { border: 1px solid rgba(0,0,0,.1); background: rgba(255,255,255,.88); border-radius: 999px; padding: 8px 14px; font: 500 13px var(--display); cursor: pointer; }
+  .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .readout { font-family: var(--label); font-size: 12px; background: rgba(255,255,255,.88); border-radius: 12px; padding: 10px 14px; line-height: 1.7; min-width: 220px; }
+  .readout b { font-weight: 500; }
+
+  /* long-form body: sticky label column + content column */
+  .block { display: grid; grid-template-columns: 1fr 2fr; gap: var(--gutter); padding-top: 96px; }
+  .block-label { position: sticky; top: 96px; align-self: start; }
+  .block-label .eyebrow { margin-bottom: 8px; }
+  .block-label h2 { font-size: 28px; font-weight: 600; letter-spacing: -.03em; line-height: 1.1; }
+  .prose p { font-size: 19px; color: var(--ink-2); max-width: 60ch; }
+  .prose p + p { margin-top: 18px; }
+  .pull { font-size: clamp(26px, 3vw, 36px); line-height: 1.2; font-weight: 500; letter-spacing: -.025em; color: var(--ink); max-width: 28ch; padding-left: 20px; border-left: 3px solid var(--mark); margin: 32px 0; }
+
+  .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .refs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 32px; }
+  .refs img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; }
+  .cap { font-family: var(--label); font-size: 13px; color: var(--muted); margin-top: 10px !important; }
+  figure { margin: 0; }
+  .screen { margin-top: 28px; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 0 var(--line), 0 24px 60px rgba(60, 30, 50, .10); background: #F8F9FA; }
+  .screen img { width: 100%; height: auto; }
+  .screen.flat { box-shadow: none; background: none; }
+  /* Earlier orb passes, rebuilt live for the process gallery */
+  .shot figcaption { position: absolute; left: 12px; bottom: 10px; z-index: 1; font-family: var(--label); font-size: 12px; color: var(--muted); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .orb-v1, .orb-v2 { width: 46%; aspect-ratio: 1; border-radius: 50%; position: relative; overflow: hidden; isolation: isolate; animation: breathe 3.2s ease-in-out infinite; }
+  .orb-v1 { box-shadow: inset 6px -6px 22px rgba(255,255,255,.7), inset -8px 8px 30px rgba(0,0,0,.08), 0 30px 60px rgba(120,140,220,.25); }
+  .orb-v1::before { content: ""; position: absolute; inset: -30%; filter: blur(14px); will-change: transform; animation: spin 9s linear infinite;
+    background: radial-gradient(circle at 35% 35%, #3E54C9 0 18%, transparent 46%), radial-gradient(circle at 70% 70%, #F2A25E 0 14%, transparent 44%), radial-gradient(circle at 65% 25%, #9BD3FF 0 12%, transparent 40%), #EAF6FA; }
+  .orb-v2 { background: linear-gradient(165deg, hsl(28 86% 66%) 0%, hsl(255 45% 60%) 46%, hsl(230 72% 40%) 100%); box-shadow: 0 30px 70px rgba(70, 80, 200, .26), 0 8px 24px rgba(240, 140, 90, .16); }
+  .ov-spin { position: absolute; inset: -25%; will-change: transform; animation: spin 18s linear infinite; }
+  .ov-spin.b { animation-duration: 12s; animation-direction: reverse; }
+  .ov-spin > i { position: absolute; inset: 0; }
+  .ov-spin.a > i { filter: url(#ov-warp-a); background: radial-gradient(ellipse 46% 40% at 44% 66%, hsl(230 76% 36%) 0%, hsl(230 78% 46%) 38%, hsla(230 80% 50% / 0) 72%), radial-gradient(ellipse 44% 34% at 58% 30%, hsl(26 90% 60%) 0%, hsl(26 88% 64%) 36%, hsla(26 90% 66% / 0) 72%), radial-gradient(ellipse 22% 26% at 30% 44%, hsl(212 92% 74%) 0%, hsla(212 92% 74% / 0) 72%), radial-gradient(ellipse 22% 20% at 70% 58%, hsl(330 70% 72%) 0%, hsla(330 70% 72% / 0) 72%); }
+  .ov-spin.b > i { filter: url(#ov-warp-b); background: radial-gradient(ellipse 22% 18% at 66% 70%, hsla(200 95% 80% / .7) 0%, hsla(200 95% 80% / 0) 70%), radial-gradient(ellipse 20% 18% at 40% 30%, hsla(36 96% 72% / .55) 0%, hsla(36 96% 72% / 0) 70%), radial-gradient(ellipse 26% 22% at 52% 52%, hsla(240 80% 55% / .45) 0%, hsla(240 80% 55% / 0) 70%); }
+  .ov-shade, .ov-spec, .ov-grain { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; }
+  .ov-shade { mix-blend-mode: overlay; background: radial-gradient(circle at 30% 24%, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 42%, rgba(0,0,0,0) 56%, rgba(0,0,0,.5) 100%); }
+  .ov-spec { background: radial-gradient(circle at 31% 25%, rgba(255,255,255,.95) 0%, rgba(255,255,255,.35) 7%, rgba(255,255,255,0) 18%), radial-gradient(circle at 70% 82%, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 22%); box-shadow: inset 6px 6px 16px rgba(255,255,255,.55), inset -12px -14px 34px rgba(25, 20, 70, .32); }
+  .ov-grain { opacity: .14; mix-blend-mode: overlay; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .shot { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; }
+  .shot .ph { position: absolute; left: 12px; bottom: 12px; z-index: 1; }
+  .shot .mini-orb-stage { background: var(--surface); }
+  .shot .mini-orb { width: 46%; }
+  .shot.tall .mini-orb { width: 58%; }
+  .shot.tall { grid-row: span 2; aspect-ratio: auto; }
+
+  /* spec table */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-family: var(--label); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 0 0 10px; border-bottom: 1px solid var(--ink); }
+  td { padding: 11px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { font-family: var(--label); font-size: 12.5px; padding-right: 16px; white-space: nowrap; }
+
+  .outcome { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); margin-top: 8px; }
+  .kpi { border-top: 1px solid var(--ink); padding-top: 16px; }
+  .kpi b { display: block; font-size: 48px; font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 8px; }
+  .kpi span { color: var(--ink-2); font-size: 15px; }
+
+  .next { display: block; margin-top: 140px; border-radius: 28px; overflow: hidden; position: relative; aspect-ratio: 16 / 6; background: #000; }
+  .next video { width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity var(--dur-medium) var(--ease-standard), transform 900ms var(--ease-standard); }
+  .next:hover video { opacity: .9; transform: scale(1.03); }
+  .next-label { position: absolute; left: 28px; bottom: 24px; color: #fff; }
+  .next-label .mono { opacity: .7; }
+  .next-label h3 { font-size: clamp(32px, 5vw, 64px); font-weight: 600; letter-spacing: -.04em; line-height: 1; }
+
+  @media (max-width: 860px) {
+    .facts { grid-template-columns: 1fr 1fr; }
+    .block { grid-template-columns: 1fr; }
+    .block-label { position: static; }
+    .outcome { grid-template-columns: 1fr; }
+    .refs { grid-template-columns: 1fr; }
+    .stage { aspect-ratio: 4 / 5; }
+    .next { aspect-ratio: 4 / 3; }
+  }
+</style>
+</head>
+<body data-orb-palette="notch">
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="brand-dot"></span>Ariel Paz</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+            <li><a href="../index.html#about">About</a></li>
+      <li><a href="../files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Résumé ↗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <header class="cs-hero wrap">
+    <a href="../index.html#work" class="back">← All work</a>
+    <div class="eyebrow" style="margin-bottom:16px"><b>Case study</b> · Product motion</div>
+    <h1 class="cs-title">Notch Voice Assistant</h1>
+    <p class="cs-summary">Notch builds AI agents for customer support. I designed the orb that represents each agent. It identifies the agent in the builder, and in voice mode it shows whether the agent is idle, listening, thinking or speaking.</p>
+    <dl class="facts">
+      <div><dt>Client</dt><dd>Notch</dd></div>
+      <div><dt>Role</dt><dd>Motion design, prototyping</dd></div>
+      <div><dt>Scope</dt><dd>Agent orbs · 7 colourways · 5 voice states</dd></div>
+      <div><dt>Timeline</dt><dd>2 weeks · Summer 2026</dd></div>
+    </dl>
+  </header>
+
+  <div class="wrap">
+    <div class="stage">
+      <iframe id="orb" src="../projects/orb.html" title="Voice assistant orb" scrolling="no" allow="microphone"></iframe>
+      <div class="stage-ui">
+        <div class="chips" id="chips">
+          <button class="chip on" data-state="idle">Idle</button>
+          <button class="chip" data-state="listening">Listening</button>
+          <button class="chip" data-state="thinking">Thinking</button>
+          <button class="chip" data-state="speaking">Speaking</button>
+          <button class="chip" data-state="error">Error</button>
+        </div>
+        <div class="readout" id="readout"></div>
+      </div>
+    </div>
+
+    <section class="block">
+      <div class="block-label"><h2>The brief</h2></div>
+      <div class="prose">
+        <p>The orb needed to work at two sizes: as a small avatar in the agent list, and as the main visual during a voice conversation, where it shows the assistant's state.</p>
+        <p>Notch's design team shared their agent builder and a set of colour references: soft blue, warm orange, and deep navy. They asked for one thing above all: keep it modular, so they can change the colours themselves in code later.</p>
+        <div class="refs">
+          <figure><img src="../images/process/notch-agent/colour-ref-1.jpg" alt="Colour reference: blue to white with an orange corner"></figure>
+          <figure><img src="../images/process/notch-agent/colour-ref-2.jpg" alt="Colour reference"></figure>
+          <figure><img src="../images/process/notch-agent/colour-ref-3.jpg" alt="Colour reference: blue band over orange, fading to yellow"></figure>
+        </div>
+        <p class="cap">Colour references from the client</p>
+        <p>I made seven colourways from that palette, distinct enough to tell agents apart in a list at small and large sizes. Each colour is a token in code, so Notch can change or add colourways themselves.</p>
+        <figure class="screen flat"><img src="../images/process/notch-agent/colourways.png" alt="Seven orb colourways shown at two sizes"></figure>
+        <div class="gallery">
+          <figure class="shot"><div class="mini-orb-stage"><div class="orb-v1"></div></div><figcaption>01 · Flat: blurred gradient blobs</figcaption></figure>
+          <figure class="shot"><div class="mini-orb-stage"><div class="orb-v2"><div class="ov-spin a"><i></i></div><div class="ov-spin b"><i></i></div><span class="ov-shade"></span><span class="ov-spec"></span><span class="ov-grain"></span></div></div><figcaption>02 · Noise displacement, 3D shading</figcaption></figure>
+        </div>
+        <p class="cap">Earlier passes. The current orb, at the top of the page, puts the gradient inside a glass marble.</p>
+        <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+          <filter id="ov-warp-a" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".011" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="90" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation="10"/></filter>
+          <filter id="ov-warp-b" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".016" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="70" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation="8"/></filter>
+        </svg>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label"><h2>In the product</h2></div>
+      <div class="prose">
+        <p>Every agent in the builder gets its own orb: in the sidebar list, on the canvas card, and in the agent's detail view.</p>
+        <figure class="screen"><img src="../images/process/notch-agent/agent-canvas.jpg" alt="Notch agent builder: agent list with an orb per agent, and agent cards on a canvas"></figure>
+        <figure class="screen"><img src="../images/process/notch-agent/agent-detail.jpg" alt="Notch agent detail view with the operating mode menu"></figure>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label"><h2>Handoff and outcome</h2></div>
+      <div class="prose">
+        <p>Notch implemented the orb in their product. It's driven by two inputs, state and level, plus timing and colour tokens, so their team can adjust the palette or add colourways on their own.</p>
+        <div class="outcome">
+          <div class="kpi"><b>Shipped</b><span>In Notch's product</span></div>
+          <div class="kpi"><b>7</b><span>Colourways as editable tokens</span></div>
+          <div class="kpi"><b>5</b><span>Voice states with motion specs</span></div>
+        </div>
+        <table style="margin-top:40px">
+          <tr><th>Input</th><th>Value</th></tr>
+          <tr><td>state</td><td>0 idle · 1 listening · 2 thinking · 3 speaking · 4 error</td></tr>
+          <tr><td>level</td><td>0–1 · mic / TTS amplitude, every frame</td></tr>
+          <tr><td>palette</td><td>6 colour tokens per colourway</td></tr>
+          <tr><td>easing.standard</td><td>cubic-bezier(0.2, 0, 0, 1)</td></tr>
+          <tr><td>duration.medium</td><td>300ms · state-to-state blends</td></tr>
+          <tr><td>duration.long</td><td>1200ms · error back to idle</td></tr>
+          <tr><td>loop.breathe</td><td>3.2s · scale 1.00–1.04</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <a class="next" href="../projects/project-02.html">
+      <video src="../images/thumbnails/video/maestro.mp4" muted loop playsinline poster="../images/thumbnails/video/maestro-poster.jpg"></video>
+      <div class="next-label"><span class="mono">Next · Marketing motion</span><h3>AI21 Maestro →</h3></div>
+    </a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <h2 class="footer-cta"><a href="../contact.html">Get in touch&nbsp;→</a></h2>
+    <div class="footer-row mono">
+      <span>© Ariel Paz · Three Steps Studio</span>
+      <div class="footer-links"><a href="https://www.linkedin.com/in/ariel-paz-motion/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:arielmotion@gmail.com">Email</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 8), { passive: true });
+
+  const vio = new IntersectionObserver((es) => es.forEach((e) => { e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause(); }), { threshold: 0.15 });
+  document.querySelectorAll('video').forEach((v) => { v.muted = true; vio.observe(v); });
+
+  // Orb: chips + live readout drive the same iframe
+  const orb = document.getElementById('orb'), readout = document.getElementById('readout');
+  const SPEC = {
+    idle:      ['0', 'scale 1.00–1.04 · 3.2s breathe', 'colour drifts slowly'],
+    listening: ['1', 'scale 1 + level × 0.9', 'ripples · colour quickens with voice'],
+    thinking:  ['2', 'scale 0.84', 'colour flows 3× faster'],
+    speaking:  ['3', 'breathes with the voice, up to +10%', 'calm, steady colour'],
+    error:     ['4', 'shake 10px → 0 in 600ms', 'red rim · back to idle in 1200ms'],
+  };
+  function mark(s) {
+    document.querySelectorAll('[data-state]').forEach((el) => el.classList.toggle('on', el.dataset.state === s));
+    const [n, motion, glow] = SPEC[s];
+    readout.innerHTML = `<b>state</b> = ${n} (${s})<br><b>motion</b> ${motion}<br><b>light</b> ${glow}`;
+  }
+  function go(s) { orb.contentWindow.postMessage({ type: 'orb-state', state: s }, '*'); mark(s); }
+  document.querySelectorAll('[data-state]').forEach((el) => el.addEventListener('click', () => go(el.dataset.state)));
+  addEventListener('message', (e) => { if (e.source === orb.contentWindow && e.data && e.data.type === 'orb-state') mark(e.data.state); });
+  mark('idle');
+  new IntersectionObserver(([e]) => orb.contentWindow.postMessage({ type: 'orb-pause', paused: !e.isIntersecting }, '*')).observe(orb);
+
+}());
+</script>
+<script src="../js/fabric-glass.js"></script>
+<script src="../js/v2.js"></script>
+</body>
+</html>

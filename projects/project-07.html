@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UI & Interactive Motion — Three Steps Studio</title>
-  <meta name="description" content="UI & Interactive Motion — Three Steps Studio.">
-  <meta property="og:title" content="UI & Interactive Motion — Three Steps Studio">
+  <title>Interactive Animations — Three Steps Studio</title>
+  <meta name="description" content="Interactive Animations — Three Steps Studio.">
+  <meta property="og:title" content="Interactive Animations — Three Steps Studio">
   <meta property="og:description" content="Motion design by Three Steps Studio.">
   <meta property="og:image" content="https://threesteps.studio/images/og-image.jpg">
   <meta property="og:type" content="website">
@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <style>
     .orb-section {
@@ -46,6 +46,26 @@
       border-top: 1px solid rgba(0,0,0,0.08);
       margin: 0;
     }
+
+    .orb-chips { margin-top: 8px; display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+    .orb-chip { border:1px solid var(--border); background:transparent; border-radius:999px; padding:7px 16px;
+      font: 500 0.8125rem var(--font-sans, sans-serif); color: var(--text); cursor:pointer;
+      transition: background .15s cubic-bezier(.2,0,0,1), color .15s, border-color .15s; }
+    .orb-chip:hover { border-color: var(--text); }
+    .orb-chip.is-on { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .orb-state-caption { min-height: 1.2em; margin-top: 0; margin-bottom: 20px; font-style: normal; }
+    /* Level Complete: 390×844 phone frame for the Rive results screen */
+    .lc-frame { position: relative; width: 100%; max-width: 360px; aspect-ratio: 390 / 844; border-radius: 36px; overflow: hidden; box-shadow: 0 16px 36px rgba(29,26,43,.14); margin-bottom: 24px; }
+    .lc-frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
+    .lc-frame.has-rive canvas { display: block; }
+    .lc-frame.has-rive .lc-static { display: none; }
+    .lc-shot { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
+    .lc-shot.is-on { display: block; }
+    /* Fabric gradient: the shader from the v1 homepage hero, as a clickable piece */
+    .fabric-frame { position: relative; width: 100%; max-width: 1120px; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, #FDF0F0, #FFC7C2 45%, #E9D6FF); cursor: crosshair; }
+    .fabric-frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .orb-cta { margin-top: 20px; display: inline-flex; padding: 12px 22px; border-radius: 999px; background: var(--text); color: var(--bg); font-size: 0.875rem; font-weight: 500; text-decoration: none; transition: transform .25s cubic-bezier(.2,0,0,1); }
+    .orb-cta:hover { transform: translateY(-2px); }
   </style>
 </head>
 <body>
@@ -65,35 +85,15 @@
 
       <div class="project-header">
         <div>
-          <h1 class="project-title">UI & Interactive Motion</h1>
-          <p class="project-category">Lottie · In-App Animation · Code</p>
+          <h1 class="project-title">Interactive Animations</h1>
+          <p class="project-category">Code · Rive · Interactive</p>
         </div>
         <div class="project-tags">
-          <span class="project-tag">Lottie Animation</span>
-          <span class="project-tag">In-App Animation</span>
           <span class="project-tag">Code Animation</span>
           <span class="project-tag">Rive</span>
+          <span class="project-tag">WebGL</span>
         </div>
-        <p class="project-description">UI animations, interactive code experiments, and Lottie animations built for products — from onboarding moments to voice-reactive interfaces.</p>
-      </div>
-
-      <hr class="project-rule">
-
-      <div class="lottie-section">
-        <div class="lottie-section-header">
-          <h2 class="lottie-section-title">Voice-Reactive Orb</h2>
-          <p class="lottie-section-desc">A voice-reactive orb built entirely in CSS and JavaScript — gradient blobs, SVG displacement filters, 3D specular shading, and real-time mic reactivity via Web Audio API. Scale and glow respond to your voice.</p>
-        </div>
-        <div class="orb-section">
-          <iframe
-            class="orb-frame"
-            src="orb.html"
-            allow="microphone"
-            title="Voice-reactive orb"
-            scrolling="no"
-          ></iframe>
-          <p class="orb-caption">Talk to me</p>
-        </div>
+        <p class="project-description">Interactive motion built in code and Rive.</p>
       </div>
 
       <hr class="project-rule">
@@ -109,16 +109,127 @@
         </div>
       </div>
 
+
       <hr class="project-rule">
 
       <div class="lottie-section">
         <div class="lottie-section-header">
-          <h2 class="lottie-section-title">Dex</h2>
-          <p class="lottie-section-desc">Loader animation for Dex — a product currently in development.</p>
+          <h2 class="lottie-section-title">Notch Voice Assistant</h2>
+          <p class="lottie-section-desc">The voice assistant orb for Notch's AI agents, rendered live with WebGL. A short version here; the full process is in the case study.</p>
         </div>
-        <div class="lottie-grid lottie-grid--solo-xl">
-          <div class="lottie-tile">
-            <lottie-player src="../animations/Dex_Loader.json" background="transparent" speed="1" loop autoplay data-fps="12"></lottie-player>
+        <div class="orb-section">
+          <iframe
+            class="orb-frame"
+            src="orb.html"
+            allow="microphone"
+            title="Voice-reactive orb"
+            scrolling="no"
+          ></iframe>
+          <p class="orb-caption orb-state-caption" id="orb-state-caption" aria-live="polite"></p>
+          <div class="orb-chips" id="orb-chips" role="group" aria-label="Orb state">
+            <button class="orb-chip is-on" type="button" data-state="idle" aria-pressed="true">Idle</button>
+            <button class="orb-chip" type="button" data-state="thinking" aria-pressed="false">Thinking</button>
+            <button class="orb-chip" type="button" data-state="speaking" aria-pressed="false">Speaking</button>
+            <button class="orb-chip" type="button" data-state="error" aria-pressed="false">Error</button>
+          </div>
+          <a class="orb-cta" href="notch-voice-assistant.html">Read the case study →</a>
+        </div>
+      </div>
+
+      <hr class="project-rule">
+
+      <div class="lottie-section">
+        <div class="lottie-section-header">
+          <h2 class="lottie-section-title">Level Complete</h2>
+          <p class="lottie-section-desc">A results screen for a zen puzzle game, built in Rive. One flower rig, driven by inputs: rank, stars, score, isNewBest and a reveal trigger. The flower blooms with your score.</p>
+        </div>
+        <div class="orb-section">
+          <!-- Rive: animations/level-complete.riv, state machine "Results_SM".
+               Until the file exists, the static frames from the design draft show instead. -->
+          <div class="lc-frame">
+            <canvas id="level-complete-canvas" width="390" height="844"></canvas>
+            <div class="lc-static">
+            <svg class="lc-shot" aria-hidden="true" data-stars="1" viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans, sans-serif">
+  <defs><filter id="lc1g"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .2  0 0 0 0 .15  0 0 0 0 .2  0 0 0 .55 0"/></filter></defs>
+  <rect width="390" height="844" fill="#F6E7DD"/>
+  <text x="195" y="96" text-anchor="middle" font-size="12" font-weight="800" letter-spacing="2.6" fill="#1d1a2b" opacity=".55">LEVEL 12</text>
+  <g transform="translate(190 440) scale(1.12)"><g>
+    <path d="M0 0 C 20 -46 -24 -108 4 -172" fill="none" stroke="#0E9C7A" stroke-width="8" stroke-linecap="round"/>
+    <g transform="translate(6 -52) rotate(-28) scale(0.7)"><path d="M0 0 C 30 -30 70 -34 96 -22 C 104 -30 116 -30 122 -22 C 132 -8 126 6 112 12 C 86 26 40 26 0 0 Z" fill="#0E9C7A"/><path d="M8 2 C 40 6 70 4 104 -6 C 76 10 40 14 8 2 Z" fill="#0A6E62" opacity=".55"/></g>
+    <g transform="translate(-6 -98) rotate(196) scale(0.63)"><path d="M0 0 C 30 -30 70 -34 96 -22 C 104 -30 116 -30 122 -22 C 132 -8 126 6 112 12 C 86 26 40 26 0 0 Z" fill="#0E9C7A"/><path d="M8 2 C 40 6 70 4 104 -6 C 76 10 40 14 8 2 Z" fill="#0A6E62" opacity=".55"/></g>
+    <g transform="translate(4 -18) rotate(205) scale(.4)"><path d="M0 0 C 30 -30 70 -34 96 -22 C 104 -30 116 -30 122 -22 C 132 -8 126 6 112 12 C 86 26 40 26 0 0 Z" fill="#FFC21A" style="mix-blend-mode:multiply"/></g>
+    <g transform="translate(4 -172) rotate(6.0)">
+      <g style="isolation:isolate"><path d="M0 0 C -33 -18.72 -37.2 -72.8 -25.2 -95.68 C -15.600000000000001 -112.32000000000001 -3.5999999999999996 -108.16 0 -85.28 C 3.5999999999999996 -108.16 15.600000000000001 -112.32000000000001 25.2 -95.68 C 37.2 -72.8 33 -18.72 0 0 Z" transform="rotate(-6.6) scale(0.55)" fill="#1E7BFF" opacity="1" /><path d="M0 0 C -34.32 -22.68 -38.688 -88.19999999999999 -26.208 -115.92 C -16.224 -136.08 -3.7439999999999998 -131.04 0 -103.32000000000001 C 3.7439999999999998 -131.04 16.224 -136.08 26.208 -115.92 C 38.688 -88.19999999999999 34.32 -22.68 0 0 Z" transform="rotate(-2.4) scale(0.55)" fill="#FF2FB3" opacity="1" /><path d="M0 0 C -34.32 -22.68 -38.688 -88.19999999999999 -26.208 -115.92 C -16.224 -136.08 -3.7439999999999998 -131.04 0 -103.32000000000001 C 3.7439999999999998 -131.04 16.224 -136.08 26.208 -115.92 C 38.688 -88.19999999999999 34.32 -22.68 0 0 Z" transform="rotate(2.4) scale(0.55)" fill="#FF6A1A" opacity="1" /><path d="M0 0 C -33 -18.72 -37.2 -72.8 -25.2 -95.68 C -15.600000000000001 -112.32000000000001 -3.5999999999999996 -108.16 0 -85.28 C 3.5999999999999996 -108.16 15.600000000000001 -112.32000000000001 25.2 -95.68 C 37.2 -72.8 33 -18.72 0 0 Z" transform="rotate(6.6) scale(0.55)" fill="#FF2D3A" opacity="1" /></g>
+      
+      <g><path d="M0 2 C -10 -2 -22 -10 -30 -22 C -18 -16 -8 -12 0 -10 Z" fill="#0E9C7A"/><path d="M0 2 C 10 -2 22 -10 30 -22 C 18 -16 8 -12 0 -10 Z" fill="#0E9C7A"/><path d="M0 4 C -4 -6 -3 -18 0 -26 C 3 -18 4 -6 0 4 Z" fill="#0A6E62"/></g>
+    </g></g></g>
+  <text x="195" y="494" text-anchor="middle" font-size="38" font-weight="800" letter-spacing="-1.4" fill="#1d1a2b">Just a sprout</text>
+  <path d="M12 1.8l2.9 6.1 6.6.8c.8.1 1.1 1 .5 1.6l-4.9 4.5 1.3 6.5c.2.8-.7 1.4-1.4 1L12 19l-5.9 3.3c-.7.4-1.6-.2-1.4-1l1.3-6.5-4.9-4.5c-.6-.6-.3-1.5.5-1.6l6.6-.8z" transform="translate(137 538) scale(1.3) translate(-12 -12)" fill="#FFC21A" style="mix-blend-mode:multiply"/><path d="M12 1.8l2.9 6.1 6.6.8c.8.1 1.1 1 .5 1.6l-4.9 4.5 1.3 6.5c.2.8-.7 1.4-1.4 1L12 19l-5.9 3.3c-.7.4-1.6-.2-1.4-1l1.3-6.5-4.9-4.5c-.6-.6-.3-1.5.5-1.6l6.6-.8z" transform="translate(195 530) scale(1.6) translate(-12 -12)" fill="rgba(29,26,43,.12)" /><path d="M12 1.8l2.9 6.1 6.6.8c.8.1 1.1 1 .5 1.6l-4.9 4.5 1.3 6.5c.2.8-.7 1.4-1.4 1L12 19l-5.9 3.3c-.7.4-1.6-.2-1.4-1l1.3-6.5-4.9-4.5c-.6-.6-.3-1.5.5-1.6l6.6-.8z" transform="translate(253 538) scale(1.3) translate(-12 -12)" fill="rgba(29,26,43,.12)" />
+  <rect x="85" y="580" width="220" height="86" rx="24" fill="#fff" opacity=".85"/>
+  <text x="195" y="610" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="2" fill="#1d1a2b" opacity=".45">SCORE</text>
+  <text x="195" y="648" text-anchor="middle" font-size="34" font-weight="800" letter-spacing="-1" fill="#1d1a2b">4,160</text>
+  
+  <rect x="44" y="712" width="302" height="58" rx="29" fill="#FF6A1A"/>
+  <text x="195" y="747" text-anchor="middle" font-size="17" font-weight="800" fill="#fff">Next level</text>
+  <text x="195" y="806" text-anchor="middle" font-size="14" font-weight="700" fill="#1d1a2b" opacity=".55">Replay</text>
+  <rect width="390" height="844" filter="url(#lc1g)" opacity=".35" style="mix-blend-mode:multiply"/>
+</svg>
+            <svg class="lc-shot" aria-hidden="true" data-stars="2" viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans, sans-serif">
+  <defs><filter id="lc2g"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .2  0 0 0 0 .15  0 0 0 0 .2  0 0 0 .55 0"/></filter></defs>
+  <rect width="390" height="844" fill="#E9E9F7"/>
+  <text x="195" y="96" text-anchor="middle" font-size="12" font-weight="800" letter-spacing="2.6" fill="#1d1a2b" opacity=".55">LEVEL 12</text>
+  <g transform="translate(190 440) scale(1.12)"><g>
+    <path d="M0 0 C 20 -46 -24 -108 4 -172" fill="none" stroke="#0E9C7A" stroke-width="8" stroke-linecap="round"/>
+    <g transform="translate(6 -52) rotate(-28) scale(0.85)"><path d="M0 0 C 30 -30 70 -34 96 -22 C 104 -30 116 -30 122 -22 C 132 -8 126 6 112 12 C 86 26 40 26 0 0 Z" fill="#0E9C7A"/><path d="M8 2 C 40 6 70 4 104 -6 C 76 10 40 14 8 2 Z" fill="#0A6E62" opacity=".55"/></g>
+    <g transform="translate(-6 -98) rotate(196) scale(0.77)"><path d="M0 0 C 30 -30 70 -34 96 -22 C 104 -30 116 -30 122 -22 C 132 -8 126 6 112 12 C 86 26 40 26 0 0 Z" fill="#0E9C7A"/><path d="M8 2 C 40 6 70 4 104 -6 C 76 10 40 14 8 2 Z" fill="#0A6E62" opacity=".55"/></g>
+    <g transform="translate(4 -18) rotate(205) scale(.4)"><path d="M0 0 C 30 -30 70 -34 96 -22 C 104 -30 116 -30 122 -22 C 132 -8 126 6 112 12 C 86 26 40 26 0 0 Z" fill="#FFC21A" style="mix-blend-mode:multiply"/></g>
+    <g transform="translate(4 -172) rotate(4.0)">
+      <g style="isolation:isolate"><path d="M0 0 C -44 -18.72 -49.6 -72.8 -33.6 -95.68 C -20.8 -112.32000000000001 -4.8 -108.16 0 -85.28 C 4.8 -108.16 20.8 -112.32000000000001 33.6 -95.68 C 49.6 -72.8 44 -18.72 0 0 Z" transform="rotate(-36.3) scale(0.78)" fill="#1E7BFF" opacity="0.9" style="mix-blend-mode:multiply"/><path d="M0 0 C -45.760000000000005 -22.68 -51.584 -88.19999999999999 -34.944 -115.92 C -21.632 -136.08 -4.992 -131.04 0 -103.32000000000001 C 4.992 -131.04 21.632 -136.08 34.944 -115.92 C 51.584 -88.19999999999999 45.760000000000005 -22.68 0 0 Z" transform="rotate(-13.2) scale(0.78)" fill="#FF2FB3" opacity="0.9" style="mix-blend-mode:multiply"/><path d="M0 0 C -45.760000000000005 -22.68 -51.584 -88.19999999999999 -34.944 -115.92 C -21.632 -136.08 -4.992 -131.04 0 -103.32000000000001 C 4.992 -131.04 21.632 -136.08 34.944 -115.92 C 51.584 -88.19999999999999 45.760000000000005 -22.68 0 0 Z" transform="rotate(13.2) scale(0.78)" fill="#FF6A1A" opacity="0.9" style="mix-blend-mode:multiply"/><path d="M0 0 C -44 -18.72 -49.6 -72.8 -33.6 -95.68 C -20.8 -112.32000000000001 -4.8 -108.16 0 -85.28 C 4.8 -108.16 20.8 -112.32000000000001 33.6 -95.68 C 49.6 -72.8 44 -18.72 0 0 Z" transform="rotate(36.3) scale(0.78)" fill="#FF2D3A" opacity="0.9" style="mix-blend-mode:multiply"/></g>
+      <g style="isolation:isolate"><path d="M0 0 C -29.071428571428577 -14.04 -32.77142857142857 -54.599999999999994 -22.2 -71.76 C -13.742857142857144 -84.24000000000001 -3.1714285714285717 -81.12 0 -63.96000000000001 C 3.1714285714285717 -81.12 13.742857142857144 -84.24000000000001 22.2 -71.76 C 32.77142857142857 -54.599999999999994 29.071428571428577 -14.04 0 0 Z" transform="translate(0 4) rotate(-13.4) scale(0.57)" fill="#FFC21A" opacity=".9" style="mix-blend-mode:multiply"/><path d="M0 0 C -30.642857142857146 -15.479999999999999 -34.542857142857144 -60.199999999999996 -23.4 -79.12 C -14.485714285714286 -92.88000000000001 -3.342857142857143 -89.44 0 -70.52000000000001 C 3.342857142857143 -89.44 14.485714285714286 -92.88000000000001 23.4 -79.12 C 34.542857142857144 -60.199999999999996 30.642857142857146 -15.479999999999999 0 0 Z" transform="translate(0 4) rotate(0.0) scale(0.57)" fill="#F58BD3" opacity=".9" style="mix-blend-mode:multiply"/><path d="M0 0 C -29.071428571428577 -14.04 -32.77142857142857 -54.599999999999994 -22.2 -71.76 C -13.742857142857144 -84.24000000000001 -3.1714285714285717 -81.12 0 -63.96000000000001 C 3.1714285714285717 -81.12 13.742857142857144 -84.24000000000001 22.2 -71.76 C 32.77142857142857 -54.599999999999994 29.071428571428577 -14.04 0 0 Z" transform="translate(0 4) rotate(13.4) scale(0.57)" fill="#FFC21A" opacity=".9" style="mix-blend-mode:multiply"/></g>
+      <g><path d="M0 2 C -10 -2 -22 -10 -30 -22 C -18 -16 -8 -12 0 -10 Z" fill="#0E9C7A"/><path d="M0 2 C 10 -2 22 -10 30 -22 C 18 -16 8 -12 0 -10 Z" fill="#0E9C7A"/><path d="M0 4 C -4 -6 -3 -18 0 -26 C 3 -18 4 -6 0 4 Z" fill="#0A6E62"/></g>
+    </g></g></g>
+  <text x="195" y="494" text-anchor="middle" font-size="38" font-weight="800" letter-spacing="-1.4" fill="#1d1a2b">Opening up</text>
+  <path d="M12 1.8l2.9 6.1 6.6.8c.8.1 1.1 1 .5 1.6l-4.9 4.5 1.3 6.5c.2.8-.7 1.4-1.4 1L12 19l-5.9 3.3c-.7.4-1.6-.2-1.4-1l1.3-6.5-4.9-4.5c-.6-.6-.3-1.5.5-1.6l6.6-.8z" transform="translate(137 538) scale(1.3) translate(-12 -12)" fill="#FFC21A" style="mix-blend-mode:multiply"/><path d="M12 1.8l2.9 6.1 6.6.8c.8.1 1.1 1 .5 1.6l-4.9 4.5 1.3 6.5c.2.8-.7 1.4-1.4 1L12 19l-5.9 3.3c-.7.4-1.6-.2-1.4-1l1.3-6.5-4.9-4.5c-.6-.6-.3-1.5.5-1.6l6.6-.8z" transform="translate(195 530) scale(1.6) translate(-12 -12)" fill="#FF6A1A" style="mix-blend-mode:multiply"/><path d="M12 1.8l2.9 6.1 6.6.8c.8.1 1.1 1 .5 1.6l-4.9 4.5 1.3 6.5c.2.8-.7 1.4-1.4 1L12 19l-5.9 3.3c-.7.4-1.6-.2-1.4-1l1.3-6.5-4.9-4.5c-.6-.6-.3-1.5.5-1.6l6.6-.8z" transform="translate(253 538) scale(1.3) translate(-12 -12)" fill="rgba(29,26,43,.12)" />
+  <rect x="85" y="580" width="220" height="86" rx="24" fill="#fff" opacity=".85"/>
+  <text x="195" y="610" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="2" fill="#1d1a2b" opacity=".45">SCORE</text>
+  <text x="195" y="648" text-anchor="middle" font-size="34" font-weight="800" letter-spacing="-1" fill="#1d1a2b">8,310</text>
+  
+  <rect x="44" y="712" width="302" height="58" rx="29" fill="#1E7BFF"/>
+  <text x="195" y="747" text-anchor="middle" font-size="17" font-weight="800" fill="#fff">Next level</text>
+  <text x="195" y="806" text-anchor="middle" font-size="14" font-weight="700" fill="#1d1a2b" opacity=".55">Replay</text>
+  <rect width="390" height="844" filter="url(#lc2g)" opacity=".35" style="mix-blend-mode:multiply"/>
+</svg>
+            <svg class="lc-shot is-on" data-stars="3" viewBox="0 0 390 844" role="img" aria-label="Level Complete results screen, 3 stars" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans, sans-serif">
+  <defs><filter id="lc3g"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .2  0 0 0 0 .15  0 0 0 0 .2  0 0 0 .55 0"/></filter></defs>
+  <rect width="390" height="844" fill="#F9E3EE"/>
+  <text x="195" y="96" text-anchor="middle" font-size="12" font-weight="800" letter-spacing="2.6" fill="#1d1a2b" opacity=".55">LEVEL 12</text>
+  <g transform="translate(190 440) scale(1.12)"><g>
+    <path d="M0 0 C 20 -46 -24 -108 4 -172" fill="none" stroke="#0E9C7A" stroke-width="8" stroke-linecap="round"/>
+    <g transform="translate(6 -52) rotate(-28) scale(1)"><path d="M0 0 C 30 -30 70 -34 96 -22 C 104 -30 116 -30 122 -22 C 132 -8 126 6 112 12 C 86 26 40 26 0 0 Z" fill="#0E9C7A"/><path d="M8 2 C 40 6 70 4 104 -6 C 76 10 40 14 8 2 Z" fill="#0A6E62" opacity=".55"/></g>
+    <g transform="translate(-6 -98) rotate(196) scale(0.90)"><path d="M0 0 C 30 -30 70 -34 96 -22 C 104 -30 116 -30 122 -22 C 132 -8 126 6 112 12 C 86 26 40 26 0 0 Z" fill="#0E9C7A"/><path d="M8 2 C 40 6 70 4 104 -6 C 76 10 40 14 8 2 Z" fill="#0A6E62" opacity=".55"/></g>
+    <g transform="translate(4 -18) rotate(205) scale(.4)"><path d="M0 0 C 30 -30 70 -34 96 -22 C 104 -30 116 -30 122 -22 C 132 -8 126 6 112 12 C 86 26 40 26 0 0 Z" fill="#FFC21A" style="mix-blend-mode:multiply"/></g>
+    <g transform="translate(4 -172) rotate(2.0)">
+      <g style="isolation:isolate"><path d="M0 0 C -55.00000000000001 -18.72 -62 -72.8 -42 -95.68 C -26 -112.32000000000001 -6 -108.16 0 -85.28 C 6 -108.16 26 -112.32000000000001 42 -95.68 C 62 -72.8 55.00000000000001 -18.72 0 0 Z" transform="rotate(-66.0) scale(1.00)" fill="#1E7BFF" opacity="0.9" style="mix-blend-mode:multiply"/><path d="M0 0 C -57.2 -22.68 -64.48 -88.19999999999999 -43.68 -115.92 C -27.04 -136.08 -6.24 -131.04 0 -103.32000000000001 C 6.24 -131.04 27.04 -136.08 43.68 -115.92 C 64.48 -88.19999999999999 57.2 -22.68 0 0 Z" transform="rotate(-24.0) scale(1.00)" fill="#FF2FB3" opacity="0.9" style="mix-blend-mode:multiply"/><path d="M0 0 C -57.2 -22.68 -64.48 -88.19999999999999 -43.68 -115.92 C -27.04 -136.08 -6.24 -131.04 0 -103.32000000000001 C 6.24 -131.04 27.04 -136.08 43.68 -115.92 C 64.48 -88.19999999999999 57.2 -22.68 0 0 Z" transform="rotate(24.0) scale(1.00)" fill="#FF6A1A" opacity="0.9" style="mix-blend-mode:multiply"/><path d="M0 0 C -55.00000000000001 -18.72 -62 -72.8 -42 -95.68 C -26 -112.32000000000001 -6 -108.16 0 -85.28 C 6 -108.16 26 -112.32000000000001 42 -95.68 C 62 -72.8 55.00000000000001 -18.72 0 0 Z" transform="rotate(66.0) scale(1.00)" fill="#FF2D3A" opacity="0.9" style="mix-blend-mode:multiply"/></g>
+      <g style="isolation:isolate"><path d="M0 0 C -40.7 -14.04 -45.88 -54.599999999999994 -31.08 -71.76 C -19.240000000000002 -84.24000000000001 -4.4399999999999995 -81.12 0 -63.96000000000001 C 4.4399999999999995 -81.12 19.240000000000002 -84.24000000000001 31.08 -71.76 C 45.88 -54.599999999999994 40.7 -14.04 0 0 Z" transform="translate(0 4) rotate(-34.0) scale(1.00)" fill="#FFC21A" opacity=".9" style="mix-blend-mode:multiply"/><path d="M0 0 C -42.900000000000006 -15.479999999999999 -48.36 -60.199999999999996 -32.76 -79.12 C -20.28 -92.88000000000001 -4.68 -89.44 0 -70.52000000000001 C 4.68 -89.44 20.28 -92.88000000000001 32.76 -79.12 C 48.36 -60.199999999999996 42.900000000000006 -15.479999999999999 0 0 Z" transform="translate(0 4) rotate(0.0) scale(1.00)" fill="#F58BD3" opacity=".9" style="mix-blend-mode:multiply"/><path d="M0 0 C -40.7 -14.04 -45.88 -54.599999999999994 -31.08 -71.76 C -19.240000000000002 -84.24000000000001 -4.4399999999999995 -81.12 0 -63.96000000000001 C 4.4399999999999995 -81.12 19.240000000000002 -84.24000000000001 31.08 -71.76 C 45.88 -54.599999999999994 40.7 -14.04 0 0 Z" transform="translate(0 4) rotate(34.0) scale(1.00)" fill="#FFC21A" opacity=".9" style="mix-blend-mode:multiply"/></g>
+      <g><path d="M0 2 C -10 -2 -22 -10 -30 -22 C -18 -16 -8 -12 0 -10 Z" fill="#0E9C7A"/><path d="M0 2 C 10 -2 22 -10 30 -22 C 18 -16 8 -12 0 -10 Z" fill="#0E9C7A"/><path d="M0 4 C -4 -6 -3 -18 0 -26 C 3 -18 4 -6 0 4 Z" fill="#0A6E62"/></g>
+    </g></g></g>
+  <text x="195" y="494" text-anchor="middle" font-size="38" font-weight="800" letter-spacing="-1.4" fill="#1d1a2b">Full bloom</text>
+  <path d="M12 1.8l2.9 6.1 6.6.8c.8.1 1.1 1 .5 1.6l-4.9 4.5 1.3 6.5c.2.8-.7 1.4-1.4 1L12 19l-5.9 3.3c-.7.4-1.6-.2-1.4-1l1.3-6.5-4.9-4.5c-.6-.6-.3-1.5.5-1.6l6.6-.8z" transform="translate(137 538) scale(1.3) translate(-12 -12)" fill="#FFC21A" style="mix-blend-mode:multiply"/><path d="M12 1.8l2.9 6.1 6.6.8c.8.1 1.1 1 .5 1.6l-4.9 4.5 1.3 6.5c.2.8-.7 1.4-1.4 1L12 19l-5.9 3.3c-.7.4-1.6-.2-1.4-1l1.3-6.5-4.9-4.5c-.6-.6-.3-1.5.5-1.6l6.6-.8z" transform="translate(195 530) scale(1.6) translate(-12 -12)" fill="#FF6A1A" style="mix-blend-mode:multiply"/><path d="M12 1.8l2.9 6.1 6.6.8c.8.1 1.1 1 .5 1.6l-4.9 4.5 1.3 6.5c.2.8-.7 1.4-1.4 1L12 19l-5.9 3.3c-.7.4-1.6-.2-1.4-1l1.3-6.5-4.9-4.5c-.6-.6-.3-1.5.5-1.6l6.6-.8z" transform="translate(253 538) scale(1.3) translate(-12 -12)" fill="#FFC21A" style="mix-blend-mode:multiply"/>
+  <rect x="85" y="580" width="220" height="86" rx="24" fill="#fff" opacity=".85"/>
+  <text x="195" y="610" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="2" fill="#1d1a2b" opacity=".45">SCORE</text>
+  <text x="195" y="648" text-anchor="middle" font-size="34" font-weight="800" letter-spacing="-1" fill="#1d1a2b">12,480</text>
+  <g transform="translate(296 582) rotate(10)"><rect x="-44" y="-15" width="88" height="30" rx="15" fill="#FFC21A" style="mix-blend-mode:multiply"/><text y="5" text-anchor="middle" font-size="12" font-weight="800" fill="#1d1a2b">New best</text></g>
+  <rect x="44" y="712" width="302" height="58" rx="29" fill="#FF2FB3"/>
+  <text x="195" y="747" text-anchor="middle" font-size="17" font-weight="800" fill="#fff">Next level</text>
+  <text x="195" y="806" text-anchor="middle" font-size="14" font-weight="700" fill="#1d1a2b" opacity=".55">Replay</text>
+  <rect width="390" height="844" filter="url(#lc3g)" opacity=".35" style="mix-blend-mode:multiply"/>
+</svg>
+            </div>
+          </div>
+          <div class="orb-chips" id="lc-stars" role="group" aria-label="Stars">
+            <button class="orb-chip" type="button" data-stars="1" aria-pressed="false">1 star</button>
+            <button class="orb-chip" type="button" data-stars="2" aria-pressed="false">2 stars</button>
+            <button class="orb-chip is-on" type="button" data-stars="3" aria-pressed="true">3 stars</button>
           </div>
         </div>
       </div>
@@ -127,90 +238,14 @@
 
       <div class="lottie-section">
         <div class="lottie-section-header">
-          <h2 class="lottie-section-title">Clears</h2>
-          <p class="lottie-section-desc">Header animation for Clears, designed by Mark Gerkules and brought to life through motion.</p>
+          <h2 class="lottie-section-title">Fabric Gradient</h2>
+          <p class="lottie-section-desc">A WebGL fabric shader: folds that drift on their own, a gust that follows your cursor, and a wave where you click.</p>
         </div>
-        <div class="lottie-grid lottie-grid--solo-xl">
-          <div class="lottie-tile">
-            <lottie-player src="../animations/01 Header.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
-        </div>
-      </div>
-
-      <hr class="project-rule">
-
-      <div class="lottie-section">
-        <div class="lottie-section-header">
-          <h2 class="lottie-section-title">In-App Illustrations</h2>
-          <p class="lottie-section-desc">A series of animated illustrations woven into Wordtune's product experience over the years — from onboarding moments to feature reveals. Illustrations by Ariel Wollek, brought to life through motion.</p>
-        </div>
-        <div class="lottie-grid lottie-grid--2col" id="lottieGrid07">
-          <div class="lottie-tile">
-            <lottie-player src="../animations/square-switch.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
-          <div class="lottie-tile">
-            <lottie-player src="../animations/treasure-01.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
-          <div class="lottie-tile">
-            <lottie-player src="../animations/Clock extra sparkles.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
-          <div class="lottie-tile">
-            <lottie-player src="../animations/abcd-loader.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
-        </div>
-        <ul class="credits-list" style="margin-top: 24px;">
-          <li>
-            <span class="credit-role">Motion Design</span>
-            <span>Ariel Paz</span>
-          </li>
-          <li>
-            <span class="credit-role">Illustration</span>
-            <span>Ariel Wollek</span>
-          </li>
-        </ul>
-      </div>
-
-      <hr class="project-rule">
-
-      <div class="lottie-section">
-        <div class="lottie-section-header">
-          <h2 class="lottie-section-title">Loader Research</h2>
-          <p class="lottie-section-desc">Animation research and experimentation for the Jamba LLM chat interface — exploring how a loader could feel alive, responsive, and on-brand while the model thinks.</p>
-        </div>
-        <div class="lottie-grid lottie-grid--solo-xl">
-          <div class="lottie-tile lottie-tile--large">
-            <lottie-player src="../animations/loaders-research.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
+        <div class="orb-section">
+          <div class="fabric-frame" id="hero-fabric" data-variant="rich"><canvas id="hero-fabric-gl"></canvas></div>
+          <p class="orb-caption">Move and click</p>
         </div>
       </div>
-
-      <hr class="project-rule">
-
-      <div class="lottie-section">
-        <div class="lottie-section-header">
-          <h2 class="lottie-section-title">Sweet</h2>
-          <p class="lottie-section-desc">Web animations for Sweet, a sub-brand under Elementor.</p>
-        </div>
-        <div class="lottie-grid lottie-grid--solo-xl" style="max-width: 896px;">
-          <div class="lottie-tile">
-            <lottie-player src="../animations/Sweet Web 01.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
-        </div>
-        <div class="lottie-grid lottie-grid--2col" style="max-width: 1164px; margin-left: auto; margin-right: auto;">
-          <div class="lottie-tile lottie-tile--scaled">
-            <lottie-player src="../animations/Sweet Onboarding.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
-          <div class="lottie-tile lottie-tile--scaled">
-            <lottie-player src="../animations/Sweet Hero Animation.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
-        </div>
-        <div class="lottie-grid lottie-grid--solo-xl" style="max-width: 896px;">
-          <div class="lottie-tile">
-            <lottie-player src="../animations/Sweet Spiral High.json" background="transparent" speed="1" loop autoplay></lottie-player>
-          </div>
-        </div>
-      </div>
-
     </div>
 
   </main>
@@ -244,5 +279,67 @@
     });
   </script>
   <script src="../js/main.js?v=3"></script>
+  <script src="../js/hero-fabric.js?v=3"></script>
+
+  <script>
+  // Voice orb: state chips drive the orb iframe. The mic is only requested on first "Listening".
+  (function () {
+    var frame = document.querySelector('iframe.orb-frame'), caption = document.getElementById('orb-state-caption');
+    var chips = document.querySelectorAll('#orb-chips .orb-chip');
+    if (!frame || !chips.length) return;
+    var CAP = { idle: '', listening: 'Listening\u2026', thinking: 'Thinking', speaking: 'Speaking', error: 'Something went wrong. Try again.' };
+    var current = 'idle', mic = null, dots = null;
+    function render(s) {
+      current = s;
+      chips.forEach(function (c) { var on = c.dataset.state === s; c.classList.toggle('is-on', on); c.setAttribute('aria-pressed', on); });
+      clearInterval(dots);
+      caption.textContent = s === 'listening' && mic === false ? 'Listening (no mic, simulated)' : CAP[s];
+      if (s === 'thinking') { var n = 0; dots = setInterval(function () { n = (n + 1) % 3; caption.textContent = 'Thinking' + '.'.repeat(n + 1); }, 333); }
+    }
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        frame.contentWindow.postMessage({ type: 'orb-state', state: c.dataset.state }, '*');
+        render(c.dataset.state);
+      });
+    });
+    window.addEventListener('message', function (e) {
+      if (e.source !== frame.contentWindow || !e.data) return;
+      if (e.data.type === 'orb-state') render(e.data.state);          // e.g. error auto-returns to idle
+      if (e.data.type === 'orb-mic-status') { mic = !!e.data.on; if (current === 'listening') render('listening'); }
+    });
+  }());
+  </script>
+  <script>
+  // Level Complete: star buttons swap the static frames now; once animations/level-complete.riv
+  // exists, the same buttons set the Rive "stars" input on "Results_SM" instead.
+  (function () {
+    var frame = document.querySelector('.lc-frame'), btns = document.querySelectorAll('#lc-stars .orb-chip');
+    if (!frame) return;
+    var starsInput = null;
+    function show(n) {
+      btns.forEach(function (b) { var on = b.dataset.stars === String(n); b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); });
+      if (starsInput) { starsInput.value = n; return; }
+      frame.querySelectorAll('.lc-shot').forEach(function (svg) {
+        var on = svg.dataset.stars === String(n);
+        svg.classList.toggle('is-on', on);
+        if (on) svg.removeAttribute('aria-hidden'); else svg.setAttribute('aria-hidden', 'true');
+      });
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { show(+b.dataset.stars); }); });
+    fetch('../animations/level-complete.riv', { method: 'HEAD' }).then(function (res) {
+      if (!res.ok || !window.rive) return;
+      var r = new rive.Rive({
+        src: '../animations/level-complete.riv', canvas: document.getElementById('level-complete-canvas'),
+        stateMachines: 'Results_SM', autoplay: true, layout: new rive.Layout({ fit: rive.Fit.Contain }),
+        onLoad: function () {
+          r.resizeDrawingSurfaceToCanvas();
+          starsInput = (r.stateMachineInputs('Results_SM') || []).find(function (i) { return i.name === 'stars'; }) || null;
+          frame.classList.add('has-rive');
+          show(3);
+        },
+      });
+    }).catch(function () {});
+  }());
+  </script>
 </body>
 </html>

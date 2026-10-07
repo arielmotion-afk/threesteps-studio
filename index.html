@@ -1,223 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Three Steps Studio</title>
-  <meta name="description" content="Three Steps Studio — motion design by Ariel Paz. Always Moving.">
-  <meta property="og:title" content="Three Steps Studio">
-  <meta property="og:description" content="Motion design by Ariel Paz. Always Moving.">
-  <meta property="og:image" content="https://threesteps.studio/images/og-image.jpg">
-  <meta property="og:url" content="https://threesteps.studio/">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:image" content="https://threesteps.studio/images/og-image.jpg">
-  <link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
-  <link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ariel Paz — Motion Design</title>
+<meta name="description" content="Motion designer for product UI and marketing: launch films, ads, social, Lottie, Rive and code.">
+<meta property="og:title" content="Ariel Paz — Motion Design">
+<meta property="og:description" content="Motion designer for product UI and marketing: launch films, ads, social, Lottie, Rive and code.">
+<meta property="og:image" content="https://threesteps.studio/images/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ariel Paz: Motion for the product and the launch.">
+<meta property="og:url" content="https://threesteps.studio/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ariel Paz · Three Steps Studio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://threesteps.studio/images/og-image.jpg">
+<link rel="canonical" href="https://threesteps.studio/">
+<link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/v2.css">
+<style>
+  /* ─── Hero ─── */
+  .hero { padding-top: 72px; }
+  .hero-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
+  .status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-family: var(--label); font-size: 12px; }
+  .status i { width: 8px; height: 8px; border-radius: 50%; background: #1DB954; box-shadow: 0 0 0 4px rgba(29,185,84,.15); }
+  .hero-title { font-size: clamp(48px, 8.6vw, 132px); line-height: .92; font-weight: 600; letter-spacing: -.05em; max-width: 14ch; }
+  /* All words sit in the same grid cell, so the box is always as wide as the longest
+     word: swapping never changes line breaks, so the page never jumps. */
+  .swap { display: inline-grid; vertical-align: top; }
+  .swap > span { grid-area: 1 / 1; justify-self: start; background: var(--mark); padding: 0 .12em; border-radius: .12em; opacity: 0; transform: translateY(30%); transition: opacity 300ms var(--ease-standard), transform 300ms var(--ease-standard); }
+  .swap > span.on { opacity: 1; transform: none; }
+  .swap > span.out { opacity: 0; transform: translateY(-30%); transition-duration: 200ms; }
+  .hero-sub { margin-top: 40px; }
+  .hero-sub p { font-size: 19px; color: var(--ink-2); max-width: 44ch; }
+  .hero-tools { text-align: right; color: var(--muted); line-height: 1.6; }
+
+  /* Hero reel (temporary): crossfading clips of the work */
+  .reel { position: relative; margin-top: 56px; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: #111; }
+  .reel-v { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s cubic-bezier(.2,0,0,1); }
+  .reel-v.is-on { opacity: 1; }
+  .reel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(12,10,14,.45), rgba(12,10,14,0) 30%); }
+  .reel-label { position: absolute; left: 20px; bottom: 18px; z-index: 2; font-family: var(--label); font-size: 14px; color: #fff; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.14); }
+  .reel-label:hover { background: rgba(255,255,255,.24); }
+  .reel-dots { position: absolute; right: 14px; bottom: 16px; z-index: 2; display: flex; }
+  .reel-dots button { width: 22px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+  .reel-dots button::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.45); transition: background .3s, transform .3s; }
+  .reel-dots button:hover::before { background: rgba(255,255,255,.8); }
+  .reel-dots button.on::before { background: #fff; transform: scale(1.35); }
+  .reel-arrow { position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; margin-top: -22px; border: 0; border-radius: 50%; cursor: pointer;
+    background: rgba(255,255,255,.88); color: var(--ink); font-size: 18px; opacity: 0; transition: opacity .25s cubic-bezier(.2,0,0,1), transform .25s cubic-bezier(.2,0,0,1); }
+  .reel-arrow--prev { left: 16px; transform: translateX(-6px); }
+  .reel-arrow--next { right: 16px; transform: translateX(6px); }
+  .reel:hover .reel-arrow, .reel:focus-within .reel-arrow { opacity: 1; transform: none; }
+  @media (hover: none) { .reel-arrow { display: none; } }   /* touch: swipe instead */
+  .reel:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+  /* ─── Clients ─── */
+  .clients { margin-top: 64px; padding: 22px 0; border-block: 1px solid var(--line); overflow: hidden; }
+  .marquee { display: flex; width: max-content; animation: marquee 36s linear infinite; }
+  .marquee ul { display: flex; align-items: center; list-style: none; }
+  .marquee li { display: flex; align-items: center; font-size: 22px; font-weight: 600; letter-spacing: -.02em; color: var(--ink-2); white-space: nowrap; }
+  .marquee li::after { content: "✦"; font-size: 12px; margin: 0 40px; color: var(--muted); }
+  .marquee li img { height: 26px; width: auto; filter: grayscale(1); opacity: .8; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* ─── Work: featured case study, then a uniform 2-up grid ─── */
+  .work-head { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 40px; }
+  .filters { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); position: relative; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .filters button { position: relative; z-index: 1; border: 0; background: none; padding: 8px 16px; border-radius: 999px; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: color var(--dur-short) var(--ease-standard); }
+  .filters button.on { color: #fff; }
+  .filters .pill { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 999px; background: var(--ink); transition: transform var(--dur-medium) var(--ease-emphasized), width var(--dur-medium) var(--ease-emphasized); }
+
+  .cases { display: grid; grid-template-columns: 1fr 1fr; gap: 56px var(--gutter); }
+  .case { display: flex; flex-direction: column; gap: 14px; }
+  .case.is-hidden { display: none; }
+  .case-media { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 10; background: var(--surface); isolation: isolate; }
+  .case-media > video, .case-media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  /* hover: a slight darker overlay fades in; nothing moves, so playing video never jitters */
+  .case-shell { position: relative; border-radius: var(--radius); }
+  .mini .case-shell { border-radius: 16px; }
+  .case-media::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: rgb(12, 10, 14); opacity: 0; transition: opacity var(--dur-medium) var(--ease-standard); }   /* under the tag and ↗ badge */
+  @media (hover: hover) { .case:hover .case-media::before, .mini:hover .case-media::before { opacity: .14; } }
+  .case-media canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }   /* preview only: the card opens the page */
+  .tag { position: absolute; top: 14px; left: 14px; z-index: 2; font-family: var(--label); font-size: 11px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.92); pointer-events: none; }
+  .tag.mkt { background: var(--ink); color: #fff; }
+  .tag.cs { background: var(--mark); }
+  .case--featured { grid-column: 1 / -1; }
+  .case--featured .case-media { aspect-ratio: 21 / 9; }
+  .case--featured .mini-orb { width: 22%; }
+  /* Clip media as one shape: border-radius + overflow alone clips the video layer separately from the
+     background and scrim, which leaves a thin dark arc on the corners of light footage */
+  .case-media, .reel { clip-path: inset(0 round var(--radius)); }
+  .mini .case-media { clip-path: inset(0 round 16px); }
+  /* soft dark scrim behind the tag and arrow, so they never sit on busy footage */
+  .case-media::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(12,10,14,.38), rgba(12,10,14,0) 26%), linear-gradient(to top, rgba(12,10,14,.22), rgba(12,10,14,0) 22%); }
+  .case-media--light::after, .mini .case-media::after { display: none; }
+  .open { position: absolute; right: 14px; bottom: 14px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; background: var(--mark); display: grid; place-items: center; transform: scale(0) rotate(-45deg); transition: transform var(--dur-medium) var(--ease-emphasized); pointer-events: none; }
+  .case:hover .open { transform: scale(1) rotate(0); }
+  .case-meta { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+  .case-meta h3 { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+  .case-meta .mono { color: var(--muted); white-space: nowrap; }
+
+  /* Rive artboard is square on a dark ground: fill the card with the same colour so it reads edge to edge */
+  .case-media--rive { background: #110920; }
+
+
+
+  /* ─── Earlier work: a quiet horizontal scroller in the same card language ─── */
+  .rail-head { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+  .rail-nav { display: flex; gap: 8px; }
+  .rail-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 18px; cursor: pointer;
+    transition: background var(--dur-short) var(--ease-standard), color var(--dur-short), opacity var(--dur-short); }
+  .rail-btn:hover:not(:disabled) { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .rail-btn:disabled { opacity: .35; cursor: default; }
+  .minis { display: flex; gap: var(--gutter); overflow-x: auto; overflow-y: hidden; touch-action: pan-x pan-y; scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-x: contain;
+    scrollbar-width: none; padding-bottom: 4px;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent); }
+  .minis.at-end { -webkit-mask-image: none; mask-image: none; }
+  .minis::-webkit-scrollbar { display: none; }
+  .minis:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; border-radius: 16px; }
+  .minis > .mini.rv { transform: none; }   /* fade only inside the scroller: no vertical overflow */
+  .minis > .mini { flex: 0 0 clamp(260px, calc((100% - 2 * var(--gutter)) / 3.3), 420px); scroll-snap-align: start; }
+  .mini { display: flex; flex-direction: column; gap: 12px; }
+  .mini .case-media { border-radius: 16px; }
+  .mini h4 { font-size: 17px; font-weight: 600; letter-spacing: -.015em; }
+
+  /* ─── About ─── */
+  .about { max-width: 920px; }
+  .who { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; flex: none; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); }
+  .who b { display: block; font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+  .who span { font-family: var(--label); font-size: 12px; color: var(--muted); }
+  .about > p { font-size: 21px; line-height: 1.45; color: var(--ink-2); max-width: 56ch; }
+  .caps { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); margin-top: 48px; }
+  .caps h4 { font-family: var(--label); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; padding-bottom: 12px; border-bottom: 1px solid var(--ink); margin-bottom: 4px; }
+  .caps li { list-style: none; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px; display: flex; justify-content: space-between; gap: 12px; }
+  .caps li span { font-family: var(--label); font-size: 11px; color: var(--muted); }
+
+  @media (max-width: 860px) {
+    .hero { padding-top: 40px; }
+    .caps, .cases { grid-template-columns: 1fr; }
+    .minis > .mini { flex-basis: 78%; }
+    .case--featured .case-media { aspect-ratio: 16 / 10; }
+    .case--featured .mini-orb { width: 40%; }
+    .cases { row-gap: 40px; }
+    .hero-tools { text-align: left; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="hero-fabric" id="hero-fabric" aria-hidden="true">
-    <div class="hero-fabric-fallback"></div>
-    <canvas id="hero-fabric-gl"></canvas>
-    <div class="hero-fabric-grain"></div>
-  </div>
-
-  <nav class="nav">
-    <a href="index.html" class="nav-logo">Ariel Paz<span class="nav-logo-suffix">&nbsp;&mdash;&nbsp;Motion Design &amp; Video Editing</span></a>
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand"><span class="brand-dot"></span>Ariel Paz</a>
     <ul class="nav-links">
       <li><a href="#work">Work</a></li>
+      <li><a href="#earlier">Earlier work</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Résumé ↗</a></li>
     </ul>
-  </nav>
+  </div>
+</nav>
 
-  <main>
+<main id="top">
+  <!-- ═════════ HERO ═════════ -->
+  <section class="hero wrap">
+    <div class="hero-top">
+      <span class="status"><i></i>Open to motion design roles · Switzerland / remote</span>
+      <p class="mono hero-tools">After Effects · Lottie · Rive · Code · AI<br>Marketing · Product · Social</p>
+    </div>
+    <h1 class="hero-title">Motion for the product and the <span class="swap" id="heroSwap"><span class="on">launch.</span><span>campaign.</span><span>ad.</span><span>feed.</span></span></h1>
+    <div class="hero-sub">
+      <p>I'm Ariel, a motion designer.<br>I work on product UI motion and on marketing: launch films, ads and social content.</p>
+    </div>
 
-    <section class="hero">
-      <div class="hero-title-row">
-        <h1 class="hero-title">Three Steps Studio</h1>
-      </div>
-      <p class="hero-tagline">Always Moving.</p>
-      <p class="hero-descriptor">Product &amp; UX motion designer. Lottie, Rive and code — interfaces, AI products and brands, built to ship.</p>
-    </section>
+    <!-- Temporary hero until the showreel is ready: crossfades short clips of the work.
+         To use the showreel instead, replace this block with one <video autoplay muted loop playsinline>. -->
+    <div class="reel rv" id="reel" tabindex="0" aria-roledescription="carousel" aria-label="Selected work">
+      <video class="reel-v is-on" muted playsinline preload="auto"></video>
+      <video class="reel-v" muted playsinline preload="auto"></video>
+      <a class="reel-label" id="reel-label" href="#"><span id="reel-name"></span> ↗</a>
+      <button class="reel-arrow reel-arrow--prev" id="reel-prev" type="button" aria-label="Previous project">←</button>
+      <button class="reel-arrow reel-arrow--next" id="reel-next" type="button" aria-label="Next project">→</button>
+      <div class="reel-dots" id="reel-dots" role="tablist" aria-label="Projects"></div>
+    </div>
+    </div>
+  </section>
 
-    <section class="work" id="work">
+  <!-- Clients: edit the one <ul> below. For a logo, swap the text for
+       <img src="images/logos/name.svg" alt="Name">. The list is cloned for the loop. -->
+  <div class="clients">
+    <div class="marquee" id="marquee">
+      <ul aria-label="Clients">
+        <li>AI21 Labs</li>
+        <li>Island</li>
+        <li>Wordtune</li>
+        <li>Elementor</li>
+        <li>Notch</li>
+        <li>Noma</li>
+        <li>Dappas</li>
+        <li>Loora</li>
+        <li>ImagenAI</li>
+      </ul>
+    </div>
+  </div>
 
-      <div class="work-filters" id="workFilters">
-        <button class="filter-btn is-active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="motion-graphics">Motion Graphics</button>
-        <button class="filter-btn" data-filter="product-video">Product Video</button>
-        <button class="filter-btn" data-filter="ai">AI</button>
-        <button class="filter-btn" data-filter="social">Social</button>
-        <button class="filter-btn" data-filter="ugc">UGC</button>
-        <button class="filter-btn" data-filter="lottie">Lottie</button>
-      </div>
-
-      <div class="work-grid">
-
-        <a href="projects/project-02.html" class="project-tile-link" data-tags="product-video motion-graphics ai">
-          <article class="project-tile" data-thumb="images/thumbnails/video/maestro-poster.jpg">
-            <video class="tile-video" autoplay muted loop playsinline>
-              <source src="images/thumbnails/video/maestro.mp4" type="video/mp4">
-            </video>
-            <div class="tile-inner">
-              <span class="tile-label">AI21 Maestro</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-07.html" class="project-tile-link" data-tags="lottie">
-          <article class="project-tile project-tile--lottie">
-            <lottie-player src="animations/treasure-01.json" background="transparent" speed="1" loop autoplay style="position:absolute;inset:0;width:100%;height:100%;"></lottie-player>
-            <div class="tile-inner">
-              <span class="tile-label">UI & Interactive Motion</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-12.html" class="project-tile-link" data-tags="product-video motion-graphics">
-          <article class="project-tile" data-thumb="images/thumbnails/notch%20thumbnail.png" data-anim="animations/thumbnails/adam-preview.gif">
-            <div class="tile-inner">
-              <span class="tile-label">Notch</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-01.html" class="project-tile-link" data-tags="product-video motion-graphics">
-          <article class="project-tile" data-thumb="images/thumbnails/video/island-poster.jpg">
-            <video class="tile-video" autoplay muted loop playsinline>
-              <source src="images/thumbnails/video/island.mp4" type="video/mp4">
-            </video>
-            <div class="tile-inner">
-              <span class="tile-label">Island.io</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-13.html" class="project-tile-link" data-tags="social motion-graphics ai ugc">
-          <article class="project-tile" data-thumb="images/thumbnails/elementor-thumbnail.png" data-anim="images/thumbnails/elementor.gif">
-            <div class="tile-inner">
-              <span class="tile-label">Elementor</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-15.html" class="project-tile-link" data-tags="motion-graphics">
-          <article class="project-tile" data-thumb="images/thumbnails/yaap-poster.jpg" data-anim="images/thumbnails/YAAP.gif">
-            <div class="tile-inner">
-              <span class="tile-label">YAAP</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-11.html" class="project-tile-link" data-tags="product-video motion-graphics">
-          <article class="project-tile" data-thumb="images/thumbnails/noma.png">
-            <div class="tile-inner">
-              <span class="tile-label">Noma</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-03.html" class="project-tile-link" data-tags="product-video social motion-graphics">
-          <article class="project-tile" data-thumb="images/thumbnails/jamba.jpg" data-anim="images/process/Jamba%20Trailer/thumbnail.gif" data-thumb-pos="left center">
-            <div class="tile-inner">
-              <span class="tile-label">Jamba</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-04.html" class="project-tile-link" data-tags="motion-graphics">
-          <article class="project-tile" data-thumb="images/thumbnails/sounds%20familiar%20thumbnail.png">
-            <div class="tile-inner">
-              <span class="tile-label">Wordtune Motion Graphics</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-10.html" class="project-tile-link" data-tags="motion-graphics">
-          <article class="project-tile" data-thumb="images/thumbnails/dont%20sweat%20it.png">
-            <div class="tile-inner">
-              <span class="tile-label">Wordtune Video Productions</span>
-            </div>
-          </article>
-        </a>
-
-
-        <a href="ugc.html" class="project-tile-link" id="ugc-tile-link" data-tags="ugc ai social">
-          <article class="project-tile" data-thumb="images/thumbnails/ugc-thumbnail.png">
-            <video class="tile-video" autoplay muted loop playsinline>
-              <source src="images/thumbnails/video/ugc.mp4" type="video/mp4">
-            </video>
-            <div class="tile-inner">
-              <span class="tile-label">UGC</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-14.html" class="project-tile-link" style="display:none">
-          <article class="project-tile project-tile--text">
-            <div class="tile-inner">
-              <span class="tile-label">AI21</span>
-            </div>
-          </article>
-        </a>
-
-        <a href="projects/project-08.html" class="project-tile-link" style="display:none">
-          <article class="project-tile" data-thumb="animations/web-animations/42ecd44a-d711-4f32-82b4-1fa0c7706ddc_rw_600.gif">
-            <div class="tile-inner">
-              <span class="tile-label">Web &amp; Product Animations</span>
-            </div>
-          </article>
-        </a>
-
-      </div>
-    </section>
-
-    <section class="about" id="about">
-      <div class="about-inner">
-        <img src="images/profile-black.png" alt="Ariel Paz" class="about-avatar">
-        <div class="about-text">
-          <h2 class="about-title">Ariel Paz</h2>
-          <p class="about-role">Motion Designer</p>
-          <p class="about-bio">Motion designer crafting brand films, UGC, and AI-generated content that moves people.</p>
-          <p class="about-bio">Three Steps Studio is where strategy meets storytelling: always moving.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-section">
-      <div class="cta-inner">
-        <h2 class="cta-headline">Let's talk.</h2>
-        <div class="cta-buttons">
-          <a href="mailto:arielmotion@gmail.com" class="cta-btn cta-btn--primary">Hire me</a>
-          <a href="https://wa.me/972545872899" target="_blank" rel="noopener" class="cta-btn cta-btn--outline">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            WhatsApp
-          </a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="footer" id="contact">
-    <div class="footer-inner">
-      <span class="footer-name">Three Steps Studio</span>
-      <div class="footer-links">
-        <a href="mailto:arielmotion@gmail.com" aria-label="Email" class="footer-icon-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
-        <a href="https://wa.me/972545872899" target="_blank" rel="noopener" aria-label="WhatsApp" class="footer-icon-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
-        <a href="https://www.linkedin.com/in/ariel-paz-motion/" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-icon-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+  <!-- ═════════ CASE STUDIES ═════════ -->
+  <section class="section wrap" id="work">
+    <div class="work-head">
+      <h2 class="h2">Work</h2>
+      <div class="filters" id="filters">
+        <span class="pill"></span>
+        <button class="on" data-f="all">All</button>
+        <button data-f="product">Product</button>
+        <button data-f="marketing">Marketing</button>
       </div>
     </div>
-  </footer>
 
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
-  <script src="js/main.js?v=3"></script>
-  <script src="js/hero-fabric.js?v=1"></script>
+    <div class="cases">
+      <a class="case rv" data-track="product" href="projects/notch-voice-assistant.html">
+        <div class="case-shell"><div class="case-media case-media--light"><span class="tag cs">Case study</span>
+          <div class="mini-orb-stage"><div class="mini-orb"></div></div>
+          <span class="open">↗</span></div></div>
+        <div class="case-meta"><h3>Notch Voice Assistant</h3><span class="mono">Code animation</span></div>
+      </a>
+      <a class="case rv" data-track="product" href="projects/project-08.html">
+        <div class="case-shell"><div class="case-media"><span class="tag">Product</span>
+          <video src="videos/imagen-01-desktop.mp4" autoplay muted loop playsinline poster="images/thumbnails/imagen-01-desktop-poster.jpg" style="object-position: left bottom"></video>
+          <span class="open">↗</span></div></div>
+        <div class="case-meta"><h3>Product &amp; web animations</h3><span class="mono">Lottie</span></div>
+      </a>
+      <a class="case rv" data-track="product" href="projects/project-07.html">
+        <div class="case-shell"><div class="case-media case-media--rive"><span class="tag">Interactive</span>
+          <canvas id="squish"></canvas>
+          <span class="open">↗</span></div></div>
+        <div class="case-meta"><h3>Interactive animations</h3><span class="mono">Rive · Code</span></div>
+      </a>
+      <a class="case rv" data-track="marketing" href="projects/project-02.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <video src="images/thumbnails/video/maestro.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/maestro-poster.jpg"></video>
+          <span class="open">↗</span></div></div>
+        <div class="case-meta"><h3>AI21 Maestro</h3><span class="mono">Motion graphics</span></div>
+      </a>
+      <a class="case rv" data-track="marketing" href="projects/project-03.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <video src="images/thumbnails/video/jamba.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/jamba-poster.jpg"></video>
+          <span class="open">↗</span></div></div>
+        <div class="case-meta"><h3>Jamba</h3><span class="mono">Motion graphics</span></div>
+      </a>
+      <a class="case rv" data-track="marketing" href="projects/project-15.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <video src="images/thumbnails/video/yaap.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/yaap-poster.jpg"></video>
+          <span class="open">↗</span></div></div>
+        <div class="case-meta"><h3>YAAP</h3><span class="mono">Motion graphics</span></div>
+      </a>
+      <a class="case rv" data-track="marketing" href="projects/project-12.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <video src="images/thumbnails/video/notch.mp4" autoplay muted loop playsinline poster="images/thumbnails/notch%20thumbnail.png"></video>
+          <span class="open">↗</span></div></div>
+        <div class="case-meta"><h3>Notch</h3><span class="mono">Motion graphics</span></div>
+      </a>
+      <a class="case rv" data-track="marketing" href="projects/project-13.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <img src="images/thumbnails/elementor.gif" alt="">
+          <span class="open">↗</span></div></div>
+        <div class="case-meta"><h3>Elementor</h3><span class="mono">Motion graphics · AI</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═════════ CAMPAIGNS ═════════ -->
+  <section class="section wrap" id="earlier">
+    <div class="work-head rail-head">
+      <h2 class="h2">Earlier work, UGC and AI</h2>
+      <div class="rail-nav">
+        <button class="rail-btn" id="rail-prev" type="button" aria-label="Scroll back" disabled>←</button>
+        <button class="rail-btn" id="rail-next" type="button" aria-label="Scroll forward">→</button>
+      </div>
+    </div>
+    <div class="minis" id="rail" tabindex="0" aria-label="Earlier work">
+      <a class="mini rv" href="projects/project-01.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/island.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/island-poster.jpg"></video></div></div><div class="case-meta"><h4>Island.io</h4><span class="mono">Motion graphics</span></div></a>
+      <a class="mini rv" href="projects/project-11.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/noma.png" alt=""></div></div><div class="case-meta"><h4>Noma</h4><span class="mono">Motion graphics</span></div></a>
+      <a class="mini rv" href="ugc.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/ugc.mp4" autoplay muted loop playsinline poster="images/thumbnails/ugc-thumbnail.png"></video></div></div><div class="case-meta"><h4>AI-UGC</h4><span class="mono">Paid social</span></div></a>
+      <a class="mini rv" href="projects/project-04.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/sounds%20familiar%20thumbnail.png" alt=""></div></div><div class="case-meta"><h4>Wordtune</h4><span class="mono">Motion graphics</span></div></a>
+      <a class="mini rv" href="projects/project-10.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/dont%20sweat%20it.png" alt=""></div></div><div class="case-meta"><h4>Wordtune: Don't Sweat It</h4><span class="mono">Motion graphics</span></div></a>
+    </div>
+  </section>
+
+  <!-- ═════════ ABOUT ═════════ -->
+  <section class="section wrap" id="about">
+    <div class="about">
+      <h2 class="h2" style="margin-bottom:40px">About</h2>
+      <div class="who">
+        <div class="avatar"><img src="images/profile-black.png" alt="Ariel Paz"></div>
+        <div><b>Ariel Paz</b><span>Motion designer · Three Steps Studio</span></div>
+      </div>
+      <p>Motion designer with a BA in Visual Communications and 9+ years of experience in brand films, product videos, UGC, AI-generated content and UI motion. Off screen, I like cooking, hiking and cats.</p>
+      <div class="caps">
+        <div>
+          <h4>Product motion</h4>
+          <ul>
+            <li>UI &amp; micro-interactions <span>Figma · AE</span></li>
+            <li>Interactive state machines <span>Rive</span></li>
+            <li>In-app &amp; web animation <span>Lottie</span></li>
+            <li>Coded prototypes <span>JS · WebGL</span></li>
+            <li>Motion specs &amp; tokens <span>handoff</span></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Marketing motion</h4>
+          <ul>
+            <li>Launch films &amp; product videos <span>AE · C4D</span></li>
+            <li>Paid &amp; organic social <span>all formats</span></li>
+            <li>AI-UGC &amp; generative video <span>pipelines</span></li>
+            <li>Editing &amp; sound <span>Premiere</span></li>
+            <li>Brand motion systems <span>toolkits</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <h2 class="footer-cta"><a href="contact.html">Get in touch&nbsp;→</a></h2>
+    <div class="footer-row mono">
+      <span>© Ariel Paz · Three Steps Studio</span>
+      <div class="footer-links"><a href="https://www.linkedin.com/in/ariel-paz-motion/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:arielmotion@gmail.com">Email</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/@rive-app/webgl2@2"></script>
+<script>
+(function () {
+  const ease = 'cubic-bezier(0.2, 0, 0, 1)';
+
+  // Videos: play only while on screen (autoplay alone is unreliable, and this saves battery)
+  const vio = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target; v.muted = true; e.isIntersecting ? v.play().catch(() => {}) : v.pause(); }), { threshold: 0.15 });
+  document.querySelectorAll('video:not(.reel-v)').forEach((v) => vio.observe(v));   // the hero reel runs itself
+
+
+  // Hero reel (temporary): play each clip for up to 5s, crossfade to the next, loop.
+  (function () {
+    const CLIPS = [
+      { name: 'AI21 Maestro', href: 'projects/project-02.html', src: 'images/thumbnails/video/maestro.mp4' },
+      { name: 'ImagenAI', href: 'projects/project-08.html#imagen', src: 'videos/imagen-01-desktop.mp4', start: 3 },
+      { name: 'Jamba', href: 'projects/project-03.html', src: 'images/thumbnails/video/jamba.mp4' },
+      { name: 'Notch', href: 'projects/project-12.html', src: 'images/thumbnails/video/notch.mp4' },
+      { name: 'YAAP', href: 'projects/project-15.html', src: 'images/thumbnails/video/yaap.mp4' },
+      { name: 'Island.io', href: 'projects/project-01.html', src: 'images/thumbnails/video/island.mp4' },
+    ];
+    const reel = document.getElementById('reel'); if (!reel) return;
+    const vids = reel.querySelectorAll('.reel-v'), label = document.getElementById('reel-label'), name = document.getElementById('reel-name');
+    const dots = document.getElementById('reel-dots');
+    CLIPS.forEach((c, k) => {
+      const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-label', c.name);
+      b.addEventListener('click', () => go(k)); dots.appendChild(b);
+    });
+    let i = 0, front = 0, timer = null, visible = true;
+    function load(v, c) { v.src = c.src; if (c.start) v.addEventListener('loadedmetadata', () => { v.currentTime = c.start; }, { once: true }); }
+    function show(n) {
+      const c = CLIPS[n], next = vids[1 - front];
+      load(next, c);
+      next.play().catch(() => {});
+      next.classList.add('is-on'); vids[front].classList.remove('is-on');
+      const prev = vids[front]; setTimeout(() => prev.pause(), 900);
+      front = 1 - front;
+      name.textContent = c.name; label.href = c.href;
+      [...dots.children].forEach((d, k) => { d.classList.toggle('on', k === n); d.setAttribute('aria-selected', k === n); });
+      clearTimeout(timer); timer = setTimeout(() => { if (visible) { i = (i + 1) % CLIPS.length; show(i); } }, 5000);
+    }
+    function go(n) { if (n === i) return; i = (n + CLIPS.length) % CLIPS.length; show(i); }
+    document.getElementById('reel-prev').addEventListener('click', () => go(i - 1));
+    document.getElementById('reel-next').addEventListener('click', () => go(i + 1));
+    reel.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') go(i - 1); if (e.key === 'ArrowRight') go(i + 1); });
+    let x0 = null;
+    reel.addEventListener('pointerdown', (e) => { x0 = e.clientX; });
+    reel.addEventListener('pointerup', (e) => { if (x0 !== null && Math.abs(e.clientX - x0) > 40) go(i + (e.clientX < x0 ? 1 : -1)); x0 = null; });
+    new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { vids[front].play().catch(() => {}); clearTimeout(timer); timer = setTimeout(() => { i = (i + 1) % CLIPS.length; show(i); }, 5000); }
+      else { vids[front].pause(); clearTimeout(timer); }
+    }).observe(reel);
+    load(vids[0], CLIPS[0]); vids[0].play().catch(() => {});
+    name.textContent = CLIPS[0].name; label.href = CLIPS[0].href; dots.children[0].classList.add('on');
+    timer = setTimeout(() => { if (visible) { i = (i + 1) % CLIPS.length; show(i); } }, 5000);
+  }());
+
+
+  // Earlier work scroller: arrows move one card; they dim at either end.
+  (function () {
+    const rail = document.getElementById('rail'); if (!rail) return;
+    const prev = document.getElementById('rail-prev'), next = document.getElementById('rail-next');
+    const step = () => { const c = rail.querySelector('.mini'); return c ? c.getBoundingClientRect().width + parseFloat(getComputedStyle(rail).columnGap || 24) : 300; };
+    function update() {
+      const max = rail.scrollWidth - rail.clientWidth - 2;
+      prev.disabled = rail.scrollLeft <= 2; next.disabled = rail.scrollLeft >= max;
+      rail.classList.toggle('at-end', rail.scrollLeft >= max);
+    }
+    prev.addEventListener('click', () => rail.scrollBy({ left: -step() }));
+    next.addEventListener('click', () => rail.scrollBy({ left: step() }));
+    rail.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') rail.scrollBy({ left: step() }); if (e.key === 'ArrowLeft') rail.scrollBy({ left: -step() }); });
+    rail.addEventListener('scroll', update, { passive: true }); addEventListener('resize', update); update();
+  }());
+
+  // Nav border on scroll
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 8), { passive: true });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 2) * 80 + 'ms'; io.observe(el); });
+
+  // Clients: clone the list once so the marquee loops seamlessly
+  const mq = document.getElementById('marquee'), list = mq.querySelector('ul');
+  const clone = list.cloneNode(true); clone.setAttribute('aria-hidden', 'true'); clone.removeAttribute('aria-label'); mq.appendChild(clone);
+
+  // Hero word swap (fixed-width box, see CSS)
+  const words = [...document.querySelectorAll('#heroSwap > span')]; let wi = 0;
+  setInterval(() => {
+    const cur = words[wi], next = words[(wi + 1) % words.length];
+    cur.classList.replace('on', 'out');
+    setTimeout(() => { cur.classList.remove('out'); next.classList.add('on'); }, 180);
+    wi = (wi + 1) % words.length;
+  }, 2600);
+
+  // Case filter with sliding pill
+  const fwrap = document.getElementById('filters'), pill = fwrap.querySelector('.pill');
+  const fbtns = fwrap.querySelectorAll('button');
+  function movePill(b) { pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft}px)`; }
+  fbtns.forEach((b) => b.addEventListener('click', () => {
+    fbtns.forEach((x) => x.classList.toggle('on', x === b)); movePill(b);
+    document.querySelectorAll('.case').forEach((c) => {
+      const show = b.dataset.f === 'all' || c.dataset.track === b.dataset.f;
+      c.classList.toggle('is-hidden', !show);
+      if (show) c.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 400, easing: ease });
+    });
+  }));
+  addEventListener('load', () => movePill(fwrap.querySelector('button.on')));
+  addEventListener('resize', () => movePill(fwrap.querySelector('button.on')));
+
+
+  // Pause live pieces while they're off screen
+  const live = new IntersectionObserver((es) => es.forEach((e) => e.target._onVisible && e.target._onVisible(e.isIntersecting)));
+
+  // Squish Stack (Rive)
+  if (window.rive) {
+    const sq = document.getElementById('squish');
+    const r = new rive.Rive({
+      src: 'animations/squish-stack.riv', canvas: document.getElementById('squish'),
+      artboard: 'Squish_Stack', stateMachines: 'Stack_SM', autoplay: true,
+      layout: new rive.Layout({ fit: rive.Fit.Contain }),
+      onLoad: () => {
+        r.resizeDrawingSurfaceToCanvas(); addEventListener('resize', () => r.resizeDrawingSurfaceToCanvas());
+        sq._onVisible = (on) => (on ? r.play() : r.pause()); live.observe(sq);
+      },
+    });
+  }
+}());
+</script>
+<script src="js/fabric-glass.js"></script>
+<script src="js/v2.js"></script>
 </body>
 </html>

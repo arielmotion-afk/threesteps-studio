@@ -1,0 +1,119 @@
+/* ─────────────────────────────────────────────────────────────
+   Portfolio v2 — draft
+   Idea: the site itself is a motion spec. Blush canvas, mono annotations
+   (ms, curves, states) as the visual motif, electric mint highlights.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --bg: #FDF0F0;            /* the Three Steps blush, back as the canvas */
+  --surface: #FFFFFF;
+  --ink: #141012;
+  --ink-2: #3D3438;
+  --muted: #8A7D7F;
+  --line: #EED8D8;
+  --mark: #35F2BE;          /* electric mint: pink's complement, highlights only, never text */
+  --blush: #FDF0F0;         /* orb stage: matches orb.html's own background */
+  --placeholder: #FFF4C2;
+
+  --display: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --label: 'Bricolage Grotesque', 'Inter Tight', sans-serif;  /* secondary voice: labels, captions, specs */
+
+  /* motion tokens — used by the site and shown on the site */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.3, 0, 0, 1.2);
+  --dur-micro: 120ms;
+  --dur-short: 250ms;
+  --dur-medium: 400ms;
+
+  --gutter: 24px;
+  --max: 1320px;
+  --radius: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img, video { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; }
+::selection { background: var(--mark); color: var(--ink); }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+.mono { font-family: var(--label); font-size: 13px; letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.ph { background: var(--placeholder); border-radius: 4px; padding: 0 4px; font-family: var(--label); font-size: .85em; }
+
+/* ─── Nav ─── */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  /* solid, not frosted: a backdrop blur re-renders everything scrolling under it every frame */
+  background: var(--bg);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-short) var(--ease-standard);
+}
+.nav.is-scrolled { border-color: var(--line); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -.01em; }
+.brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--ink); animation: pulse 3.2s var(--ease-standard) infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.4); } }
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links a { padding: 8px 12px; border-radius: 999px; font-size: 14px; font-weight: 500; transition: background var(--dur-micro) var(--ease-standard); }
+.nav-links a:hover { background: var(--surface); }
+.nav-links .cv { background: var(--ink); color: var(--bg); }
+.nav-links .cv:hover { background: var(--ink-2); }
+
+/* ─── Section scaffolding ─── */
+.section { padding-top: 120px; }
+.section-head { display: grid; grid-template-columns: 1fr 2fr; gap: var(--gutter); align-items: end; margin-bottom: 40px; }
+.eyebrow { display: flex; gap: 10px; align-items: center; font-family: var(--label); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.eyebrow b { color: var(--ink); font-weight: 500; }
+.h2 { font-size: clamp(32px, 4.4vw, 56px); line-height: 1.02; font-weight: 600; letter-spacing: -.035em; }
+.lede { font-size: 18px; color: var(--ink-2); max-width: 56ch; }
+
+/* reveal-on-scroll */
+.rv { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease-standard), transform 700ms var(--ease-standard); }
+.rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } * { animation: none !important; } }
+
+/* ─── Mini orb: CSS-only stand-in for the voice orb; also the image placeholder ─── */
+.mini-orb-stage { position: absolute; inset: 0; background: var(--blush); display: grid; place-items: center; }
+/* Glass sphere with the fabric shader inside (js/fabric-glass.js, drawn by v2.js into .mo-canvas).
+   No specular dot: the rim layer is the only edge light. */
+.mini-orb { width: 40%; aspect-ratio: 1; border-radius: 50%; position: relative; isolation: isolate;
+  box-shadow: 0 30px 70px rgba(255, 110, 150, .18), 0 10px 26px rgba(160, 130, 255, .12);
+  animation: breathe 3.2s ease-in-out infinite; }
+.mini-orb.no-gl { background: radial-gradient(circle at 40% 35%, #FFC977, #FF9E9E 45%, #C9B6FF); opacity: .85; }
+.mo-canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; display: block; }
+.mo-rim { position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.5), inset 6px 8px 18px rgba(255,255,255,.35); }
+@keyframes breathe { 50% { transform: scale(1.04); } }
+
+/* ─── Footer ─── */
+.footer { margin-top: 160px; background: var(--ink); color: var(--bg); padding: 96px 0 32px; border-radius: 32px 32px 0 0; }
+.footer-cta { font-size: clamp(44px, 8vw, 120px); line-height: .95; font-weight: 600; letter-spacing: -.045em; }
+.footer-cta a { background: linear-gradient(var(--mark), var(--mark)) 0 92% / 0 18% no-repeat; transition: background-size var(--dur-medium) var(--ease-standard); }
+.footer-cta a:hover { background-size: 100% 18%; color: var(--bg); }
+.footer-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 96px; padding-top: 24px; border-top: 1px solid #2A2C30; color: #9A9EA5; }
+.footer-row a:hover { color: var(--bg); }
+.footer-links { display: flex; gap: 20px; }
+
+@media (max-width: 860px) {
+  :root { --gutter: 16px; }
+  .section { padding-top: 88px; }
+  .section-head { grid-template-columns: 1fr; }
+  .nav-links li:not(:last-child) { display: none; }
+}
+
+/* ─── No lonely words ───
+   Browsers that support it rebalance lines; v2.js also glues the last two
+   words of every text block together, so a single word never wraps alone. */
+p, li, dd, h1, h2, h3, h4, h5 { text-wrap: pretty; }
+h1, h2, h3, .pull { text-wrap: balance; }

@@ -20,6 +20,15 @@
     height: 340px;
   }
 
+  #orb-rings { position: absolute; inset: 0; pointer-events: none; }
+  .orb-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid hsla(209, 90%, 62%, 0.55);
+    opacity: 0;
+  }
+
   #orb-wrapper {
     width: 100%;
     height: 100%;
@@ -146,23 +155,6 @@
     pointer-events: none;
   }
 
-  #unicorn-embed-wrapper {
-    position: absolute;
-    inset: 0;
-    mix-blend-mode: screen;
-    opacity: var(--unicorn-opacity, 0.85);
-    pointer-events: none;
-    overflow: hidden;
-  }
-  #unicorn-embed {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1440px;
-    height: 900px;
-    transform: translate(-50%, -50%) translate(var(--unicorn-x, 0px), var(--unicorn-y, 0px)) scale(var(--unicorn-scale, 0.22));
-    transform-origin: center center;
-  }
 </style>
 </head>
 <body>
@@ -221,6 +213,7 @@
   </svg>
 
   <div id="orb-stage">
+    <div id="orb-rings"></div>
     <div id="orb-wrapper">
       <div id="orb-gradient">
         <div id="orb-blobs">
@@ -240,18 +233,17 @@
         <div id="orb-shine-spec2"></div>
       </div>
       <div id="orb-grain"></div>
-      <div id="unicorn-embed-wrapper">
-        <div id="unicorn-embed" data-us-project="b0jrndPxkWvadM4gZSY9?update=1.0"></div>
-      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.2.8/dist/unicornStudio.umd.js"></script>
+  <script src="../js/fabric-glass.js"></script>
   <script>
-    window.addEventListener('load', () => {
-      if (window.UnicornStudio && window.UnicornStudio.init) window.UnicornStudio.init();
-    });
+    // Skin: the glass marble shader (js/fabric-glass.js) by default.
+    // #skin=css brings back the original CSS blob + SVG filter orb; #palette=marble swaps colours.
+    const ORB_PARAMS = new URLSearchParams(location.search || location.hash.slice(1));
+    window.ORB_SKIN = ORB_PARAMS.get('skin') || 'marble';
+    window.ORB_PALETTE = ORB_PARAMS.get('palette') || 'notch';
   </script>
 
   <script>
@@ -264,6 +256,7 @@
     const IDLE_BREATH_SPEED = 0.0018;
     const IDLE_BREATH_AMOUNT = 0.04;
     const SPRING_FOLLOW = { stiffness: 210, damping: 16 };
+    const SPRING_BREATHE = { stiffness: 60, damping: 16 };   // speaking: critically damped, no bounce
 
     const USER_SPEAKING_THRESHOLD = 0.05;
     const INNER_USER_GLOW_MAX_ALPHA = 0.18;
@@ -316,13 +309,6 @@
 
     function applyShine() { updateShineShadow(); updateShinePosition(); }
 
-    const UNICORN = { scale: 22, x: 0, y: 0, opacity: 85 };
-    function applyUnicorn() {
-      wrapper.style.setProperty('--unicorn-scale', (UNICORN.scale / 100).toFixed(3));
-      wrapper.style.setProperty('--unicorn-x', `${UNICORN.x}px`);
-      wrapper.style.setProperty('--unicorn-y', `${UNICORN.y}px`);
-      wrapper.style.setProperty('--unicorn-opacity', (UNICORN.opacity / 100).toFixed(3));
-    }
 
     let noiseValue = 58;
     function setNoise(v) {
@@ -346,11 +332,41 @@
 
     let userGlowValue = 0, userGlowVelocity = 0;
     let agentGlowValue = 0, agentGlowVelocity = 0;
-    window.__agentSpeaking = false;
-    window.setAgentSpeaking = function (speaking) { window.__agentSpeaking = !!speaking; };
+    let errorGlowValue = 0, errorGlowVelocity = 0;
 
-    function isAgentSpeakingNow() {
-      return window.__agentSpeaking || smoothedVolume > USER_SPEAKING_THRESHOLD;
+    // ─── State machine (mirrors Assistant_SM: 0 idle · 1 listening · 2 thinking · 3 speaking · 4 error) ───
+    // Driven by the parent page via postMessage({type:'orb-state', state}).
+    const STATES = ['idle', 'listening', 'thinking', 'speaking', 'error'];
+    const ERROR_RECOVERY_MS = 1200;   // motion.duration.long
+    let state = 'idle', stateT = 0, errorTimer = null;
+    let level = 0;                    // 0–1 amplitude: mic (or simulated) when listening, TTS rhythm when speaking
+    let orbitW = 0, speakW = 0;       // eased blend weights for thinking / speaking motion
+    let ringT = 0;
+
+    function notifyParent(msg) { if (window.parent !== window) window.parent.postMessage(msg, '*'); }
+
+    function setState(s) {
+      if (!STATES.includes(s)) return;
+      state = s; stateT = 0;
+      clearTimeout(errorTimer);
+      if (s === 'listening') start();
+      if (s === 'error') errorTimer = setTimeout(() => { if (state === 'error') { setState('idle'); notifyParent({ type: 'orb-state', state: 'idle' }); } }, ERROR_RECOVERY_MS);
+    }
+    window.setOrbState = setState;
+    window.setAgentSpeaking = (speaking) => setState(speaking ? 'speaking' : 'idle');
+
+    function isAgentSpeakingNow() { return state === 'speaking'; }
+
+    const ringLayer = document.getElementById('orb-rings');
+    function spawnRing() {
+      const r = document.createElement('div');
+      r.className = 'orb-ring';
+      ringLayer.appendChild(r);
+      const s0 = Math.max(scaleValue, 0.5);
+      r.animate(
+        [{ transform: `scale(${s0})`, opacity: 0.8 }, { transform: `scale(${s0 * 1.4})`, opacity: 0 }],
+        { duration: 1400, easing: 'cubic-bezier(0.2, 0, 0, 1)' }
+      ).onfinish = () => r.remove();
     }
 
     const MOUSE_REACT = { radius: 160, follow: 25, intensity: 45, softness: 70 };
@@ -397,15 +413,18 @@
     }
 
     function updateGlow(dt) {
-      const agentSpeakingNow = isAgentSpeakingNow();
-      const userTarget = (!agentSpeakingNow && smoothedVolume > USER_SPEAKING_THRESHOLD) ? 1 : 0;
-      const agentTarget = agentSpeakingNow ? 1 : 0;
+      const userTarget = (state === 'listening' && level > USER_SPEAKING_THRESHOLD) ? 1 : 0;
+      const agentTarget = isAgentSpeakingNow() ? 1 : 0;
+      const errorTarget = state === 'error' ? 1 : 0;
       [userGlowValue, userGlowVelocity] = springStep(userGlowValue, userGlowVelocity, userTarget, GLOW_SPRING, dt);
       [agentGlowValue, agentGlowVelocity] = springStep(agentGlowValue, agentGlowVelocity, agentTarget, GLOW_SPRING, dt);
+      [errorGlowValue, errorGlowVelocity] = springStep(errorGlowValue, errorGlowVelocity, errorTarget, GLOW_SPRING, dt);
       const glowMaxAlpha = OUTER_GLOW.intensity / 100;
       const userAlpha = Math.max(0, Math.min(1, userGlowValue)) * glowMaxAlpha;
+      const errorAlpha = Math.max(0, Math.min(1, errorGlowValue)) * 0.55;
       const glowColor = `${OUTER_GLOW.hue}, 90%, ${OUTER_GLOW.brightness}%`;
-      wrapper.style.boxShadow = `${shineShadowCSS}, 0 0 ${OUTER_GLOW.radius}px hsla(${glowColor}, ${userAlpha.toFixed(3)})`;
+      wrapper.style.boxShadow = `${shineShadowCSS}, 0 0 ${OUTER_GLOW.radius}px hsla(${glowColor}, ${userAlpha.toFixed(3)}), ` +
+        `inset 0 0 0 1.5px hsla(354, 100%, 65%, ${errorAlpha.toFixed(3)}), 0 0 ${OUTER_GLOW.radius}px hsla(354, 100%, 65%, ${(errorAlpha * 0.6).toFixed(3)})`;
       const innerUserAlpha = Math.max(0, Math.min(1, userGlowValue)) * INNER_USER_GLOW_MAX_ALPHA;
       const innerAgentAlpha = Math.max(0, Math.min(1, agentGlowValue)) * INNER_AGENT_GLOW_MAX_ALPHA;
       const innerAgentAlphaTop = Math.max(0, Math.min(1, agentGlowValue)) * INNER_AGENT_GLOW_TOP_MAX_ALPHA;
@@ -419,6 +438,7 @@
     let scaleValue = 0.2, scaleVelocity = 0;
     let lastTime = null;
     let rafId = null;
+    let fabric = null, fabricT = Math.random() * 50, fabricSpeed = 1, fabricEnergy = 0;
 
     wrapper.style.opacity = '0';
     wrapper.style.transition = 'opacity 900ms ease-out';
@@ -435,31 +455,70 @@
       if (lastTime === null) lastTime = time;
       const dt = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
+      const t = time / 1000;
+      stateT += dt;
       const rawVolume = analyser ? getVolume() : 0;
       smoothedVolume += (rawVolume - smoothedVolume) * 0.15;
+
+      // Amplitude: listening = mic (simulated if no mic), speaking = syllable-like rhythm.
+      let amp = 0;
+      if (state === 'listening') amp = analyser ? smoothedVolume : 0.45 * (0.7 + 0.3 * Math.sin(t * 13) * Math.sin(t * 5.3));
+      if (state === 'speaking') amp = 0.5 + 0.5 * Math.sin(t * 3.4) * (0.6 + 0.4 * Math.sin(t * 1.1 + 1));   // phrase-like swells
+      level += (amp - level) * Math.min(1, dt * (state === 'speaking' ? 5 : 14));
+      orbitW += ((state === 'thinking' ? 1 : 0) - orbitW) * Math.min(1, dt * 4);
+      speakW += ((state === 'speaking' ? 1 : 0) - speakW) * Math.min(1, dt * 4);
+
       const breath = Math.sin(time * IDLE_BREATH_SPEED) * IDLE_BREATH_AMOUNT;
-      const volumeScale = isAgentSpeakingNow() ? 0 : smoothedVolume * SCALE_SENSITIVITY;
-      const targetScale = 1 + breath + volumeScale;
-      [scaleValue, scaleVelocity] = springStep(scaleValue, scaleVelocity, targetScale, SPRING_FOLLOW, dt);
-      wrapper.style.transform = `scale(${Math.max(scaleValue, 0.001).toFixed(3)})`;
+      let targetScale = 1 + breath;
+      if (state === 'listening') targetScale = 1 + breath * 0.5 + level * (analyser ? SCALE_SENSITIVITY : 0.35);
+      if (state === 'thinking')  targetScale = 0.84 + breath * 0.5;
+      if (state === 'speaking')  targetScale = 1 + level * 0.1;
+      if (state === 'error')     targetScale = 0.92;
+      [scaleValue, scaleVelocity] = springStep(scaleValue, scaleVelocity, targetScale, state === 'speaking' ? SPRING_BREATHE : SPRING_FOLLOW, dt);
+
+      // Error: decaying horizontal shake.
+      const shake = state === 'error' ? Math.sin(stateT * 48) * 10 * Math.max(0, 1 - stateT / 0.6) : 0;
+      wrapper.style.transform = `translateX(${shake.toFixed(2)}px) scale(${Math.max(scaleValue, 0.001).toFixed(3)})`;
+
+      // Listening: ripple rings, faster with a louder voice.
+      ringT -= dt;
+      if (state === 'listening' && ringT <= 0 && level > USER_SPEAKING_THRESHOLD) { spawnRing(); ringT = 0.9 - Math.min(level, 1) * 0.5; }
+
       updateGlow(dt);
       updateMouseHighlight(dt);
-      updateMicroJitter(time / 1000);
+      if (!fabric) updateMicroJitter(t);
+      if (fabric) {
+        // states read as speed + energy in the fabric: calm idle, quick thinking, voice-driven listening/speaking
+        const SPEED = { idle: 1, listening: 1.4 + level * 2, thinking: 3, speaking: 1.5, error: 0.4 };
+        const ENERGY = { idle: 0, listening: Math.min(1, level * 1.5), thinking: 0.4, speaking: 0.3, error: 0 };
+        fabricSpeed += (SPEED[state] - fabricSpeed) * Math.min(1, dt * 1.5);
+        fabricEnergy += (ENERGY[state] - fabricEnergy) * Math.min(1, dt * 1.2);
+        fabricT += dt * fabricSpeed;
+        fabric.render(fabricT, fabricEnergy);
+      }
       rafId = requestAnimationFrame(tick);
     }
 
     const JITTER_AMP = 2.2;
+    const ORBIT_RADIUS = 16;   // % — thinking: blobs circle the centre
     function updateMicroJitter(t) {
+      const amp = JITTER_AMP * (1 + speakW * 1.5);
       for (const key of Object.keys(SHAPES)) {
         const phase = Number(key) * 2.1;
-        const jx = (Math.sin(t * 0.9 + phase) * 0.6 + Math.sin(t * 1.7 + phase * 1.3) * 0.4) * JITTER_AMP;
-        const jy = (Math.cos(t * 0.8 + phase * 1.5) * 0.6 + Math.sin(t * 1.4 + phase * 0.7) * 0.4) * JITTER_AMP;
+        const a = t * 2.4 + phase;
+        const jx = (Math.sin(t * 0.9 + phase) * 0.6 + Math.sin(t * 1.7 + phase * 1.3) * 0.4) * amp + Math.cos(a) * ORBIT_RADIUS * orbitW;
+        const jy = (Math.cos(t * 0.8 + phase * 1.5) * 0.6 + Math.sin(t * 1.4 + phase * 0.7) * 0.4) * amp + Math.sin(a) * ORBIT_RADIUS * orbitW;
         gradientEl.style.setProperty(`--jx${key}`, `${jx.toFixed(2)}%`);
         gradientEl.style.setProperty(`--jy${key}`, `${jy.toFixed(2)}%`);
       }
     }
 
+    // Mic is opt-in: only requested the first time the orb enters 'listening'.
+    // If it's denied, listening falls back to a simulated level.
+    let micRequested = false;
     async function start() {
+      if (analyser || micRequested) return;
+      micRequested = true;
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -469,15 +528,21 @@
         analyser.smoothingTimeConstant = VOLUME_SMOOTHING;
         dataArray = new Uint8Array(analyser.frequencyBinCount);
         source.connect(analyser);
-        lastTime = null;
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(tick);
       } catch (err) {
         console.warn('Mic access denied or unavailable:', err);
-        rafId = requestAnimationFrame(tick);
       }
+      notifyParent({ type: 'orb-mic-status', on: !!analyser });
     }
-    start();
+    lastTime = null;
+    rafId = requestAnimationFrame(tick);
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'orb-state') setState(e.data.state);
+      // Host page scrolled the orb off screen: stop the frame loop and skip painting the filters.
+      if (e.data && e.data.type === 'orb-pause') {
+        if (e.data.paused) { cancelAnimationFrame(rafId); rafId = null; stage.style.visibility = 'hidden'; }
+        else if (!rafId) { stage.style.visibility = ''; lastTime = null; rafId = requestAnimationFrame(tick); }
+      }
+    });
 
     const SHAPES = {
       1: { label: 'Top left',     hue: 230, light: 32, bx: 23,   by: 27.8, baseSX: 62, baseSY: 48, locWiggle: 72, sizeWiggle: 79, feather: 16 },
@@ -550,12 +615,23 @@
       scheduleSizeWander(key);
     }
 
+    if (window.ORB_SKIN !== 'css' && window.FabricGlass) {
+      fabric = FabricGlass(Math.round(340 * Math.min(devicePixelRatio || 1, 2)), window.ORB_PALETTE);
+      if (fabric) {
+        Object.assign(fabric.canvas.style, { position: 'absolute', inset: '0', width: '100%', height: '100%' });
+        wrapper.prepend(fabric.canvas);
+        ['orb-gradient', 'orb-grain'].forEach((id) => { document.getElementById(id).style.display = 'none'; });
+        wrapper.style.background = 'transparent';
+        Object.assign(SHINE, { rimIntensity: 30, rimDepth: 0 });     // glass: soft light rim only, no dark inner shadow
+        Object.assign(OUTER_GLOW, { hue: 225, brightness: 70, intensity: 28 });   // listening glow tinted blue, not black
+      }
+    }
+
     setNoise(noiseValue);
     setWarp(warpValue);
     setBgColor('#FDF0F0');
     applyShine();
-    applyUnicorn();
-    for (const key of Object.keys(SHAPES)) { initShape(key); }
+    if (!fabric) for (const key of Object.keys(SHAPES)) { initShape(key); }
   </script>
 
 </body>

@@ -10,6 +10,8 @@ const PALETTES = [
   // Dusk: cooler, moodier but still light
   ['#F6EEF6','#C7B8F2','#9EC9F5','#F4B6C9','#B79BE8'],
 ];
+// Rich: opt-in via <div id="hero-fabric" data-variant="rich">. Same folds as the hero, deeper shading,
+// less white wash, a touch more saturation. The default (live homepage hero) is unchanged.
 const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255);
 
 const canvas=document.getElementById('hero-fabric-gl');
@@ -22,6 +24,7 @@ const fs=`
 precision highp float;
 uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; uniform float uMouseAmt;
 uniform vec3 uC0,uC1,uC2,uC3,uC4; uniform vec3 uRipple; // xy pos, z age
+uniform float uBusy, uDepth, uWash, uSat; // variant controls: default 1,1,1,1
 // simplex noise (Ashima)
 vec3 permute(vec3 x){return mod(((x*34.)+1.)*x,289.);}
 float snoise(vec2 v){const vec4 C=vec4(.211324865405187,.366025403784439,-.577350269189626,.024390243902439);
@@ -37,9 +40,11 @@ float H(vec2 p, float t, vec2 m, float amt, vec3 rip){
   vec2 w=vec2(snoise(vec2(p.x*.35+t*.15, p.y*.25-t*.1)), snoise(vec2(p.x*.3-t*.12, p.y*.3+t*.08)));
   vec2 q=p+w*.35;
   float h=0.;
-  h+=sin(q.x*3.2 + t*1.1 + sin(q.y*1.3+t*.6)*1.4)*.55;   // main folds
-  h+=sin(q.x*5.1 - t*.8  + q.y*1.7 + sin(t*.4)*2.)*.25;   // secondary folds, slightly diagonal
-  h+=snoise(vec2(q.x*1.2, q.y*.9+t*.3))*.35;               // billow
+  float uvx=q.x/ar; // normalise to 0..1 so fold count is identical on any screen width
+  h+=sin(uvx*9.4*uBusy + t*1.1 + sin(q.y*1.3+t*.6)*1.4)*.55;   // ~1.5 folds across width
+  h+=sin(uvx*6.3*uBusy - t*.8  + q.y*1.7 + sin(t*.4)*2.)*.25;   // ~1 fold, slightly diagonal
+  h+=snoise(vec2(q.x*1.2, q.y*.9+t*.3)*uBusy)*.35;               // billow
+  h+=snoise(vec2(q.x*3.1-t*.2, q.y*2.6+t*.25))*.22*(uBusy-1.);    // dramatic only: small crumples
   // wind gust from cursor: a broad soft bulge
   vec2 d=p-m; h+=exp(-dot(d,d)*2.2)*1.1*amt;
   // click: a wide wave travelling outward
@@ -56,7 +61,7 @@ void main(){
   float h=H(p,t,m,uMouseAmt,uRipple);
   float hx=H(p+vec2(e,0.),t,m,uMouseAmt,uRipple)-h;
   float hy=H(p+vec2(0.,e),t,m,uMouseAmt,uRipple)-h;
-  vec3 n=normalize(vec3(-hx/e*.32,-hy/e*.32,1.));
+  vec3 n=normalize(vec3(-hx/e*.32*uDepth,-hy/e*.32*uDepth,1.));
   vec3 L=normalize(vec3(-.5,.6,.65));
   float diff=clamp(dot(n,L),0.,1.);
   float sheen=pow(clamp(dot(reflect(-L,n),vec3(0.,0.,1.)),0.,1.),6.);
@@ -68,9 +73,11 @@ void main(){
   // shading: shadows lean to the deeper accent, highlights to the light bg tone
   vec3 col=mix(mix(uC4,base,.3), base, smoothstep(.15,.95,diff));
   col=mix(col,uC0,sheen*.85);
-  col=mix(col,uC0,.18);
+  col=mix(col,uC0,.18*uWash);
   float calm=smoothstep(.9,.2,length((uv-vec2(.2,.6))*vec2(1.,1.4)));
-  col=mix(col,uC0,calm*.25);
+  col=mix(col,uC0,calm*.25*uWash);
+  float lum=dot(col,vec3(.299,.587,.114));
+  col=clamp(mix(vec3(lum),col,uSat),0.,1.);
   gl_FragColor=vec4(col,1.);
 }`;
 function sh(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(s);return s;}
@@ -80,7 +87,11 @@ const loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertex
 const U=n=>gl.getUniformLocation(pr,n);
 const uRes=U('uRes'),uTime=U('uTime'),uMouse=U('uMouse'),uAmt=U('uMouseAmt'),uRip=U('uRipple'),uC=[0,1,2,3,4].map(i=>U('uC'+i));
 
-let cur=PALETTES[0].map(hex), target=cur.map(c=>c.slice());
+const hostEl=document.getElementById('hero-fabric');
+const RICH=hostEl&&hostEl.dataset.variant==='rich';
+let cur=(RICH?PALETTES[1]:PALETTES[0]).map(hex), target=cur.map(c=>c.slice());
+gl.useProgram(pr);
+gl.uniform1f(U('uBusy'),1);gl.uniform1f(U('uDepth'),RICH?1.45:1);gl.uniform1f(U('uWash'),RICH?.5:1);gl.uniform1f(U('uSat'),RICH?1.2:1);
 function setPalette(i){target=PALETTES[i].map(hex);}
 
 const hero=document.getElementById('hero-fabric');
