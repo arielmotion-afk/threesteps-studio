@@ -67,8 +67,6 @@ button { font: inherit; color: inherit; }
 .nav-links { display: flex; gap: 4px; list-style: none; }
 .nav-links a { padding: 8px 12px; border-radius: 999px; font-size: 14px; font-weight: 500; transition: background var(--dur-micro) var(--ease-standard); }
 .nav-links a:hover { background: var(--surface); }
-.nav-links .cv { background: var(--ink); color: var(--bg); }
-.nav-links .cv:hover { background: var(--ink-2); }
 
 /* ─── Section scaffolding ─── */
 .section { padding-top: 120px; }
