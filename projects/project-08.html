@@ -28,7 +28,7 @@
     .device-videos { display: flex; flex-direction: column; gap: 24px; max-width: 1120px; width: 100%; margin: 0 auto; }
     .device-video { display: block; width: 100%; height: auto; background: #1b1b1b; }
     /* Product & web animations: one block per client, facts left, media right */
-    .pw-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 8px; }
+    .pw-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 48px; }
     .pw-jump a { font-size: 13px; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border); color: var(--text); text-decoration: none; }
     .pw-jump a:hover { border-color: var(--text); }
     .pw-block { padding: 72px 0; border-top: 1px solid rgba(0,0,0,.08); scroll-margin-top: 80px; }
@@ -42,13 +42,16 @@
     .pw-media { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
     .pw-sub { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .5; margin: 8px 0 0; }
     .pw-row { display: flex; gap: 14px; }
-    .pw-row--solo .pw-tile { flex: none !important; width: min(100%, calc(70vh * var(--r, 1.6))); }
+    .pw-row--solo .pw-tile { flex: 1 1 100% !important; width: 100%; }
     .pw-tile { position: relative; min-width: 0; padding: 0; border: 0; border-radius: 0; overflow: hidden; background: #fff; cursor: zoom-in; display: block;
 }
     .pw-tile--clear { background: transparent; }
     /* hover: a slight darker overlay, nothing moves */
     .pw-tile::before { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none; background: rgb(12,10,14); opacity: 0; transition: opacity .3s cubic-bezier(.2,0,0,1); }
     .pw-tile lottie-player, .pw-tile img, .pw-tile video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* some Lotties carry their own rounded card and padding: zoom just past it so edges are square and flush */
+    .pw-tile lottie-player { transform: scale(var(--zoom, 1)); }
+    .pw-tile--dark { background: #000; }
     /* hover: a gentle lift, the content leans in, and a zoom badge appears */
     .pw-tile::after { content: ""; position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px; border-radius: 50%; z-index: 2;
       background: rgba(20,16,18,.72) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'><circle cx='10.5' cy='10.5' r='6.5'/><path d='M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6'/></svg>") center / 16px no-repeat;
@@ -135,7 +138,7 @@
           <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design</dd></div><div><dt>Format</dt><dd>Lottie</dd></div><div><dt>Design</dt><dd>Mark Gerkules</dd></div><div><dt>Year</dt><dd>2026</dd></div></dl>
         </header>
         <div class="pw-media">
-          <div class="pw-row pw-row--solo"><button class="pw-tile" type="button" style="flex:1.778;--r:1.778;aspect-ratio:1920/1080" aria-label="Open animation"><lottie-player src="../animations/01 Header.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
+          <div class="pw-row pw-row--solo"><button class="pw-tile pw-tile--dark" type="button" style="flex:1.778;--r:1.778;aspect-ratio:1920/1080;--zoom:1.045" aria-label="Open animation"><lottie-player src="../animations/01 Header.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
         </div>
       </section>
       <section class="pw-block" id="wordtune">
@@ -157,14 +160,14 @@
           <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design</dd></div><div><dt>Format</dt><dd>Lottie</dd></div><div><dt>Year</dt><dd><span class="ph">[year]</span></dd></div></dl>
         </header>
         <div class="pw-media">
-          <div class="pw-row"><button class="pw-tile pw-tile--clear" type="button" style="flex:1.778;aspect-ratio:1984/1116" aria-label="Open animation"><lottie-player src="../animations/Sweet Web 01.json" background="transparent" speed="1" loop autoplay></lottie-player></button><button class="pw-tile pw-tile--sq pw-tile--clear" type="button" style="flex:0.667;aspect-ratio:452/678" aria-label="Open animation"><lottie-player src="../animations/Sweet Onboarding.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
+          <div class="pw-row"><button class="pw-tile pw-tile--clear" type="button" style="flex:1.778;aspect-ratio:1984/1116;--zoom:1.065" aria-label="Open animation"><lottie-player src="../animations/Sweet Web 01.json" background="transparent" speed="1" loop autoplay></lottie-player></button><button class="pw-tile pw-tile--sq pw-tile--clear" type="button" style="flex:0.667;aspect-ratio:452/678;--zoom:1.115" aria-label="Open animation"><lottie-player src="../animations/Sweet Onboarding.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
           <div class="pw-row"><button class="pw-tile pw-tile--clear" type="button" style="flex:1.477;aspect-ratio:1920/1300" aria-label="Open animation"><lottie-player src="../animations/sweet-hero-transparent.json" background="transparent" speed="1" loop autoplay></lottie-player></button><button class="pw-tile pw-tile--clear" type="button" style="flex:1.778;aspect-ratio:1920/1080" aria-label="Open animation"><lottie-player src="../animations/Sweet Spiral High.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
         </div>
       </section>
       <section class="pw-block" id="tego">
         <header class="pw-head">
           <div><h2 class="pw-name">Tego</h2><p class="pw-what">Hero animation for Tego, a platform that gives organisations visibility and control over what their AI agents can access.</p></div>
-          <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design</dd></div><div><dt>Format</dt><dd>Lottie, desktop and mobile versions</dd></div><div><dt>Year</dt><dd><span class="ph">[year]</span></dd></div></dl>
+          <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design</dd></div><div><dt>Format</dt><dd>Lottie, desktop and mobile versions</dd></div><div><dt>Year</dt><dd>2026</dd></div></dl>
         </header>
         <div class="pw-media">
           <div class="pw-row pw-row--solo"><button class="pw-tile pw-tile--device" type="button" aria-label="Open animation"
@@ -174,7 +177,7 @@
       <section class="pw-block" id="ai21">
         <header class="pw-head">
           <div><h2 class="pw-name">AI21 Jamba</h2><p class="pw-what">Loader research for the Jamba chat interface: how the wait while the model thinks could look and feel.</p></div>
-          <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design, research</dd></div><div><dt>Format</dt><dd>Lottie</dd></div><div><dt>Year</dt><dd><span class="ph">[year]</span></dd></div></dl>
+          <dl class="pw-facts"><div><dt>Role</dt><dd>Motion design, research</dd></div><div><dt>Format</dt><dd>Lottie</dd></div><div><dt>Year</dt><dd>2025</dd></div></dl>
         </header>
         <div class="pw-media">
           <div class="pw-row"><button class="pw-tile" type="button" style="flex:2.056;aspect-ratio:1980/963" aria-label="Open animation"><lottie-player src="../animations/loaders-research.json" background="transparent" speed="1" loop autoplay></lottie-player></button></div>
