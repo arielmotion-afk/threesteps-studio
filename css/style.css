@@ -13,8 +13,10 @@
   --border: #d8c8c8;
   --tile-bg: #f0dede;
 
-  --font-sans: 'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'HelveticaNeue-CondensedBold', 'Helvetica Neue Condensed Bold', 'Arial Narrow', sans-serif;
+  /* Same type system as v2.css: Inter Tight for text and titles, Bricolage Grotesque for labels */
+  --font-sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --font-label: 'Bricolage Grotesque', 'Inter Tight', sans-serif;
 
   --nav-h: 56px;
   --gutter: 48px;
@@ -1553,4 +1555,23 @@ a {
   font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--text);
+}
+
+/* ─── Unified type (matches the v2 case studies) ───
+   One title style and one metadata-label style across every page. Placed last so it
+   wins over the older per-breakpoint sizes above. */
+.hero-title, .project-title, .lottie-section-title, .spot-title, .about-title, .cta-headline {
+  font-family: var(--font-display);
+  font-stretch: normal;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+.project-title { font-size: clamp(2.75rem, 6vw, 5.5rem); line-height: .95; letter-spacing: -0.05em; }
+.project-category, .section-label, .credit-role, .about-role, .spot-placeholder-label, .pw-sub, .pw-facts dt {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
 }

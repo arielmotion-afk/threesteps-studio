@@ -16,8 +16,8 @@
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css?v=2">
   <style>
     .section-divider {
       border: none;
@@ -32,14 +32,13 @@
     .pw-block { padding: 72px 0; border-top: 1px solid rgba(0,0,0,.08); scroll-margin-top: 80px; }
     .project-header + .pw-block { margin-top: 56px; }   /* space between the intro and the first client */
     .pw-head { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: end; margin-bottom: 40px; }
-    .pw-name { font-size: 32px; line-height: 1.1; margin: 0 0 10px; }
+    .pw-name { font-size: 32px; font-weight: 600; letter-spacing: -.03em; line-height: 1.1; margin: 0 0 10px; }
     .pw-what { font-size: 16px; line-height: 1.55; opacity: .75; margin: 0; max-width: 52ch; }
-    .pw-facts { display: flex; flex-wrap: wrap; gap: 14px 28px; margin: 0; font-size: 13px; justify-content: flex-end; }
-    .pw-facts div { display: flex; flex-direction: column; gap: 3px; }
-    .pw-facts dt { opacity: .5; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+    .pw-facts { display: flex; flex-wrap: wrap; gap: 14px 28px; margin: 0; font-size: 15px; justify-content: flex-end; }
+    .pw-facts div { display: flex; flex-direction: column; gap: 6px; }   /* dt label style comes from style.css */
     .pw-facts dd { margin: 0; }
     .pw-media { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-    .pw-sub { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .5; margin: 8px 0 0; }
+    .pw-sub { margin: 8px 0 0; }   /* label style comes from style.css */
     .pw-row { display: flex; gap: 14px; }
     .pw-row--solo .pw-tile { flex: 1 1 100% !important; width: 100%; }
     .pw-tile { position: relative; min-width: 0; padding: 0; border: 0; border-radius: 0; overflow: hidden; background: #fff; cursor: zoom-in; display: block;
@@ -81,6 +80,7 @@
       .pw-row { flex-wrap: wrap; }
       .pw-row > .pw-tile { flex-basis: 100% !important; }
       .pw-row > .pw-tile--sq { flex-basis: calc(50% - 6px) !important; }   /* squares and portraits two-up */
+      .pw-row:has(> .pw-tile:not(.pw-tile--sq)) > .pw-tile { flex-basis: 100% !important; }   /* ...unless the row mixes in a wide piece: then every piece is full width */
       .pw-row--solo .pw-tile { width: 100%; }
     }
   </style>
@@ -105,7 +105,7 @@
           <h1 class="project-title">Product & Web Animations</h1>
           <p class="project-category">Lottie · In-App Animation · Web</p>
         </div>
-        <p class="project-description">Lottie and video animations for products and their websites.<br>Click any animation to see it larger.</p>
+        <p class="project-description">Lottie and video animations for products and their websites. Click any animation to see it larger.</p>
       </div>
 
 
