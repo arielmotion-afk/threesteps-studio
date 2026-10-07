@@ -95,12 +95,6 @@
   .kpi b { display: block; font-size: 48px; font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 8px; }
   .kpi span { color: var(--ink-2); font-size: 15px; }
 
-  .next { display: block; margin-top: 140px; overflow: hidden; position: relative; aspect-ratio: 16 / 6; background: #000; }
-  .next video { width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity var(--dur-medium) var(--ease-standard), transform 900ms var(--ease-standard); }
-  .next:hover video { opacity: .9; transform: scale(1.03); }
-  .next-label { position: absolute; left: 28px; bottom: 24px; color: #fff; }
-  .next-label .mono { opacity: .7; }
-  .next-label h3 { font-size: clamp(32px, 5vw, 64px); font-weight: 600; letter-spacing: -.04em; line-height: 1; }
 
   @media (max-width: 860px) {
     .facts { grid-template-columns: 1fr 1fr; }
@@ -109,7 +103,6 @@
     .outcome { grid-template-columns: 1fr; }
     .refs { grid-template-columns: 1fr; }
     .stage { aspect-ratio: 4 / 5; }
-    .next { aspect-ratio: 4 / 3; }
   }
   /* Dex study */
   .stage--dex { background: #fff; display: grid; place-items: center; aspect-ratio: 16 / 8.5; }
@@ -228,10 +221,6 @@
       </div>
     </section>
 
-    <a class="next" href="notch-voice-assistant.html">
-      <video src="../images/thumbnails/video/notch.mp4" muted loop playsinline poster="../images/thumbnails/notch%20thumbnail.png"></video>
-      <div class="next-label"><span class="mono">Next case study</span><h3>Notch Voice Assistant →</h3></div>
-    </a>
   </div>
 </main>
 
