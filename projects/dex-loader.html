@@ -107,9 +107,26 @@
   /* Dex study */
   .stage--dex { background: #fff; display: grid; place-items: center; aspect-ratio: 16 / 8.5; }
   .stage--dex lottie-player { width: 62%; aspect-ratio: 600 / 400; }
-  .loaders { display: grid; grid-template-columns: 1.6fr 1fr; gap: 12px; margin-top: 28px; }
-  .loader-tile { background: #fff; display: grid; place-items: center; padding: 28px; }
-  .loader-tile--logo lottie-player { width: 100%; aspect-ratio: 600 / 400; }
+  .stage--dex lottie-player { transform: scale(1.35); }
+  /* Logo loader lab: big stage, playback controls, key poses */
+  .lab { margin-top: 48px; }
+  .lab-stage { position: relative; background: #fff; aspect-ratio: 16 / 9; overflow: hidden; display: grid; place-items: center; }
+  .lab-stage lottie-player { width: 70%; aspect-ratio: 600 / 400; transform: scale(1.5); }
+  .lab-ui { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .lab-ui .chips { flex: none; }
+  .lab-ui input[type=range] { flex: 1 1 200px; accent-color: var(--ink); }
+  .lab-ui .mono { color: var(--muted); min-width: 9ch; text-align: right; }
+  .poses { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 12px; }
+  .pose { display: flex; flex-direction: column; background: #fff; border: 0; padding: 0; text-align: left; cursor: pointer; font: inherit; color: inherit; }
+  .pose .pv { display: block; aspect-ratio: 4 / 3; overflow: hidden; display: grid; place-items: center; position: relative; }
+  .pose .pv::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background var(--dur-short) var(--ease-standard); }
+  .pose:hover .pv::after { background: rgba(0,0,0,.04); }
+  .pose lottie-player { width: 100%; aspect-ratio: 600 / 400; transform: scale(1.7); pointer-events: none; }
+  .pose-cap { display: block; flex: 1; padding: 12px 14px 14px; border-top: 1px solid var(--line); }
+  .pose-cap .mono { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .pose-cap b { font-weight: 500; font-size: 15px; }
+  .pose.on .pose-cap { box-shadow: inset 0 3px 0 var(--mark); }
+  .loader-tile { background: #fff; display: grid; place-items: center; padding: 40px 28px; margin-top: 28px; }
   .sizes { display: flex; align-items: flex-end; gap: 28px; }
   .sizes figure { display: flex; flex-direction: column; align-items: center; gap: 10px; }
   .sizes lottie-player { display: block; }
@@ -119,7 +136,13 @@
   .screens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
   .screens img { width: 100%; height: auto; display: block; }
   .refs--dex img { aspect-ratio: 1; object-fit: cover; background: #fff; }
-  @media (max-width: 860px) { .loaders, .screens { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) {
+    .screens { grid-template-columns: 1fr; }
+    .lab-stage { aspect-ratio: 4 / 3; }
+    .lab-stage lottie-player { width: 92%; }
+    .poses { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 42%; overflow-x: auto; scroll-snap-type: x mandatory; }
+    .pose { scroll-snap-align: start; }
+  }
 </style>
 </head>
 <body>
@@ -169,25 +192,49 @@
     </section>
 
     <section class="block">
-      <div class="block-label"><h2>Two loaders, one system</h2></div>
+      <div class="block-label"><h2>The logo loader</h2></div>
       <div class="prose">
-        <p>The logo loader takes the logo apart and puts it back together. The chat loader does the same with nine blocks on an 8 by 8 pixel canvas, so it still reads at the size of a letter.</p>
-        <div class="loaders">
-          <div class="loader-tile loader-tile--logo"><lottie-player src="../animations/dex-loader.json" background="transparent" loop autoplay></lottie-player></div>
-          <div class="loader-tile">
-            <div class="sizes">
-              <figure><lottie-player src="../animations/dex-chat-loader.json" background="transparent" loop autoplay style="width:64px;height:64px"></lottie-player><figcaption>64px</figcaption></figure>
-              <figure><lottie-player src="../animations/dex-chat-loader.json" background="transparent" loop autoplay style="width:24px;height:24px"></lottie-player><figcaption>24px</figcaption></figure>
-              <figure><lottie-player src="../animations/dex-chat-loader.json" background="transparent" loop autoplay style="width:8px;height:8px"></lottie-player><figcaption>8px, actual</figcaption></figure>
-            </div>
+        <p>The loader takes the Dex logo apart and puts it back together. A single block splits along a diagonal, the blocks assemble into the logo, and then they turn into app icons one at a time while discovery runs. At the end the logo turns black again and collapses back to one block, so the loop has no visible seam.</p>
+        <p>It runs at 12 frames per second, so the blocks move in visible steps, like pixel art. Each block holds still, then snaps to its next position. Slow it down or scrub through it below.</p>
+      </div>
+    </section>
+
+    <div class="lab" id="lab">
+      <div class="lab-stage"><lottie-player id="lab-player" src="../animations/dex-loader.json" background="transparent" loop autoplay></lottie-player></div>
+      <div class="lab-ui">
+        <div class="chips">
+          <button class="chip on" type="button" id="lab-play">Pause</button>
+          <button class="chip on" type="button" data-speed="1">1×</button>
+          <button class="chip" type="button" data-speed="0.25">0.25×</button>
+        </div>
+        <input type="range" id="lab-scrub" min="0" max="109" step="1" value="0" aria-label="Frame">
+        <span class="mono" id="lab-frame">frame 0 / 110</span>
+      </div>
+      <div class="poses">
+        <button class="pose" type="button" data-frame="6"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 0–9</span><b>One block splits</b></span></button>
+        <button class="pose" type="button" data-frame="16"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 10–23</span><b>The logo assembles</b></span></button>
+        <button class="pose" type="button" data-frame="54"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 24–85</span><b>Blocks become app icons</b></span></button>
+        <button class="pose" type="button" data-frame="90"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 86–97</span><b>Full colour</b></span></button>
+        <button class="pose" type="button" data-frame="104"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 98–109</span><b>Back to one block</b></span></button>
+      </div>
+    </div>
+
+    <section class="block">
+      <div class="block-label"><h2>The chat loader</h2></div>
+      <div class="prose">
+        <p>A second version for the chat, small enough to sit next to a line of text. It does the same thing with nine blocks on an 8 by 8 pixel canvas, so it still reads at the size of a letter.</p>
+        <div class="loader-tile">
+          <div class="sizes">
+            <figure><lottie-player src="../animations/dex-chat-loader.json" background="transparent" loop autoplay style="width:64px;height:64px"></lottie-player><figcaption>64px</figcaption></figure>
+            <figure><lottie-player src="../animations/dex-chat-loader.json" background="transparent" loop autoplay style="width:24px;height:24px"></lottie-player><figcaption>24px</figcaption></figure>
+            <figure><lottie-player src="../animations/dex-chat-loader.json" background="transparent" loop autoplay style="width:8px;height:8px"></lottie-player><figcaption>8px, actual</figcaption></figure>
           </div>
         </div>
-        <p style="margin-top:28px">Both run at 12 frames per second, so the blocks move in visible steps, like pixel art. Each block holds still, then snaps to its next position.</p>
-        <table style="margin-top:28px">
+        <table style="margin-top:40px">
           <tr><th>Spec</th><th>Value</th></tr>
           <tr><td>frame rate</td><td>12 fps</td></tr>
           <tr><td>easing</td><td>cubic-bezier(1, 0, 0, 1) · hold, then snap</td></tr>
-          <tr><td>logo loader</td><td>600 × 400 · 9.2s loop</td></tr>
+          <tr><td>logo loader</td><td>600 × 400 · 110 frames · 9.2s loop</td></tr>
           <tr><td>chat loader</td><td>8 × 8 px · 9 blocks · a move every ~0.46s</td></tr>
           <tr><td>format</td><td>Lottie</td></tr>
         </table>
@@ -243,6 +290,38 @@
 }());
 </script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
+<script>
+// Logo loader lab: play/pause, speed, scrub, jump to a key pose.
+window.addEventListener('load', () => {
+  const p = document.getElementById('lab-player');
+  const play = document.getElementById('lab-play');
+  const scrub = document.getElementById('lab-scrub');
+  const out = document.getElementById('lab-frame');
+  const poses = [...document.querySelectorAll('.pose')];
+  let playing = true;
+  const anim = () => p.getLottie && p.getLottie();
+  const show = (f) => {
+    f = Math.round(f) % 110;
+    scrub.value = f; out.textContent = 'frame ' + f + ' / 110';
+    poses.forEach((b) => { const [a, z] = b.querySelector('.mono').textContent.match(/\d+/g).map(Number); b.classList.toggle('on', f >= a && f <= z); });
+  };
+  const setPlaying = (on) => { playing = on; on ? p.play() : p.pause(); play.textContent = on ? 'Pause' : 'Play'; play.classList.toggle('on', on); };
+  p.addEventListener('frame', () => { const a = anim(); if (a) show(a.currentFrame); });
+  play.addEventListener('click', () => setPlaying(!playing));
+  document.querySelectorAll('[data-speed]').forEach((b) => b.addEventListener('click', () => {
+    p.setSpeed(+b.dataset.speed);
+    document.querySelectorAll('[data-speed]').forEach((x) => x.classList.toggle('on', x === b));
+    if (!playing) setPlaying(true);
+  }));
+  scrub.addEventListener('input', () => { setPlaying(false); p.seek(+scrub.value); show(+scrub.value); });
+  poses.forEach((b) => {
+    const thumb = b.querySelector('lottie-player');
+    const still = () => { thumb.pause(); thumb.seek(+b.dataset.frame); };
+    thumb.getLottie && thumb.getLottie() ? still() : thumb.addEventListener('ready', still);
+    b.addEventListener('click', () => { setPlaying(false); p.seek(+b.dataset.frame); show(+b.dataset.frame); });
+  });
+});
+</script>
 <script src="../js/v2.js"></script>
 </body>
 </html>
