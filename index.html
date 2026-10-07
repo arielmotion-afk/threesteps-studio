@@ -46,6 +46,12 @@
   .reel { position: relative; margin-top: 56px; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg); }
   .reel-v { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s cubic-bezier(.2,0,0,1); }
   .reel-v.is-on { opacity: 1; }
+  /* animation slides in the reel (Lottie), crossfade like the videos */
+  .reel-slide { position: absolute; inset: 0; display: grid; place-items: center; background: #fff; opacity: 0; transition: opacity .8s cubic-bezier(.2,0,0,1); }
+  .reel-slide.is-on { opacity: 1; }
+  .reel-row { display: flex; gap: 2%; width: 88%; }
+  .reel-row lottie-player { flex: 1; aspect-ratio: 1; }
+  .reel-dex { width: 58%; aspect-ratio: 600 / 400; }
   .reel-label { position: absolute; left: 20px; bottom: 18px; z-index: 2; font-family: var(--label); font-size: 14px; color: var(--ink); padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.92); }
   .reel-label:hover { background: #fff; }
   .reel-dots { position: absolute; right: 14px; bottom: 16px; z-index: 2; display: flex; }
@@ -67,7 +73,7 @@
   .marquee ul { display: flex; align-items: center; list-style: none; }
   .marquee li { display: flex; align-items: center; font-size: 22px; font-weight: 600; letter-spacing: -.02em; color: var(--ink-2); white-space: nowrap; }
   .marquee li::after { content: "✦"; font-size: 12px; margin: 0 40px; color: var(--muted); }
-  .marquee li img { height: 26px; width: auto; filter: grayscale(1); opacity: .8; }
+  .marquee li img { width: auto; display: block; opacity: .85; }   /* black, transparent logos; height set per logo for optical balance */
   @keyframes marquee { to { transform: translateX(-50%); } }
 
   /* ─── Work: featured case study, then a uniform 2-up grid ─── */
@@ -177,6 +183,17 @@
     <div class="reel rv" id="reel" tabindex="0" aria-roledescription="carousel" aria-label="Selected work">
       <video class="reel-v is-on" muted loop playsinline preload="auto"></video>
       <video class="reel-v" muted loop playsinline preload="auto"></video>
+      <div class="reel-slide" id="reel-wordtune" aria-hidden="true">
+        <div class="reel-row">
+          <lottie-player src="animations/square-switch.json" background="transparent" loop></lottie-player>
+          <lottie-player src="animations/treasure-01.json" background="transparent" loop></lottie-player>
+          <lottie-player src="animations/Clock extra sparkles.json" background="transparent" loop></lottie-player>
+          <lottie-player src="animations/abcd-loader.json" background="transparent" loop></lottie-player>
+        </div>
+      </div>
+      <div class="reel-slide" id="reel-dex" aria-hidden="true">
+        <lottie-player class="reel-dex" src="animations/Dex_Loader.json" background="transparent" loop></lottie-player>
+      </div>
       <a class="reel-label" id="reel-label" href="#"><span id="reel-name"></span> ↗</a>
       <button class="reel-arrow reel-arrow--prev" id="reel-prev" type="button" aria-label="Previous project">←</button>
       <button class="reel-arrow reel-arrow--next" id="reel-next" type="button" aria-label="Next project">→</button>
@@ -190,13 +207,13 @@
   <div class="clients">
     <div class="marquee" id="marquee">
       <ul aria-label="Clients">
-        <li>AI21 Labs</li>
-        <li>Island</li>
-        <li>Wordtune</li>
-        <li>Elementor</li>
-        <li>Notch</li>
-        <li>Noma</li>
-        <li>Dappas</li>
+        <li><img src="images/logos/ai21.png" alt="AI21 Labs" style="height:27px"></li>
+        <li><img src="images/logos/island.png" alt="Island" style="height:24px"></li>
+        <li><img src="images/logos/wordtune.png" alt="Wordtune" style="height:30px"></li>
+        <li><img src="images/logos/elementor.svg" alt="Elementor" style="height:20px"></li>
+        <li><img src="images/logos/notch.png" alt="Notch" style="height:23px"></li>
+        <li><img src="images/logos/noma.png" alt="Noma" style="height:23px"></li>
+        <li><img src="images/logos/dappas.png" alt="Dappas" style="height:25px"></li>
         <li>Loora</li>
         <li>ImagenAI</li>
       </ul>
@@ -322,7 +339,7 @@
 
 <footer class="footer">
   <div class="wrap">
-    <h2 class="footer-cta"><a href="contact.html">Get in touch&nbsp;→</a></h2>
+    <h2 class="footer-cta"><a href="contact.html">Get in <span class="mark">touch.</span></a></h2>
     <div class="footer-row mono">
       <span>© Ariel Paz · Three Steps Studio</span>
       <div class="footer-links"><a href="https://www.linkedin.com/in/ariel-paz-motion/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:arielmotion@gmail.com">Email</a></div>
@@ -340,13 +357,16 @@
   document.querySelectorAll('video:not(.reel-v)').forEach((v) => vio.observe(v));   // the hero reel runs itself
 
 
-  // Hero reel (temporary): play each clip for up to 5s, crossfade to the next, loop.
+  // Hero reel (temporary): videos of the work with animation slides in between.
+  // Each item shows for 5s, then crossfades to the next; arrows, dots, keys and swipe move between them.
   (function () {
     const CLIPS = [
       { name: 'AI21 Maestro', href: 'projects/project-02.html', src: 'images/thumbnails/video/maestro.mp4' },
       { name: 'Notch', href: 'projects/project-12.html', src: 'images/thumbnails/video/notch.mp4' },
-      { name: 'Elementor', href: 'projects/project-13.html', src: 'images/thumbnails/video/elementor.mp4' },
+      { name: 'Wordtune', href: 'projects/project-08.html#wordtune', slide: 'reel-wordtune' },
+      { name: 'Elementor', href: 'projects/project-13.html', src: 'images/thumbnails/video/elementor.mp4?v=2' },
       { name: 'ImagenAI', href: 'projects/project-08.html#imagen', src: 'videos/imagen-01-desktop.mp4', start: 3 },
+      { name: 'Dex', href: 'projects/project-08.html#dex', slide: 'reel-dex' },
       { name: 'YAAP', href: 'projects/project-15.html', src: 'images/thumbnails/video/yaap.mp4' },
       { name: 'Jamba', href: 'projects/project-03.html', src: 'images/thumbnails/video/jamba.mp4' },
     ];
@@ -357,19 +377,24 @@
       const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-label', c.name);
       b.addEventListener('click', () => go(k)); dots.appendChild(b);
     });
-    let i = 0, front = 0, timer = null, visible = true;
+    const lotties = (el) => el.querySelectorAll('lottie-player');
+    const run = (el) => { if (el.tagName === 'VIDEO') el.play().catch(() => {}); else lotties(el).forEach((p) => { try { p.stop(); p.play(); } catch (e) {} }); };
+    const halt = (el) => { if (el.tagName === 'VIDEO') el.pause(); else lotties(el).forEach((p) => { try { p.pause(); } catch (e) {} }); };
+    let i = 0, front = 0, current = null, timer = null, visible = true;
     function load(v, c) { v.src = c.src; if (c.start) v.addEventListener('loadedmetadata', () => { v.currentTime = c.start; }, { once: true }); }
     function show(n) {
-      const c = CLIPS[n], next = vids[1 - front];
-      load(next, c);
-      next.play().catch(() => {});
-      next.classList.add('is-on'); vids[front].classList.remove('is-on');
-      const prev = vids[front]; setTimeout(() => prev.pause(), 900);
-      front = 1 - front;
+      const c = CLIPS[n]; let incoming;
+      if (c.slide) incoming = document.getElementById(c.slide);
+      else { front = current && current.tagName === 'VIDEO' ? 1 - front : front; incoming = vids[front]; load(incoming, c); }
+      run(incoming);
+      incoming.classList.add('is-on');
+      if (current && current !== incoming) { const prev = current; prev.classList.remove('is-on'); setTimeout(() => { if (prev !== current) halt(prev); }, 900); }
+      current = incoming;
       name.textContent = c.name; label.href = c.href;
       [...dots.children].forEach((d, k) => { d.classList.toggle('on', k === n); d.setAttribute('aria-selected', k === n); });
-      clearTimeout(timer); timer = setTimeout(() => { if (visible) { i = (i + 1) % CLIPS.length; show(i); } }, 5000);
+      clearTimeout(timer); timer = setTimeout(next, 5000);
     }
+    function next() { if (visible) { i = (i + 1) % CLIPS.length; show(i); } }
     function go(n) { if (n === i) return; i = (n + CLIPS.length) % CLIPS.length; show(i); }
     document.getElementById('reel-prev').addEventListener('click', () => go(i - 1));
     document.getElementById('reel-next').addEventListener('click', () => go(i + 1));
@@ -379,12 +404,12 @@
     reel.addEventListener('pointerup', (e) => { if (x0 !== null && Math.abs(e.clientX - x0) > 40) go(i + (e.clientX < x0 ? 1 : -1)); x0 = null; });
     new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
-      if (visible) { vids[front].play().catch(() => {}); clearTimeout(timer); timer = setTimeout(() => { i = (i + 1) % CLIPS.length; show(i); }, 5000); }
-      else { vids[front].pause(); clearTimeout(timer); }
+      if (!current) return;
+      if (visible) { run(current); clearTimeout(timer); timer = setTimeout(next, 5000); }
+      else { halt(current); clearTimeout(timer); }
     }).observe(reel);
-    load(vids[0], CLIPS[0]); vids[0].play().catch(() => {});
-    name.textContent = CLIPS[0].name; label.href = CLIPS[0].href; dots.children[0].classList.add('on');
-    timer = setTimeout(() => { if (visible) { i = (i + 1) % CLIPS.length; show(i); } }, 5000);
+    vids[0].classList.remove('is-on');
+    show(0);
   }());
 
 
@@ -459,6 +484,7 @@
   }
 }());
 </script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 <script src="js/fabric-glass.js"></script>
 <script src="js/v2.js"></script>
 </body>

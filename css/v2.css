@@ -99,8 +99,9 @@ button { font: inherit; color: inherit; }
 /* ─── Footer ─── */
 .footer { margin-top: 160px; background: var(--ink); color: var(--bg); padding: 96px 0 32px; }
 .footer-cta { font-size: clamp(44px, 8vw, 120px); line-height: .95; font-weight: 600; letter-spacing: -.045em; }
-.footer-cta a { background: linear-gradient(var(--mark), var(--mark)) 0 92% / 0 18% no-repeat; transition: background-size var(--dur-medium) var(--ease-standard); }
-.footer-cta a:hover { background-size: 100% 18%; color: var(--bg); }
+.footer-cta a { color: inherit; }
+.footer-cta .mark { background: var(--mark); color: var(--ink); padding: 0 .1em; border-radius: .1em; transition: background var(--dur-short) var(--ease-standard); }
+.footer-cta a:hover .mark { background: #fff; }   /* echoes the hero's highlighted word */
 .footer-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 96px; padding-top: 24px; border-top: 1px solid #2A2C30; color: #9A9EA5; }
 .footer-row a:hover { color: var(--bg); }
 .footer-links { display: flex; gap: 20px; }
