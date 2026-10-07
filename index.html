@@ -42,15 +42,14 @@
   .hero-tools { text-align: right; color: var(--muted); line-height: 1.6; }
 
   /* Hero reel (temporary): crossfading clips of the work */
-  .reel { position: relative; margin-top: 56px; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: #111; }
+  .reel { position: relative; margin-top: 56px; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg); }
   .reel-v { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s cubic-bezier(.2,0,0,1); }
   .reel-v.is-on { opacity: 1; }
-  .reel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(12,10,14,.45), rgba(12,10,14,0) 30%); }
-  .reel-label { position: absolute; left: 20px; bottom: 18px; z-index: 2; font-family: var(--label); font-size: 14px; color: #fff; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.14); }
-  .reel-label:hover { background: rgba(255,255,255,.24); }
+  .reel-label { position: absolute; left: 20px; bottom: 18px; z-index: 2; font-family: var(--label); font-size: 14px; color: var(--ink); padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.92); }
+  .reel-label:hover { background: #fff; }
   .reel-dots { position: absolute; right: 14px; bottom: 16px; z-index: 2; display: flex; }
   .reel-dots button { width: 22px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
-  .reel-dots button::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.45); transition: background .3s, transform .3s; }
+  .reel-dots button::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.6); box-shadow: 0 0 0 1px rgba(0,0,0,.12); transition: background .3s, transform .3s; }
   .reel-dots button:hover::before { background: rgba(255,255,255,.8); }
   .reel-dots button.on::before { background: #fff; transform: scale(1.35); }
   .reel-arrow { position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; margin-top: -22px; border: 0; border-radius: 50%; cursor: pointer;
@@ -95,14 +94,6 @@
   .case--featured { grid-column: 1 / -1; }
   .case--featured .case-media { aspect-ratio: 21 / 9; }
   .case--featured .mini-orb { width: 22%; }
-  /* Clip media as one shape: border-radius + overflow alone clips the video layer separately from the
-     background and scrim, which leaves a thin dark arc on the corners of light footage */
-  .case-media, .reel { clip-path: inset(0 round var(--radius)); }
-  .mini .case-media { clip-path: inset(0 round 16px); }
-  /* soft dark scrim behind the tag and arrow, so they never sit on busy footage */
-  .case-media::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: linear-gradient(to bottom, rgba(12,10,14,.38), rgba(12,10,14,0) 26%), linear-gradient(to top, rgba(12,10,14,.22), rgba(12,10,14,0) 22%); }
-  .case-media--light::after, .mini .case-media::after { display: none; }
   .open { position: absolute; right: 14px; bottom: 14px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; background: var(--mark); display: grid; place-items: center; transform: scale(0) rotate(-45deg); transition: transform var(--dur-medium) var(--ease-emphasized); pointer-events: none; }
   .case:hover .open { transform: scale(1) rotate(0); }
   .case-meta { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
@@ -155,6 +146,8 @@
     .cases { row-gap: 40px; }
     .hero-tools { text-align: left; }
   }
+  /* Media corners are square: rounded clipping on video left a thin dark arc on light footage */
+  .case-media, .reel, .case-shell, .mini .case-media, .mini .case-shell { border-radius: 0; }
 </style>
 </head>
 <body>
@@ -228,8 +221,8 @@
 
     <div class="cases">
       <a class="case rv" data-track="product" href="projects/notch-voice-assistant.html">
-        <div class="case-shell"><div class="case-media case-media--light"><span class="tag cs">Case study</span>
-          <div class="mini-orb-stage"><div class="mini-orb"></div></div>
+        <div class="case-shell"><div class="case-media"><span class="tag cs">Case study</span>
+          <img src="images/process/notch-agent/agent-canvas.jpg" alt="Notch agent builder with an orb for each agent" style="object-position: left top">
           <span class="open">↗</span></div></div>
         <div class="case-meta"><h3>Notch Voice Assistant</h3><span class="mono">Code animation</span></div>
       </a>
