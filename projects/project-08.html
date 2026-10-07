@@ -61,6 +61,9 @@
       .pw-tile:hover::after { opacity: 1; transform: scale(1); }
     }
     .pw-tile:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+    /* a piece alone in its row is already shown at full size: no zoom affordance */
+    .pw-row > .pw-tile:only-child { cursor: default; }
+    .pw-row > .pw-tile:only-child::before, .pw-row > .pw-tile:only-child::after { display: none; }
     .pw-tile:focus-visible::after { opacity: 1; transform: scale(1); }
     .ph { background: #FFF4C2; border-radius: 4px; padding: 0 4px; }
     /* lightbox */
@@ -235,6 +238,7 @@
     var box = document.getElementById('pw-lightbox'), inner = document.getElementById('pw-lightbox-inner');
     function close() { box.classList.remove('is-open'); inner.innerHTML = ''; }
     document.querySelectorAll('.pw-tile').forEach(function (t) {
+      if (t.matches(':only-child')) { t.tabIndex = -1; t.removeAttribute('aria-label'); return; }   // full-size already
       t.addEventListener('click', function () {
         var src = t.querySelector('lottie-player, img, video'), el;
         if (src.tagName === 'LOTTIE-PLAYER') { el = document.createElement('lottie-player'); el.setAttribute('src', src.getAttribute('src')); el.setAttribute('background', 'transparent'); el.setAttribute('loop', ''); el.setAttribute('autoplay', ''); }
