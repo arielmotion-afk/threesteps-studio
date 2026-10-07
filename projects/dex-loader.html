@@ -108,24 +108,15 @@
   .stage--dex { background: #fff; display: grid; place-items: center; aspect-ratio: 16 / 8.5; }
   .stage--dex lottie-player { width: 62%; aspect-ratio: 600 / 400; }
   .stage--dex lottie-player { transform: scale(1.35); }
-  /* Logo loader lab: big stage, playback controls, key poses */
+  /* Logo loader: key poses as stills */
   .lab { margin-top: 48px; }
-  .lab-stage { position: relative; background: #fff; aspect-ratio: 16 / 9; overflow: hidden; display: grid; place-items: center; }
-  .lab-stage lottie-player { width: 70%; aspect-ratio: 600 / 400; transform: scale(1.5); }
-  .lab-ui { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 14px 0; border-bottom: 1px solid var(--line); }
-  .lab-ui .chips { flex: none; }
-  .lab-ui input[type=range] { flex: 1 1 200px; accent-color: var(--ink); }
-  .lab-ui .mono { color: var(--muted); min-width: 9ch; text-align: right; }
-  .poses { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 12px; }
-  .pose { display: flex; flex-direction: column; background: #fff; border: 0; padding: 0; text-align: left; cursor: pointer; font: inherit; color: inherit; }
+  .poses { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .pose { display: flex; flex-direction: column; background: #fff; border: 0; padding: 0; text-align: left; margin: 0; }
   .pose .pv { display: block; aspect-ratio: 4 / 3; overflow: hidden; display: grid; place-items: center; position: relative; }
-  .pose .pv::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background var(--dur-short) var(--ease-standard); }
-  .pose:hover .pv::after { background: rgba(0,0,0,.04); }
   .pose lottie-player { width: 100%; aspect-ratio: 600 / 400; transform: scale(1.7); pointer-events: none; }
   .pose-cap { display: block; flex: 1; padding: 12px 14px 14px; border-top: 1px solid var(--line); }
   .pose-cap .mono { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
   .pose-cap b { font-weight: 500; font-size: 15px; }
-  .pose.on .pose-cap { box-shadow: inset 0 3px 0 var(--mark); }
   .loader-tile { background: #fff; display: grid; place-items: center; padding: 40px 28px; margin-top: 28px; }
   .sizes { display: flex; align-items: flex-end; gap: 28px; }
   .sizes figure { display: flex; flex-direction: column; align-items: center; gap: 10px; }
@@ -138,8 +129,6 @@
   .refs--dex img { aspect-ratio: 1; object-fit: cover; background: #fff; }
   @media (max-width: 860px) {
     .screens { grid-template-columns: 1fr; }
-    .lab-stage { aspect-ratio: 4 / 3; }
-    .lab-stage lottie-player { width: 92%; }
     .poses { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 42%; overflow-x: auto; scroll-snap-type: x mandatory; }
     .pose { scroll-snap-align: start; }
   }
@@ -195,27 +184,17 @@
       <div class="block-label"><h2>The logo loader</h2></div>
       <div class="prose">
         <p>The loader takes the Dex logo apart and puts it back together. A single block splits along a diagonal, the blocks assemble into the logo, and then they turn into app icons one at a time while discovery runs. At the end the logo turns black again and collapses back to one block, so the loop has no visible seam.</p>
-        <p>It runs at 12 frames per second, so the blocks move in visible steps, like pixel art. Each block holds still, then snaps to its next position. Slow it down or scrub through it below.</p>
+        <p>It runs at 12 frames per second, so the blocks move in visible steps, like pixel art. Each block holds still, then snaps to its next position.</p>
       </div>
     </section>
 
     <div class="lab" id="lab">
-      <div class="lab-stage"><lottie-player id="lab-player" src="../animations/dex-loader.json" background="transparent" loop autoplay></lottie-player></div>
-      <div class="lab-ui">
-        <div class="chips">
-          <button class="chip on" type="button" id="lab-play">Pause</button>
-          <button class="chip on" type="button" data-speed="1">1×</button>
-          <button class="chip" type="button" data-speed="0.25">0.25×</button>
-        </div>
-        <input type="range" id="lab-scrub" min="0" max="109" step="1" value="0" aria-label="Frame">
-        <span class="mono" id="lab-frame">frame 0 / 110</span>
-      </div>
       <div class="poses">
-        <button class="pose" type="button" data-frame="6"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 0–9</span><b>One block splits</b></span></button>
-        <button class="pose" type="button" data-frame="16"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 10–23</span><b>The logo assembles</b></span></button>
-        <button class="pose" type="button" data-frame="54"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 24–85</span><b>Blocks become app icons</b></span></button>
-        <button class="pose" type="button" data-frame="90"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 86–97</span><b>Full colour</b></span></button>
-        <button class="pose" type="button" data-frame="104"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 98–109</span><b>Back to one block</b></span></button>
+        <figure class="pose" data-frame="6"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 0–9</span><b>One block splits</b></span></figure>
+        <figure class="pose" data-frame="16"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 10–23</span><b>The logo assembles</b></span></figure>
+        <figure class="pose" data-frame="54"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 24–85</span><b>Blocks become app icons</b></span></figure>
+        <figure class="pose" data-frame="90"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 86–97</span><b>Full colour</b></span></figure>
+        <figure class="pose" data-frame="104"><span class="pv"><lottie-player src="../animations/dex-loader.json" background="transparent"></lottie-player></span><span class="pose-cap"><span class="mono">Frames 98–109</span><b>Back to one block</b></span></figure>
       </div>
     </div>
 
@@ -291,34 +270,13 @@
 </script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 <script>
-// Logo loader lab: play/pause, speed, scrub, jump to a key pose.
+// Key poses: each thumbnail holds one frame of the loader.
 window.addEventListener('load', () => {
-  const p = document.getElementById('lab-player');
-  const play = document.getElementById('lab-play');
-  const scrub = document.getElementById('lab-scrub');
-  const out = document.getElementById('lab-frame');
-  const poses = [...document.querySelectorAll('.pose')];
-  let playing = true;
-  const anim = () => p.getLottie && p.getLottie();
-  const show = (f) => {
-    f = Math.round(f) % 110;
-    scrub.value = f; out.textContent = 'frame ' + f + ' / 110';
-    poses.forEach((b) => { const [a, z] = b.querySelector('.mono').textContent.match(/\d+/g).map(Number); b.classList.toggle('on', f >= a && f <= z); });
-  };
-  const setPlaying = (on) => { playing = on; on ? p.play() : p.pause(); play.textContent = on ? 'Pause' : 'Play'; play.classList.toggle('on', on); };
-  p.addEventListener('frame', () => { const a = anim(); if (a) show(a.currentFrame); });
-  play.addEventListener('click', () => setPlaying(!playing));
-  document.querySelectorAll('[data-speed]').forEach((b) => b.addEventListener('click', () => {
-    p.setSpeed(+b.dataset.speed);
-    document.querySelectorAll('[data-speed]').forEach((x) => x.classList.toggle('on', x === b));
-    if (!playing) setPlaying(true);
-  }));
-  scrub.addEventListener('input', () => { setPlaying(false); p.seek(+scrub.value); show(+scrub.value); });
-  poses.forEach((b) => {
-    const thumb = b.querySelector('lottie-player');
-    const still = () => { thumb.pause(); thumb.seek(+b.dataset.frame); };
-    thumb.getLottie && thumb.getLottie() ? still() : thumb.addEventListener('ready', still);
-    b.addEventListener('click', () => { setPlaying(false); p.seek(+b.dataset.frame); show(+b.dataset.frame); });
+  document.querySelectorAll('.pose').forEach((f) => {
+    const p = f.querySelector('lottie-player');
+    const still = () => { p.pause(); p.seek(+f.dataset.frame); };
+    p.addEventListener('ready', still);
+    still();
   });
 });
 </script>
