@@ -108,7 +108,7 @@ button { font: inherit; color: inherit; }
   :root { --gutter: 24px; }   /* same side margin as the project pages */
   .section { padding-top: 88px; }
   .section-head { grid-template-columns: 1fr; }
-  .nav-links li:not(:last-child) { display: none; }
+  .nav-links li:has(.cv), .nav-links li:has(a[href$="#earlier"]) { display: none; }   /* phones: Work and About only */
 }
 
 /* ─── No lonely words ───

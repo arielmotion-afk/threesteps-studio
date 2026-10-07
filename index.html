@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/v2.css">
+<link rel="stylesheet" href="css/v2.css?v=4">
 <style>
   /* ─── Hero ─── */
   .hero { padding-top: 72px; }
@@ -92,10 +92,10 @@
   /* hover: a slight darker overlay fades in; nothing moves, so playing video never jitters */
   .case-shell { position: relative; }
   .case-media::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: rgb(12, 10, 14); opacity: 0; transition: opacity var(--dur-medium) var(--ease-standard); }   /* under the tag and ↗ badge */
+    background: rgb(12, 10, 14); opacity: 0; transition: opacity var(--dur-medium) var(--ease-standard); }   /* under the tag and ↗︎ badge */
   @media (hover: hover) { .case:hover .case-media::before, .mini:hover .case-media::before { opacity: .14; } }
   .case-media canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
-  .case-media canvas.pokeable { pointer-events: auto; cursor: pointer; }   /* poke the stack; the ↗ badge and title open the page */
+  .case-media canvas.pokeable { pointer-events: auto; cursor: pointer; }   /* poke the stack; the ↗︎ badge and title open the page */
   .open.open--always { transform: none; pointer-events: auto; }
   .tag { position: absolute; top: 14px; left: 14px; z-index: 2; font-family: var(--label); font-size: 11px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.92); pointer-events: none; }
   .tag.mkt { background: var(--ink); color: #fff; }
@@ -166,7 +166,7 @@
       <li><a href="#work">Work</a></li>
       <li><a href="#earlier">Earlier work</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Resume ↗</a></li>
+      <li><a href="files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Resume ↗︎</a></li>
     </ul>
   </div>
 </nav>
@@ -198,7 +198,7 @@
       <div class="reel-slide" id="reel-dex" aria-hidden="true">
         <lottie-player class="reel-dex" src="animations/Dex_Loader.json" background="transparent" loop></lottie-player>
       </div>
-      <a class="reel-label" id="reel-label" href="#"><span id="reel-name"></span> ↗</a>
+      <a class="reel-label" id="reel-label" href="#"><span id="reel-name"></span> ↗︎</a>
       <button class="reel-arrow reel-arrow--prev" id="reel-prev" type="button" aria-label="Previous project">←</button>
       <button class="reel-arrow reel-arrow--next" id="reel-next" type="button" aria-label="Next project">→</button>
       <div class="reel-dots" id="reel-dots" role="tablist" aria-label="Projects"></div>
@@ -240,49 +240,49 @@
       <a class="case rv" data-track="product" href="projects/notch-voice-assistant.html">
         <div class="case-shell"><div class="case-media case-media--light"><span class="tag cs">Case study</span>
           <div class="mini-orb-stage"><div class="mini-orb"></div></div>
-          <span class="open">↗</span></div></div>
+          <span class="open">↗︎</span></div></div>
         <div class="case-meta"><h3>Notch Voice Assistant</h3><span class="mono">Code animation</span></div>
       </a>
       <a class="case rv" data-track="product" href="projects/dex-loader.html">
         <div class="case-shell"><div class="case-media"><span class="tag cs">Case study</span>
           <video src="images/process/dex/onboarding-discovery.mp4" autoplay muted loop playsinline poster="images/process/dex/onboarding-discovery-poster.jpg" style="object-position: 35% center"></video>
-          <span class="open">↗</span></div></div>
+          <span class="open">↗︎</span></div></div>
         <div class="case-meta"><h3>Dex Loader</h3><span class="mono">Lottie</span></div>
       </a>
       <a class="case rv" data-track="product" href="projects/project-07.html">
         <div class="case-shell"><div class="case-media case-media--rive"><span class="tag">Interactive</span>
           <canvas id="squish" class="pokeable"></canvas>
-          <span class="open open--always" aria-hidden="true">↗</span></div></div>
+          <span class="open open--always" aria-hidden="true">↗︎</span></div></div>
         <div class="case-meta"><h3>Interactive animations</h3><span class="mono">Rive · Code</span></div>
       </a>
       <a class="case rv" data-track="product" href="projects/project-08.html">
         <div class="case-shell"><div class="case-media"><span class="tag">Product</span>
           <video src="videos/imagen-01-desktop.mp4" autoplay muted loop playsinline poster="images/thumbnails/imagen-01-desktop-poster.jpg" style="object-position: left bottom"></video>
-          <span class="open">↗</span></div></div>
+          <span class="open">↗︎</span></div></div>
         <div class="case-meta"><h3>Product &amp; web animations</h3><span class="mono">Lottie</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-02.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
           <video src="images/thumbnails/video/maestro.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/maestro-poster.jpg"></video>
-          <span class="open">↗</span></div></div>
+          <span class="open">↗︎</span></div></div>
         <div class="case-meta"><h3>AI21 Maestro</h3><span class="mono">Motion graphics</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-12.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
           <video src="images/thumbnails/video/notch.mp4" autoplay muted loop playsinline poster="images/thumbnails/notch%20thumbnail.png"></video>
-          <span class="open">↗</span></div></div>
+          <span class="open">↗︎</span></div></div>
         <div class="case-meta"><h3>Notch</h3><span class="mono">Motion graphics</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-15.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
           <video src="images/thumbnails/video/yaap.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/yaap-poster.jpg"></video>
-          <span class="open">↗</span></div></div>
+          <span class="open">↗︎</span></div></div>
         <div class="case-meta"><h3>YAAP</h3><span class="mono">Motion graphics</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-13.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
           <img src="images/thumbnails/elementor.gif" alt="">
-          <span class="open">↗</span></div></div>
+          <span class="open">↗︎</span></div></div>
         <div class="case-meta"><h3>Elementor</h3><span class="mono">Motion graphics · AI</span></div>
       </a>
     </div>
@@ -474,7 +474,7 @@
   // Pause live pieces while they're off screen
   const live = new IntersectionObserver((es) => es.forEach((e) => e.target._onVisible && e.target._onVisible(e.isIntersecting)));
 
-  // Poking the stack shouldn't navigate; the ↗ badge and the title still open the page
+  // Poking the stack shouldn't navigate; the ↗︎ badge and the title still open the page
   document.getElementById('squish').addEventListener('click', (e) => e.preventDefault());
 
   // Squish Stack (Rive)
