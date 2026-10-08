@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────
-   Portfolio v2 — draft
+   Portfolio v2, draft
    Idea: the site itself is a motion spec. Blush canvas, mono annotations
    (ms, curves, states) as the visual motif, electric mint highlights.
    ───────────────────────────────────────────────────────────── */
@@ -12,14 +12,14 @@
   --muted: #737B8C;
   --line: #D2D8E3;
   --mark: #35F2BE;          /* electric mint: pink's complement, highlights only, never text */
-  --blush: #E4E9F1;         /* orb stage: matches orb.html's own background */
+  --blush: #F1F4F9;         /* card and orb stages: a lighter tint than the page, so they read as surfaces (matches orb.html) */
   --placeholder: #FFF4C2;
 
   --display: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
   --head: 'Mona Sans', 'Inter Tight', sans-serif;   /* headings: Mona Sans wide, same as the header */
   --label: 'Bricolage Grotesque', 'Inter Tight', sans-serif;  /* secondary voice: labels, captions, specs */
 
-  /* motion tokens — used by the site and shown on the site */
+  /* motion tokens, used by the site and shown on the site */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-emphasized: cubic-bezier(0.3, 0, 0, 1.2);
   --dur-micro: 120ms;

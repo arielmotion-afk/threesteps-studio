@@ -1,4 +1,4 @@
-// Three Steps Studio — main.js
+// Three Steps Studio, main.js
 
 // Back button on project pages
 (function () {
@@ -104,7 +104,7 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
   });
 }());
 
-// Lottie hero animation — drop animations/hero.json to activate
+// Lottie hero animation, drop animations/hero.json to activate
 (function () {
   var el = document.getElementById('lottie-hero');
   if (!el || typeof lottie === 'undefined') return;
@@ -231,7 +231,7 @@ document.querySelectorAll('.project-tile').forEach(function (tile) {
         '<div class="vc-seek-wrap"><div class="vc-seek-fill"></div>' +
           '<input class="vc-seek-input" type="range" min="0" max="1000" step="1" value="0">' +
         '</div>' +
-        '<span class="vc-dur">—:——</span>' +
+        '<span class="vc-dur">0:00</span>' +
         '<button class="vc-vol-btn" aria-label="Toggle mute">' + SVG_MUTE + SVG_VOL + '</button>' +
         '<button class="vc-fs-btn" aria-label="Fullscreen">' + SVG_FS + '</button>' +
       '</div>';

@@ -1,4 +1,4 @@
-// Fabric glass — a glowing glass marble filled with soft, grainy colour fields
+// Fabric glass, a glowing glass marble filled with soft, grainy colour fields
 // (after the client's gradient references: periwinkle, warm white, orange, navy).
 // Two field layers at different depths drift past each other; the hero fabric's
 // folds bend them and leave faint veins. Fresnel rim, inner glow, film grain.

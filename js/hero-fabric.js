@@ -1,4 +1,4 @@
-// Hero fabric gradient — WebGL curtain-like folds, cursor gust + click wave
+// Hero fabric gradient, WebGL curtain-like folds, cursor gust + click wave
 (function(){
 if(!document.getElementById('hero-fabric-gl'))return;
 

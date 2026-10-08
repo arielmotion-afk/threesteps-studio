@@ -37,7 +37,7 @@ async function scene(hero, cv, cfg) {
     const fit = (font, sp, size, lines) => { tx.font = font.replace('F', size + 'px'); tx.letterSpacing = (sp * size) + 'px'; const w = Math.max(...lines.map((l) => tx.measureText(l).width), 1); return Math.min(size, size * W * .86 / w); };
     px = fit(T.a, T.at, px, cfg.a); if (cfg.b.length) gr = fit(T.b, T.bt, gr, cfg.b);
     const C = cfg.center, blockH = px * (.82 + .86 * (cfg.a.length - 1)) + (cfg.b.length ? gr * (.95 + .88 * (cfg.b.length - 1)) : 0);
-    let x = C ? W / 2 : 7 * vw, y = (C ? (H - blockH) / 2 - H * .03 : H * (phone ? cfg.topPhone : cfg.top)) + px * .82;   // centred: the whole block sits in the middle
+    let x = C ? W / 2 : 7 * vw, y = (C ? (H - blockH) / 2 - H * (phone ? (cfg.liftPhone || .03) : .03) : H * (phone ? cfg.topPhone : cfg.top)) + px * .82;   // centred: the whole block sits in the middle
     tx.textAlign = C ? 'center' : 'left';
     tx.font = T.a.replace('F', px + 'px'); tx.letterSpacing = (T.at * px) + 'px';
     cfg.a.forEach((line, n) => { if (n) y += px * .86; tx.fillText(line, x, y); });
@@ -195,7 +195,9 @@ async function scene(hero, cv, cfg) {
     bubbles.forEach((b, i) => {
       const R = b.r * m * (phone ? 1.25 : 1) * P.size;
       // idle wander: a few slow, unrelated sines so the path never repeats visibly
-      const td = t * P.driftSpeed; const hx = (b.hx + (Math.sin(td * .23 * b.f1 + b.ph) * .03 * b.ax + Math.sin(td * .61 * b.f3 + b.ph * 3) * .012) * P.drift) * W, hy = (b.hy + (Math.cos(td * .19 * b.f2 + b.ph) * .035 * b.ay + Math.sin(td * .53 * b.f3 + b.ph * 2) * .014) * P.drift) * H;
+      // phones have no cursor to stir things, so the bubbles drift a little further and faster on their own
+      const dk = P.drift * (phone ? 1.8 : 1), td = t * P.driftSpeed * (phone ? 1.7 : 1);
+      const hx = (b.hx + (Math.sin(td * .23 * b.f1 + b.ph) * .03 * b.ax + Math.sin(td * .61 * b.f3 + b.ph * 3) * .012) * dk) * W, hy = (b.hy + (Math.cos(td * .19 * b.f2 + b.ph) * .035 * b.ay + Math.sin(td * .53 * b.f3 + b.ph * 2) * .014) * dk) * H;
       if (b.x < 0) { b.x = hx; b.y = hy; }
       if (drag === b) { b.vx = (mx - b.x) * .4; b.vy = (my - b.y) * .4; }
       else {
@@ -249,7 +251,7 @@ async function scene(hero, cv, cfg) {
       if (!b.R) { arr.set([0, 0, 0], i * 3); return; }   // hidden slot
       const acc = Math.min(.04, Math.hypot(b.vx - b.pvx, b.vy - b.pvy) / (b.R * .4 + Rref * .6)); b.pvx = b.vx; b.pvy = b.vy;   // small ones don't jiggle out of proportion
       b.jig = Math.min(.6, b.jig * P.settle + acc * P.jiggle + Math.min(.08, (b.bump || 0) * 2)); b.bump = 0;
-      const breathe = still ? 0 : .035 * Math.sin(t * 1.1 * b.f3 + b.ph);
+      const breathe = still ? 0 : (phone ? .06 : .035) * Math.sin(t * 1.1 * b.f3 + b.ph);   // a visible breath on phones
       arr.set([b.x, b.y, b.R * 1.08 * (1 + .025 * Math.sin(t * 1.3 + b.ph))], i * 3);
       b.svx = (b.svx || 0) + (b.vx - (b.svx || 0)) * .12; b.svy = (b.svy || 0) + (b.vy - (b.svy || 0)) * .12;   // smoothed velocity for the shape
       varr.set([b.svx / b.R, b.svy / b.R, still ? 0 : b.jig, breathe], i * 4);
