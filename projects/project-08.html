@@ -75,13 +75,18 @@
       .pw-head { grid-template-columns: 1fr; gap: 16px; }
       .pw-facts { justify-content: flex-start; }
     }
-    @media (max-width: 700px) { .pw-tile--video { aspect-ratio: 680 / 710 !important; } }
+    @media (max-width: 700px) {
+      .pw-tile--video { aspect-ratio: 680 / 710 !important; }
+      #clears, #ai21 { display: none; }   /* too detailed to read at phone size */
+    }
     @media (max-width: 540px) {
       .pw-row { flex-wrap: wrap; }
       .pw-row > .pw-tile { flex-basis: 100% !important; }
-      .pw-row > .pw-tile--sq { flex-basis: calc(50% - 6px) !important; }   /* squares and portraits two-up */
+      .pw-row > .pw-tile--sq { flex-basis: calc(50% - 7px) !important; flex-grow: 0; }   /* squares two-up (half the row minus half the 14px gap) */
       .pw-row:has(> .pw-tile:not(.pw-tile--sq)) > .pw-tile { flex-basis: 100% !important; }   /* ...unless the row mixes in a wide piece: then every piece is full width */
       .pw-row--solo .pw-tile { width: 100%; }
+      /* Sweet onboarding is a tall portrait: narrower and centred so it doesn't fill the screen */
+      #sweet .pw-row > .pw-tile--sq { flex: 0 0 64% !important; margin: 16px auto; }
     }
   </style>
 </head>
