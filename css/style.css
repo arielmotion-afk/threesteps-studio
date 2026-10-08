@@ -1596,3 +1596,6 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 300; pointer-even
 .nav-links a { font: 500 14px 'Inter Tight', sans-serif; letter-spacing: 0; text-transform: none; color: var(--text); padding: 8px 12px; border-radius: 999px; transition: background .12s cubic-bezier(.2,0,0,1); }
 .nav-links a:hover { background: rgba(255,255,255,.7); color: var(--text); }
 @media (max-width: 860px) { .nav-links li:has(.cv) { display: none; } }
+
+/* ─── Arrow icon (a drawn ↗, never the text character: iOS turns that into an emoji) ─── */
+.arw { display: inline-block; width: .72em; height: .72em; margin-left: .2em; vertical-align: -.02em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }

@@ -135,3 +135,6 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 200; pointer-even
 
 /* ─── Headings: one family across the site (Mona Sans wide, like the header) ─── */
 h1, h2, h3, .h2, .cs-title, .block-label h2, .case-meta h3, .mini h4, .kpi b, .pw-name, .lab h3 { font-family: var(--head); font-weight: 800; letter-spacing: -.03em; }
+
+/* ─── Arrow icon (a drawn ↗, never the text character: iOS turns that into an emoji) ─── */
+.arw { display: inline-block; width: .72em; height: .72em; margin-left: .2em; vertical-align: -.02em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }

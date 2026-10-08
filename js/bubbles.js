@@ -139,19 +139,27 @@ async function scene(hero, cv, cfg) {
     px2.textBaseline = 'middle';
     let x = W * .07, py = pillY;
     if (cfg.center) {                                                    // centred row: measure first, then start half its width left of centre
-      let tw = 0; pills.forEach((p, n) => { const f = fs0 * (p.big ? 1.7 : 1); px2.font = `800 ${f}px 'Mona Sans', 'Inter Tight', sans-serif`; px2.letterSpacing = (f * (p.big ? .02 : .1)) + 'px'; tw += px2.measureText(p.label).width + f * 2.5 - f * .1 + (n ? gap : 0); });
+      let tw = 0; pills.forEach((p, n) => { const f = fs0 * (p.big ? 1.7 : 1); px2.font = `800 ${f}px 'Mona Sans', 'Inter Tight', sans-serif`; px2.letterSpacing = (f * (p.big ? .02 : .1)) + 'px'; tw += px2.measureText(p.label.replace(/\s*↗\uFE0E?/g, '')).width + f * 2.5 - f * .1 + (p.href ? f * 1.15 : 0) + (n ? gap : 0); });
       x = (W - tw) / 2;
     }
     pills.forEach((p) => {
       const fs = fs0 * (p.big ? 1.7 : 1), padX = fs * 1.25, padY = fs * .55;
       px2.font = `800 ${fs}px 'Mona Sans', 'Inter Tight', sans-serif`; px2.letterSpacing = (fs * (p.big ? .02 : .1)) + 'px';
-      p.w = px2.measureText(p.label).width + padX * 2 - fs * .1; p.h = fs + padY * 2; p.cx = x + p.w / 2; p.cy = py + p.h / 2;
+      const label = p.label.replace(/\s*↗\uFE0E?/g, ''), aw = p.href ? fs * 1.15 : 0;   // links get a drawn arrow (never the ↗ character: iOS renders it as an emoji)
+      p.w = px2.measureText(label).width + padX * 2 - fs * .1 + aw; p.h = fs + padY * 2;
+      if (x + p.w > W * .94 && x > W * .07 + 1) { x = W * .07; py += p.h + gap; }   // wrap onto a new line instead of running off the screen
+      p.cx = x + p.w / 2; p.cy = py + p.h / 2;
       px2.save(); px2.translate(p.cx + p.x, p.cy + p.y); px2.rotate(p.r * Math.PI / 180);
       px2.fillStyle = S.ink; px2.beginPath(); if (px2.roundRect) px2.roundRect(-p.w / 2, -p.h / 2, p.w, p.h, p.h / 2); else { const r = p.h / 2, l = -p.w / 2, tp = -p.h / 2; px2.moveTo(l + r, tp); px2.arcTo(l + p.w, tp, l + p.w, tp + p.h, r); px2.arcTo(l + p.w, tp + p.h, l, tp + p.h, r); px2.arcTo(l, tp + p.h, l, tp, r); px2.arcTo(l, tp, l + p.w, tp, r); } px2.fill();   // roundRect fallback for iOS < 16
-      px2.fillStyle = S.field; px2.fillText(p.label, -p.w / 2 + padX, 1); px2.restore();
+      px2.fillStyle = S.field; px2.fillText(label, -p.w / 2 + padX, 1);
+      if (aw) {                                                          // vector ↗: a diagonal with a corner head, in the chip's text colour
+        const s2 = fs * .36, ax = p.w / 2 - padX - s2 * .9, ay = 0;
+        px2.strokeStyle = S.field; px2.lineWidth = fs * .15; px2.lineCap = 'round'; px2.lineJoin = 'round';
+        px2.beginPath(); px2.moveTo(ax - s2, ay + s2); px2.lineTo(ax + s2, ay - s2); px2.moveTo(ax - s2 * .35, ay - s2); px2.lineTo(ax + s2, ay - s2); px2.lineTo(ax + s2, ay + s2 * .35); px2.stroke();
+      }
+      px2.restore();
       if (p.a) Object.assign(p.a.style, { left: (p.cx - p.w / 2) / dpr + 'px', top: (p.cy - p.h / 2) / dpr + 'px', width: p.w / dpr + 'px', height: p.h / dpr + 'px' });
       x += p.w + gap;
-      if (phone && p.big) { x = W * .07; py += p.h + gap; }   // phones: the email gets its own line
     });
     gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, tex3); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, pc);
     pillDirty = false;
