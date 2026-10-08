@@ -80,7 +80,7 @@ button { font: inherit; color: inherit; }
 .section-head { display: grid; grid-template-columns: 1fr 2fr; gap: var(--gutter); align-items: end; margin-bottom: 40px; }
 .eyebrow { display: flex; gap: 10px; align-items: center; font-family: var(--label); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
 .eyebrow b { color: var(--ink); font-weight: 500; }
-.h2 { font-family: var(--head); font-size: clamp(28px, 3.8vw, 48px); line-height: 1.02; font-weight: 800; letter-spacing: -.025em; }
+.h2 { font-family: var(--head); font-size: clamp(28px, 3.8vw, 48px); line-height: 1.02; font-weight: 800; letter-spacing: 0; }
 .lede { font-size: var(--fs-lede); color: var(--ink-2); max-width: 56ch; }
 
 /* reveal-on-scroll */
@@ -134,7 +134,7 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 200; pointer-even
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
 
 /* ─── Headings: one family across the site (Mona Sans wide, like the header) ─── */
-h1, h2, h3, .h2, .cs-title, .block-label h2, .case-meta h3, .mini h4, .kpi b, .pw-name, .lab h3 { font-family: var(--head); font-weight: 800; letter-spacing: -.03em; }
+h1, h2, h3, .h2, .cs-title, .block-label h2, .case-meta h3, .mini h4, .kpi b, .pw-name, .lab h3 { font-family: var(--head); font-weight: 800; letter-spacing: 0; }   /* wide type needs air between letters */
 
 /* ─── Arrow icon (a drawn ↗, never the text character: iOS turns that into an emoji) ─── */
 .arw { display: inline-block; width: .72em; height: .72em; margin-left: .2em; vertical-align: -.02em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }

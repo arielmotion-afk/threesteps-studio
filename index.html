@@ -7,7 +7,7 @@
 <meta name="description" content="Motion designer for product and marketing.">
 <meta property="og:title" content="Ariel Paz · Motion Design">
 <meta property="og:description" content="Motion designer for product and marketing.">
-<meta property="og:image" content="https://threesteps.studio/images/og-image.jpg?v=4">
+<meta property="og:image" content="https://threesteps.studio/images/og-image.jpg?v=5">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Ariel Paz, motion design: the name in big type with glass bubbles over it.">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ariel Paz · Three Steps Studio">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://threesteps.studio/images/og-image.jpg?v=4">
+<meta name="twitter:image" content="https://threesteps.studio/images/og-image.jpg?v=5">
 <link rel="canonical" href="https://threesteps.studio/">
 <link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
@@ -25,8 +25,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Mona+Sans:wdth,wght@125,900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/v2.css?v=11">
-<link rel="stylesheet" href="css/bubbles.css?v=1">
+<link rel="stylesheet" href="css/v2.css?v=12">
+<link rel="stylesheet" href="css/bubbles.css?v=2">
 <style>
   /* For now: no project carousel (and no intro line above it). The header stops short of the fold,
      so the client logos and the top of the work section peek in on the first screen. */
@@ -118,7 +118,7 @@
   .open { position: absolute; right: 14px; bottom: 14px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; background: var(--mark); display: grid; place-items: center; transform: scale(0) rotate(-45deg); transition: transform var(--dur-medium) var(--ease-emphasized); pointer-events: none; }
   .case:hover .open { transform: scale(1) rotate(0); }
   .case-meta { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
-  .case-meta h3 { font-family: var(--head); font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+  .case-meta h3 { font-family: var(--head); font-size: 20px; font-weight: 800; letter-spacing: 0; }
   .case-meta .mono { color: var(--muted); white-space: nowrap; }
 
   /* Rive artboard is square on a dark ground: fill the card with the same colour so it reads edge to edge */
@@ -142,7 +142,7 @@
   .minis > .mini.rv { transform: none; }   /* fade only inside the scroller: no vertical overflow */
   .minis > .mini { flex: 0 0 clamp(260px, calc((100% - 2 * var(--gutter)) / 3.3), 420px); scroll-snap-align: start; }
   .mini { display: flex; flex-direction: column; gap: 12px; }
-  .mini h4 { font-family: var(--head); font-size: 15px; font-weight: 800; letter-spacing: -.01em; }
+  .mini h4 { font-family: var(--head); font-size: 15px; font-weight: 800; letter-spacing: 0; }
 
   /* ─── About ─── */
   .about { max-width: 920px; }
@@ -446,7 +446,19 @@
   const nav = document.getElementById('nav');
   // always open at the top, so phones don't restore a scroll position below the header
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  if (!location.hash) scrollTo(0, 0);
+  // Some phone browsers (Safari, WhatsApp's in-app browser) restore an old scroll position or nudge the page
+  // while it loads. Until the visitor touches, scrolls or types, keep the page on the header.
+  if (!location.hash) {
+    let touched = false;
+    const mark = () => { touched = true; };
+    ['touchstart', 'wheel', 'keydown', 'pointerdown'].forEach((ev) => addEventListener(ev, mark, { once: true, passive: true }));
+    const top = () => { if (!touched && scrollY !== 0) scrollTo({ top: 0, behavior: 'instant' }); };
+    top();
+    addEventListener('load', () => { top(); setTimeout(top, 120); setTimeout(top, 600); });
+    addEventListener('pageshow', top);
+    addEventListener('scroll', top, { passive: true });
+    setTimeout(() => removeEventListener('scroll', top), 2500);   // after the page settles, scrolling is entirely the visitor's
+  }
   const bubHero = document.getElementById('bubHero');
   const onScroll = () => { nav.classList.toggle('is-scrolled', scrollY > 8); nav.classList.toggle('over', scrollY < bubHero.offsetHeight - 64); };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
@@ -508,7 +520,7 @@
 <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 <script src="js/fabric-glass.js"></script>
 <script src="js/v2.js?v=3"></script>
-<script src="js/bubbles.js?v=7"></script>
+<script src="js/bubbles.js?v=8"></script>
 <script>
   // Header: big name, three bubbles stacked on it; footer: one bubble off to the side and a sunset glow
   Bubbles.scene(document.getElementById('bubHero'), document.getElementById('bubHeroCanvas'), {

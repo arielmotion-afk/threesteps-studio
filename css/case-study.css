@@ -6,7 +6,7 @@
 .cs-hero { padding-top: 64px; }
 .back { font-family: var(--label); font-size: 12px; color: var(--muted); display: inline-flex; gap: 6px; margin-bottom: 40px; }
 .back:hover { color: var(--ink); }
-.cs-title { font-family: var(--head); font-size: clamp(38px, 6vw, 88px); line-height: .95; font-weight: 800; letter-spacing: -.03em; max-width: 16ch; }
+.cs-title { font-family: var(--head); font-size: clamp(38px, 6vw, 88px); line-height: .95; font-weight: 800; letter-spacing: -.005em; max-width: 16ch; }
 .cs-summary { font-size: var(--fs-intro); color: var(--ink-2); max-width: 52ch; margin-top: 28px; }
 .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--ink); }
 .facts dt { font-family: var(--label); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; }
@@ -24,7 +24,7 @@
 .block { display: grid; grid-template-columns: 1fr 2fr; gap: var(--gutter); padding-top: 96px; }
 .block-label { position: sticky; top: 96px; align-self: start; }
 .block-label .eyebrow { margin-bottom: 8px; }
-.block-label h2 { font-family: var(--head); font-size: var(--fs-h3); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.block-label h2 { font-family: var(--head); font-size: var(--fs-h3); font-weight: 800; letter-spacing: 0; line-height: 1.1; }
 .prose p { font-size: var(--fs-body); color: var(--ink-2); max-width: 60ch; }
 .prose p + p { margin-top: 18px; }
 .pull { font-size: clamp(26px, 3vw, 36px); line-height: 1.2; font-weight: 500; letter-spacing: -.025em; color: var(--ink); max-width: 28ch; padding-left: 20px; border-left: 3px solid var(--mark); margin: 32px 0; }
@@ -57,7 +57,7 @@ td:first-child { font-family: var(--label); font-size: 12.5px; padding-right: 16
 /* ─── Outcome ─── */
 .outcome { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); margin-top: 8px; }
 .kpi { border-top: 1px solid var(--ink); padding-top: 16px; }
-.kpi b { display: block; font-family: var(--head); font-size: var(--fs-stat); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin-bottom: 8px; }
+.kpi b { display: block; font-family: var(--head); font-size: var(--fs-stat); font-weight: 800; letter-spacing: 0; line-height: 1; margin-bottom: 8px; }
 .kpi span { color: var(--ink-2); font-size: 15px; }
 
 @media (max-width: 860px) {

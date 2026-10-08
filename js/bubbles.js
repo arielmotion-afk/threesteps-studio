@@ -13,7 +13,7 @@ let S = SCHEMES['Ice chrome'];
 const P = { size: .9, wobble: .63, jiggle: .4, settle: .908, stretch: 1, drift: .6, driftSpeed: .22, push: 4.7, reach: .98, spring: .006, damping: .942, lens: 1.93, edge: .06, film: 1.2, bloom: .16 };   // Ariel's tuned values
 // Type pairings: top two lines (name) and bottom two lines (discipline); size = fraction of width
 const TYPES = {
-  'Mona Sans wide':  { a: "900 F 'Mona Sans'", as: 13.5, at: -.04, b: "900 F 'Mona Sans'", bs: 4.8, bt: -.02 },   // big name, small discipline
+  'Mona Sans wide':  { a: "900 F 'Mona Sans'", as: 13.5, at: -.004, b: "900 F 'Mona Sans'", bs: 4.8, bt: .01 },   // big name, small discipline
 };
 let T = TYPES['Mona Sans wide'], redraw = () => {};
 
@@ -22,7 +22,7 @@ const redraws = []; redraw = () => redraws.forEach((f) => f());
 async function scene(hero, cv, cfg) {
   const gl = cv.getContext('webgl', { premultipliedAlpha: false, antialias: false });
   if (!gl) { hero.classList.add('no-gl'); return; }
-  await Promise.all(Object.values(TYPES).flatMap((x) => [x.a, x.b]).map((f) => document.fonts.load(f.replace('F', '100px'))));
+  await document.fonts.load("600 16px 'Inter Tight'"); await Promise.all(Object.values(TYPES).flatMap((x) => [x.a, x.b]).map((f) => document.fonts.load(f.replace('F', '100px'))));
 
   // Type layer, redrawn at the current size (responsive)
   const tc = document.createElement('canvas'), tx = tc.getContext('2d'), sc = document.createElement('canvas'), sx = sc.getContext('2d'), pc = document.createElement('canvas'), px2 = pc.getContext('2d');
@@ -135,18 +135,18 @@ async function scene(hero, cv, cfg) {
   // pills: rounded black chips with light text, laid out in a row under the title
   function drawPills() {
     pc.width = W; pc.height = H; px2.clearRect(0, 0, W, H);
-    const fs0 = Math.min(15, Math.max(11, W / dpr * .011)) * dpr, gap = 8 * dpr;
+    const fs0 = Math.min(16, Math.max(13, W / dpr * .012)) * dpr, gap = 8 * dpr;   // pills: the small text font, lowercase
     px2.textBaseline = 'middle';
     let x = W * .07, py = pillY;
     if (cfg.center) {                                                    // centred row: measure first, then start half its width left of centre
-      let tw = 0; pills.forEach((p, n) => { const f = fs0 * (p.big ? 1.7 : 1); px2.font = `800 ${f}px 'Mona Sans', 'Inter Tight', sans-serif`; px2.letterSpacing = (f * (p.big ? .02 : .1)) + 'px'; tw += px2.measureText(p.label.replace(/\s*↗\uFE0E?/g, '')).width + f * 2.5 - f * .1 + (p.href ? f * 1.15 : 0) + (n ? gap : 0); });
+      let tw = 0; pills.forEach((p, n) => { const f = fs0 * (p.big ? 1.7 : 1); px2.font = `600 ${f}px 'Inter Tight', sans-serif`; px2.letterSpacing = '0px'; tw += px2.measureText(p.label.replace(/\s*↗\uFE0E?/g, '').toLowerCase()).width + f * 2.5 - f * .1 + (p.href ? f * 1.15 : 0) + (n ? gap : 0); });
       x = (W - tw) / 2;
     }
     pills.forEach((p) => {
       const fs = fs0 * (p.big ? 1.7 : 1), padX = fs * 1.25, padY = fs * .55;
-      px2.font = `800 ${fs}px 'Mona Sans', 'Inter Tight', sans-serif`; px2.letterSpacing = (fs * (p.big ? .02 : .1)) + 'px';
-      const label = p.label.replace(/\s*↗\uFE0E?/g, ''), aw = p.href ? fs * 1.15 : 0;   // links get a drawn arrow (never the ↗ character: iOS renders it as an emoji)
-      p.w = px2.measureText(label).width + padX * 2 - fs * .1 + aw; p.h = fs + padY * 2;
+      px2.font = `600 ${fs}px 'Inter Tight', sans-serif`; px2.letterSpacing = '0px';
+      const label = p.label.replace(/\s*↗\uFE0E?/g, '').toLowerCase(), aw = p.href ? fs * 1.15 : 0;   // links get a drawn arrow (never the ↗ character: iOS renders it as an emoji)
+      p.w = px2.measureText(label).width + padX * 2 + aw; p.h = fs + padY * 2;
       if (x + p.w > W * .94 && x > W * .07 + 1) { x = W * .07; py += p.h + gap; }   // wrap onto a new line instead of running off the screen
       p.cx = x + p.w / 2; p.cy = py + p.h / 2;
       px2.save(); px2.translate(p.cx + p.x, p.cy + p.y); px2.rotate(p.r * Math.PI / 180);
