@@ -456,8 +456,8 @@
     top();
     addEventListener('load', () => { top(); setTimeout(top, 120); setTimeout(top, 600); });
     addEventListener('pageshow', top);
-    addEventListener('scroll', top, { passive: true });
-    setTimeout(() => removeEventListener('scroll', top), 2500);   // after the page settles, scrolling is entirely the visitor's
+    addEventListener('scroll', top, { passive: true });   // no time limit: until the visitor acts, the page only moves when they move it
+    ['touchstart', 'wheel', 'keydown', 'pointerdown'].forEach((ev) => addEventListener(ev, () => removeEventListener('scroll', top), { once: true, passive: true }));
   }
   const bubHero = document.getElementById('bubHero');
   const onScroll = () => { nav.classList.toggle('is-scrolled', scrollY > 8); nav.classList.toggle('over', scrollY < bubHero.offsetHeight - 64); };
