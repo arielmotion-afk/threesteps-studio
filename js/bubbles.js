@@ -185,9 +185,13 @@ async function scene(hero, cv, cfg) {
 
   let on = true; new IntersectionObserver(([e]) => { on = e.isIntersecting; }).observe(hero);
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches, arr = new Float32Array(15), varr = new Float32Array(20);   // 5 slots; unused ones stay radius 0
+  let clock = 0, lastNow = 0;
+  // coming back to the tab: forget the gap, so nothing lurches
+  document.addEventListener('visibilitychange', () => { lastNow = 0; bubbles.forEach((b) => { b.vx *= .2; b.vy *= .2; b.pvx = b.vx; b.pvy = b.vy; b.jig = 0; }); });
   (function frame(now) {
     requestAnimationFrame(frame); if (!on) return;
-    const t = still ? 0 : now / 1000, m = Math.min(W, H);
+    const dt = Math.min(.05, Math.max(0, (now - (lastNow || now)) / 1000)); lastNow = now; clock += dt;   // own clock: pauses with the tab, never jumps
+    const t = still ? 0 : clock, m = Math.min(W, H);
     // smoothed cursor position and speed (raw mouse samples are noisy)
     if (mx < -1e3) { smx = mx; smy = my; } else if (smx < -1e3) { smx = mx; smy = my; } else { smx += (mx - smx) * .18; smy += (my - smy) * .18; }
     const rvx = Math.max(-40, Math.min(40, mx - pmx)), rvy = Math.max(-40, Math.min(40, my - pmy)); pmx = mx; pmy = my;
