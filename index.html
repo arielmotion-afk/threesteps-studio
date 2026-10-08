@@ -128,7 +128,7 @@
   /* ─── Earlier work: a quiet horizontal scroller in the same card language ─── */
   .rail-head { flex-direction: row; justify-content: space-between; align-items: flex-end; }
   .rail-nav { display: flex; gap: 8px; }
-  .rail-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 18px; cursor: pointer;
+  .rail-btn { display: grid; place-items: center; padding: 0; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 18px; cursor: pointer;
     transition: background var(--dur-short) var(--ease-standard), color var(--dur-short), opacity var(--dur-short); }
   .rail-btn:hover:not(:disabled) { background: var(--ink); color: #fff; border-color: var(--ink); }
   .rail-btn:disabled { opacity: .35; cursor: default; }
@@ -304,8 +304,8 @@
     <div class="work-head rail-head">
       <h2 class="h2">Earlier work, UGC and AI</h2>
       <div class="rail-nav">
-        <button class="rail-btn" id="rail-prev" type="button" aria-label="Scroll back" disabled>←</button>
-        <button class="rail-btn" id="rail-next" type="button" aria-label="Scroll forward">→</button>
+        <button class="rail-btn" id="rail-prev" type="button" aria-label="Scroll back" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button class="rail-btn" id="rail-next" type="button" aria-label="Scroll forward"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
     </div>
     <div class="minis" id="rail" tabindex="0" aria-label="Earlier work">
