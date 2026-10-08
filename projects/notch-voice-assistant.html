@@ -23,18 +23,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/v2.css?v=5">
-<link rel="stylesheet" href="../css/case-study.css?v=2">
+<link rel="stylesheet" href="../css/v2.css?v=6">
+<link rel="stylesheet" href="../css/case-study.css?v=5">
 <style>
   /* Earlier orb passes, rebuilt live for the process gallery */
   @keyframes spin { to { transform: rotate(360deg); } }
   .orb-v1, .orb-v2 { width: 46%; aspect-ratio: 1; border-radius: 50%; position: relative; overflow: hidden; isolation: isolate; animation: breathe 3.2s ease-in-out infinite; }
   /* WebKit lets SVG-filtered children escape overflow + border-radius, so clip the layers to a circle explicitly */
   .ov-clip { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; clip-path: circle(50% at 50% 50%); -webkit-mask-image: -webkit-radial-gradient(white, black); }
-  .orb-v1 { box-shadow: inset 6px -6px 22px rgba(255,255,255,.7), inset -8px 8px 30px rgba(0,0,0,.08), 0 30px 60px rgba(120,140,220,.25); }
+  .orb-v1 { box-shadow: inset 6px -6px 22px rgba(255,255,255,.7), inset -8px 8px 30px rgba(0,0,0,.08); }   /* shading only, no drop shadow */
   .orb-v1::before { content: ""; position: absolute; inset: -30%; filter: blur(14px); will-change: transform; animation: spin 9s linear infinite;
     background: radial-gradient(circle at 35% 35%, #3E54C9 0 18%, transparent 46%), radial-gradient(circle at 70% 70%, #F2A25E 0 14%, transparent 44%), radial-gradient(circle at 65% 25%, #9BD3FF 0 12%, transparent 40%), #EAF6FA; }
-  .orb-v2 { background: linear-gradient(165deg, hsl(28 86% 66%) 0%, hsl(255 45% 60%) 46%, hsl(230 72% 40%) 100%); box-shadow: 0 30px 70px rgba(70, 80, 200, .26), 0 8px 24px rgba(240, 140, 90, .16); }
+  .orb-v2 { background: linear-gradient(165deg, hsl(28 86% 66%) 0%, hsl(255 45% 60%) 46%, hsl(230 72% 40%) 100%); }
   .ov-spin { position: absolute; inset: -25%; will-change: transform; animation: spin 18s linear infinite; }
   .ov-spin.b { animation-duration: 12s; animation-direction: reverse; }
   .ov-spin > i { position: absolute; inset: 0; }

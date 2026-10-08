@@ -28,6 +28,12 @@
   --gutter: 24px;
   --max: 1152px;   /* 1104px content + gutters: same column as the project pages */
   --radius: 20px;
+  /* Type scale for running text; phones get a smaller step (see the 860px query) */
+  --fs-intro: 21px;   /* lead paragraph under a title */
+  --fs-body: 19px;    /* long-form body copy */
+  --fs-lede: 18px;
+  --fs-h3: 28px;      /* section labels in case studies */
+  --fs-stat: 48px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -74,7 +80,7 @@ button { font: inherit; color: inherit; }
 .eyebrow { display: flex; gap: 10px; align-items: center; font-family: var(--label); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
 .eyebrow b { color: var(--ink); font-weight: 500; }
 .h2 { font-size: clamp(32px, 4.4vw, 56px); line-height: 1.02; font-weight: 600; letter-spacing: -.035em; }
-.lede { font-size: 18px; color: var(--ink-2); max-width: 56ch; }
+.lede { font-size: var(--fs-lede); color: var(--ink-2); max-width: 56ch; }
 
 /* reveal-on-scroll */
 .rv { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease-standard), transform 700ms var(--ease-standard); }
@@ -105,7 +111,8 @@ button { font: inherit; color: inherit; }
 .footer-links { display: flex; gap: 20px; }
 
 @media (max-width: 860px) {
-  :root { --gutter: 24px; }   /* same side margin as the project pages */
+  :root { --gutter: 24px;   /* same side margin as the project pages */
+    --fs-intro: 18px; --fs-body: 16px; --fs-lede: 16px; --fs-h3: 24px; --fs-stat: 36px; }
   .section { padding-top: 88px; }
   .section-head { grid-template-columns: 1fr; }
   .nav-links li:has(.cv), .nav-links li:has(a[href$="#earlier"]) { display: none; }   /* phones: Work and About only */
