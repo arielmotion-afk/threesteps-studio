@@ -446,13 +446,34 @@
   const nav = document.getElementById('nav');
   // always open at the top, so phones don't restore a scroll position below the header
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  // In-page links (Work, About, the name) scroll without writing #work into the address, so a reload or a
+  // shared link never re-jumps past the header. A link that arrives with a # jumps once, then the address is cleaned.
+  document.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href').slice(1), el = id ? document.getElementById(id) : null;
+    if (!el && id !== 'top') return;
+    e.preventDefault(); window.__userMoved = true;   // a link the visitor chose counts as them moving the page
+    if (id === 'top' || !el) scrollTo({ top: 0, behavior: 'smooth' }); else el.scrollIntoView({ behavior: 'smooth' });
+  }));
+  if (location.hash) addEventListener('load', () => setTimeout(() => history.replaceState(null, '', location.pathname + location.search), 800));
+
+  // Debug readout for phones: open the site with ?debug to see every scroll the page makes and what was going on
+  if (/[?&]debug\b/.test(location.search)) {
+    const box = document.createElement('pre'), t0 = performance.now(), rows = [];
+    box.style.cssText = 'position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;margin:0;padding:8px;font:11px/1.35 ui-monospace,monospace;background:rgba(0,0,0,.82);color:#9ef;border-radius:8px;max-height:45vh;overflow:auto;pointer-events:none;white-space:pre-wrap';
+    document.body.appendChild(box);
+    const log = (why) => { const ae = document.activeElement; rows.push(`${((performance.now() - t0) / 1000).toFixed(2)}s ${why} y=${Math.round(scrollY)} vh=${innerHeight} hero=${document.getElementById('bubHero').offsetHeight} doc=${document.documentElement.scrollHeight} hash=${location.hash || '-'} focus=${ae ? (ae.id || ae.tagName) : '-'}`); box.textContent = rows.slice(-14).join('\n'); };
+    log('start ' + location.href.replace(location.origin, ''));
+    let last = scrollY; addEventListener('scroll', () => { if (Math.abs(scrollY - last) > 20) { log('scroll'); last = scrollY; } }, { passive: true });
+    ['load', 'pageshow', 'resize', 'focusin', 'hashchange', 'touchstart'].forEach((ev) => addEventListener(ev, () => log(ev), { passive: true }));
+  }
+
   // Some phone browsers (Safari, WhatsApp's in-app browser) restore an old scroll position or nudge the page
   // while it loads. Until the visitor touches, scrolls or types, keep the page on the header.
   if (!location.hash) {
     let touched = false;
     const mark = () => { touched = true; };
     ['touchstart', 'wheel', 'keydown', 'pointerdown'].forEach((ev) => addEventListener(ev, mark, { once: true, passive: true }));
-    const top = () => { if (!touched && scrollY !== 0) scrollTo({ top: 0, behavior: 'instant' }); };
+    const top = () => { if (!touched && !window.__userMoved && scrollY !== 0) scrollTo({ top: 0, behavior: 'instant' }); };
     top();
     addEventListener('load', () => { top(); setTimeout(top, 120); setTimeout(top, 600); });
     addEventListener('pageshow', top);
