@@ -3,23 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <title>OG image source</title>
-<!-- Source for images/og-image.jpg (link previews: WhatsApp, LinkedIn, Slack).
-     Render at 1200×630: Chrome headless --window-size=1200,630 --screenshot -->
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
+<!-- Source for images/og-image.jpg (link previews: WhatsApp, LinkedIn, Slack): the homepage header scene at 1200×630.
+     Render: Chrome headless --window-size=1200,630 --use-angle=swiftshader --virtual-time-budget=4000 --screenshot -->
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800&family=Mona+Sans:wdth,wght@125,900&display=swap" rel="stylesheet">
 <style>
-  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #FDF0F0; font-family: 'Inter Tight', sans-serif; color: #141012; }
-  .wrap { position: relative; width: 1200px; height: 630px; padding: 84px 88px; box-sizing: border-box; }
-  .name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 26px; display: flex; align-items: center; gap: 12px; }
-  .name i { width: 12px; height: 12px; border-radius: 50%; background: #141012; display: inline-block; }
-  h1 { margin: 64px 0 0; font-size: 112px; line-height: 1.04; font-weight: 600; letter-spacing: -.05em; max-width: 14ch; }
-  h1 span { background: #35F2BE; padding: 0 .1em; border-radius: .1em; }
-  .sub { position: absolute; left: 88px; bottom: 76px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; color: #6E6366; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #E4E9F1; }
+  .bub { position: relative; width: 1200px; height: 630px; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .bub-name { display: none; }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="name"><i></i>Ariel Paz</div>
-    <h1>Motion for the product and the <span>launch.</span></h1>
-  </div>
+  <section class="bub" id="og"><canvas id="ogc"></canvas><h1 class="bub-name">ARIEL PAZ</h1></section>
+  <script src="js/bubbles.js"></script>
+  <script>
+    Bubbles.scene(document.getElementById('og'), document.getElementById('ogc'), {
+      a: ['ARIEL', 'PAZ'], b: ['MOTION', 'DESIGN'], center: true, pills: ['MOTION', 'PRODUCT', 'MARKETING'],
+      homes: [{ hx: .66, hy: .16, r: .22 }, { hx: .28, hy: .72, r: .12 }, { hx: .84, hy: .66, r: .06 }],
+      phone: [[.62, .26], [.32, .66], [.82, .58]],
+    });
+  </script>
 </body>
 </html>

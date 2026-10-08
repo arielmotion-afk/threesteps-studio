@@ -143,7 +143,7 @@ async function scene(hero, cv, cfg) {
       px2.font = `800 ${fs}px 'Mona Sans', 'Inter Tight', sans-serif`; px2.letterSpacing = (fs * (p.big ? .02 : .1)) + 'px';
       p.w = px2.measureText(p.label).width + padX * 2 - fs * .1; p.h = fs + padY * 2; p.cx = x + p.w / 2; p.cy = py + p.h / 2;
       px2.save(); px2.translate(p.cx + p.x, p.cy + p.y); px2.rotate(p.r * Math.PI / 180);
-      px2.fillStyle = S.ink; px2.beginPath(); px2.roundRect(-p.w / 2, -p.h / 2, p.w, p.h, p.h / 2); px2.fill();
+      px2.fillStyle = S.ink; px2.beginPath(); if (px2.roundRect) px2.roundRect(-p.w / 2, -p.h / 2, p.w, p.h, p.h / 2); else { const r = p.h / 2, l = -p.w / 2, tp = -p.h / 2; px2.moveTo(l + r, tp); px2.arcTo(l + p.w, tp, l + p.w, tp + p.h, r); px2.arcTo(l + p.w, tp + p.h, l, tp + p.h, r); px2.arcTo(l, tp + p.h, l, tp, r); px2.arcTo(l, tp, l + p.w, tp, r); } px2.fill();   // roundRect fallback for iOS < 16
       px2.fillStyle = S.field; px2.fillText(p.label, -p.w / 2 + padX, 1); px2.restore();
       if (p.a) Object.assign(p.a.style, { left: (p.cx - p.w / 2) / dpr + 'px', top: (p.cy - p.h / 2) / dpr + 'px', width: p.w / dpr + 'px', height: p.h / dpr + 'px' });
       x += p.w + gap;
@@ -255,5 +255,5 @@ async function scene(hero, cv, cfg) {
   })(0);
 }
 
-window.Bubbles = { scene };
+window.Bubbles = { scene: (el, cv, cfg) => scene(el, cv, cfg).catch(() => el.classList.add('no-gl')) };
 }());
