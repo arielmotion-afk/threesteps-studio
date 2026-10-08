@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Mona+Sans:wdth,wght@125,900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/v2.css?v=10">
+<link rel="stylesheet" href="css/v2.css?v=11">
 <link rel="stylesheet" href="css/bubbles.css?v=1">
 <style>
   /* For now: no project carousel (and no intro line above it). The header stops short of the fold,
@@ -99,6 +99,7 @@
   .case { display: flex; flex-direction: column; gap: 14px; }
   .case.is-hidden { display: none; }
   .case-media { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--surface); isolation: isolate; }
+  .case-media:has(.mini-orb-stage) { background: transparent; }   /* the Notch card: just the orb, no panel behind it */
   .case-media > video, .case-media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   /* hover: a slight darker overlay fades in; nothing moves, so playing video never jitters */
   .case-shell { position: relative; }

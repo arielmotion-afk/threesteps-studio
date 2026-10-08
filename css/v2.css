@@ -89,11 +89,11 @@ button { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } * { animation: none !important; } }
 
 /* ─── Mini orb: CSS-only stand-in for the voice orb; also the image placeholder ─── */
-.mini-orb-stage { position: absolute; inset: 0; background: var(--blush); display: grid; place-items: center; }
+.mini-orb-stage { position: absolute; inset: 0; background: transparent; display: grid; place-items: center; }   /* the orb sits straight on the page */
 /* Glass sphere with the fabric shader inside (js/fabric-glass.js, drawn by v2.js into .mo-canvas).
    No specular dot: the rim layer is the only edge light. */
 .mini-orb { width: 40%; aspect-ratio: 1; border-radius: 50%; position: relative; isolation: isolate;
-  box-shadow: 0 30px 70px rgba(255, 110, 150, .18), 0 10px 26px rgba(160, 130, 255, .12);
+  box-shadow: 0 30px 70px rgba(63, 120, 255, .2), 0 10px 26px rgba(110, 140, 255, .14);   /* blue shadow, to match the ice chrome palette */
   animation: breathe 3.2s ease-in-out infinite; }
 .mini-orb.no-gl { background: radial-gradient(circle at 40% 35%, #FFC977, #FF9E9E 45%, #C9B6FF); opacity: .85; }
 .mo-canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; display: block; }

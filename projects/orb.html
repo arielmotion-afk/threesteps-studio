@@ -8,7 +8,7 @@
   html, body {
     margin: 0;
     height: 100%;
-    background: #F1F4F9;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,7 +54,7 @@
     --inner-user-alpha: 0;
     --inner-agent-alpha: 0;
     --inner-agent-alpha-top: 0;
-    --bg-color: #F1F4F9;
+    --bg-color: transparent;
     --spec-x: 26%;    --spec-y: 20%;   --spec-size: 18%; --spec-alpha: 0.55;
     --sphere-x: 24%;  --sphere-y: 16%; --sphere-alpha: 0.3;
     --spec2-x: 62%;   --spec2-y: 78%;  --spec2-size: 32%; --spec2-alpha: 0;
@@ -629,7 +629,7 @@
 
     setNoise(noiseValue);
     setWarp(warpValue);
-    setBgColor('#F1F4F9');
+    setBgColor('transparent');
     applyShine();
     if (!fabric) for (const key of Object.keys(SHAPES)) { initShape(key); }
   </script>

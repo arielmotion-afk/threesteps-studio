@@ -13,7 +13,7 @@
 .facts dd { font-size: 15px; }
 
 /* ─── Hero stage (live piece + optional controls under it) ─── */
-.stage { margin-top: 56px; overflow: hidden; background: var(--blush); position: relative; aspect-ratio: 16 / 8.5; }
+.stage { margin-top: 56px; overflow: hidden; background: transparent; position: relative; aspect-ratio: 16 / 8.5; }
 .stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .stage-ui { position: absolute; left: 20px; right: 20px; bottom: 20px; display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; }
 .chips { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -40,7 +40,7 @@ figure { margin: 0; }
 /* process shots: the piece in a 4:3 box, caption underneath (never on top of the piece) */
 .shot { position: relative; }
 .shot .shot-media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
-.shot .mini-orb-stage { background: var(--surface); }
+.shot .mini-orb-stage { background: transparent; }
 .shot .mini-orb { width: 46%; }
 
 /* ─── Captions: one style everywhere, smaller than body and secondary ─── */
