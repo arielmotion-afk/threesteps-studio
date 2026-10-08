@@ -1,8 +1,7 @@
-// No lonely words: browsers with text-wrap: pretty (set in v2.css) already avoid a
-// last word alone on a line, so leave their wrapping alone. Older browsers only:
-// join the last two words of each text block with a non-breaking space.
+// No lonely words: join the last two words of each text block with a
+// non-breaking space, so the final word never ends up alone on a line.
+// Only the last line is affected; the rest of the paragraph wraps naturally.
 (function () {
-  if (window.CSS && CSS.supports('text-wrap', 'pretty')) return;
   const blocks = document.querySelectorAll('p, li, dd, h1, h2, h3, h4, h5, .lede');
   blocks.forEach((el) => {
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);

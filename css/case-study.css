@@ -60,15 +60,6 @@ td:first-child { font-family: var(--label); font-size: 12.5px; padding-right: 16
 .kpi b { display: block; font-size: var(--fs-stat); font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 8px; }
 .kpi span { color: var(--ink-2); font-size: 15px; }
 
-/* ─── Next case study: same gap as any other section; a scrim keeps the title off the video's own text ─── */
-.next { display: block; margin-top: 96px; overflow: hidden; position: relative; aspect-ratio: 16 / 6; background: #000; }
-.next video { width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity var(--dur-medium) var(--ease-standard), transform 900ms var(--ease-standard); }
-.next:hover video { opacity: .9; transform: scale(1.03); }
-.next::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(10, 8, 10, .78) 0%, rgba(10, 8, 10, .35) 45%, rgba(10, 8, 10, 0) 75%); }
-.next-label { position: absolute; z-index: 1; left: 28px; right: 28px; bottom: 24px; color: #fff; }
-.next-label .mono { opacity: .7; }
-.next-label h3 { font-size: clamp(32px, 5vw, 64px); font-weight: 600; letter-spacing: -.04em; line-height: 1; }
-
 @media (max-width: 860px) {
   .facts { grid-template-columns: 1fr 1fr; }
   .block { grid-template-columns: 1fr; }
@@ -82,7 +73,4 @@ td:first-child { font-family: var(--label); font-size: 12.5px; padding-right: 16
   .stage-ui { position: static; padding: 24px 0 28px; }
   .chips { flex-wrap: nowrap; overflow-x: auto; padding: 0 16px; scroll-padding: 0 16px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .chips::-webkit-scrollbar { display: none; }
-  .next { aspect-ratio: 4 / 3; }
-  .next-label { left: 20px; right: 20px; bottom: 20px; }
-  .next-label h3 { letter-spacing: -.02em; word-spacing: .06em; }
 }

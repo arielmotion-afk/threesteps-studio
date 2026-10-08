@@ -119,7 +119,7 @@ button { font: inherit; color: inherit; }
 }
 
 /* ─── No lonely words ───
-   Browsers that support it rebalance lines; v2.js also glues the last two
-   words of every text block together, so a single word never wraps alone. */
-p, li, dd, h1, h2, h3, h4, h5 { text-wrap: pretty; }
+   Body text wraps naturally (text-wrap: pretty reshuffled whole paragraphs on
+   phones); v2.js joins the last two words of each block so one word never sits
+   alone on the last line. Headings are balanced. */
 h1, h2, h3, .pull { text-wrap: balance; }

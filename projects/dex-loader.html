@@ -23,8 +23,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/v2.css?v=6">
-<link rel="stylesheet" href="../css/case-study.css?v=5">
+<link rel="stylesheet" href="../css/v2.css?v=7">
+<link rel="stylesheet" href="../css/case-study.css?v=6">
 <style>
   /* Dex study */
   .stage--dex { background: #fff; display: grid; place-items: center; aspect-ratio: 16 / 8.5; }
@@ -47,6 +47,8 @@
   .rec video { display: block; width: 100%; height: auto; }
   .screens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
   .screens img { width: 100%; height: auto; display: block; }
+  /* two small references, side by side at every size */
+  .refs.refs--dex { grid-template-columns: repeat(2, minmax(0, 160px)); }
   .refs--dex img { aspect-ratio: 1; object-fit: cover; background: #fff; image-rendering: pixelated; }   /* pixel-art references: keep edges hard */
   @media (max-width: 860px) {
     .screens { grid-template-columns: 1fr; }
@@ -95,7 +97,6 @@
         <div class="refs refs--dex">
           <figure><img src="../images/process/dex/ref-1.png" alt="Reference: pixel smiley and heart"></figure>
           <figure><img src="../images/process/dex/ref-2.png" alt="Reference: pixel sparkles"></figure>
-          <figure><img src="../images/process/dex/ref-3.png" alt="Reference: pixel hand cursor"></figure>
         </div>
         <p class="cap">References</p>
       </div>
@@ -190,6 +191,6 @@
 }());
 </script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
-<script src="../js/v2.js?v=2"></script>
+<script src="../js/v2.js?v=3"></script>
 </body>
 </html>
