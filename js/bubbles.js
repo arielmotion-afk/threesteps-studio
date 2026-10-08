@@ -135,18 +135,20 @@ async function scene(hero, cv, cfg) {
   // pills: rounded black chips with light text, laid out in a row under the title
   function drawPills() {
     pc.width = W; pc.height = H; px2.clearRect(0, 0, W, H);
-    const fs0 = Math.min(16, Math.max(13, W / dpr * .012)) * dpr, gap = 8 * dpr;   // pills: the small text font, lowercase
+    // pill style per scene: cfg.pillCaps = the bold wide caps (header); otherwise small lowercase text (footer)
+    const caps = !!cfg.pillCaps, pfont = (f) => caps ? `800 ${f}px 'Mona Sans', 'Inter Tight', sans-serif` : `600 ${f}px 'Inter Tight', sans-serif`, pls = (f) => caps ? (f * .1) + 'px' : '0px', ptxt = (t) => { t = t.replace(/\s*↗\uFE0E?/g, ''); return caps ? t.toUpperCase() : t.toLowerCase(); };
+    const fs0 = (caps ? Math.min(15, Math.max(11, W / dpr * .011)) : Math.min(16, Math.max(13, W / dpr * .012))) * dpr, gap = 8 * dpr;
     px2.textBaseline = 'middle';
     let x = W * .07, py = pillY;
     if (cfg.center) {                                                    // centred row: measure first, then start half its width left of centre
-      let tw = 0; pills.forEach((p, n) => { const f = fs0 * (p.big ? 1.7 : 1); px2.font = `600 ${f}px 'Inter Tight', sans-serif`; px2.letterSpacing = '0px'; tw += px2.measureText(p.label.replace(/\s*↗\uFE0E?/g, '').toLowerCase()).width + f * 2.5 - f * .1 + (p.href ? f * 1.15 : 0) + (n ? gap : 0); });
+      let tw = 0; pills.forEach((p, n) => { const f = fs0 * (p.big ? 1.7 : 1); px2.font = pfont(f); px2.letterSpacing = pls(f); tw += px2.measureText(ptxt(p.label)).width + f * 2.5 - f * .1 + (p.href ? f * 1.15 : 0) + (n ? gap : 0); });
       x = (W - tw) / 2;
     }
     pills.forEach((p) => {
       const fs = fs0 * (p.big ? 1.7 : 1), padX = fs * 1.25, padY = fs * .55;
-      px2.font = `600 ${fs}px 'Inter Tight', sans-serif`; px2.letterSpacing = '0px';
-      const label = p.label.replace(/\s*↗\uFE0E?/g, '').toLowerCase(), aw = p.href ? fs * 1.15 : 0;   // links get a drawn arrow (never the ↗ character: iOS renders it as an emoji)
-      p.w = px2.measureText(label).width + padX * 2 + aw; p.h = fs + padY * 2;
+      px2.font = pfont(fs); px2.letterSpacing = pls(fs);
+      const label = ptxt(p.label), aw = p.href ? fs * 1.15 : 0;   // links get a drawn arrow (never the ↗ character: iOS renders it as an emoji)
+      p.w = px2.measureText(label).width + padX * 2 - (caps ? fs * .1 : 0) + aw; p.h = fs + padY * 2;
       if (x + p.w > W * .94 && x > W * .07 + 1) { x = W * .07; py += p.h + gap; }   // wrap onto a new line instead of running off the screen
       p.cx = x + p.w / 2; p.cy = py + p.h / 2;
       px2.save(); px2.translate(p.cx + p.x, p.cy + p.y); px2.rotate(p.r * Math.PI / 180);

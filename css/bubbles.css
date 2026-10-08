@@ -6,7 +6,7 @@
 .bub-name { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; font: 900 clamp(48px, 12vw, 180px)/.86 'Mona Sans', 'Inter Tight', sans-serif; font-stretch: 125%; letter-spacing: 0; clip-path: inset(50%); }
 .bub-name small { display: block; font-size: .36em; letter-spacing: -.02em; }
 .bub .bub-pills { position: absolute; left: 50%; bottom: 18%; transform: translateX(-50%); display: flex; gap: 8px; clip-path: inset(50%); }
-.bub .bub-pills span { background: #060A16; color: #E4E9F1; font: 600 13px 'Inter Tight', sans-serif; letter-spacing: 0; text-transform: lowercase; padding: .55em 1.25em; border-radius: 99px; }
+.bub .bub-pills span { background: #060A16; color: #E4E9F1; font: 800 12px 'Mona Sans', 'Inter Tight', sans-serif; letter-spacing: .1em; padding: .55em 1.25em; border-radius: 99px; }
 .bub.no-gl .bub-name, .bub.no-gl .bub-pills { clip-path: none; }
 .bub.no-gl canvas { display: none; }
 .bub-hit { position: absolute; z-index: 4; border-radius: 99px; cursor: pointer; }
