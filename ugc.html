@@ -17,7 +17,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<link rel="stylesheet" href="css/bubbles.css?v=1">
 </head>
 <body>
 
@@ -26,7 +28,7 @@
     <ul class="nav-links">
       <li><a href="index.html#work">Work</a></li>
       <li><a href="index.html#about">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Resume ↗︎</a></li>
     </ul>
   </nav>
 
@@ -214,17 +216,21 @@
     </div>
   </div>
 
-  <footer class="footer" id="contact">
-    <div class="footer-inner">
-      <span class="footer-name">Three Steps Studio</span>
-      <div class="footer-links">
-        <a href="mailto:arielmotion@gmail.com">arielmotion@gmail.com</a>
-        <a href="tel:+972545872899">+972-545-872-899</a>
-        <a href="https://www.linkedin.com/in/ariel-paz-motion/" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-  </footer>
+  <footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
+  <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
+  <h2 class="bub-name">LET'S TALK</h2>
+  <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
+</footer>
 
   <script src="js/main.js?v=3"></script>
+<script src="js/bubbles.js?v=4"></script>
+<script>
+  Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
+    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    pills: [{ label: 'ARIELMOTION@GMAIL.COM ↗', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN ↗', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME ↗', href: 'files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
+    homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
+    glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],
+  });
+</script>
 </body>
 </html>

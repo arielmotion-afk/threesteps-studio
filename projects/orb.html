@@ -8,7 +8,7 @@
   html, body {
     margin: 0;
     height: 100%;
-    background: #FDF0F0;
+    background: #E4E9F1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,7 +37,7 @@
     position: relative;
     transform: scale(1);
     will-change: transform, box-shadow;
-    background: var(--bg-color, #FDF0F0);
+    background: var(--bg-color, #E4E9F1);
   }
 
   #orb-gradient {
@@ -54,7 +54,7 @@
     --inner-user-alpha: 0;
     --inner-agent-alpha: 0;
     --inner-agent-alpha-top: 0;
-    --bg-color: #FDF0F0;
+    --bg-color: #E4E9F1;
     --spec-x: 26%;    --spec-y: 20%;   --spec-size: 18%; --spec-alpha: 0.55;
     --sphere-x: 24%;  --sphere-y: 16%; --sphere-alpha: 0.3;
     --spec2-x: 62%;   --spec2-y: 78%;  --spec2-size: 32%; --spec2-alpha: 0;
@@ -629,7 +629,7 @@
 
     setNoise(noiseValue);
     setWarp(warpValue);
-    setBgColor('#FDF0F0');
+    setBgColor('#E4E9F1');
     applyShine();
     if (!fabric) for (const key of Object.keys(SHAPES)) { initShape(key); }
   </script>

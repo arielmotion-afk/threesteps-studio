@@ -4,7 +4,7 @@ if(!document.getElementById('hero-fabric-gl'))return;
 
 const PALETTES = [
   // Blush: site pink + peach + lilac + soft coral
-  ['#FDF0F0','#FFC7C2','#E9D6FF','#FFDCA0','#F7A9B8'],
+  ['#E4E9F1','#FFC7C2','#E9D6FF','#FFDCA0','#F7A9B8'],
   // Sorbet: brighter, warmer
   ['#FFF3EC','#FF9E9E','#FFC977','#C9B6FF','#FF7FA8'],
   // Dusk: cooler, moodier but still light

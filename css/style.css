@@ -7,15 +7,15 @@
 
 /* ─── Tokens ─────────────────────────────────────────────────── */
 :root {
-  --bg: #FDF0F0;
-  --text: #1a1a1a;
-  --muted: #888;
-  --border: #d8c8c8;
-  --tile-bg: #f0dede;
+  --bg: #E4E9F1;
+  --text: #060A16;
+  --muted: #737B8C;
+  --border: #D2D8E3;
+  --tile-bg: #D9DFEA;
 
   /* Same type system as v2.css: Inter Tight for text and titles, Bricolage Grotesque for labels */
   --font-sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Mona Sans', 'Inter Tight', sans-serif;   /* headings: Mona Sans wide, same as the homepage */
   --font-label: 'Bricolage Grotesque', 'Inter Tight', sans-serif;
 
   --nav-h: 56px;
@@ -1563,10 +1563,11 @@ a {
 .hero-title, .project-title, .lottie-section-title, .spot-title, .about-title, .cta-headline {
   font-family: var(--font-display);
   font-stretch: normal;
-  font-weight: 600;
-  letter-spacing: -0.04em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
-.project-title { font-size: clamp(2.75rem, 6vw, 5.5rem); line-height: .95; letter-spacing: -0.05em; }
+.project-title { font-size: clamp(2.4rem, 5.2vw, 4.8rem); line-height: .95; letter-spacing: -0.03em; }
+.pw-name, .spot-title, h2, h3 { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; }
 .project-category, .section-label, .credit-role, .about-role, .spot-placeholder-label, .pw-sub, .pw-facts dt {
   font-family: var(--font-label);
   font-size: 11px;
@@ -1575,3 +1576,23 @@ a {
   text-transform: uppercase;
   color: var(--muted);
 }
+
+/* ─── Same atmosphere as the homepage: soft blue/lilac glow and fine grain ─── */
+body { background:
+  radial-gradient(60vw 45vw at 85% -10%, rgba(169, 139, 255, .22), transparent 70%),
+  radial-gradient(70vw 50vw at 10% 110%, rgba(63, 182, 255, .18), transparent 70%),
+  var(--bg) fixed; }
+body::after { content: ""; position: fixed; inset: 0; z-index: 300; pointer-events: none; opacity: .045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+
+/* ─── Nav: same look as the homepage (name with a dot, plain sentence-case links) ─── */
+.nav { height: 64px; border-bottom-color: transparent; }
+.nav-logo, .nav-back { font: 600 15px 'Inter Tight', sans-serif; letter-spacing: -.01em; text-transform: none; color: var(--text); }
+.nav-logo::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--text); margin-right: 10px; vertical-align: 1px; }
+.nav-logo-suffix { display: none; }
+.nav-back { color: var(--muted); font-weight: 500; font-size: 14px; }
+.nav-back:hover { color: var(--text); }
+.nav-links { gap: 4px; }
+.nav-links a { font: 500 14px 'Inter Tight', sans-serif; letter-spacing: 0; text-transform: none; color: var(--text); padding: 8px 12px; border-radius: 999px; transition: background .12s cubic-bezier(.2,0,0,1); }
+.nav-links a:hover { background: rgba(255,255,255,.7); color: var(--text); }
+@media (max-width: 860px) { .nav-links li:has(.cv) { display: none; } }

@@ -1,0 +1,20 @@
+/* Self-contained (no site tokens), so the same footer works on v2 pages and the older style.css pages */
+/* Bubble header/footer sections drawn by js/bubbles.js. The HTML text inside is the fallback
+   (shown when WebGL is unavailable, .no-gl) and what screen readers get. */
+.bub { position: relative; height: calc(100svh - 64px); min-height: 520px; overflow: hidden; cursor: grab; touch-action: pan-y; }
+.bub canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.bub-name { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; font: 900 clamp(48px, 12vw, 180px)/.86 'Mona Sans', 'Inter Tight', sans-serif; font-stretch: 125%; letter-spacing: -.04em; clip-path: inset(50%); }
+.bub-name small { display: block; font-size: .36em; letter-spacing: -.02em; }
+.bub .bub-pills { position: absolute; left: 50%; bottom: 18%; transform: translateX(-50%); display: flex; gap: 8px; clip-path: inset(50%); }
+.bub .bub-pills span { background: #060A16; color: #E4E9F1; font: 800 12px 'Mona Sans', 'Inter Tight', sans-serif; letter-spacing: .1em; padding: .55em 1.25em; border-radius: 99px; }
+.bub.no-gl .bub-name, .bub.no-gl .bub-pills { clip-path: none; }
+.bub.no-gl canvas { display: none; }
+.bub-hit { position: absolute; z-index: 4; border-radius: 99px; cursor: pointer; }
+.bub-hit:focus-visible { outline: 2px solid #060A16; outline-offset: 3px; }
+.bub--foot { height: 52svh; min-height: 360px; }
+/* the header runs up under the nav: the nav is see-through (and lets the cursor reach the bubbles) until you scroll past it */
+#bubHero { height: 100svh; margin-top: -64px; }
+.nav.over { background: transparent; border-color: transparent; pointer-events: none; }
+.nav.over a { pointer-events: auto; }
+.bub--foot .bub-name { place-content: center start; text-align: left; padding-left: 7%; font-size: clamp(32px, 5.4vw, 80px); }
+.bub-legal { position: absolute; left: 24px; bottom: 18px; z-index: 3; font-family: 'Bricolage Grotesque', sans-serif; font-size: 12px; color: #737B8C; pointer-events: none; }

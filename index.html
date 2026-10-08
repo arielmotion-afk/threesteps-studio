@@ -24,28 +24,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Mona+Sans:wdth,wght@125,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/v2.css?v=7">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/v2.css?v=8">
+<link rel="stylesheet" href="css/bubbles.css?v=1">
 <style>
-  /* New direction: cool "ice chrome" canvas to match the bubble header (the pink stays on other pages for now) */
-  :root { --bg: #E4E9F1; --line: #D2D8E3; --muted: #737B8C; --ink-2: #2B3140; }
-  /* Bubble header and footer (js/bubbles.js draws them; the HTML text is the fallback and for screen readers) */
-  .bub { position: relative; height: calc(100svh - 64px); min-height: 520px; overflow: hidden; cursor: grab; touch-action: pan-y; }
-  .bub canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .bub-name { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; font: 900 clamp(48px, 12vw, 180px)/.86 'Mona Sans', var(--display); font-stretch: 125%; letter-spacing: -.04em; clip-path: inset(50%); }
-  .bub-name small { display: block; font-size: .36em; letter-spacing: -.02em; }
-  .bub .bub-pills { position: absolute; left: 50%; bottom: 18%; transform: translateX(-50%); display: flex; gap: 8px; clip-path: inset(50%); }
-  .bub .bub-pills span { background: var(--ink); color: var(--bg); font: 800 12px 'Mona Sans', var(--display); letter-spacing: .1em; padding: .55em 1.25em; border-radius: 99px; }
-  .bub.no-gl .bub-name, .bub.no-gl .bub-pills { clip-path: none; }
-  .bub.no-gl canvas { display: none; }
-  .bub-hit { position: absolute; z-index: 4; border-radius: 99px; cursor: pointer; }
-  .bub-hit:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-  .bub--foot { height: 52svh; min-height: 360px; }
-  /* the header runs up under the nav: the nav is see-through (and lets the cursor reach the bubbles) until you scroll past it */
-  #bubHero { height: 100svh; margin-top: -64px; }
-  .nav.over { background: transparent; border-color: transparent; pointer-events: none; }
-  .nav.over a { pointer-events: auto; }
-  .bub--foot .bub-name { place-content: center start; text-align: left; padding-left: 7%; font-size: clamp(32px, 5.4vw, 80px); }
-  .bub-legal { position: absolute; left: 24px; bottom: 18px; z-index: 3; font-family: var(--label); font-size: 12px; color: var(--muted); pointer-events: none; }
+  /* For now: no project carousel (and no intro line above it). The header stops short of the fold,
+     so the client logos and the top of the work section peek in on the first screen. */
+  .intro { display: none; }
+  #bubHero { height: calc(100svh - 150px); min-height: 480px; }
+  @media (max-width: 700px) { #bubHero { height: 76svh; min-height: 520px; } }
+  main .clients { margin-top: 0; }
   .intro { padding-top: 64px; }
   .intro p { font-size: var(--fs-body); color: var(--ink-2); max-width: 44ch; margin-bottom: 40px; }
 
@@ -129,7 +117,7 @@
   .open { position: absolute; right: 14px; bottom: 14px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; background: var(--mark); display: grid; place-items: center; transform: scale(0) rotate(-45deg); transition: transform var(--dur-medium) var(--ease-emphasized); pointer-events: none; }
   .case:hover .open { transform: scale(1) rotate(0); }
   .case-meta { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
-  .case-meta h3 { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+  .case-meta h3 { font-family: var(--head); font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
   .case-meta .mono { color: var(--muted); white-space: nowrap; }
 
   /* Rive artboard is square on a dark ground: fill the card with the same colour so it reads edge to edge */
@@ -153,7 +141,7 @@
   .minis > .mini.rv { transform: none; }   /* fade only inside the scroller: no vertical overflow */
   .minis > .mini { flex: 0 0 clamp(260px, calc((100% - 2 * var(--gutter)) / 3.3), 420px); scroll-snap-align: start; }
   .mini { display: flex; flex-direction: column; gap: 12px; }
-  .mini h4 { font-size: 17px; font-weight: 600; letter-spacing: -.015em; }
+  .mini h4 { font-family: var(--head); font-size: 15px; font-weight: 800; letter-spacing: -.01em; }
 
   /* ─── About ─── */
   .about { max-width: 920px; }
@@ -516,7 +504,7 @@
 <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 <script src="js/fabric-glass.js"></script>
 <script src="js/v2.js?v=3"></script>
-<script src="js/bubbles.js?v=2"></script>
+<script src="js/bubbles.js?v=4"></script>
 <script>
   // Header: big name, three bubbles stacked on it; footer: one bubble off to the side and a sunset glow
   Bubbles.scene(document.getElementById('bubHero'), document.getElementById('bubHeroCanvas'), {

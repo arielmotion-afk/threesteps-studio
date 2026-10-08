@@ -123,10 +123,14 @@ async function scene(hero, cv, cfg) {
   const bubbles = cfg.bubbles = cfg.homes.map((o, i) => ({ ...o, x: -1, y: 0, vx: 0, vy: 0, ph: rnd() * 6.28, f1: .6 + rnd() * .9, f2: .6 + rnd() * .9, f3: .5 + rnd(), ax: .6 + rnd() * .8, ay: .6 + rnd() * .8, jig: 0, pvx: 0, pvy: 0 }));
   let mx = -1e4, my = -1e4, pmx = 0, pmy = 0, smx = -1e4, smy = -1e4, svx = 0, svy = 0, drag = null;
   const pt = (e) => { const r = hero.getBoundingClientRect(); return [(e.clientX - r.left) * dpr, (e.clientY - r.top) * dpr]; };
-  hero.addEventListener('pointermove', (e) => { [mx, my] = pt(e); });
+  // Touch: a finger only pushes bubbles while it's actually down, and lifting it leaves no "ghost" cursor behind
+  let touching = false;
+  hero.addEventListener('pointermove', (e) => { if (e.pointerType === 'touch' && !touching) return; [mx, my] = pt(e); });
   hero.addEventListener('pointerleave', () => { mx = my = -1e4; });
-  hero.addEventListener('pointerdown', (e) => { const [x, y] = pt(e), m = Math.min(W, H); drag = bubbles.find((b) => Math.hypot(x - b.x, y - b.y) < b.r * m) || null; if (drag) { hero.setPointerCapture(e.pointerId); hero.style.cursor = 'grabbing'; } });
-  addEventListener('pointerup', () => { if (drag) { drag.hx = Math.min(.85, Math.max(.15, drag.x / W)); drag.hy = Math.min(.8, Math.max(.2, drag.y / H)); } drag = null; hero.style.cursor = ''; });
+  const lift = (e) => { if (e.pointerType === 'touch') { touching = false; mx = my = -1e4; } };
+  addEventListener('pointercancel', (e) => { lift(e); drag = null; });   // a scroll gesture took over
+  hero.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch') { touching = true; [mx, my] = pt(e); } const [x, y] = pt(e), m = Math.min(W, H); drag = bubbles.find((b) => Math.hypot(x - b.x, y - b.y) < b.r * m) || null; if (drag) { hero.setPointerCapture(e.pointerId); hero.style.cursor = 'grabbing'; } });
+  addEventListener('pointerup', (e) => { lift(e); if (drag) { drag.hx = Math.min(.85, Math.max(.15, drag.x / W)); drag.hy = Math.min(.8, Math.max(.2, drag.y / H)); } drag = null; hero.style.cursor = ''; });
 
   // pills: rounded black chips with light text, laid out in a row under the title
   function drawPills() {
@@ -155,16 +159,21 @@ async function scene(hero, cv, cfg) {
   const tex3 = gl.createTexture(); gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, tex3);
   [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach((p) => gl.texParameteri(gl.TEXTURE_2D, p, gl.CLAMP_TO_EDGE));
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  function resize() {
+  let lastW = 0, lastH = 0;
+  function resize(force) {
+    // phones fire "resize" whenever the browser bar slides in or out; only rebuild when the section really changed size
+    if (force !== true && hero.clientWidth === lastW && hero.clientHeight === lastH) return;
+    lastW = hero.clientWidth; lastH = hero.clientHeight;
+    const wasPhone = phone;
     dpr = Math.min(devicePixelRatio || 1, 2); phone = hero.clientWidth < 700;
     W = cv.width = Math.round(hero.clientWidth * dpr); H = cv.height = Math.round(hero.clientHeight * dpr);
     gl.viewport(0, 0, W, H); drawType();
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tc);
     gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, tex2); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sc);
-    if (phone) bubbles.forEach((b, i) => { [b.hx, b.hy] = cfg.phone[i]; });
-    cfg.relayout = () => bubbles.forEach((b, i) => { const h = cfg.homes[i] || { hx: .5, hy: .5, r: 0 }; b.r = h.r; [b.hx, b.hy] = phone ? (cfg.phone[i] || [.5, .5]) : [h.hx, h.hy]; b.jig = Math.max(b.jig, .25); b.x = -1; b.vx = b.vy = 0; });   // jump straight to the new spot (draft comparison)
+    if (phone && wasPhone !== true) bubbles.forEach((b, i) => { [b.hx, b.hy] = cfg.phone[i]; });   // only when switching into the phone layout
+    cfg.relayout = () => bubbles.forEach((b, i) => { const h = cfg.homes[i] || { hx: .5, hy: .5, r: 0 }; b.r = h.r; [b.hx, b.hy] = phone ? (cfg.phone[i] || [.5, .5]) : [h.hx, h.hy]; b.jig = Math.max(b.jig, .25); b.x = -1; b.vx = b.vy = 0; });
   }
-  resize(); addEventListener('resize', resize); redraws.push(resize);
+  resize(true); addEventListener('resize', () => resize()); redraws.push(() => resize(true));
 
   let on = true; new IntersectionObserver(([e]) => { on = e.isIntersecting; }).observe(hero);
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches, arr = new Float32Array(15), varr = new Float32Array(20);   // 5 slots; unused ones stay radius 0
