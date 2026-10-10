@@ -22,9 +22,14 @@
 <link rel="stylesheet" href="../css/bubbles.css?v=3">
 <style>
   /* YAAP case study: page-only styles */
+  /* Crops: some hero shots carry thin black bars top and bottom, and the square tiles showed a dark edge line.
+     Zooming inside a clipped frame trims them: 5% on the hero, 2% on the squares. */
+  .project-video-wrap { overflow: hidden; }
+  .project-video-wrap video { transform: scale(1.05); }
+  .yaap-tile:not(.yaap-tile--wide) video { transform: scale(1.02); }
   .yaap-text { font-size: 1.0625rem; line-height: 1.7; color: var(--text); max-width: 60ch; margin: 0; }
   .yaap-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 12px; }
-  .yaap-tile { position: relative; grid-column: span 2; aspect-ratio: 1; padding: 0; border: 0; background: #0b0b0d; overflow: hidden; cursor: pointer; display: block; }
+  .yaap-tile { position: relative; grid-column: span 2; aspect-ratio: 1; padding: 0; border: 0; background: transparent; overflow: hidden; cursor: pointer; display: block; }
   .yaap-tile--wide { grid-column: span 3; aspect-ratio: 16 / 9; }
   .yaap-tile video, .yaap-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
   /* hover: a slight dark overlay and a play badge; the video itself doesn't move */
