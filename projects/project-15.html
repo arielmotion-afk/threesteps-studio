@@ -20,6 +20,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css?v=5">
 <link rel="stylesheet" href="../css/bubbles.css?v=3">
+<style>
+  /* YAAP case study: page-only styles */
+  .yaap-text { font-size: 1.0625rem; line-height: 1.7; color: var(--text); max-width: 60ch; margin: 0; }
+  .yaap-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 12px; }
+  .yaap-tile { position: relative; grid-column: span 2; aspect-ratio: 1; padding: 0; border: 0; background: #0b0b0d; overflow: hidden; cursor: pointer; display: block; }
+  .yaap-tile--wide { grid-column: span 3; aspect-ratio: 16 / 9; }
+  .yaap-tile video, .yaap-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* hover: a slight dark overlay and a play badge; the video itself doesn't move */
+  .yaap-tile::before { content: ""; position: absolute; inset: 0; z-index: 1; background: rgb(12, 10, 14); opacity: 0; transition: opacity .3s cubic-bezier(.2, 0, 0, 1); pointer-events: none; }
+  .yaap-tile::after { content: ""; position: absolute; right: 12px; bottom: 12px; z-index: 2; width: 38px; height: 38px; border-radius: 50%; background: rgba(20, 16, 18, .72) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 6.5v11l9-5.5z' fill='white'/></svg>") center / 18px no-repeat; }
+  @media (hover: hover) { .yaap-tile:hover::before { opacity: .14; } }
+  .yaap-tile:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+  .yaap-lightbox { position: fixed; inset: 0; z-index: 400; display: none; align-items: center; justify-content: center; padding: 4vmin; background: rgba(12, 10, 14, .88); }
+  .yaap-lightbox.is-open { display: flex; }
+  .yaap-lightbox video { max-width: min(1200px, 100%); max-height: 88vh; width: auto; height: auto; background: #000; display: block; }
+  .yaap-close { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .14); color: #fff; font: 500 14px 'Inter Tight', sans-serif; cursor: pointer; }
+  @media (max-width: 700px) {
+    .yaap-grid { grid-template-columns: 1fr; }
+    .yaap-tile, .yaap-tile--wide { grid-column: auto; }
+  }
+</style>
 </head>
 <body>
 
@@ -49,9 +70,45 @@
         </div>
         <div class="project-header-right">
           <p class="project-description">Yet Another AI Podcast: a video podcast series for AI21 Labs featuring candid conversations with practitioners building real AI products. No hype, no sales pitches.</p>
-          <p class="project-description" style="margin-top:12px">I animated the title sequence and episode graphics from Adva Cohen and Noam Rosenbaum's visual identity. The role grew from there: with no dedicated camera operator, I learned to run the studio: framing, lighting, the camera. When budget cuts ended the sound engineer's contract, I took over audio too, working at mic-placement and signal chain until the recordings were genuinely podcast-worthy.</p>
         </div>
       </header>
+
+      <hr class="project-rule">
+
+      <section class="spot-section">
+        <header class="spot-header"><h2 class="spot-title">The setup</h2></header>
+        <p class="yaap-text">YAAP (Yet Another AI Podcast) started small: one host, one room, and a title sequence I was asked to animate. Then the person who taught me the camera basics went on leave, and the studio was mine to figure out.</p>
+      </section>
+
+      <hr class="project-rule">
+
+      <section class="spot-section">
+        <header class="spot-header"><h2 class="spot-title">The show</h2></header>
+        <p class="yaap-text">Candid conversations with people building real AI products, hosted by Yuval Belfer. I animated the title sequence and episode graphics, built on a visual identity by Adva Cohen and a visual language by Noam Rosenbaum.</p>
+      </section>
+
+      <hr class="project-rule">
+
+      <section class="spot-section">
+        <header class="spot-header"><h2 class="spot-title">Running the studio</h2></header>
+        <p class="yaap-text">Framing, lighting and camera became my job, and then audio too when the sound engineer's contract ended: mic placement, signal chain, and fixing whatever went wrong between takes. Yuval and I shaped the format as we went.</p>
+        <!-- TODO (Ariel): behind-the-scenes photo of the studio goes here. None was in the source folder.
+             Add it as: <img src="../assets/yaap/bts.webp" alt="..." style="width:100%;height:auto;display:block"> -->
+      </section>
+
+      <hr class="project-rule">
+
+      <section class="spot-section">
+        <header class="spot-header"><h2 class="spot-title">Spinoffs</h2></header>
+        <p class="yaap-text">Once the studio existed, it got used. I shot and edited dozens of short talking-head and founder videos for AI21's LinkedIn and social, so these are some of them.</p>
+        <div class="yaap-grid" id="yaap-grid">
+          <button class="yaap-tile" type="button" data-full="../assets/yaap/dagan-full.mp4" aria-label="Play with sound: Or Dagan on data privacy"><video muted loop playsinline preload="none" poster="../assets/yaap/dagan-poster.webp" data-src="../assets/yaap/dagan-preview.mp4"></video></button>
+          <button class="yaap-tile" type="button" data-full="../assets/yaap/leeor-full.mp4" aria-label="Play with sound: Leeor Moses Voronov"><video muted loop playsinline preload="none" poster="../assets/yaap/leeor-poster.webp" data-src="../assets/yaap/leeor-preview.mp4"></video></button>
+          <button class="yaap-tile" type="button" data-full="../assets/yaap/ana-full.mp4" aria-label="Play with sound: Ana Turchetti-Maia"><video muted loop playsinline preload="none" poster="../assets/yaap/ana-poster.webp" data-src="../assets/yaap/ana-preview.mp4"></video></button>
+          <button class="yaap-tile yaap-tile--wide" type="button" data-full="../assets/yaap/peres-center-full.mp4" aria-label="Play with sound: Peres Center video, in Hebrew"><video muted loop playsinline preload="none" poster="../assets/yaap/peres-center-poster.webp" data-src="../assets/yaap/peres-center-preview.mp4"></video></button>
+          <button class="yaap-tile yaap-tile--wide" type="button" data-full="../assets/yaap/yoav-lecture-full-720.mp4" aria-label="Play with sound: lecture, From LLMs to AI Systems"><video muted loop playsinline preload="none" poster="../assets/yaap/yoav-lecture-poster.webp" data-src="../assets/yaap/yoav-lecture-preview.mp4"></video></button>
+        </div>
+      </section>
 
       <hr class="project-rule">
 
@@ -60,6 +117,7 @@
         <ul class="credits-list">
           <li><span class="credit-role">Client</span><span class="credit-name">AI21 Labs</span></li>
           <li><span class="credit-role">Motion Design, Studio &amp; Audio</span><span class="credit-name">Ariel Paz</span></li>
+          <li><span class="credit-role">Shooting &amp; Editing</span><span class="credit-name">Ariel Paz</span></li>
           <li><span class="credit-role">Visual Identity</span><span class="credit-name">Adva Cohen</span></li>
           <li><span class="credit-role">Visual Language</span><span class="credit-name">Noam Rosenbaum</span></li>
           <li><span class="credit-role">Host</span><span class="credit-name">Yuval Belfer</span></li>
@@ -75,6 +133,34 @@
   <h2 class="bub-name">LET'S TALK</h2>
   <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
 </footer>
+
+  <div class="yaap-lightbox" id="yaap-lightbox" role="dialog" aria-modal="true" aria-label="Video player">
+    <button class="yaap-close" type="button" id="yaap-close" aria-label="Close video">Close</button>
+    <video id="yaap-player" controls playsinline></video>
+  </div>
+
+  <script>
+  // Talking-head previews: load and play only while on screen (muted, looping); with reduced motion, show the posters only.
+  // Clicking a tile opens the full version with sound.
+  (function () {
+    var tiles = document.querySelectorAll('.yaap-tile'), still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!still && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          var v = e.target.querySelector('video');
+          if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.play().catch(function () {}); } else v.pause();
+        });
+      }, { rootMargin: '200px 0px', threshold: 0.2 });
+      tiles.forEach(function (t) { io.observe(t); });
+    }
+    var box = document.getElementById('yaap-lightbox'), player = document.getElementById('yaap-player'), last = null;
+    function open(t) { last = t; player.src = t.dataset.full; box.classList.add('is-open'); player.play().catch(function () {}); document.getElementById('yaap-close').focus(); }
+    function close() { if (!box.classList.contains('is-open')) return; player.pause(); player.removeAttribute('src'); player.load(); box.classList.remove('is-open'); if (last) last.focus(); }
+    tiles.forEach(function (t) { t.addEventListener('click', function () { open(t); }); });
+    box.addEventListener('click', function (e) { if (e.target !== player) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }());
+  </script>
 
   <script src="../js/main.js?v=3"></script>
 <script src="../js/bubbles.js?v=9"></script>
