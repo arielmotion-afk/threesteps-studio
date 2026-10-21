@@ -267,7 +267,9 @@ html, body { overflow-x: clip; }
   color: #F3F3EF; text-decoration: none; opacity: .8; transition: opacity .2s ease; }
 .aw-back:hover, .aw-back:focus-visible { opacity: 1; }
 .aw-back:focus-visible { outline: 1px solid #F3F3EF; outline-offset: 4px; }
+html.aw-preview .aw-back { display: none; }   /* shown inside the Experiments page tile */
 </style>
+<script>if (/[?&]preview\b/.test(location.search)) document.documentElement.classList.add('aw-preview');</script>
 </head>
 <body>
 <a class="aw-back" href="/experiments/">&larr; Experiments</a>
