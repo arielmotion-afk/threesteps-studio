@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Art of Waiting // Loading</title>
+<meta name="description" content="Ten loaders that only move when you come closer. A code animations experiment by Ariel Paz.">
+<meta property="og:title" content="The Art of Waiting // Loading">
+<meta property="og:description" content="Ten loaders that only move when you come closer. A code animations experiment by Ariel Paz.">
+<meta property="og:image" content="https://threesteps.studio/experiments/art-of-waiting/cover.webp">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="1000">
+<meta property="og:url" content="https://threesteps.studio/experiments/art-of-waiting/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://threesteps.studio/experiments/art-of-waiting/cover.webp">
+<link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;700&display=swap">
+<style>
+/* Layout: grainy discs are the unit of waiting. Conic sweeps with a hard leading edge, radial glows, noise everywhere. Exhibits hang on alternating black and white walls. */
+@property --deg { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+:root {
+  --ground: #E4E4E1; --plinth: #ECECE9; --ink: #0E0E0E; --muted: #676764; --line: #C4C4BF;
+  --f1bg: #0A0A0A; --f1hi: #F3F3EF; --f1tx: #8C8C88;
+  --f2bg: #F5F5F2; --f2hi: #0C0C0C; --f2tx: #6C6C69;
+  --page-noise: .16;
+  --sans: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #111111; --plinth: #161616; --ink: #ECECE8; --muted: #8F8F8B; --line: #2C2C2A;
+    --f1bg: #E9E9E5; --f1hi: #0A0A0A; --f1tx: #5E5E5B;
+    --f2bg: #000000; --f2hi: #F3F3EF; --f2tx: #8C8C88; --page-noise: .1; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #111111; --plinth: #161616; --ink: #ECECE8; --muted: #8F8F8B; --line: #2C2C2A;
+  --f1bg: #E9E9E5; --f1hi: #0A0A0A; --f1tx: #5E5E5B;
+  --f2bg: #000000; --f2hi: #F3F3EF; --f2tx: #8C8C88; --page-noise: .1; color-scheme: dark;
+}
+body {
+  margin: 0; background: #000; --ground: #000; --ink: #F3F3EF; --muted: #8C8C88; --line: #222221; color: var(--ink); font-family: var(--sans); font-weight: 400;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0; z-index: 20; pointer-events: none; background-image: var(--noise, none); background-size: 128px 128px; mix-blend-mode: overlay; opacity: var(--page-noise); }
+.wrap { max-width: 1200px; margin: 0 auto; padding-block: 100px 140px; display: flex; flex-direction: column; gap: 120px; }
+.eyebrow, .label, .meta { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.12em; }
+
+/* grain: noise blended into whatever gradient the element sets as --g */
+.gn { background-image: var(--noise, none), var(--g); background-size: 128px 128px, 100% 100%; background-blend-mode: overlay, normal; }
+
+.strip { display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; }
+
+/* hero */
+.top { --ground: #000000; --ink: #F3F3EF; --muted: #8C8C88; --line: #2C2C2A;
+  position: relative; overflow: hidden; isolation: isolate; background: #000; color: var(--ink); height: 100vh; min-height: 560px; max-height: 1100px;
+  margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px))); }
+.top .form { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.rail { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+.mark { display: flex; align-items: center; gap: clamp(20px, 3vw, 44px); font-size: clamp(18px, 1.7vw, 24px); font-weight: 300; letter-spacing: -0.01em; }
+.pips { display: inline-flex; } .pips i { width: 15px; height: 15px; border-radius: 50%; background: var(--ink); margin-right: -2px; display: block; }
+.two { display: flex; flex-direction: column; color: var(--ink); font-size: 10.5px; letter-spacing: .06em; line-height: 1.25; margin-right: auto; margin-left: clamp(16px, 3vw, 48px); }
+.live { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+.pill { width: 30px; height: 14px; background: rgba(243,243,239,.18); position: relative; overflow: hidden; display: block; }
+.pill i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--ink); }
+.matrix { display: grid; grid-template-columns: repeat(5, 3px); grid-auto-rows: 3px; gap: 4px; }
+.matrix b { width: 3px; height: 3px; border-radius: 50%; background: var(--ink); opacity: .15; transition: opacity .4s; }
+.foot { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; justify-content: space-between; align-items: end; gap: 16px 32px; flex-wrap: wrap;
+  padding: 0 max(32px, env(safe-area-inset-right, 0px)) 76px max(32px, env(safe-area-inset-left, 0px)); }
+.foot-r { max-width: 34ch; text-align: right; }
+.queue { display: flex; flex-wrap: wrap; gap: 18px clamp(32px, 5vw, 64px); align-items: center; justify-content: center; text-align: center; }
+.foot { justify-content: center !important; padding-bottom: 26px !important; }
+.take-note { flex-basis: 100%; min-height: 1.4em; }
+.queue .n { font-family: var(--mono); font-weight: 500; font-size: 16px; color: var(--ink); display: block; margin-top: 2px; }
+.take { min-height: 36px; padding: 0 14px; border: 1px solid rgba(243,243,239,.5); background: transparent; color: var(--ink); font-family: var(--mono); font-size: 11px; cursor: pointer; border-radius: 999px; }
+.take:hover { background: var(--ink); color: #000; }
+.take-note { font-family: var(--mono); font-size: 11px; color: var(--ink); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+
+/* stages: five discs sweeping full */
+.stages { display: flex; flex-direction: column; gap: 28px; }
+.vessels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.vessel { display: flex; flex-direction: column; align-items: center; gap: 18px; text-decoration: none; color: inherit; }
+.vessel .v { width: min(100%, 150px); aspect-ratio: 1; border-radius: 50%; transition: --deg 1.6s cubic-bezier(.2,.7,.2,1);
+  --g: conic-gradient(from 0deg, var(--ground) 0deg, var(--ink) var(--deg), color-mix(in srgb, var(--ink) 12%, var(--ground)) var(--deg)); }
+.vessel .name { font-size: 15px; font-weight: 500; }
+.vessel:hover .v { filter: contrast(1.2); }
+
+
+
+/* rooms: full-bleed bands that rise over each other with a grainy horizon */
+html, body { overflow-x: clip; }
+.room { --R: clamp(56px, 9vw, 150px); --fbg: var(--f1bg); --fhi: var(--f1hi); --ftx: var(--f1tx);
+  position: relative; isolation: isolate; background: var(--fbg); color: var(--fhi);
+  margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+  margin-top: 0; padding-block: clamp(110px, 16vh, 180px) clamp(140px, 22vh, 240px); scroll-margin-top: 0; }
+.room.alt { --fbg: var(--f2bg); --fhi: var(--f2hi); --ftx: var(--f2tx); }
+.room.night { --fbg: #050505; --fhi: #F3F3EF; --ftx: #8C8C88; }
+.room.night + .room.night .room-head { border-top: 1px solid #1E1E1D; padding-top: clamp(40px, 6vh, 64px); }
+#denial { margin-top: 40px; }
+.room::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background-image: var(--noise, none); background-size: 128px 128px; mix-blend-mode: overlay; opacity: .4; }
+.inner { max-width: 1200px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.room-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 48px; align-items: end; margin-bottom: clamp(90px, 14vh, 160px); }
+.room-head .num { font-family: var(--mono); font-weight: 700; font-size: clamp(110px, 21vw, 290px); line-height: .76; letter-spacing: -0.075em; grid-row: span 2; color: var(--fhi); }
+.room-head h2 { margin: 0; font-size: clamp(40px, 5.6vw, 80px); font-weight: 300; letter-spacing: -0.045em; line-height: 1; }
+.room-head p { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ftx); max-width: 40ch; }
+.works { display: flex; flex-direction: column; gap: clamp(90px, 16vh, 180px); }
+.work { margin: 0; display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 3.4fr); gap: 48px; align-items: end; }
+.work:nth-child(even) { grid-template-columns: minmax(0, 3.4fr) minmax(0, 8fr); }
+.work:nth-child(even) .frame { order: 2; }
+.work:only-child { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.work:only-child .frame { width: min(100%, 980px); aspect-ratio: 16 / 9; }
+.work:only-child .placard { text-align: center; align-items: center; }
+.frame { --dim: color-mix(in srgb, var(--fhi) 9%, var(--fbg)); aspect-ratio: 4 / 3; width: 100%; background: transparent; position: relative; overflow: hidden; cursor: pointer; display: grid; place-items: center; container-type: size; }
+.frame .idx { position: absolute; left: 0; top: 0; color: var(--ftx); }
+.frame .cap { position: absolute; left: 0; right: 0; bottom: 8px; text-align: center; color: var(--ftx); }
+.frame .cap b { font-weight: 500; color: var(--fhi); }
+.placard { display: flex; flex-direction: column; gap: 10px; max-width: 34ch; border-top: 1px solid color-mix(in srgb, var(--fhi) 28%, transparent); padding-top: 18px; padding-bottom: 8px; }
+.placard h3 { margin: 0; font-size: clamp(22px, 2.2vw, 30px); font-weight: 400; letter-spacing: -0.025em; color: var(--fhi); }
+.placard .desc { margin: 0; font-size: 15px; line-height: 1.55; color: var(--ftx); }
+.exitwrap { padding-top: clamp(100px, 16vh, 180px); }
+@media (max-width: 820px) {
+  .mark-r, .live { display: none; }
+  .rail { gap: 16px; }
+  .foot-r { text-align: left; }
+  .room-head { grid-template-columns: minmax(0, 1fr); }
+  .room-head .num { grid-row: auto; }
+  .work, .work:nth-child(even) { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .work:nth-child(even) .frame { order: 0; }
+  .work:only-child .frame { aspect-ratio: 4 / 3; }
+}
+
+.d { border-radius: 50%; position: relative; }
+.big { width: 58cqh; aspect-ratio: 1; margin-top: -6cqh; }
+/* poster furniture: construction lines, counter, annotations */
+.frame .guides { position: absolute; inset: 0; pointer-events: none; opacity: .22;
+  background: linear-gradient(var(--fhi), var(--fhi)) 50% 0 / 1px 100% no-repeat, linear-gradient(var(--fhi), var(--fhi)) 0 47% / 100% 1px no-repeat; }
+.frame .guides::before { content: ""; position: absolute; left: 50%; top: 47%; width: 86cqh; aspect-ratio: 1; transform: translate(-50%, -50%); border: 1px solid var(--fhi); border-radius: 50%; }
+.frame .guides::after { content: ""; position: absolute; left: 50%; top: 47%; width: 150cqw; height: 1px; background: var(--fhi); transform: translate(-50%, 0) rotate(-24deg); }
+.frame .counter { position: absolute; left: 0; right: 0; top: 4px; text-align: center; color: var(--fhi); letter-spacing: .14em; line-height: 1.5; }
+.frame .note { position: absolute; color: var(--ftx); padding-left: 14px; max-width: 18ch; line-height: 1.4; }
+.frame .note::before { content: ""; position: absolute; left: 0; top: .45em; width: 6px; height: 6px; border-radius: 50%; background: var(--fhi); }
+.frame .note::after { content: ""; position: absolute; left: 2.5px; top: calc(.45em + 8px); height: 9cqh; border-left: 1px dashed color-mix(in srgb, var(--fhi) 50%, transparent); }
+.frame .n1 { left: 2%; bottom: 22%; }
+.frame .n2 { right: 2%; top: 20%; }
+@media (max-width: 820px) { .frame .note { display: none; } }
+
+
+/* tantrum, hold music */
+.hm-play { align-self: flex-start; margin-top: 8px; border-color: var(--fhi); color: var(--fhi); }
+.hm-play:hover { background: var(--fhi); color: var(--fbg); }
+.work:only-child .hm-play { align-self: center; }
+/* the gradient archive */
+@property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@property --p { syntax: '<percentage>'; inherits: false; initial-value: 40%; }
+.swatches { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 24px; }
+.sw { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.sw .chip { aspect-ratio: 1; border-radius: 0; animation: breathe-a var(--t, 8s) ease-in-out infinite alternate, breathe-p calc(var(--t, 8s) * .75) ease-in-out infinite alternate; }
+.sw.round .chip { border-radius: 50%; aspect-ratio: 1; }
+.sw .chip:hover { animation-play-state: paused; }
+.sw figcaption { display: flex; justify-content: space-between; gap: 8px; border-top: 1px solid color-mix(in srgb, var(--fhi) 28%, transparent); padding-top: 10px; }
+.sw .nm { font-size: 15px; color: var(--fhi); }
+.sw .lb { color: var(--ftx); text-align: right; }
+@keyframes breathe-a { from { --a: 0deg; } to { --a: 90deg; } }
+@keyframes breathe-p { from { --p: 22%; } to { --p: 68%; } }
+@media (max-width: 820px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; } }
+@media (prefers-reduced-motion: reduce) { .sw .chip { animation: none; } }
+
+/* light and fire: WebGL exhibits always hang on black */
+.frame.glf { --fhi: #F3F3EF; --ftx: #8C8C88; background: transparent; }
+.frame.glf canvas.gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.frame.glf .counter, .frame.glf .cap { z-index: 1; }
+
+/* the exhibits */
+#opt-disc { --g: conic-gradient(from 0deg, var(--fbg) 0deg, var(--fhi) var(--deg), var(--dim) var(--deg)); }
+#vert { --g: conic-gradient(from 0deg, var(--fbg) 0deg, var(--fhi) 359.4deg, var(--fbg) 359.6deg); width: 46cqh; }
+#bor-disc { --lvl: 0%; --g: linear-gradient(to top, var(--fhi) 0%, color-mix(in srgb, var(--fhi) 70%, var(--fbg)) calc(var(--lvl) - 16%), var(--dim) var(--lvl)); }
+.z { position: absolute; font-family: var(--mono); font-size: 14px; color: var(--fhi); opacity: 0; left: 78%; top: 8%; }
+.dots { position: relative; width: 140px; height: 90px; margin-top: -6cqh; }
+.dot { position: absolute; left: 50%; top: 50%; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
+  --g: radial-gradient(circle at 34% 30%, var(--fhi) 0%, color-mix(in srgb, var(--fhi) 45%, var(--fbg)) 42%, var(--fbg) 86%); }
+.elev { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: -4cqh; }
+.panel { display: flex; gap: 8px; color: var(--ftx); }
+.panel.ding { color: var(--fhi); }
+.car { width: 52cqh; aspect-ratio: 1; border-radius: 50%; overflow: hidden; position: relative; display: grid; place-items: center; }
+.car .inside { position: absolute; inset: 0; --g: radial-gradient(circle at 50% 46%, color-mix(in srgb, var(--fhi) 60%, var(--fbg)) 0%, color-mix(in srgb, var(--fhi) 18%, var(--fbg)) 40%, var(--fbg) 75%); }
+.car .who { position: relative; color: var(--fbg); }
+.door { position: absolute; top: 0; bottom: 0; width: 50%; }
+.door.l { left: 0; --g: linear-gradient(to right, var(--fbg) 10%, var(--fhi)); }
+.door.r { right: 0; --g: linear-gradient(to right, color-mix(in srgb, var(--fhi) 70%, var(--fbg)) 0%, color-mix(in srgb, var(--fhi) 22%, var(--fbg)) 45%, var(--fbg) 95%); }
+.breath { position: relative; width: 70cqh; aspect-ratio: 1; margin-top: -6cqh; }
+.breath .halo { position: absolute; inset: 0; border-radius: 50%;
+  --g: radial-gradient(circle, var(--fhi) 0%, color-mix(in srgb, var(--fhi) 50%, var(--fbg)) 18%, color-mix(in srgb, var(--fhi) 12%, var(--fbg)) 42%, var(--fbg) 70%); }
+.breath .moon { position: absolute; left: 36%; top: 16%; width: 68%; aspect-ratio: 1; border-radius: 50%; background: var(--fbg); }
+.ghost { width: 50cqh; aspect-ratio: 1; border-radius: 50%; margin-top: -6cqh; animation: ghost 5s ease-in-out infinite;
+  --g: radial-gradient(circle at 50% 100%, var(--fhi) 0%, color-mix(in srgb, var(--fhi) 30%, var(--fbg)) 30%, var(--fbg) 72%); }
+@keyframes ghost { 50% { transform: scale(.86); opacity: .55; } }
+
+.lines { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--fhi); }
+.svgnum { font-family: var(--mono); font-size: 11px; fill: currentColor; font-variant-numeric: tabular-nums; }
+
+/* exit: the iceberg */
+.exit { display: flex; flex-direction: column; gap: 28px; border-top: 1px solid var(--line); padding-top: 24px; }
+.exit h2 { margin: 0; font-size: clamp(28px, 3.4vw, 40px); font-weight: 500; letter-spacing: -0.03em; }
+.berg { position: relative; height: 500px; max-width: 760px; width: 100%; align-self: center; }
+.berg .tip { position: absolute; left: 50%; top: 60px; width: 220px; height: 110px; margin-left: -110px; border-radius: 110px 110px 0 0; background: var(--ink); }
+.berg .under { position: absolute; left: 50%; top: 170px; width: min(440px, 92vw); aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+  --g: radial-gradient(circle at 50% 50%, var(--ink) 0%, var(--ink) 18%, color-mix(in srgb, var(--ink) 45%, var(--ground)) 34%, var(--ground) 62%);
+  -webkit-mask: linear-gradient(to bottom, transparent 50%, #000 50%); mask: linear-gradient(to bottom, transparent 50%, #000 50%); }
+.berg .water { position: absolute; left: 0; right: 0; top: 170px; height: 1px; background: var(--line); }
+.berg .water i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--ink); }
+.berg .a, .berg .b { position: absolute; display: flex; flex-direction: column; gap: 4px; }
+.berg .a { left: 4%; top: 30px; } .berg .b { right: 4%; bottom: 40px; text-align: right; }
+.berg .bign { font-family: var(--mono); font-size: 34px; font-weight: 500; letter-spacing: -0.03em; color: var(--ink); }
+
+.waited { position: fixed; left: 0; bottom: 0; z-index: 5; margin-left: max(16px, env(safe-area-inset-left, 0px)); margin-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  font-family: var(--mono); font-size: 12px; color: var(--ink); background: var(--ground); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.guide { position: fixed; right: 0; bottom: 0; z-index: 5; margin-right: max(16px, env(safe-area-inset-right, 0px)); margin-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  min-height: 34px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--ground); color: var(--ink); font-family: var(--mono); font-size: 12px; cursor: pointer; }
+
+@media (max-width: 820px) {
+          .vessels { gap: 8px; }
+  .vessel .name { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .ghost { animation: none; } .vessel .v { transition: none; } }
+
+/* light stages: the same render, inverted, so the scroll alternates ink and light */
+.ex.light { background: #FBFBF9; color: #0B0B0B; border-top-color: #E6E6E2; }
+.ex.light .frame { --fbg: #FBFBF9; --fhi: #0B0B0B; --ftx: #6C6C69; background: #FBFBF9; }
+.ex.light canvas { filter: invert(1); }
+.ex.light .frame .cap, .ex.light .frame .cap b { color: #0B0B0B; }
+.ex.light .rail { color: #0B0B0B; } .ex.light .two { color: #0B0B0B; } .ex.light .pips i { background: #0B0B0B; } .ex.light .idx { color: #6C6C69; }
+
+/* the list: every exhibit is a full-bleed black stage with the header's rail along its foot */
+.list { display: flex; flex-direction: column; }
+.ex { position: relative; height: min(92vh, 980px); min-height: 520px; background: #000; color: #F3F3EF; border-top: 1px solid #141414;
+  margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px))); }
+.ex .frame { --fbg: #000; --fhi: #F3F3EF; --ftx: #8C8C88; --dim: #161616; position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; background: #000; cursor: default; display: grid; place-items: center; container-type: size; overflow: hidden; }
+.ex .frame .cap { left: auto; right: max(32px, env(safe-area-inset-right, 0px)); bottom: 30px; text-align: right; color: #F3F3EF; z-index: 2; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; }
+.ex .frame .cap b { color: #F3F3EF; font-weight: 400; }
+.ex .lines { position: absolute; inset: 12% 0; width: 100%; height: 76%; }
+.rail-ex { top: auto; bottom: 22px; transform: none; justify-content: flex-start; pointer-events: none; }
+.rail-ex .mark { font-size: 15px; gap: 18px; }
+.rail-ex .pips i { width: 9px; height: 9px; }
+.rail-ex .idx { position: absolute; left: 50%; transform: translateX(-50%); color: #8C8C88; font-size: 10.5px; letter-spacing: .06em; }
+.pips.breathe i { animation: pip 3.2s ease-in-out infinite; }
+.pips.breathe i + i { animation-delay: -1.6s; }
+@keyframes pip { 0%, 100% { transform: scale(.72); opacity: .55; } 50% { transform: scale(1); opacity: 1; } }
+.top .pips i { animation: pip 3.2s ease-in-out infinite; } .top .pips i + i { animation-delay: -1.6s; }
+.waited, .guide { background: #000 !important; color: #F3F3EF !important; border-color: #2A2A28 !important; font-size: 10.5px !important; letter-spacing: .06em; text-transform: uppercase; }
+@media (max-width: 820px) { .rail-ex .idx { display: none; } .ex .frame .cap { bottom: 64px; left: max(32px, env(safe-area-inset-left, 0px)); right: auto; text-align: left; } }
+@media (prefers-reduced-motion: reduce) { .pips.breathe i, .top .pips i { animation: none; } }
+</style>
+<style>
+/* Portfolio wrapper only: a Back link in the header's top-left corner, styled like the header rail labels.
+   The rail sits at the vertical middle of the header, so this corner is free and the AW/ mark is not covered. */
+.aw-back { position: absolute; z-index: 30; top: max(22px, env(safe-area-inset-top, 0px)); left: max(16px, env(safe-area-inset-left, 0px));
+  font-family: "Geist Mono", ui-monospace, Menlo, monospace; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+  color: #F3F3EF; text-decoration: none; opacity: .8; transition: opacity .2s ease; }
+.aw-back:hover, .aw-back:focus-visible { opacity: 1; }
+.aw-back:focus-visible { outline: 1px solid #F3F3EF; outline-offset: 4px; }
+</style>
+</head>
+<body>
+<a class="aw-back" href="/">&larr; Back</a>
+
+<header class="top">
+  <canvas class="form" id="form" aria-hidden="true"></canvas>
+  <h1 class="sr">The art of waiting // loading</h1>
+  <div class="rail">
+    <div class="mark"><span>AW/</span><span class="pips"><i></i><i></i></span><span id="rail-n">01</span></div>
+    <div class="two label"><span>THE ART OF WAITING</span><span>// LOADING</span></div>
+    <div class="live" aria-hidden="true"><span class="pill"><i id="pill"></i></span><span class="matrix" id="matrix"></span></div>
+    <div class="mark mark-r" aria-hidden="true"><span>AW/</span><span class="pips"><i></i><i></i></span><span>∞</span></div>
+  </div>
+  <div class="foot">
+    <div class="queue">
+      <span class="label">Now serving<span class="n" id="now">041</span></span>
+      <span class="label">Your number<span class="n" id="mine">112</span></span>
+      <button class="take" id="take" type="button">Take another number</button>
+      <span class="take-note" id="take-note" aria-live="polite"></span>
+    </div>
+  </div>
+</header>
+
+<main class="list">
+  <section class="ex" aria-label="Almost done">
+    <div class="frame glf" tabindex="0" data-gl="optimist" aria-label="The Optimist, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>01</span></div><div class="two label"><span>ALMOST DONE</span><span>HALO</span></div><span class="label idx">01 / 10</span></div>
+  </section>
+  <section class="ex light" aria-label="Aligning">
+    <div class="frame" tabindex="0" data-ex="almost" aria-label="Almost, animated loader"><svg class="lines" viewBox="0 0 200 150" aria-hidden="true"><defs><radialGradient id="sun-g"><stop offset="0" stop-color="currentColor"/><stop offset=".25" stop-color="currentColor" stop-opacity=".5"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="68" r="34" fill="url(#sun-g)" id="al-glow"/><circle cx="100" cy="68" r="4" fill="currentColor"/><g id="al-orbits" transform="translate(100 68)"></g></svg><span class="cap label" id="al-status">aligning</span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>02</span></div><div class="two label"><span>ALIGNING</span><span>ORBITS</span></div><span class="label idx">02 / 10</span></div>
+  </section>
+  <section class="ex" aria-label="Unravelling">
+    <div class="frame" tabindex="0" data-ex="tantrum" data-norestart aria-label="Unravelling: rings that come undone as your cursor gets closer"><svg class="lines" viewBox="0 0 200 150" aria-hidden="true"><g id="tt-rings" fill="none" stroke="currentColor" stroke-width=".55"></g></svg><span class="cap label" id="tt-status">fine</span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>03</span></div><div class="two label"><span>UNRAVELLING</span><span>RINGS · COME CLOSER</span></div><span class="label idx">03 / 10</span></div>
+  </section>
+  <section class="ex light" aria-label="Spinning">
+    <div class="frame glf" tabindex="0" data-gl="galaxy" aria-label="Spinning Up, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>04</span></div><div class="two label"><span>SPINNING</span><span>PARTICLES</span></div><span class="label idx">04 / 10</span></div>
+  </section>
+  <section class="ex" aria-label="Heating up">
+    <div class="frame glf" tabindex="0" data-gl="burner" aria-label="The Burner, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>05</span></div><div class="two label"><span>HEATING UP</span><span>FLAME</span></div><span class="label idx">05 / 10</span></div>
+  </section>
+  <section class="ex light" aria-label="Losing interest">
+    <div class="frame glf" tabindex="0" data-gl="boredom" aria-label="Boredom, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>06</span></div><div class="two label"><span>LOSING INTEREST</span><span>DROP</span></div><span class="label idx">06 / 10</span></div>
+  </section>
+  <section class="ex light" aria-label="Undoing">
+    <div class="frame" tabindex="0" data-ex="rewind" aria-label="Rewind, animated loader"><svg class="lines" viewBox="0 0 200 150" aria-hidden="true"><g id="rw-rings"></g><line x1="58" x2="142" y1="112" y2="112" stroke="currentColor" stroke-width="1.2"/></svg><span class="cap label"><b id="rw-pct">0%</b> · <span id="rw-status">loading</span></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>07</span></div><div class="two label"><span>UNDOING</span><span>RINGS</span></div><span class="label idx">07 / 10</span></div>
+  </section>
+  <section class="ex" aria-label="Breathing">
+    <div class="frame glf" tabindex="0" data-gl="breathe" aria-label="Breathe, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>08</span></div><div class="two label"><span>BREATHING</span><span>HALO</span></div><span class="label idx">08 / 10</span></div>
+  </section>
+  <section class="ex" aria-label="Not yet">
+    <div class="frame glf" tabindex="0" data-gl="water" aria-label="Something on the Way, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>09</span></div><div class="two label"><span>NOT YET</span><span>WATER</span></div><span class="label idx">09 / 10</span></div>
+  </section>
+  <section class="ex light exit" aria-label="Exit">
+    <div class="frame glf" data-gl="exit" aria-label="Exit: the waterline fills as you scroll"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>10</span></div><div class="two label"><span>EXIT</span><span>20% THE LOADER · 80% YOU, WAITING</span></div><span class="label idx">10 / 10</span></div>
+  </section>
+</main>
+
+
+<div class="waited">waited <span id="waited">00:00:00</span></div>
+<button class="guide" id="guide" type="button">Audio guide</button>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const easeOut = (x) => 1 - Math.pow(1 - clamp(x, 0, 1), 3);
+  const easeInOut = (x) => { x = clamp(x, 0, 1); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+  const seg = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
+  const setText = (el, s) => { if (el.textContent !== s) el.textContent = s; };
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pad = (n) => String(n).padStart(3, '0');
+
+  /* one noise tile, reused by every grainy surface */
+  try {
+    const c = document.createElement('canvas'); c.width = c.height = 256;
+    const g = c.getContext('2d'), im = g.createImageData(256, 256);
+    for (let i = 0; i < im.data.length; i += 4) { const v = 20 + Math.random() * 215; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
+    g.putImageData(im, 0, 0);
+    document.documentElement.style.setProperty('--noise', `url(${c.toDataURL()})`);
+  } catch (e) {}
+
+  /* proximity: every exhibit sleeps until the cursor comes near. Touch screens get a gentle autoplay instead. */
+  const noHover = matchMedia('(hover: none)').matches;
+  window.__ptr = { x: -9999, y: -9999 };
+  addEventListener('pointermove', (e) => { window.__ptr.x = e.clientX; window.__ptr.y = e.clientY; }, { passive: true });
+  window.__prox = (el) => {
+    if (noHover) return 1;
+    const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    const d = Math.hypot(window.__ptr.x - cx, window.__ptr.y - cy), R = Math.min(r.width, r.height);
+    const v = 1 - (d - R * 0.12) / (R * 0.55);
+    return Math.max(0, Math.min(1, v));
+  };
+
+  /* queue */
+  let now = 41, mine = 112, takes = 0;
+  function scramble(el, target) {
+    if (reduced) { el.textContent = target; return; }
+    let k = 6; const iv = setInterval(() => { el.textContent = k-- > 0 ? pad(Math.floor(Math.random() * 999)) : target; if (k < 0) clearInterval(iv); }, 60);
+  }
+  setInterval(() => {
+    if (Math.random() < 0.3) { scramble($('now'), pad(now + 1)); setTimeout(() => scramble($('now'), pad(now)), 1600); }
+    else { now += 1; scramble($('now'), pad(now)); }
+  }, 25000);
+  const notes = ['You are now further back.', 'That is not how queues work.', 'Bold strategy.', 'The museum has noticed.', 'Please stop.'];
+  $('take').addEventListener('click', () => { mine += 1 + Math.floor(Math.random() * 6); scramble($('mine'), pad(mine)); setText($('take-note'), notes[Math.min(takes++, notes.length - 1)]); });
+
+  /* waited, guide, exit */
+  const t0 = Date.now();
+  setInterval(() => {
+    const s = Math.floor((Date.now() - t0) / 1000);
+    setText($('waited'), [s / 3600, (s % 3600) / 60, s % 60].map((v) => String(Math.floor(v)).padStart(2, '0')).join(':'));
+  }, 1000);
+  const guide = ['Audio guide', 'Buffering', 'Buffering.', 'Buffering..', 'Buffering...', 'Audio guide'];
+  let gt = null;
+  $('guide').addEventListener('click', () => { if (gt) return; let i = 1; gt = setInterval(() => { setText($('guide'), guide[i++]); if (i >= guide.length) { clearInterval(gt); gt = null; } }, 900); });
+  window.__exitP = 0;
+  const exitEl = document.querySelector('.ex.exit');
+  window.addEventListener('scroll', () => {
+    const r = exitEl.getBoundingClientRect();
+    window.__exitP = clamp((innerHeight - r.top) / (r.height + innerHeight * 0.2), 0, 1);
+  }, { passive: true });
+
+  /* the hero eclipse: the soft disc drifts over the solid one as you wait */
+  /* the header: a slow, soft form breathing on the right, and a rail with a tiny live loader */
+  const mx = $('matrix'); for (let i = 0; i < 15; i++) mx.appendChild(document.createElement('b'));
+  const dots = [...mx.children];
+  const form = (() => {          // a Newton's cradle, extremely close up: soft gradient orbs, grain, strings running out of frame
+    const cv = $('form'), gl = cv.getContext('webgl', { antialias: false });
+    if (!gl) return () => {};
+    const fs = `precision highp float; uniform vec2 res; uniform float time; uniform vec3 balls[5]; uniform float R; uniform float pivots[5];
+      float hash(vec2 p){ p = fract(p * vec2(443.897, 441.423)); p += dot(p, p.yx + 19.19); return fract((p.x + p.y) * p.x); }
+      void main(){
+        vec2 frag = gl_FragCoord.xy; vec2 p = frag / res.y; float aa = 2.2 / res.y;
+        float lum = 0.0;
+        // strings first (behind the orbs)
+        for (int i = 0; i < 5; i++) {
+          vec2 a = vec2(pivots[i], 3.0), b = balls[i].xy + vec2(0.0, R * 0.98);
+          vec2 pa = p - a, ba = b - a; float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+          float d = length(pa - ba * h);
+          lum = max(lum, 0.55 * smoothstep(aa * 0.9, 0.0, d));
+        }
+        // ambient light pooled under the row
+        lum += 0.06 * exp(-pow((p.y - (balls[2].y - R * 1.1)) / 0.12, 2.0));
+        for (int i = 0; i < 5; i++) {
+          vec2 d = (p - balls[i].xy) / R; float r = length(d);
+          float a = smoothstep(1.0 + aa / R, 1.0 - aa / R, r);
+          if (a <= 0.0) continue;
+          float z = sqrt(max(0.0, 1.0 - r * r));
+          float pool = smoothstep(0.15, -1.0, d.y);                   // light pooling at the bottom (halo language)
+          float key = pow(max(0.0, dot(vec3(d, z), normalize(vec3(-0.45, 0.55, 0.7)))), 6.0); // a soft highlight up-left
+          float tone = 0.035 + 0.78 * pow(pool, 1.6) + 0.22 * key;
+          tone += (0.16 + 0.5 * balls[i].z) * pow(1.0 - z, 3.0);        // rim
+          tone += 0.25 * balls[i].z * pool;                             // impact flash
+          lum = mix(lum, tone, a);
+          lum += (0.08 + 0.25 * balls[i].z) * exp(-pow((r - 1.0) / 0.06, 2.0)) * step(1.0, r);   // glow just outside the edge
+        }
+        lum *= 1.0 - 0.35 * pow(length((frag / res - 0.5) * vec2(1.0, 1.2)), 2.0);   // vignette
+        float g = hash(floor(frag) + 3.0) + hash(floor(frag) * 1.7 + 9.0) - 1.0;   // still grain: no shimmer on large areas
+        lum += g * (0.018 + 0.1 * lum * (1.0 - lum));
+        gl_FragColor = vec4(vec3(clamp(lum, 0.0, 1.0)), 1.0);
+      }`;
+    const sh = (ty, src) => { const x = gl.createShader(ty); gl.shaderSource(x, src); gl.compileShader(x); return x; };
+    const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, 'attribute vec2 a; void main(){ gl_Position = vec4(a,0.,1.); }')); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const U = (n) => gl.getUniformLocation(pr, n), uR = U('res'), uT = U('time'), uB = U('balls'), uRad = U('R'), uP = U('pivots');
+    return (t) => {
+      const dpr = Math.min(1.5, devicePixelRatio || 1), w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr);
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
+      const W = w / h, mobile = cv.clientWidth < 820;
+      const R = mobile ? 0.2 : 0.29, L = 2.4, cy = 0.44, cx = mobile ? W * 0.62 : W * 0.66;
+      // the physics feel: breathing amplitude, a shiver through the middle on impact, the neighbour dragged along, a flash on contact
+      const T = 2.1, ph = t / T * 2, half = Math.floor(ph), u = ph - half;
+      const A = 0.2 * (0.8 + 0.2 * Math.sin(t * 0.18));
+      const rightTurn = half % 2 === 0, dir = rightTurn ? 1 : -1;
+      const swing = A * Math.sin(Math.PI * u), shiver = 0, drag = 0.06 * swing * Math.exp(-u * 1.6), flash = 0.35 * Math.exp(-u * 3.5);
+      const ang = [0, 0, 0, 0, 0];
+      if (rightTurn) { ang[4] = swing; ang[3] = drag; } else { ang[0] = -swing; ang[1] = -drag; }
+      ang[1] += shiver * 0.6 * dir; ang[2] += shiver * dir; ang[3] += shiver * 0.6 * dir;
+      const balls = [], piv = [];
+      for (let i = 0; i < 5; i++) {
+        const px = cx + (i - 2) * R * 2.01; piv.push(px);
+        const struck = rightTurn ? (i === 3 || i === 4) : (i === 0 || i === 1);
+        balls.push(px + Math.sin(ang[i]) * L, cy + L - Math.cos(ang[i]) * L, Math.min(1, Math.abs(ang[i]) / A * 0.6 + (struck ? 0.7 * flash : 0)));
+      }
+      gl.uniform2f(uR, w, h); gl.uniform1f(uT, t); gl.uniform1f(uRad, R);
+      gl.uniform3fv(uB, new Float32Array(balls)); gl.uniform1fv(uP, new Float32Array(piv));
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    };
+  })();
+  let headVisible = true;
+  if ('IntersectionObserver' in window) new IntersectionObserver((es) => { headVisible = es[0].isIntersecting; }).observe(document.querySelector('.top'));
+  function eclipse(t) {
+    if (!headVisible) return;
+    form(t);
+    const c = (t % 7) / 7;                                         // the pill fills, holds, empties: no cut
+    const fill = c < .6 ? easeInOut(c / .6) * 0.92 : c < .8 ? 0.92 : 0.92 * (1 - easeInOut((c - .8) / .2));
+    $('pill').style.width = (fill * 100).toFixed(1) + '%';
+    const k = Math.floor(t * 3);
+    dots.forEach((d, i) => { const on = ((i * 7 + k) % 11) < 3; d.style.opacity = on ? '0.9' : '0.15'; });
+    setText($('rail-n'), String(1 + (Math.floor(t / 7) % 9)).padStart(2, '0'));
+  }
+
+  /* the collection */
+  const ex = {
+    tantrum: (function () {
+      const NS = 'http://www.w3.org/2000/svg', g = $('tt-rings'), N = 13, P = 140, svg = g.ownerSVGElement;
+      const rings = Array.from({ length: N }, () => { const e = document.createElementNS(NS, 'path'); g.appendChild(e); return e; });
+      let target = 0, A = 0, phi = 0, phiT = 0, last = performance.now();
+      const move = (e) => {
+        const m = svg.getScreenCTM(); if (!m) return;
+        const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const q = pt.matrixTransform(m.inverse());
+        const dx = q.x - 100, dy = q.y - 75, dist = Math.hypot(dx, dy);
+        target = Math.max(0, Math.min(1, (130 - dist) / 100)); phiT = Math.atan2(dy, dx);
+      };
+      svg.closest('.ex').addEventListener('pointermove', move);
+      svg.closest('.ex').addEventListener('pointerleave', () => { target = 0; });
+      return function (t) {
+        const n = performance.now(), dt = Math.min(0.1, (n - last) / 1000); last = n;
+        A += (target - A) * Math.min(1, dt * 2.2);                          // slow to get upset, slow to calm down
+        const dphi = Math.atan2(Math.sin(phiT - phi), Math.cos(phiT - phi)); phi += dphi * Math.min(1, dt * 3);
+        const idle = 0.06 + 0.04 * Math.sin(t * 0.6);                      // never perfectly still
+        const tremble = A > 0.8 ? Math.sin(t * 50) * 0.04 * (A - 0.8) * 5 : 0;
+        rings.forEach((e, i) => {
+          const r = 3 + (i + 1) * 4.2, k = Math.pow((i + 1) / N, 1.3);
+          let d = '';
+          for (let j = 0; j <= P; j++) {
+            const th = j / P * Math.PI * 2, df = Math.atan2(Math.sin(th - phi), Math.cos(th - phi));
+            const bump = Math.exp(-(df * df) / (2 * 0.6 * 0.6));
+            const amp = A + tremble;
+            const rr = r + k * (amp * bump * 26 + (idle + amp) * (Math.sin(3 * th + t * 1.1 + i) * 2.2 + Math.sin(5 * th - t * 0.8 + i * 2) * 1.2));
+            d += (j ? 'L' : 'M') + (100 + rr * Math.cos(th)).toFixed(1) + ' ' + (75 + rr * Math.sin(th)).toFixed(1);
+          }
+          e.setAttribute('d', d + 'Z');
+        });
+        setText($('tt-status'), A < 0.08 ? 'fine' : A < 0.4 ? "it's fine" : A < 0.8 ? 'it is fine' : 'IT IS FINE');
+      };
+    })(),
+    almost: (function () {
+      const NS = 'http://www.w3.org/2000/svg', g = $('al-orbits');
+      const orbs = [[22, 12, -20, 1.3], [38, 20, 25, 0.9], [54, 26, -35, 0.62], [70, 36, 15, 0.45], [86, 44, -8, 0.33]].map(([rx, ry, rot, w], i) => {
+        const e = document.createElementNS(NS, 'ellipse'); e.setAttribute('rx', rx); e.setAttribute('ry', ry); e.setAttribute('transform', `rotate(${rot})`);
+        e.setAttribute('fill', 'none'); e.setAttribute('stroke', 'currentColor'); e.setAttribute('stroke-width', '.6'); e.setAttribute('stroke-opacity', '.55'); g.appendChild(e);
+        const b = document.createElementNS(NS, 'circle'); b.setAttribute('r', i === 4 ? 3.2 : 2.4); b.setAttribute('fill', 'currentColor'); g.appendChild(b);
+        return { rx, ry, rot: rot * Math.PI / 180, w, b, ph: i * 1.7 };
+      });
+      return function (t) {
+        const tc = t % 9;
+        const pull = tc < 1.5 ? 0 : tc < 5 ? 0.94 * easeInOut(seg(tc, 1.5, 5)) : tc < 6.2 ? 0.94 : 0.94 * (1 - easeOut(seg(tc, 6.2, 7.4)));
+        orbs.forEach((o, i) => {
+          let th = o.ph + o.w * t * 1.4;
+          const target = -o.rot + Math.round((th + o.rot) / (2 * Math.PI)) * 2 * Math.PI + (i === 4 && tc > 4.4 ? 0.35 : 0);
+          th = th + (target - th) * pull;
+          const x = o.rx * Math.cos(th), y = o.ry * Math.sin(th);
+          o.b.setAttribute('cx', (x * Math.cos(o.rot) - y * Math.sin(o.rot)).toFixed(2)); o.b.setAttribute('cy', (x * Math.sin(o.rot) + y * Math.cos(o.rot)).toFixed(2));
+        });
+        $('al-glow').setAttribute('r', (30 + 10 * pull).toFixed(1));
+        setText($('al-status'), tc < 1.5 ? 'aligning' : tc < 4.4 ? 'nearly aligned' : tc < 6.2 ? 'almost' : 'almost.');
+      };
+    })(),
+    rewind: (function () {
+      const NS = 'http://www.w3.org/2000/svg', g = $('rw-rings'), R = 42, base = 112;
+      const fr = [1, 0.74, 0.5, 0.3, 0.14, 0.04];
+      const rings = fr.map(() => { const e = document.createElementNS(NS, 'ellipse'); e.setAttribute('cx', 100); e.setAttribute('rx', R); e.setAttribute('fill', 'none'); e.setAttribute('stroke', 'currentColor'); e.setAttribute('stroke-width', '1.1'); g.appendChild(e); return e; });
+      return function (t) {
+        const tc = t % 10; let L, st;
+        if (tc < 4) { L = easeInOut(tc / 4); st = 'loading'; } else if (tc < 5.6) { L = 1; st = tc < 4.6 ? 'loaded' : 'reconsidering'; }
+        else if (tc < 8.8) { L = 1 - easeInOut(seg(tc, 5.6, 8.8)); st = 'unloading, politely'; } else { L = 0; st = 'as you were'; }
+        rings.forEach((e, i) => {
+          const k = clamp(L * 1.25 - (fr.length - 1 - i) * 0.05, 0, 1), ry = Math.max(0.01, R * fr[i] * k);
+          e.setAttribute('ry', ry.toFixed(2)); e.setAttribute('cy', (base - ry).toFixed(2)); e.setAttribute('stroke-opacity', (0.25 + 0.75 * k).toFixed(2));
+        });
+        setText($('rw-pct'), Math.round(L * 100) + '%'); setText($('rw-status'), st);
+      };
+    })(),
+  };
+
+  const counters = [...document.querySelectorAll('.frame .counter')];
+  counters.forEach((c, i) => { c.innerHTML = `EXHIBIT<br>${String(i + 1).padStart(2, '0')}&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;${String(counters.length).padStart(2, '0')}`; });
+
+  const frames = [...document.querySelectorAll('.frame[data-ex]')];
+  const start = {}; const n0 = performance.now();
+  frames.forEach((f, i) => {
+    start[f.dataset.ex] = n0 - i * 700;
+    const restart = () => { start[f.dataset.ex] = performance.now(); };
+    if (f.hasAttribute('data-norestart')) return; f.addEventListener('pointerenter', restart); f.addEventListener('focus', restart); f.addEventListener('click', restart);
+  });
+  if (reduced) {
+    const still = { optimist: 4, boredom: 3.6, vertigo: 1, overthinker: 1, elevator: 4.6, breathe: 4.5, almost: 5, rage: 0, rewind: 5, tantrum: 5, hold: 0 };
+    Object.keys(ex).forEach((k) => ex[k](still[k])); eclipse(0); return;
+  }
+  const lt = {}, rate = {}, frameOf = {}; frames.forEach((f) => { lt[f.dataset.ex] = 2; rate[f.dataset.ex] = 0; frameOf[f.dataset.ex] = f.closest('.ex') || f; });
+  let lastN = performance.now();
+  (function tick(n) {
+    const t = n / 1000, dt = Math.min(0.1, (n - lastN) / 1000); lastN = n; eclipse(t);
+    for (const k in ex) {
+      const target = k === 'tantrum' ? 1 : window.__prox(frameOf[k]);
+      rate[k] += (target - rate[k]) * Math.min(1, dt * 3);         // ease into motion and out of it
+      lt[k] += dt * rate[k];
+      ex[k](lt[k]);
+    }
+    requestAnimationFrame(tick);
+  })(performance.now());
+})();
+</script>
+<script id="lm-fs" type="x-shader/x-fragment">
+precision highp float;
+uniform vec2 res; uniform float time; uniform float mode;
+uniform float k1; uniform float k2; uniform float k3; uniform float k4;
+
+float hash(vec2 p) { p = fract(p * vec2(443.897, 441.423)); p += dot(p, p.yx + 19.19); return fract((p.x + p.y) * p.x); }
+float vn(vec2 p) { vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), u.x), u.y); }
+float fbm(vec2 p) { float v = 0.0, a = 0.5; mat2 m = mat2(1.6, 1.2, -1.2, 1.6); for (int i = 0; i < 3; i++) { v += a * vn(p); p = m * p; a *= 0.5; } return v; }
+vec2 flow(vec2 p, float t) { return vec2(fbm(p * 1.3 + vec2(0.0, t * 0.12)), fbm(p * 1.3 + vec2(5.2, 1.3) - t * 0.1)) - 0.5; }
+
+// HALO: interior tone ramp top-dark to bottom-light, a glowing rim, an occluding cap.
+// capOff: how far the cap has slid up (0 = covering). gain: rim brightness. Rs: radius scale. lift: interior brightness.
+float halo(vec2 w, vec2 c, float R, float capOff, float gain, float lift) {
+  vec2 d = w - c; float r = length(d);
+  float body = smoothstep(R + 0.03, R - 0.05, r);
+  float yn = clamp((c.y + R - w.y) / (2.0 * R), 0.0, 1.0);
+  float inner = mix(0.03, 0.82, smoothstep(0.15, 1.0, yn)) * lift;
+  vec2 capC = c + vec2(0.0, capOff);
+  float cap = smoothstep(R * 1.02, R * 0.8, length(w - capC));
+  inner *= 1.0 - 0.95 * cap;
+  float ring = exp(-pow((r - R) / 0.035, 2.0)) * mix(0.45, 0.8, smoothstep(-1.0, 0.6, -d.y / R));
+  float lip = exp(-pow((r - R) / 0.011, 2.0)) * cap * smoothstep(-0.3, 0.6, d.y / R);   // bright edge where the cap meets the rim
+  float bloom = 0.14 * exp(-pow(max(0.0, r - R) / 0.12, 2.0));
+  return inner * body + (ring * 0.9 + lip * 0.95 + bloom) * gain;
+}
+
+void main() {
+  vec2 frag = gl_FragCoord.xy;
+  vec2 p = frag / res.y; float W = res.x / res.y;
+  vec2 c = vec2(0.5 * W, 0.52);
+  vec2 w = p + flow(p, time) * 0.04;
+  float lum;
+  if (mode < 0.5) {
+    // THE OPTIMIST: k1 = cap offset, k2 = tremble
+    lum = halo(w + vec2(k2 * 0.002, 0.0), c, 0.27, k1, 1.0, 1.0);
+  } else if (mode < 1.5) {
+    // BOREDOM (drop): k1 = band position 0..1, k2 = smear length, k3 = band brightness, k4 = sag
+    vec2 d = p - c; d.x += flow(p, time).x * 0.03 * smoothstep(0.0, -0.3, d.y);
+    d.y += k4 * 0.03 * smoothstep(0.0, -0.25, d.y);
+    float R = 0.22;
+    float lower = smoothstep(0.1, -1.0, d.y / R);
+    float r = length(d);
+    float soft = mix(0.002, 0.035, lower);
+    float base = smoothstep(R + soft, R - soft, r);
+    float hw = sqrt(max(0.0, R * R - d.x * d.x));
+    float xm = smoothstep(R * 1.02, R * 0.55, abs(d.x));
+    float depth = max(0.0, -d.y - hw);
+    float smear = xm * exp(-depth / k2) * step(d.y, 0.0);
+    float alpha = max(base, smear * 0.95);
+    float curve = 0.3 * R * (hw / R);
+    float yb = mix(0.6, -0.85, k1) * R - curve;
+    float band = exp(-pow((d.y - yb) / (0.2 * R), 2.0)) * k3;
+    float tone = mix(0.10, 0.22, smoothstep(R, -R, d.y)) + 0.78 * band;
+    tone *= mix(1.0, 0.75, smoothstep(0.0, 0.25, depth));
+    float rimLit = exp(-pow((r - R) / 0.0035, 2.0)) * smoothstep(0.1, 0.7, d.y / R);
+    tone += 0.3 * rimLit;
+    float glow = 0.1 * exp(-pow(max(0.0, r - R) / 0.06, 2.0)) * smoothstep(-0.2, 0.6, d.y / R);   // halo's glow on the crisp side
+    float bgv = 0.02 + 0.025 * smoothstep(0.0, 1.0, p.y);
+    lum = mix(bgv + glow, tone, alpha);
+  } else if (mode > 2.5 && mode < 3.5) {
+    // GAS: a burner ring in perspective, a crown of small flames. Each flame is a soft teardrop with a bright inner cone.
+    vec2 cc = vec2(0.5 * W, 0.36); float rx = 0.24, ry = 0.065;
+    vec2 hp = p + vec2(flow(p * 2.0, time * 3.0).x * 0.006 * smoothstep(cc.y - 0.02, cc.y + 0.2, p.y), 0.0);   // heat shimmer above the ring
+    vec2 q0 = (p - cc) / vec2(rx, ry);
+    float e = length(q0);
+    float ring = exp(-pow((e - 1.0) / 0.05, 2.0)) * 0.35 * (0.4 + 0.6 * k1);
+    float fire = 0.0;
+    for (int i = 0; i < 30; i++) {
+      float fi = float(i);
+      float th = fi / 30.0 * 6.2831853;
+      vec2 b = cc + vec2(rx * cos(th), ry * sin(th));
+      float back = smoothstep(-0.2, 1.0, sin(th));                       // flames at the back read dimmer
+      float fl = vn(vec2(fi * 3.7, time * 4.0)) * 0.6 + vn(vec2(fi * 1.3, time * 9.0)) * 0.4;
+      float H = mix(0.012, 0.075, k1) * (0.75 + 0.5 * fl);
+      vec2 q = hp - b;
+      q.x -= sin(time * 3.0 + fi * 1.7) * 0.003 * clamp(q.y / H, 0.0, 1.0);
+      float yy = q.y / H;
+      if (yy < -0.3 || yy > 1.2) continue;
+      float wd = 0.0105 * pow(max(0.0, 1.0 - yy), 0.55) + 0.0006;
+      float xn = q.x / wd;
+      float outer = exp(-xn * xn) * smoothstep(1.05, 0.0, yy) * smoothstep(-0.25, 0.05, yy);
+      float inner = exp(-xn * xn * 4.0) * smoothstep(0.5, 0.0, yy) * smoothstep(-0.15, 0.05, yy);
+      fire += (outer * 0.55 + inner * 0.65) * mix(1.0, 0.55, back);
+    }
+    float bloom = exp(-pow((e - 1.0) / 0.5, 2.0)) * 0.07 * k1 + exp(-max(0.0, p.y - cc.y) * 9.0) * exp(-pow((p.x - cc.x) / (rx * 1.1), 2.0)) * 0.05 * k1;
+    lum = 0.012 + ring + min(fire, 1.1) * 0.9 + bloom;
+  } else if (mode > 3.5 && mode < 5.5) {
+    // WATER (4 = a watched pot, 5 = due date). k1 = agitation 0..1, k2 = heartbeat
+    vec2 d = p - c; float r = length(d); float R = 0.31;
+    float warp = fbm(d * 4.0 + vec2(time * 0.15, -time * 0.1)) - 0.5;
+    float ang = atan(d.y, d.x);
+    float rr = r + warp * mix(0.06, 0.12, k1) + 0.004 * sin(ang * 2.0 + time * 0.7);
+    float speed = mix(0.25, 1.4, k1);
+    float rings = pow(1.0 - abs(sin(rr * 40.0 - time * speed * 3.0)), 7.0);
+    float broken = smoothstep(0.25, 0.65, fbm(vec2(ang * 2.2, rr * 9.0) + time * 0.08));   // caustics break into arcs
+    float spark = pow(rings, 3.0) * smoothstep(0.72, 0.95, vn(vec2(ang * 30.0, rr * 90.0) + vec2(time * 0.35, -time * 0.25))) * 0.55;   // soft glints that drift, never blink
+    float centre = smoothstep(0.08, 0.0, r);
+    float inside = smoothstep(R, R - 0.03, r);
+    float water = 0.02 + (1.05 * rings * broken + 0.08 * rings + spark) * smoothstep(0.03, 0.1, r) * (0.35 + 0.65 * smoothstep(R, 0.05, r));
+    float bubbles = 0.0;
+    if (mode < 4.5) {
+      vec2 fr = fract(d * 24.0) - 0.5; float hb = hash(floor(d * 24.0) + floor(time * (0.5 + 3.0 * k1)));
+      if (hb > 1.0 - 0.3 * smoothstep(0.6, 1.0, k1)) bubbles = exp(-pow((length(fr) - 0.2) / 0.06, 2.0));
+    } else {
+      water += centre * 0.12;
+    }
+    float rim = exp(-pow((r - R) / 0.03, 2.0)) * 0.12;
+    lum = mix(0.012, water + 0.6 * bubbles, inside) + rim;
+  } else if (mode > 5.5) {
+    // EXIT: a solid ball sitting on the waterline, its hidden half blurred under the surface. k1 = scroll (the line fills), k2 = cursor nearness (it surfaces)
+    float wl = 0.5;
+    vec2 cc = vec2(0.5 * W, wl);
+    vec2 d = p - cc;
+    float br = 0.5 + 0.5 * sin(time * 0.6);
+    float Rt = 0.16;
+    float show = smoothstep(0.0, 1.0, k2);
+    vec2 cs = cc + vec2(0.0, -0.03 * (1.0 - show));                       // sinks a little when you move away
+    vec2 ds = p - cs;
+    float tip = smoothstep(Rt + 0.0015, Rt - 0.0015, length(ds)) * step(wl, p.y);
+    vec2 wq = ds + flow(p * 1.6, time * 0.6) * 0.06;                       // the hidden half wobbles in the water
+    float hidden = smoothstep(Rt + mix(0.05, 0.09, br), Rt - 0.06, length(wq * vec2(1.0, 0.9))) * step(p.y, wl);
+    hidden *= smoothstep(wl - 0.42, wl - 0.02, p.y) * mix(0.55, 0.7, br);
+    float line = exp(-pow((p.y - wl) / 0.0016, 2.0));
+    float filled = step(p.x, k1 * W);
+    lum = 0.012 + tip * show * 0.988 + hidden * show * (1.0 - tip) + line * mix(0.18, 0.9, filled);
+  } else {
+    // BREATHE: k1 = breath 0..1 (radius, rim, interior), cap rests low and lifts with the inhale
+    float R = mix(0.22, 0.29, k1);
+    lum = halo(w, c, R, mix(0.10, 0.26, k1), mix(0.55, 1.15, k1), mix(0.55, 1.0, k1));
+  }
+  float g = hash(frag + fract(time * 7.0) * vec2(113.0, 71.0)) + hash(frag * 1.7 + 9.0) - 1.0;
+  lum += g * (0.012 + 0.07 * lum * (1.0 - lum));
+  gl_FragColor = vec4(vec3(clamp(lum, 0.0, 1.0)), 1.0);
+}
+</script>
+<script>
+(function () {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ease = (x) => { x = Math.min(1, Math.max(0, x)); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+  const easeOut = (x) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
+  const seg = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+  const setText = (el, s) => { if (el && el.textContent !== s) el.textContent = s; };
+  const FS = document.getElementById('lm-fs').textContent;
+
+  function glDraw(cv) {
+    const gl = cv.getContext('webgl', { antialias: false });
+    if (!gl) return null;
+    const sh = (type, src) => { const x = gl.createShader(type); gl.shaderSource(x, src); gl.compileShader(x); return x; };
+    const pr = gl.createProgram();
+    gl.attachShader(pr, sh(gl.VERTEX_SHADER, 'attribute vec2 a; void main(){ gl_Position = vec4(a,0.,1.); }'));
+    gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const u = {}; ['res', 'time', 'mode', 'k1', 'k2', 'k3', 'k4'].forEach((n) => { u[n] = gl.getUniformLocation(pr, n); });
+    return (t, s) => {
+      const dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr);
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
+      gl.uniform2f(u.res, w, h); gl.uniform1f(u.time, t); gl.uniform1f(u.mode, s.mode);
+      gl.uniform1f(u.k1, s.k1 || 0); gl.uniform1f(u.k2, s.k2 || 0); gl.uniform1f(u.k3, s.k3 || 0); gl.uniform1f(u.k4, s.k4 || 0);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    };
+  }
+
+  const scenes = {
+    optimist: (t, cap) => {
+      const c = t % 13; let p;
+      if (c < 3) p = 0.97 * easeOut(c / 3);
+      else if (c < 10) p = 0.97 + 0.0299 * (1 - Math.exp(-(c - 3) / 1.6));
+      else p = 0.9999 * (1 - ease(seg(c, 10, 13)));
+      let txt;
+      if (c < 3) txt = Math.floor(p * 100) + '%';
+      else if (c < 10) { const dg = Math.min(4, 1 + Math.floor((c - 3) / 1.6)); txt = (p * 100).toFixed(dg) + '%'; }
+      else txt = 'rethinking · ' + Math.floor(p * 100) + '%';
+      setText(cap, txt);
+      return { mode: 0, k1: 0.02 + 0.5 * p, k2: c > 3 && c < 10 ? Math.sin(t * 40) * seg(c, 6, 10) : 0 };
+    },
+    boredom: (t, cap) => {
+      const c = t % 9; let pos, smear = 0.16, bright, sag = 0, st;
+      if (c < 2.2) { pos = 0.5 * easeOut(c / 2.2); st = 'loading'; }
+      else if (c < 5.2) { const u = seg(c, 2.2, 5.2); pos = 0.5 + 0.06 * u; smear = 0.16 + 0.22 * ease(seg(c, 2.4, 4.0)); sag = ease(seg(c, 2.4, 4.0)); st = u < .4 ? 'loading' : 'loading…'; }
+      else if (c < 5.8) { const u = easeOut(seg(c, 5.2, 5.8)); pos = 0.56 + 0.44 * u; smear = 0.38 - 0.22 * u; sag = 1 - u; st = 'oh! done.'; }
+      else { pos = 1; st = 'oh! done.'; }
+      bright = c < 0.6 ? ease(c / 0.6) : c > 7.6 ? 1 - ease(seg(c, 7.6, 8.6)) : 1;
+      if (c > 8.6) { pos = 0; bright = 0; }
+      setText(cap, st);
+      return { mode: 1, k1: pos, k2: smear, k3: bright, k4: sag };
+    },
+    breathe: (t, cap) => {
+      const c = t % 10; let k, st;
+      if (c < 4) { k = ease(c / 4); st = 'breathe in'; } else if (c < 5) { k = 1; st = 'hold'; } else if (c < 9) { k = 1 - ease((c - 5) / 4); st = 'breathe out'; } else { k = 0; st = 'hold'; }
+      setText(cap, st);
+      return { mode: 2, k1: k };
+    },
+    burner: (t, cap) => {
+      const c = t % 12; let k;
+      if (c < 1) k = 0.15 + 0.15 * ease(c); else if (c < 6) k = 0.3 + 0.7 * ease(seg(c, 1, 6)); else if (c < 9) k = 1; else k = 1 - 0.85 * ease(seg(c, 9, 12));
+      setText(cap, k < 0.2 ? 'pilot light' : k < 0.95 ? (c < 9 ? 'turning it up' : 'turning it down') : 'full flame');
+      return { mode: 3, k1: k };
+    },
+    exit: (t, cap) => {
+      const e = window.__exitP || 0;
+      setText(cap, e >= .98 ? 'thank you for waiting' : e > .6 ? 'nearly out' : e > .1 ? 'leaving' : 'scroll to leave');
+      return { mode: 6, k1: e, k2: window.__near || 0 };
+    },
+    water: (t, cap) => {
+      const words = ['not yet', 'still not yet', 'getting there', 'soon', 'any day now'];
+      setText(cap, words[Math.floor(t / 6) % words.length]);
+      return { mode: 5, k1: 0.15, k2: 0 };
+    },
+  };
+
+  function galaxy(cv) {
+    const ctx = cv.getContext('2d'), pts = [];
+    const gauss = () => { let u = 0; for (let i = 0; i < 4; i++) u += Math.random(); return (u - 2) / 1.15; };
+    const dir = () => { const z = Math.random() * 2 - 1, th = Math.random() * Math.PI * 2, r = Math.sqrt(1 - z * z); return [r * Math.cos(th), z, r * Math.sin(th)]; };
+    const clumps = Array.from({ length: 14 }, () => { const d = dir(), rr = 0.55 + Math.random() * 0.45; return [d[0] * rr, d[1] * rr, d[2] * rr, 0.06 + Math.random() * 0.12]; });
+    for (let i = 0; i < 6500; i++) {
+      const k = Math.random(); let x, y, z;
+      if (k < 0.42) { const d = dir(), r = 0.88 + gauss() * 0.09; [x, y, z] = d.map((v) => v * r); }
+      else if (k < 0.72) { const c = clumps[Math.floor(Math.random() * clumps.length)]; x = c[0] + gauss() * c[3]; y = c[1] + gauss() * c[3]; z = c[2] + gauss() * c[3]; }
+      else if (k < 0.9) { const d = dir(), r = Math.cbrt(Math.random()) * 0.85; [x, y, z] = d.map((v) => v * r); }
+      else { const d = dir(), r = 1.0 + Math.pow(Math.random(), 2) * 0.55; [x, y, z] = d.map((v) => v * r); }
+      pts.push([x, y, z, Math.random(), Math.random() < 0.04 ? 2.2 : 1]);
+    }
+    return (t, cap) => {
+      const dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr);
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+      ctx.fillStyle = '#050505'; ctx.fillRect(0, 0, w, h);
+      const R = Math.min(w, h) * 0.33, cx = w / 2, cy = h * 0.47, a = t * 0.22, ca = Math.cos(a), sa = Math.sin(a), ct = Math.cos(0.35), st = Math.sin(0.35);
+      ctx.fillStyle = '#fff';
+      for (const [x, y, z, rnd, big] of pts) {
+        const X = x * ca - z * sa, Z0 = x * sa + z * ca, Y = y * ct - Z0 * st, Z = y * st + Z0 * ct, depth = (Z + 1.4) / 2.8;
+        ctx.globalAlpha = Math.min(1, (0.12 + 0.88 * depth) * (0.35 + 0.65 * rnd) * (big > 1 ? 1.3 : 1));
+        const sz = (0.5 + 1.1 * depth) * big * dpr;
+        ctx.fillRect(cx + X * R - sz / 2, cy - Y * R - sz / 2, sz, sz);
+      }
+      ctx.globalAlpha = 1;
+      setText(cap, 'spinning up');
+    };
+  }
+
+  const items = [...document.querySelectorAll('.frame[data-gl]')].map((f) => {
+    const cv = f.querySelector('canvas'), name = f.dataset.gl, cap = f.querySelector('[data-cap]');
+    return { f, name, cap, draw: name === 'galaxy' ? galaxy(cv) : glDraw(cv), visible: false };
+  });
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { const it = items.find((i) => i.f === e.target); if (it) it.visible = e.isIntersecting; }), { rootMargin: '200px' });
+    items.forEach((i) => io.observe(i.f));
+  } else items.forEach((i) => { i.visible = true; });
+  const t0 = performance.now();
+  items.forEach((it) => { it.lt = 3; it.rate = 0; it.sec = it.f.closest('.ex') || it.f; });
+  let lastT = 0;
+  function render(t, all) {
+    const dt = Math.min(0.1, Math.max(0, t - lastT)); lastT = t;
+    items.forEach((it) => {
+      if (!it.draw || (!all && !it.visible)) return;
+      const target = window.__prox ? window.__prox(it.sec) : 1;
+      it.rate += (target - it.rate) * Math.min(1, dt * 3); it.lt += dt * it.rate;
+      window.__near = it.rate;
+      if (it.name === 'galaxy') it.draw(it.lt, it.cap); else it.draw(it.lt, scenes[it.name](it.lt, it.cap));
+    });
+  }
+  render(0, true);
+  if (reduced) { render(4, true); return; }
+  (function loop(n) { render((n - t0) / 1000, false); requestAnimationFrame(loop); })(t0);
+})();
+
+</script>
+
+</body>
+</html>
