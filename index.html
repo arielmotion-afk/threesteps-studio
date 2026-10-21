@@ -123,6 +123,8 @@
 
   /* Rive artboard is square on a dark ground: fill the card with the same colour so it reads edge to edge */
   .case-media--rive { background: #110920; }
+  .case-media--exp { background: #000; }
+  .case-media--exp img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 
 
@@ -261,11 +263,12 @@
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Dex Loader</h3><span class="mono">Lottie</span></div>
       </a>
-      <a class="case rv" data-track="product" href="projects/project-07.html">
-        <div class="case-shell"><div class="case-media case-media--rive"><span class="tag">Interactive</span>
-          <canvas id="squish" class="pokeable"></canvas>
-          <span class="open open--always" aria-hidden="true"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Interactive animations</h3><span class="mono">Rive · Code</span></div>
+      <!-- Experiments: one card for all code/interactive pieces. Its image is always the newest experiment. -->
+      <a class="case rv" data-track="product" href="experiments/">
+        <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">Experiments · 4</span>
+          <img src="experiments/art-of-waiting/cover.webp" alt="The Art of Waiting, the newest experiment" loading="lazy">
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Experiments</h3><span class="mono">Code · Rive</span></div>
       </a>
       <a class="case rv" data-track="product" href="projects/project-08.html">
         <div class="case-shell"><div class="case-media"><span class="tag">Product</span>
@@ -521,11 +524,12 @@
   const live = new IntersectionObserver((es) => es.forEach((e) => e.target._onVisible && e.target._onVisible(e.isIntersecting)));
 
   // Poking the stack shouldn't navigate; the ↗︎ badge and the title still open the page
-  document.getElementById('squish').addEventListener('click', (e) => e.preventDefault());
+  const squishEl = document.getElementById('squish');   // only present if a Rive card is on the page
+  if (squishEl) squishEl.addEventListener('click', (e) => e.preventDefault());
 
   // Squish Stack (Rive)
-  if (window.rive) {
-    const sq = document.getElementById('squish');
+  if (window.rive && squishEl) {
+    const sq = squishEl;
     const r = new rive.Rive({
       src: 'animations/squish-stack.riv', canvas: document.getElementById('squish'),
       artboard: 'Squish_Stack', stateMachines: 'Stack_SM', autoplay: true,

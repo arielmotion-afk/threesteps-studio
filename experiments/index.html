@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experiments · Ariel Paz</title>
+<meta name="description" content="Code and interactive animation experiments by Ariel Paz.">
+<meta property="og:title" content="Experiments · Ariel Paz">
+<meta property="og:description" content="Code and interactive animation experiments by Ariel Paz.">
+<meta property="og:image" content="https://threesteps.studio/experiments/art-of-waiting/cover.webp">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/v2.css?v=12">
+<link rel="stylesheet" href="../css/bubbles.css?v=3">
+<style>
+  /* Experiments: one big tile per experiment, newest first. Each tile opens the piece itself. */
+  .lab-hero { padding-top: 64px; }
+  .lab-back { font-family: var(--label); font-size: 12px; color: var(--muted); display: inline-flex; gap: 6px; margin-bottom: 40px; }
+  .lab-back:hover { color: var(--ink); }
+  .lab-title { font-family: var(--head); font-size: clamp(44px, 7vw, 96px); line-height: .95; font-weight: 800; }
+  .lab-intro { font-size: var(--fs-intro); color: var(--ink-2); max-width: 46ch; margin-top: 20px; }
+  .lab-list { display: grid; grid-template-columns: 1fr 1fr; gap: 56px var(--gutter); margin-top: 72px; padding-bottom: 120px; }
+  .lab-item { display: block; color: inherit; }
+  .lab-item--lead { grid-column: 1 / -1; }
+  .lab-media { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--surface); }
+  .lab-item--lead .lab-media { aspect-ratio: 16 / 8; }
+  .lab-media img, .lab-media canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .lab-media::after { content: ""; position: absolute; inset: 0; background: rgb(12, 10, 14); opacity: 0; transition: opacity var(--dur-short) var(--ease-standard); pointer-events: none; }
+  .lab-item:hover .lab-media::after { opacity: .1; }
+  .lab-tag { position: absolute; top: 14px; left: 14px; z-index: 2; font-family: var(--label); font-size: 11px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.92); color: var(--ink); }
+  .lab-tag--new { background: var(--ink); color: #fff; }
+  .lab-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 14px; }
+  .lab-meta h2 { font-size: 20px; }
+  .lab-meta .mono { color: var(--muted); }
+  .lab-desc { color: var(--ink-2); margin-top: 4px; max-width: 52ch; }
+  .lab-media--rive { background: #110920; }
+  .lab-media--fabric { background: linear-gradient(135deg, #E4E9F1, #FFC7C2 45%, #E9D6FF); }
+  .lab-media .mini-orb-stage { background: transparent; }
+  .lab-media .mini-orb { width: 34%; }
+  @media (max-width: 760px) { .lab-list { grid-template-columns: 1fr; gap: 44px; } .lab-item--lead .lab-media { aspect-ratio: 16 / 10; } }
+</style>
+</head>
+<body data-orb-palette="notch">
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="brand-dot"></span>Ariel Paz</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Resume<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header class="lab-hero">
+    <a href="../index.html#work" class="lab-back">← All work</a>
+    <h1 class="lab-title">Experiments</h1>
+    <p class="lab-intro">Code and interactive animation. Each one is its own small site.</p>
+  </header>
+
+  <div class="lab-list">
+    <!-- Newest first. To add one: put it in experiments/<name>/ and add a tile here (the first tile is the large one). -->
+    <a class="lab-item lab-item--lead" href="art-of-waiting/">
+      <div class="lab-media"><span class="lab-tag lab-tag--new">New</span><img src="art-of-waiting/cover.webp" alt="The Art of Waiting: grey glowing spheres on black with the title rail"></div>
+      <div class="lab-meta"><h2>The Art of Waiting</h2><span class="mono">Code animations experiment</span></div>
+      <p class="lab-desc">Ten WebGL loaders that react to your cursor.</p>
+    </a>
+    <a class="lab-item" href="../projects/project-07.html">
+      <div class="lab-media lab-media--rive"><span class="lab-tag">Rive</span><canvas id="lab-squish"></canvas></div>
+      <div class="lab-meta"><h2>Squish Stack</h2><span class="mono">Rive state machine</span></div>
+      <p class="lab-desc">A stack of soft shapes you can poke.</p>
+    </a>
+    <a class="lab-item" href="../projects/notch-voice-assistant.html">
+      <div class="lab-media"><span class="lab-tag">Code</span><div class="mini-orb-stage"><div class="mini-orb"></div></div></div>
+      <div class="lab-meta"><h2>Voice assistant orb</h2><span class="mono">WebGL</span></div>
+      <p class="lab-desc">The Notch agent orb: idle, listening, thinking, speaking.</p>
+    </a>
+    <a class="lab-item" href="../projects/project-07.html">
+      <div class="lab-media lab-media--fabric" id="hero-fabric" data-variant="rich"><span class="lab-tag">Code</span><canvas id="hero-fabric-gl"></canvas></div>
+      <div class="lab-meta"><h2>Fabric Gradient</h2><span class="mono">WebGL shader</span></div>
+      <p class="lab-desc">Folds that drift on their own and follow the cursor.</p>
+    </a>
+  </div>
+</main>
+
+<footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
+  <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
+  <h2 class="bub-name">LET'S TALK</h2>
+  <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
+</footer>
+
+<script>
+  (function () { const nav = document.getElementById('nav'); addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 8), { passive: true }); }());
+</script>
+<script src="https://unpkg.com/@rive-app/webgl2@2"></script>
+<script>
+  if (window.rive) {
+    const c = document.getElementById('lab-squish');
+    const r = new rive.Rive({ src: '../animations/squish-stack.riv', canvas: c, artboard: 'Squish_Stack', stateMachines: 'Stack_SM', autoplay: true,
+      layout: new rive.Layout({ fit: rive.Fit.Contain }), onLoad: () => { r.resizeDrawingSurfaceToCanvas(); addEventListener('resize', () => r.resizeDrawingSurfaceToCanvas()); } });
+  }
+</script>
+<script src="../js/fabric-glass.js"></script>
+<script src="../js/v2.js?v=3"></script>
+<script src="../js/hero-fabric.js?v=3"></script>
+<script src="../js/bubbles.js?v=9"></script>
+<script>
+  Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
+    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
+    homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
+    glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],
+  });
+</script>
+</body>
+</html>
