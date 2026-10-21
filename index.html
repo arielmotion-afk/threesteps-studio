@@ -530,7 +530,7 @@
   // Experiments card: the live piece runs only while the card is hovered (desktop pointers only)
   const expCard = document.querySelector('a.case[href="experiments/"]'), expLive = expCard && expCard.querySelector('.exp-live');
   if (expLive && matchMedia('(hover: hover)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const box = expLive.parentElement, fit = () => { const k = box.clientWidth / 1600; expLive.style.height = (box.clientHeight / k) + 'px'; expLive.style.transform = 'scale(' + k + ')'; };
+    const box = expLive.parentElement, fit = () => { const w = box.clientWidth, h = box.clientHeight, k = Math.max(w / 1600, h / 1000); expLive.style.height = '1000px'; expLive.style.transform = 'translate(' + (w - 1600 * k) / 2 + 'px,' + (h - 1000 * k) / 2 + 'px) scale(' + k + ')'; };  // same crop as the cover image
     let ready = false;
     expCard.addEventListener('pointerenter', () => {
       fit();

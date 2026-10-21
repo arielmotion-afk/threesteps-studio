@@ -107,7 +107,7 @@
   // Live preview for the lead tile: load the page only when the tile is near the screen, keep it scaled to the tile.
   (function () {
     const f = document.querySelector('.lab-live'); if (!f) return;
-    const box = f.parentElement, fit = () => { const w = box.clientWidth, h = box.clientHeight, k = w / 1600; f.style.height = (h / k) + 'px'; f.style.transform = 'scale(' + k + ')'; };
+    const box = f.parentElement, fit = () => { const w = box.clientWidth, h = box.clientHeight, k = Math.max(w / 1600, h / 1000); f.style.height = '1000px'; f.style.transform = 'translate(' + (w - 1600 * k) / 2 + 'px,' + (h - 1000 * k) / 2 + 'px) scale(' + k + ')'; };  // same crop as the cover image (1600x1000, object-fit: cover), so nothing jumps when it fades in
     fit(); addEventListener('resize', fit);
     new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { f.src = f.dataset.src; addEventListener('message', (e) => { if (e.source === f.contentWindow && e.data === 'aw-ready') f.classList.add('on'); }); io.disconnect(); } }, { rootMargin: '300px' }).observe(box);
   }());
