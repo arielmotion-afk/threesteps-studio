@@ -109,7 +109,7 @@
     const f = document.querySelector('.lab-live'); if (!f) return;
     const box = f.parentElement, fit = () => { const w = box.clientWidth, h = box.clientHeight, k = w / 1600; f.style.height = (h / k) + 'px'; f.style.transform = 'scale(' + k + ')'; };
     fit(); addEventListener('resize', fit);
-    new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { f.src = f.dataset.src; f.addEventListener('load', () => setTimeout(() => f.classList.add('on'), 400), { once: true }); io.disconnect(); } }, { rootMargin: '300px' }).observe(box);
+    new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { f.src = f.dataset.src; addEventListener('message', (e) => { if (e.source === f.contentWindow && e.data === 'aw-ready') f.classList.add('on'); }); io.disconnect(); } }, { rootMargin: '300px' }).observe(box);
   }());
 </script>
 <script src="https://unpkg.com/@rive-app/webgl2@2"></script>

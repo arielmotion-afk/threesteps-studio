@@ -727,6 +727,18 @@ void main() {
 }
 </script>
 <script>
+/* preview mode (homepage and Experiments tiles): only the header runs. The exhibits get no WebGL, so the host page
+   keeps its own WebGL slots, and the host is told once the header has really drawn so it never shows a blank frame. */
+if (document.documentElement.classList.contains('aw-preview')) {
+  document.querySelectorAll('.frame[data-gl]').forEach((f) => f.removeAttribute('data-gl'));
+  addEventListener('load', () => {
+    const gl = document.getElementById('form').getContext('webgl');
+    if (!gl || gl.isContextLost()) return;
+    let n = 0; (function wait() { if (++n < 12) return requestAnimationFrame(wait); parent.postMessage('aw-ready', '*'); })();
+  });
+}
+</script>
+<script>
 (function () {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ease = (x) => { x = Math.min(1, Math.max(0, x)); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };

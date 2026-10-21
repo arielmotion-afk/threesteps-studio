@@ -272,7 +272,7 @@
           <img src="experiments/art-of-waiting/cover.webp?v=2" alt="The Art of Waiting, the newest experiment" loading="lazy">
           <iframe class="exp-live" data-src="experiments/art-of-waiting/?preview" title="The Art of Waiting, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Experiments</h3><span class="mono">Code · Rive</span></div>
+        <div class="case-meta"><h3>Experiments</h3><span class="mono">WebGL · Claude Code</span></div>
       </a>
       <a class="case rv" data-track="product" href="projects/project-08.html">
         <div class="case-shell"><div class="case-media"><span class="tag">Product</span>
@@ -534,7 +534,7 @@
     let ready = false;
     expCard.addEventListener('pointerenter', () => {
       fit();
-      if (!expLive.src) { expLive.src = expLive.dataset.src; expLive.addEventListener('load', () => { ready = true; if (expCard.matches(':hover')) expLive.classList.add('on'); }, { once: true }); }
+      if (!expLive.src) { expLive.src = expLive.dataset.src; addEventListener('message', (e) => { if (e.source === expLive.contentWindow && e.data === 'aw-ready') { ready = true; if (expCard.matches(':hover')) expLive.classList.add('on'); } }); }
       else if (ready) expLive.classList.add('on');
     });
     expCard.addEventListener('pointerleave', () => expLive.classList.remove('on'));
