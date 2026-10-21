@@ -267,7 +267,15 @@ html, body { overflow-x: clip; }
   color: #F3F3EF; text-decoration: none; opacity: .8; transition: opacity .2s ease; }
 .aw-back:hover, .aw-back:focus-visible { opacity: 1; }
 .aw-back:focus-visible { outline: 1px solid #F3F3EF; outline-offset: 4px; }
-html.aw-preview .aw-back { display: none; }   /* shown inside the Experiments page tile */
+html.aw-preview .aw-back, html.aw-preview .waited, html.aw-preview .guide { display: none; }   /* the Experiments page tile shows only the header */
+/* The queue ("Now serving · Your number · Take another number") lives in its own band under the header, bigger */
+.aw-queue { padding: clamp(56px, 9vw, 120px) 0 clamp(40px, 6vw, 80px); }
+.aw-queue .foot { position: static; padding: 0 !important; }
+.aw-queue .queue { gap: 28px clamp(40px, 7vw, 96px); }
+.aw-queue .queue .label { font-size: 13px; }
+.aw-queue .queue .n { font-size: clamp(32px, 4.4vw, 56px); font-weight: 400; letter-spacing: -.02em; margin-top: 6px; }
+.aw-queue .take { min-height: 52px; padding: 0 26px; font-size: 13px; }
+.aw-queue .take-note { font-size: 13px; text-align: center; }
 </style>
 <script>if (/[?&]preview\b/.test(location.search)) document.documentElement.classList.add('aw-preview');</script>
 </head>
@@ -283,6 +291,9 @@ html.aw-preview .aw-back { display: none; }   /* shown inside the Experiments pa
     <div class="live" aria-hidden="true"><span class="pill"><i id="pill"></i></span><span class="matrix" id="matrix"></span></div>
     <div class="mark mark-r" aria-hidden="true"><span>AW/</span><span class="pips"><i></i><i></i></span><span>∞</span></div>
   </div>
+</header>
+
+<section class="aw-queue" aria-label="Take a number">
   <div class="foot">
     <div class="queue">
       <span class="label">Now serving<span class="n" id="now">041</span></span>
@@ -291,7 +302,7 @@ html.aw-preview .aw-back { display: none; }   /* shown inside the Experiments pa
       <span class="take-note" id="take-note" aria-live="polite"></span>
     </div>
   </div>
-</header>
+</section>
 
 <main class="list">
   <section class="ex" aria-label="Almost done">
