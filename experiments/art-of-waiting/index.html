@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Art of Waiting // Loading</title>
-<meta name="description" content="Nine WebGL loaders that react to your cursor. A code animations experiment by Ariel Paz.">
+<meta name="description" content="Eight WebGL loaders that react to your cursor. A code animations experiment by Ariel Paz.">
 <meta property="og:title" content="The Art of Waiting // Loading">
-<meta property="og:description" content="Nine WebGL loaders that react to your cursor. A code animations experiment by Ariel Paz.">
+<meta property="og:description" content="Eight WebGL loaders that react to your cursor. A code animations experiment by Ariel Paz.">
 <meta property="og:image" content="https://threesteps.studio/experiments/art-of-waiting/cover.webp?v=2">
 <meta property="og:image:width" content="1600">
 <meta property="og:image:height" content="1000">
@@ -154,6 +154,8 @@ html, body { overflow-x: clip; }
 @media (max-width: 820px) { .frame .note { display: none; } }
 
 
+/* film grain over the exhibits drawn with SVG or 2D canvas, so they sit with the grainy WebGL ones */
+.ex .frame:not(.glf)::after, .ex .frame[data-gl="galaxy"]::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: var(--noise, none); background-size: 128px 128px; mix-blend-mode: overlay; opacity: .55; z-index: 1; }
 /* tantrum, hold music */
 .hm-play { align-self: flex-start; margin-top: 8px; border-color: var(--fhi); color: var(--fhi); }
 .hm-play:hover { background: var(--fhi); color: var(--fbg); }
@@ -277,7 +279,19 @@ html.aw-preview .aw-back, html.aw-preview .waited, html.aw-preview .guide { disp
 .aw-queue .take { min-height: 52px; padding: 0 26px; font-size: 13px; }
 .aw-queue .take-note { font-size: 13px; text-align: center; }
 </style>
+<style>
+/* Draft mode (?draft=burner): one exhibit full-screen with a small control bar, for working on a single animation */
+html.aw-draft body > :not(main):not(.aw-draftbar):not(script) { display: none !important; }
+html.aw-draft .list > .ex:not(.aw-draft-on) { display: none; }
+html.aw-draft .ex.aw-draft-on { height: 100vh; max-height: none; border: 0; }
+.aw-draftbar { position: fixed; top: 12px; left: 12px; z-index: 50; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; max-width: calc(100vw - 24px);
+  font: 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .04em; }
+.aw-draftbar a, .aw-draftbar button { color: #F3F3EF; background: rgba(20,20,20,.85); border: 1px solid #333; border-radius: 999px; padding: 7px 11px; text-decoration: none; cursor: pointer; font: inherit; }
+.aw-draftbar .on { background: #F3F3EF; color: #000; border-color: #F3F3EF; }
+.aw-draftbar .tag { color: #000; background: #FFD84A; border-radius: 999px; padding: 7px 11px; }
+</style>
 <script>if (/[?&]preview\b/.test(location.search)) document.documentElement.classList.add('aw-preview');</script>
+<script>if (/[?&]draft=/.test(location.search)) document.documentElement.classList.add('aw-draft');</script>
 </head>
 <body>
 <a class="aw-back" href="/experiments/">&larr; Experiments</a>
@@ -305,41 +319,42 @@ html.aw-preview .aw-back, html.aw-preview .waited, html.aw-preview .guide { disp
 </section>
 
 <main class="list">
-  <section class="ex" aria-label="Almost done">
-    <div class="frame glf" tabindex="0" data-gl="optimist" aria-label="The Optimist, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
-    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>01</span></div><div class="two label"><span>ALMOST DONE</span><span>HALO</span></div><span class="label idx">01 / 09</span></div>
+  <section class="ex" aria-label="Unravelling">
+    <div class="frame glf" tabindex="0" data-gl="tantrum" aria-label="Unravelling: rings that come undone as your cursor gets closer"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap>fine</span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>01</span></div><div class="two label"><span>UNRAVELLING</span><span>RINGS · COME CLOSER</span></div><span class="label idx">01 / 08</span></div>
   </section>
   <section class="ex light" aria-label="Aligning">
-    <div class="frame" tabindex="0" data-ex="almost" aria-label="Almost, animated loader"><svg class="lines" viewBox="0 0 200 150" aria-hidden="true"><defs><radialGradient id="sun-g"><stop offset="0" stop-color="currentColor"/><stop offset=".25" stop-color="currentColor" stop-opacity=".5"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="68" r="34" fill="url(#sun-g)" id="al-glow"/><circle cx="100" cy="68" r="4" fill="currentColor"/><g id="al-orbits" transform="translate(100 68)"></g></svg><span class="cap label" id="al-status">aligning</span></div>
-    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>02</span></div><div class="two label"><span>ALIGNING</span><span>ORBITS</span></div><span class="label idx">02 / 09</span></div>
-  </section>
-  <section class="ex" aria-label="Unravelling">
-    <div class="frame" tabindex="0" data-ex="tantrum" data-norestart aria-label="Unravelling: rings that come undone as your cursor gets closer"><svg class="lines" viewBox="0 0 200 150" aria-hidden="true"><g id="tt-rings" fill="none" stroke="currentColor" stroke-width=".55"></g></svg><span class="cap label" id="tt-status">fine</span></div>
-    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>03</span></div><div class="two label"><span>UNRAVELLING</span><span>RINGS · COME CLOSER</span></div><span class="label idx">03 / 09</span></div>
-  </section>
-  <section class="ex light" aria-label="Spinning">
-    <div class="frame glf" tabindex="0" data-gl="galaxy" aria-label="Spinning Up, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
-    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>04</span></div><div class="two label"><span>SPINNING</span><span>PARTICLES</span></div><span class="label idx">04 / 09</span></div>
+    <div class="frame glf" tabindex="0" data-gl="aligning" aria-label="Aligning, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>02</span></div><div class="two label"><span>ALIGNING</span><span>ORBITS</span></div><span class="label idx">02 / 08</span></div>
   </section>
   <section class="ex" aria-label="Heating up">
     <div class="frame glf" tabindex="0" data-gl="burner" aria-label="The Burner, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
-    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>05</span></div><div class="two label"><span>HEATING UP</span><span>FLAME</span></div><span class="label idx">05 / 09</span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>03</span></div><div class="two label"><span>HEATING UP</span><span>FLAME</span></div><span class="label idx">03 / 08</span></div>
   </section>
   <section class="ex light" aria-label="Losing interest">
     <div class="frame glf" tabindex="0" data-gl="boredom" aria-label="Boredom, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
-    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>06</span></div><div class="two label"><span>LOSING INTEREST</span><span>DROP</span></div><span class="label idx">06 / 09</span></div>
-  </section>
-  <section class="ex light" aria-label="Undoing">
-    <div class="frame" tabindex="0" data-ex="rewind" aria-label="Rewind, animated loader"><svg class="lines" viewBox="0 0 200 150" aria-hidden="true"><g id="rw-rings"></g><line x1="58" x2="142" y1="112" y2="112" stroke="currentColor" stroke-width="1.2"/></svg><span class="cap label"><b id="rw-pct">0%</b> · <span id="rw-status">loading</span></span></div>
-    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>07</span></div><div class="two label"><span>UNDOING</span><span>RINGS</span></div><span class="label idx">07 / 09</span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>04</span></div><div class="two label"><span>LOSING INTEREST</span><span>DROP</span></div><span class="label idx">04 / 08</span></div>
   </section>
   <section class="ex" aria-label="Not yet">
     <div class="frame glf" tabindex="0" data-gl="water" aria-label="Something on the Way, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
-    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>08</span></div><div class="two label"><span>NOT YET</span><span>WATER</span></div><span class="label idx">08 / 09</span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>05</span></div><div class="two label"><span>NOT YET</span><span>WATER</span></div><span class="label idx">05 / 08</span></div>
+  </section>
+  <section class="ex light" aria-label="Spinning">
+    <div class="frame glf" tabindex="0" data-gl="galaxy" aria-label="Spinning Up, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>06</span></div><div class="two label"><span>SPINNING</span><span>PARTICLES</span></div><span class="label idx">06 / 08</span></div>
+  </section>
+  <section class="ex" aria-label="Almost done">
+    <div class="frame glf" tabindex="0" data-gl="optimist" aria-label="The Optimist, animated loader"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>07</span></div><div class="two label"><span>ALMOST DONE</span><span>HALO</span></div><span class="label idx">07 / 08</span></div>
   </section>
   <section class="ex light exit" aria-label="Exit">
     <div class="frame glf" data-gl="exit" aria-label="Exit: the waterline fills as you scroll"><canvas class="gl" aria-hidden="true"></canvas><span class="cap label" data-cap></span></div>
-    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>09</span></div><div class="two label"><span>EXIT</span><span>20% THE LOADER · 80% YOU, WAITING</span></div><span class="label idx">09 / 09</span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>08</span></div><div class="two label"><span>EXIT</span><span>20% THE LOADER · 80% YOU, WAITING</span></div><span class="label idx">08 / 08</span></div>
+  </section>
+  <!-- Undoing: hidden for now, to revisit later -->
+  <section hidden class="ex light" aria-label="Undoing">
+    <div class="frame" tabindex="0" data-ex="rewind" aria-label="Rewind, animated loader"><svg class="lines" viewBox="0 0 200 150" aria-hidden="true"><defs><radialGradient id="rw-sh"><stop offset="0" stop-color="currentColor" stop-opacity=".22"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><ellipse id="rw-shadow" cx="100" cy="114" rx="58" ry="7" fill="url(#rw-sh)"/><g id="rw-rings"></g><line x1="58" x2="142" y1="112" y2="112" stroke="currentColor" stroke-width=".7"/></svg><span class="cap label"><b id="rw-pct">0%</b> · <span id="rw-status">loading</span></span></div>
+    <div class="rail rail-ex"><div class="mark"><span class="pips breathe"><i></i><i></i></span><span>07</span></div><div class="two label"><span>UNDOING</span><span>RINGS</span></div><span class="label idx">07 / 09</span></div>
   </section>
 </main>
 
@@ -491,65 +506,10 @@ html.aw-preview .aw-back, html.aw-preview .waited, html.aw-preview .guide { disp
 
   /* the collection */
   const ex = {
-    tantrum: (function () {
-      const NS = 'http://www.w3.org/2000/svg', g = $('tt-rings'), N = 13, P = 140, svg = g.ownerSVGElement;
-      const rings = Array.from({ length: N }, () => { const e = document.createElementNS(NS, 'path'); g.appendChild(e); return e; });
-      let target = 0, A = 0, phi = 0, phiT = 0, last = performance.now();
-      const move = (e) => {
-        const m = svg.getScreenCTM(); if (!m) return;
-        const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const q = pt.matrixTransform(m.inverse());
-        const dx = q.x - 100, dy = q.y - 75, dist = Math.hypot(dx, dy);
-        target = Math.max(0, Math.min(1, (130 - dist) / 100)); phiT = Math.atan2(dy, dx);
-      };
-      svg.closest('.ex').addEventListener('pointermove', move);
-      svg.closest('.ex').addEventListener('pointerleave', () => { target = 0; });
-      return function (t) {
-        const n = performance.now(), dt = Math.min(0.1, (n - last) / 1000); last = n;
-        A += (target - A) * Math.min(1, dt * 2.2);                          // slow to get upset, slow to calm down
-        const dphi = Math.atan2(Math.sin(phiT - phi), Math.cos(phiT - phi)); phi += dphi * Math.min(1, dt * 3);
-        const idle = 0.06 + 0.04 * Math.sin(t * 0.6);                      // never perfectly still
-        const tremble = A > 0.8 ? Math.sin(t * 50) * 0.04 * (A - 0.8) * 5 : 0;
-        rings.forEach((e, i) => {
-          const r = 3 + (i + 1) * 4.2, k = Math.pow((i + 1) / N, 1.3);
-          let d = '';
-          for (let j = 0; j <= P; j++) {
-            const th = j / P * Math.PI * 2, df = Math.atan2(Math.sin(th - phi), Math.cos(th - phi));
-            const bump = Math.exp(-(df * df) / (2 * 0.6 * 0.6));
-            const amp = A + tremble;
-            const rr = r + k * (amp * bump * 26 + (idle + amp) * (Math.sin(3 * th + t * 1.1 + i) * 2.2 + Math.sin(5 * th - t * 0.8 + i * 2) * 1.2));
-            d += (j ? 'L' : 'M') + (100 + rr * Math.cos(th)).toFixed(1) + ' ' + (75 + rr * Math.sin(th)).toFixed(1);
-          }
-          e.setAttribute('d', d + 'Z');
-        });
-        setText($('tt-status'), A < 0.08 ? 'fine' : A < 0.4 ? "it's fine" : A < 0.8 ? 'it is fine' : 'IT IS FINE');
-      };
-    })(),
-    almost: (function () {
-      const NS = 'http://www.w3.org/2000/svg', g = $('al-orbits');
-      const orbs = [[22, 12, -20, 1.3], [38, 20, 25, 0.9], [54, 26, -35, 0.62], [70, 36, 15, 0.45], [86, 44, -8, 0.33]].map(([rx, ry, rot, w], i) => {
-        const e = document.createElementNS(NS, 'ellipse'); e.setAttribute('rx', rx); e.setAttribute('ry', ry); e.setAttribute('transform', `rotate(${rot})`);
-        e.setAttribute('fill', 'none'); e.setAttribute('stroke', 'currentColor'); e.setAttribute('stroke-width', '.6'); e.setAttribute('stroke-opacity', '.55'); g.appendChild(e);
-        const b = document.createElementNS(NS, 'circle'); b.setAttribute('r', i === 4 ? 3.2 : 2.4); b.setAttribute('fill', 'currentColor'); g.appendChild(b);
-        return { rx, ry, rot: rot * Math.PI / 180, w, b, ph: i * 1.7 };
-      });
-      return function (t) {
-        const tc = t % 9;
-        const pull = tc < 1.5 ? 0 : tc < 5 ? 0.94 * easeInOut(seg(tc, 1.5, 5)) : tc < 6.2 ? 0.94 : 0.94 * (1 - easeOut(seg(tc, 6.2, 7.4)));
-        orbs.forEach((o, i) => {
-          let th = o.ph + o.w * t * 1.4;
-          const target = -o.rot + Math.round((th + o.rot) / (2 * Math.PI)) * 2 * Math.PI + (i === 4 && tc > 4.4 ? 0.35 : 0);
-          th = th + (target - th) * pull;
-          const x = o.rx * Math.cos(th), y = o.ry * Math.sin(th);
-          o.b.setAttribute('cx', (x * Math.cos(o.rot) - y * Math.sin(o.rot)).toFixed(2)); o.b.setAttribute('cy', (x * Math.sin(o.rot) + y * Math.cos(o.rot)).toFixed(2));
-        });
-        $('al-glow').setAttribute('r', (30 + 10 * pull).toFixed(1));
-        setText($('al-status'), tc < 1.5 ? 'aligning' : tc < 4.4 ? 'nearly aligned' : tc < 6.2 ? 'almost' : 'almost.');
-      };
-    })(),
     rewind: (function () {
       const NS = 'http://www.w3.org/2000/svg', g = $('rw-rings'), R = 42, base = 112;
       const fr = [1, 0.74, 0.5, 0.3, 0.14, 0.04];
-      const rings = fr.map(() => { const e = document.createElementNS(NS, 'ellipse'); e.setAttribute('cx', 100); e.setAttribute('rx', R); e.setAttribute('fill', 'none'); e.setAttribute('stroke', 'currentColor'); e.setAttribute('stroke-width', '1.1'); g.appendChild(e); return e; });
+      const rings = fr.map(() => { const e = document.createElementNS(NS, 'ellipse'); e.setAttribute('cx', 100); e.setAttribute('rx', R); e.setAttribute('fill', 'none'); e.setAttribute('stroke', 'currentColor'); e.setAttribute('stroke-width', '.6'); g.appendChild(e); return e; });
       return function (t) {
         const tc = t % 10; let L, st;
         if (tc < 4) { L = easeInOut(tc / 4); st = 'loading'; } else if (tc < 5.6) { L = 1; st = tc < 4.6 ? 'loaded' : 'reconsidering'; }
@@ -558,6 +518,7 @@ html.aw-preview .aw-back, html.aw-preview .waited, html.aw-preview .guide { disp
           const k = clamp(L * 1.25 - (fr.length - 1 - i) * 0.05, 0, 1), ry = Math.max(0.01, R * fr[i] * k);
           e.setAttribute('ry', ry.toFixed(2)); e.setAttribute('cy', (base - ry).toFixed(2)); e.setAttribute('stroke-opacity', (0.25 + 0.75 * k).toFixed(2));
         });
+        $('rw-shadow').setAttribute('opacity', (0.35 + 0.65 * L).toFixed(2)); $('rw-shadow').setAttribute('rx', (40 + 22 * L).toFixed(1));
         setText($('rw-pct'), Math.round(L * 100) + '%'); setText($('rw-status'), st);
       };
     })(),
@@ -594,7 +555,9 @@ html.aw-preview .aw-back, html.aw-preview .waited, html.aw-preview .guide { disp
 <script id="lm-fs" type="x-shader/x-fragment">
 precision highp float;
 uniform vec2 res; uniform float time; uniform float mode;
-uniform float k1; uniform float k2; uniform float k3; uniform float k4;
+uniform float k1; uniform float k2; uniform float k3; uniform float k4; uniform float k5; uniform float k6;
+uniform float pl[5];   // ALIGNING: each planet's angle on its orbit
+uniform float ra[13]; uniform float rp[13];   // UNRAVELLING: each ring's own upset amount and direction (they lag one another)
 
 float hash(vec2 p) { p = fract(p * vec2(443.897, 441.423)); p += dot(p, p.yx + 19.19); return fract((p.x + p.y) * p.x); }
 float vn(vec2 p) { vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
@@ -625,8 +588,45 @@ void main() {
   vec2 w = p + flow(p, time) * 0.04;
   float lum;
   if (mode < 0.5) {
-    // THE OPTIMIST: k1 = cap offset, k2 = tremble
-    lum = halo(w + vec2(k2 * 0.002, 0.0), c, 0.27, k1, 1.0, 1.0);
+    // THE OPTIMIST: a soft lit sphere, smooth layered gradient (dark top, deep middle band, bright low light), fine film grain.
+    // It sways slowly (the breath is a small rotation); a cap slides off as progress creeps toward 100%.
+    // k1 = cap offset (progress), k2 = tremble, k3 = cursor nearness, (k5,k6) = cursor position (it turns toward it)
+    vec2 d0 = p - c + vec2(k2 * 0.003, 0.0);
+    float br = sin(time * 0.55);                                             // the breath: -1..1
+    float rot = 0.0;
+    float cr = cos(rot), sr = sin(rot);
+    vec2 d = mat2(cr, -sr, sr, cr) * d0;
+    float R = 0.255;
+    float r = length(d);
+    vec2 q = d / R;
+    float yn = clamp(0.5 - 0.5 * q.y + 0.04 * sin(q.x * 2.2 + time * 0.4), 0.0, 1.0);   // 0 top .. 1 bottom
+    float tone = 0.015
+      + 0.10 * smoothstep(0.30, 0.55, yn)                                    // the deep middle band
+      + 0.38 * smoothstep(0.48, 0.80, yn)                                    // the light rising
+      + 0.40 * smoothstep(0.72, 1.00, yn);                                   // bright low light
+    vec2 lobe = vec2(0.42 + 0.08 * br, -0.05);                               // a soft shadowed lobe on one side
+    tone *= 1.0 - 0.55 * exp(-dot(q - lobe, q - lobe) / 0.18);
+    float hz = mix(0.62, 0.42, (k1 - 0.11) / 0.36) + 0.025 * sin(q.x * 3.0 + time * 0.5);   // the horizon rises with progress
+    tone += 0.26 * exp(-pow((yn - hz) / 0.03, 2.0)) * smoothstep(1.0, 0.6, abs(q.x));         // a soft bright band where dark meets light
+    tone *= mix(0.35, 1.0, smoothstep(hz - 0.06, hz + 0.03, yn));                                  // above it the sphere stays in shadow
+    tone += 0.12 * exp(-dot(q + vec2(0.55, 0.15), q + vec2(0.55, 0.15)) / 0.12) * smoothstep(0.3, 0.8, yn);   // and a soft light pocket opposite
+    float body = smoothstep(R + 0.012, R - 0.03, r);
+    float cap = smoothstep(R * 1.02, R * 0.74, length(d - vec2(0.0, k1)));
+    tone *= 1.0 - 0.96 * cap;
+    float side = smoothstep(-1.0, 0.7, -d.y / R);                            // rim glows hardest low
+    float ring = exp(-pow((r - R) / 0.026, 2.0)) * mix(0.35, 0.95, side) + exp(-pow((r - R) / 0.008, 2.0)) * 0.35 * side;
+    // the second circle: rests just above, and slides around the sphere toward the cursor like an eclipse
+    // k5 = its angle around the sphere, k6 = how far it has slid out (both eased in JS, so it glides along the rim)
+    vec2 od = vec2(cos(k5), sin(k5)), o = od * (k6 + 0.012 * br), dc = d - o;
+    float far = clamp((k6 - 0.03) / 0.045, 0.0, 1.0);
+    float lip = exp(-pow((length(dc) - R) / 0.007, 2.0)) * smoothstep(0.1, 0.75, dot(dc / R, od));
+    ring *= 1.0 + 0.9 * far * smoothstep(0.0, 1.0, dot(d / R, od));            // the rim lights up on the side it slides to   // thin bright arc riding over the top, like an eclipse   // thin bright arc on the cap
+    float bloom = (0.13 + 0.06 * k3) * exp(-pow(max(0.0, r - R) / 0.13, 2.0)) * mix(0.6, 1.0, side);
+    vec2 sb = (d0 - vec2(0.0, -R * 0.95)) / vec2(R * 1.25, R * 0.75);
+    float spill = 0.09 * exp(-dot(sb, sb)) * (1.0 - body);                   // light bleeding out below, soft
+    lum = tone * body + ring * 0.75 + lip * 0.9 + bloom + spill;
+    float gr = hash(frag + fract(time * 11.0) * vec2(57.0, 131.0)) + hash(frag * 1.3 + fract(time * 7.0) * 23.0) - 1.0;   // fine film grain
+    lum += gr * (0.035 + 0.16 * lum * (1.0 - lum));
   } else if (mode < 1.5) {
     // BOREDOM (drop): k1 = band position 0..1, k2 = smear length, k3 = band brightness, k4 = sag
     vec2 d = p - c; d.x += flow(p, time).x * 0.03 * smoothstep(0.0, -0.3, d.y);
@@ -653,6 +653,8 @@ void main() {
     lum = mix(bgv + glow, tone, alpha);
   } else if (mode > 2.5 && mode < 3.5) {
     // GAS: a burner ring in perspective, a crown of small flames. Each flame is a soft teardrop with a bright inner cone.
+    // k1 = flame height (always burning). Each flame turns down on its own as the cursor comes near it:
+    // (k2,k3) = cursor, quick; (k5,k6) = cursor, lagging behind, so a wake ebbs back up; k4 = how present the cursor is.
     vec2 cc = vec2(0.5 * W, 0.36); float rx = 0.24, ry = 0.065;
     vec2 hp = p + vec2(flow(p * 2.0, time * 3.0).x * 0.006 * smoothstep(cc.y - 0.02, cc.y + 0.2, p.y), 0.0);   // heat shimmer above the ring
     vec2 q0 = (p - cc) / vec2(rx, ry);
@@ -664,20 +666,104 @@ void main() {
       float th = fi / 30.0 * 6.2831853;
       vec2 b = cc + vec2(rx * cos(th), ry * sin(th));
       float back = smoothstep(-0.2, 1.0, sin(th));                       // flames at the back read dimmer
-      float fl = vn(vec2(fi * 3.7, time * 4.0)) * 0.6 + vn(vec2(fi * 1.3, time * 9.0)) * 0.4;
-      float H = mix(0.012, 0.075, k1) * (0.75 + 0.5 * fl);
+      float fl = vn(vec2(fi * 3.7, time * 3.2)) * 0.6 + vn(vec2(fi * 1.3, time * 8.0)) * 0.4;
+      vec2 fb = b + vec2(0.0, 0.03);
+      float dip = max(exp(-pow(length(fb - vec2(k2, k3)) / 0.16, 2.0)), 0.7 * exp(-pow(length(fb - vec2(k5, k6)) / 0.22, 2.0))) * k4;
+      float kf = k1 * (1.0 - 0.85 * dip);
+      float H = mix(0.015, 0.1, kf) * (0.75 + 0.5 * fl);
       vec2 q = hp - b;
-      q.x -= sin(time * 3.0 + fi * 1.7) * 0.003 * clamp(q.y / H, 0.0, 1.0);
       float yy = q.y / H;
-      if (yy < -0.3 || yy > 1.2) continue;
-      float wd = 0.0105 * pow(max(0.0, 1.0 - yy), 0.55) + 0.0006;
+      if (yy < -0.3 || yy > 1.3) continue;
+      float up = clamp(yy, 0.0, 1.0);
+      q.x -= sin(time * 3.0 + fi * 1.7) * 0.003 * up;
+      q.x -= (vn(vec2(fi * 2.1, yy * 3.0 - time * 7.0)) - 0.5) * 0.014 * up * up * (0.3 + kf);   // flicker grows toward the tip
+      float wd = (0.0095 + 0.003 * kf) * pow(1.0 - up, 0.55) + 0.0006;
       float xn = q.x / wd;
       float outer = exp(-xn * xn) * smoothstep(1.05, 0.0, yy) * smoothstep(-0.25, 0.05, yy);
-      float inner = exp(-xn * xn * 4.0) * smoothstep(0.5, 0.0, yy) * smoothstep(-0.15, 0.05, yy);
-      fire += (outer * 0.55 + inner * 0.65) * mix(1.0, 0.55, back);
+      float inner = exp(-xn * xn * 5.0) * smoothstep(0.45, 0.0, yy) * smoothstep(-0.15, 0.05, yy);
+      fire += (outer * 0.45 + inner * 0.85) * mix(1.0, 0.55, back) * (0.55 + 0.45 * kf / max(k1, 0.01));
     }
-    float bloom = exp(-pow((e - 1.0) / 0.5, 2.0)) * 0.07 * k1 + exp(-max(0.0, p.y - cc.y) * 9.0) * exp(-pow((p.x - cc.x) / (rx * 1.1), 2.0)) * 0.05 * k1;
-    lum = 0.012 + ring + min(fire, 1.1) * 0.9 + bloom;
+    float bloom = exp(-pow((e - 1.0) / 0.5, 2.0)) * 0.08 * k1 + exp(-max(0.0, p.y - cc.y) * 9.0) * exp(-pow((p.x - cc.x) / (rx * 1.1), 2.0)) * 0.06 * k1;
+    float tone = 1.0 - exp(-fire * 1.5);                                  // soft roll-off: intense, never flat white
+    lum = 0.012 + ring + tone * 0.97 + bloom;
+  } else if (mode > 7.5) {
+    // UNRAVELLING: 13 contour rings. Each ring has its own upset amount and direction (ra, rp: they ripple outward with a lag),
+    // its own wobble (lobes, speed, phase) and a slow wave travelling outward. k3 = idle wobble.
+    vec2 cc = vec2(0.5 * W, 0.5); float S = 0.0049 * min(1.0, W);           // sized so the biggest bulge still fits the frame, phones included
+    vec2 d = p - cc;
+    float rho = length(d) / S, th = atan(d.y, d.x);
+    float acc = 0.0;
+    for (int i = 0; i < 13; i++) {
+      float fi = float(i);
+      float A = ra[0], ph = rp[0];
+      for (int j = 0; j < 13; j++) { if (j == i) { A = ra[j]; ph = rp[j]; } }
+      float r = 3.0 + (fi + 1.0) * 4.2, k = pow((fi + 1.0) / 13.0, 1.3);
+      float l1 = 2.0 + mod(fi * 5.0, 4.0), l2 = 3.0 + mod(fi * 3.0, 5.0);   // each ring wobbles with its own lobes
+      float s1 = 0.7 + 0.5 * hash(vec2(fi, 1.0)), s2 = 0.5 + 0.6 * hash(vec2(fi, 2.0));
+      float wave = 0.75 + 0.5 * sin(time * 1.3 - fi * 0.55);                 // a slow ripple travelling outward
+      float e = 0.01;
+      float rr = 0.0, rr2 = 0.0;
+      for (int m = 0; m < 2; m++) {
+        float t2 = th + (m == 1 ? e : 0.0);
+        float df = atan(sin(t2 - ph), cos(t2 - ph));
+        float bump = exp(-(df * df) / 0.72);
+        float wob = sin(l1 * t2 + time * s1 + fi * 1.9) * 2.2 + sin(l2 * t2 - time * s2 + fi * 2.7) * 1.2;
+        float v = r + k * (A * bump * 26.0 + (k3 + A) * wob * wave);
+        if (m == 0) rr = v; else rr2 = v;
+      }
+      float slope = (rr2 - rr) / e / max(rr, 1.0);
+      float dist = abs(rho - rr) * S / sqrt(1.0 + slope * slope);
+      float n = vn(vec2(cos(th), sin(th)) * 2.2 + vec2(fi * 3.1, fi * 1.7 + time * 0.12));   // gentle pressure along the stroke (wraps cleanly)
+      float w = 0.0011 * (0.7 + 0.6 * n) * (1.0 + 0.5 * A);
+      acc += exp(-pow(dist / w, 2.0)) + exp(-dist / 0.007) * 0.03;
+    }
+    lum = 0.012 + min(acc, 1.2) * 0.92;
+  } else if (mode > 6.5) {
+    // ALIGNING: a sun, five tilted orbits, five planets lit from the sun side with fading trails.
+    // k1 = pull (0 = free orbits, ~1 = lined up). On the light stage everything reads as dark ink: solid planets, soft glows.
+    vec2 cc = vec2(0.5 * W, 0.5); float S = 0.0056;
+    vec2 d = p - cc;
+    float rr = length(d);
+    float sun = 2.4 * smoothstep(0.024, 0.019, rr);
+    float sa = atan(d.y, d.x);
+    vec2 fd = vec2(cos(sa), sin(sa));
+    float tongues = fbm(fd * 5.0 + vec2(0.0, -rr * 40.0 + time * 0.9)) * 0.7 + fbm(fd * 11.0 - vec2(rr * 80.0 - time * 1.6, 0.0)) * 0.3;   // flames licking outward
+    float reach = 0.005 + 0.012 * pow(smoothstep(0.3, 0.85, tongues), 1.5);   // flames hug the surface, like a real sun
+    float corona = 1.1 * exp(-max(0.0, rr - 0.021) / reach) + 0.08 * exp(-rr / (0.09 + 0.03 * k1));
+    float acc = sun + corona;
+    for (int i = 0; i < 5; i++) {
+      float fi = float(i);
+      float rx = (22.0 + 16.0 * fi) * S;
+      float ry = (fi < 0.5 ? 12.0 : fi < 1.5 ? 20.0 : fi < 2.5 ? 26.0 : fi < 3.5 ? 36.0 : 44.0) * S;
+      float rot = radians(fi < 0.5 ? -20.0 : fi < 1.5 ? 25.0 : fi < 2.5 ? -35.0 : fi < 3.5 ? 15.0 : -8.0);
+      float th = fi < 0.5 ? pl[0] : fi < 1.5 ? pl[1] : fi < 2.5 ? pl[2] : fi < 3.5 ? pl[3] : pl[4];
+      float cr = cos(rot), sr = sin(rot);
+      vec2 q = vec2(cr * d.x + sr * d.y, -sr * d.x + cr * d.y);                 // into the orbit's frame
+      vec2 qn = q / vec2(rx, ry);
+      float e = length(qn);
+      vec2 gr = qn / vec2(rx, ry) / max(e, 1e-4);
+      float dist = (e - 1.0) / max(length(gr), 1e-4);                           // distance to the ellipse
+      float ang = atan(qn.y, qn.x);
+      float behind = smoothstep(0.0, 0.02, q.y) * smoothstep(0.06, 0.0, rr);   // the far side passes behind the sun
+      float line = exp(-pow(dist / 0.0016, 2.0)) * 0.22 + exp(-pow(dist / 0.012, 2.0)) * 0.035;
+      float lag = mod(th - ang, 6.2831853);
+      float trail = exp(-pow(dist / 0.0035, 2.0)) * exp(-lag * 2.2) * 0.75;      // light it leaves behind on its orbit
+      acc += (line + trail) * (1.0 - 0.8 * behind);
+      vec2 pp = vec2(rx * cos(th), ry * sin(th));
+      vec2 pw = vec2(cr * pp.x - sr * pp.y, sr * pp.x + cr * pp.y);            // planet in screen space
+      float pr = fi > 3.5 ? 0.019 : 0.014;
+      vec2 pd = (d - pw) / pr;
+      float pdl = length(pd);
+      float disk = smoothstep(1.0, 0.86, pdl);
+      float shade = 2.4;                                                         // solid, as dark as the sun
+      float pglow = 0.22 * exp(-max(0.0, pdl - 1.0) * 1.6) * (1.0 - disk);
+      acc = mix(acc, shade, disk) + pglow;
+    }
+    float bg = 0.012 + 0.02 * exp(-rr * 2.5);
+    lum = bg + acc;
+    lum = 1.0 - exp(-lum * 1.25);
+    float g2 = hash(frag + fract(time * 9.0) * vec2(41.0, 97.0)) - 0.5;
+    lum += g2 * (0.03 + 0.12 * lum * (1.0 - lum));
   } else if (mode > 3.5 && mode < 5.5) {
     // WATER (4 = a watched pot, 5 = due date). k1 = agitation 0..1, k2 = heartbeat
     vec2 d = p - c; float r = length(d); float R = 0.31;
@@ -756,19 +842,22 @@ if (document.documentElement.classList.contains('aw-preview')) {
     gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
     const loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    const u = {}; ['res', 'time', 'mode', 'k1', 'k2', 'k3', 'k4'].forEach((n) => { u[n] = gl.getUniformLocation(pr, n); });
+    const u = {}; ['res', 'time', 'mode', 'k1', 'k2', 'k3', 'k4', 'k5', 'k6'].forEach((n) => { u[n] = gl.getUniformLocation(pr, n); }); u.pl = gl.getUniformLocation(pr, 'pl[0]'); u.ra = gl.getUniformLocation(pr, 'ra[0]'); u.rp = gl.getUniformLocation(pr, 'rp[0]');
     return (t, s) => {
       const dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr);
       if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
       gl.uniform2f(u.res, w, h); gl.uniform1f(u.time, t); gl.uniform1f(u.mode, s.mode);
-      gl.uniform1f(u.k1, s.k1 || 0); gl.uniform1f(u.k2, s.k2 || 0); gl.uniform1f(u.k3, s.k3 || 0); gl.uniform1f(u.k4, s.k4 || 0);
+      gl.uniform1f(u.k1, s.k1 || 0); gl.uniform1f(u.k2, s.k2 || 0); gl.uniform1f(u.k3, s.k3 || 0); gl.uniform1f(u.k4, s.k4 || 0); gl.uniform1f(u.k5, s.k5 || 0); gl.uniform1f(u.k6, s.k6 || 0);
+      if (s.pl) gl.uniform1fv(u.pl, s.pl);
+      if (s.ra) { gl.uniform1fv(u.ra, s.ra); gl.uniform1fv(u.rp, s.rp); }
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
   }
 
   const scenes = {
-    optimist: (t, cap) => {
-      const c = (t * 1.6) % 13; let p;   // 1.6x: the crawl to 99.99% no longer drags
+    optimist: (t, cap, cu) => {
+      // progress runs on its own clock: it crawls when you're away and races when you come close
+      const c = ((cu ? cu.pt : t) * 1.6) % 13; let p;
       if (c < 3) p = 0.97 * easeOut(c / 3);
       else if (c < 10) p = 0.97 + 0.0299 * (1 - Math.exp(-(c - 3) / 1.6));
       else p = 0.9999 * (1 - ease(seg(c, 10, 13)));
@@ -777,18 +866,29 @@ if (document.documentElement.classList.contains('aw-preview')) {
       else if (c < 10) { const dg = Math.min(4, 1 + Math.floor((c - 3) / 1.6)); txt = (p * 100).toFixed(dg) + '%'; }
       else txt = 'rethinking · ' + Math.floor(p * 100) + '%';
       setText(cap, txt);
-      return { mode: 0, k1: 0.02 + 0.5 * p, k2: c > 3 && c < 10 ? Math.sin(t * 40) * seg(c, 6, 10) : 0 };
+      const n = cu ? cu.n : 0, capT = 0.11 + 0.36 * p;
+      if (cu) { const now = performance.now(), dt = Math.min(0.1, (now - (cu.ct || now)) / 1000); cu.ct = now; cu.cdt = dt; cu.cap = cu.cap === undefined ? capT : cu.cap + (capT - cu.cap) * Math.min(1, dt * 1.2); }   // the cap glides, never jumps
+      let ang = Math.PI / 2, mag = 0.03;
+      if (cu) {
+        const dt = cu.cdt || 0, tx = cu.x - 0.5 * (cu.W || 1.5), ty = cu.y - 0.52, len = Math.hypot(tx, ty);
+        const pull = n * Math.min(1, Math.max(0, (len - 0.04) / 0.12));
+        if (cu.ang === undefined) { cu.ang = ang; cu.mag = mag; }
+        const want = pull > 0.05 ? Math.atan2(ty, tx) : Math.PI / 2;
+        let da = want - cu.ang; da = Math.atan2(Math.sin(da), Math.cos(da));            // shortest way round
+        cu.ang += da * Math.min(1, dt * 2.2 * (0.4 + pull));
+        cu.mag += (0.03 + 0.045 * pull - cu.mag) * Math.min(1, dt * 2);
+        ang = cu.ang; mag = cu.mag;
+      }
+      return { mode: 0, k1: cu ? cu.cap : capT, k2: 0, k3: n, k5: ang, k6: mag };
     },
     boredom: (t, cap) => {
-      const c = t % 9; let pos, smear = 0.16, bright, sag = 0, st;
-      if (c < 2.2) { pos = 0.5 * easeOut(c / 2.2); st = 'loading'; }
-      else if (c < 5.2) { const u = seg(c, 2.2, 5.2); pos = 0.5 + 0.06 * u; smear = 0.16 + 0.22 * ease(seg(c, 2.4, 4.0)); sag = ease(seg(c, 2.4, 4.0)); st = u < .4 ? 'loading' : 'loading…'; }
-      else if (c < 5.8) { const u = easeOut(seg(c, 5.2, 5.8)); pos = 0.56 + 0.44 * u; smear = 0.38 - 0.22 * u; sag = 1 - u; st = 'oh! done.'; }
-      else { pos = 1; st = 'oh! done.'; }
-      bright = c < 0.6 ? ease(c / 0.6) : c > 7.6 ? 1 - ease(seg(c, 7.6, 8.6)) : 1;
-      if (c > 8.6) { pos = 0; bright = 0; }
-      setText(cap, st);
-      return { mode: 1, k1: pos, k2: smear, k3: bright, k4: sag };
+      // always moving, never done: the band drifts around the middle, the smear and the sag swell and ease
+      const pos = 0.5 + 0.11 * Math.sin(t * 0.45) + 0.05 * Math.sin(t * 1.15 + 1.3);
+      const smear = 0.2 + 0.15 * (0.5 + 0.5 * Math.sin(t * 0.62 + 1.0));
+      const sag = 0.5 + 0.5 * Math.sin(t * 0.53 + 2.0);
+      const c = t % 12;
+      setText(cap, c < 4 ? 'loading' : c < 8 ? 'loading…' : 'still loading');
+      return { mode: 1, k1: pos, k2: smear, k3: 1, k4: sag };
     },
     breathe: (t, cap) => {
       const c = t % 10; let k, st;
@@ -796,11 +896,50 @@ if (document.documentElement.classList.contains('aw-preview')) {
       setText(cap, st);
       return { mode: 2, k1: k };
     },
-    burner: (t, cap) => {
-      const c = t % 12; let k;
-      if (c < 1) k = 0.15 + 0.15 * ease(c); else if (c < 6) k = 0.3 + 0.7 * ease(seg(c, 1, 6)); else if (c < 9) k = 1; else k = 1 - 0.85 * ease(seg(c, 9, 12));
-      setText(cap, k < 0.2 ? 'pilot light' : k < 0.95 ? (c < 9 ? 'turning it up' : 'turning it down') : 'full flame');
-      return { mode: 3, k1: k };
+    tantrum: (function () {
+      // the original logic: rings bulge toward the cursor the closer it gets; slow to get upset, slow to calm down.
+      // Each ring now eases on its own: inner rings react first, outer ones follow, so it ripples.
+      let A = 0, last = performance.now();
+      const ra = new Float32Array(13), rp = new Float32Array(13);
+      return (t, cap, cu) => {
+        const n = performance.now(), dt = Math.min(0.1, (n - last) / 1000); last = n;
+        let target = 0, phiT = null;
+        if (cu && cu.seen && cu.inside) {
+          const dx = cu.x - 0.5 * (cu.W || 1.5), dy = cu.y - 0.5, dist = Math.hypot(dx, dy) / (0.0049 * Math.min(1, cu.W || 1.5));
+          target = Math.max(0, Math.min(1, (130 - dist) / 100)); phiT = Math.atan2(dy, dx);
+        }
+        A += (target - A) * Math.min(1, dt * 2.2);
+        const idle = 0.06 + 0.04 * Math.sin(t * 0.6);
+        const tremble = A > 0.8 ? Math.sin(t * 50) * 0.04 * (A - 0.8) * 5 : 0;
+        for (let i = 0; i < 13; i++) {
+          const rate = 3.2 - i * 0.18;                                       // inner quick, outer slow
+          ra[i] += (target + (target > 0 ? tremble : 0) - ra[i]) * Math.min(1, dt * rate * 0.7);
+          if (phiT !== null) { const dp = Math.atan2(Math.sin(phiT - rp[i]), Math.cos(phiT - rp[i])); rp[i] += dp * Math.min(1, dt * rate); }
+        }
+        setText(cap, A < 0.08 ? 'fine' : A < 0.4 ? "it's fine" : A < 0.8 ? 'it is fine' : 'IT IS FINE');
+        return { mode: 8, k1: A, k3: idle, ra, rp };
+      };
+    })(),
+    aligning: (function () {
+      // five planets, always moving, at speeds in whole ratios (5:4:3:2:1). So every lap of the slowest one they all
+      // fall into a single line on their own; the last one is set a little off, so it's always almost.
+      const orbs = [[-20, 22, 12, 5], [25, 38, 20, 4], [-35, 54, 26, 3], [15, 70, 36, 2], [-8, 86, 44, 1]].map(([rot, rx, ry, k]) => ({ rot: rot * Math.PI / 180, rx, ry, k }));
+      const RAY = -0.22, OM = 0.42, TAU = 2 * Math.PI;
+      return (t, cap) => {
+        const u = ((OM * t + 2.4) % TAU + TAU) % TAU, gap = Math.min(u, TAU - u);   // how far from the line-up
+        const pl = orbs.map((o, i) => {
+          const a = RAY - o.rot, base = Math.atan2(Math.sin(a) / o.ry, Math.cos(a) / o.rx);
+          return base + o.k * (u - 0) + (i === 4 ? 0.35 : 0);
+        });
+        setText(cap, gap > 1.6 ? 'aligning' : gap > 0.55 ? 'nearly aligned' : gap > 0.15 ? 'almost' : 'almost.');
+        return { mode: 7, k1: Math.max(0, 1 - gap / 1.2), pl };
+      };
+    })(),
+    burner: (t, cap, c) => {
+      // always burning at full; the flames near the cursor turn down one by one and ebb back up behind it
+      c = c || { x: -9, y: -9, sx: -9, sy: -9, a: 0 };
+      setText(cap, c.a > 0.5 ? 'easing off' : 'full flame');
+      return { mode: 3, k1: 0.92 + 0.08 * Math.sin(t * 0.7), k2: c.x, k3: c.y, k4: c.a, k5: c.sx, k6: c.sy };
     },
     exit: (t, cap) => {
       const e = window.__exitP || 0;
@@ -860,7 +999,32 @@ if (document.documentElement.classList.contains('aw-preview')) {
     items.forEach((it) => {
       if (!it.draw || (!all && !it.visible)) return;
       const target = window.__prox ? window.__prox(it.sec) : 1;
+      if (it.name === 'boredom') {                                    // always drifting; livelier when the cursor is close
+        it.near = (it.near || 0) + (target - (it.near || 0)) * Math.min(1, dt * 2);
+        it.lt += dt * (0.7 + 1.3 * it.near);
+        if (window.__drawAt !== undefined) it.lt = window.__drawAt;
+        window.__near = 1; it.draw(it.lt, scenes.boredom(it.lt, it.cap)); return;
+      }
+      if (it.name === 'aligning') {                                   // always orbiting; the cursor slows them right down
+        it.near = (it.near || 0) + (target - (it.near || 0)) * Math.min(1, dt * 2);
+        it.lt += dt * (1 - 0.85 * it.near);
+        if (window.__drawAt !== undefined) it.lt = window.__drawAt;
+        window.__near = 1; it.draw(it.lt, scenes.aligning(it.lt, it.cap)); return;
+      }
+      if (it.name === 'burner' || it.name === 'optimist' || it.name === 'tantrum') {   // these never sleep; the cursor changes how they move                                    // the burner never sleeps; nearness only turns it down
+        const cv = it.f.querySelector('canvas'), r = cv.getBoundingClientRect(), P = window.__ptr || { x: -9999, y: -9999 };
+        const hh = Math.max(1, r.height), x = (P.x - r.left) / hh, y = (r.bottom - P.y) / hh, inside = r.height > 1 && P.x > r.left && P.x < r.right && P.y > r.top && P.y < r.bottom;
+        const c = it.cur || (it.cur = { x, y, sx: x, sy: y, a: 0 });
+        c.W = r.width / hh; c.inside = inside;
+        if (P.x > -9000 && !c.seen) { c.seen = true; c.x = c.sx = x; c.y = c.sy = y; }   // first real cursor: start the trails there, not off-screen
+        c.x += (x - c.x) * Math.min(1, dt * 10); c.y += (y - c.y) * Math.min(1, dt * 10);       // quick: the flames under the cursor
+        c.sx += (x - c.sx) * Math.min(1, dt * 1.6); c.sy += (y - c.sy) * Math.min(1, dt * 1.6); // slow: the wake that ebbs back
+        c.a += ((inside ? 1 : 0) - c.a) * Math.min(1, dt * 2);
+        c.n = (c.n || 0) + (target - (c.n || 0)) * Math.min(1, dt * 2.5); c.pt = (c.pt || 0) + dt * (0.2 + 0.8 * c.n);
+        it.lt += dt; window.__near = 1; it.draw(it.lt, scenes[it.name](it.lt, it.cap, c)); return;
+      }
       it.rate += (target - it.rate) * Math.min(1, dt * 3); it.lt += dt * it.rate;
+      if (window.__drawAt !== undefined) it.lt = window.__drawAt;   // draft testing: &at=<seconds> freezes the animation there
       window.__near = it.rate;
       if (it.name === 'galaxy') it.draw(it.lt, it.cap); else it.draw(it.lt, scenes[it.name](it.lt, it.cap));
     });
@@ -872,5 +1036,32 @@ if (document.documentElement.classList.contains('aw-preview')) {
 
 </script>
 
+<script>
+/* Draft mode: ?draft=<exhibit> shows one exhibit full-screen. "Always on" plays it as if the cursor were on it.
+   On localhost the page reloads by itself when this file is saved. */
+(function () {
+  const name = new URLSearchParams(location.search).get('draft'); if (!name) return;
+  const frames = [...document.querySelectorAll('.frame[data-gl], .frame[data-ex]')];
+  const key = (f) => f.dataset.gl || f.dataset.ex;
+  const target = frames.find((f) => key(f) === name) || frames[0];
+  const sec = target.closest('.ex'); sec.classList.add('aw-draft-on');
+  let always = false; try { always = localStorage.getItem('aw-draft-always') === '1'; } catch (e) {}
+  const prox = window.__prox; window.__prox = (el) => (always ? 1 : prox(el));
+  const at = new URLSearchParams(location.search).get('at'); if (at !== null) window.__drawAt = +at;
+  const pin = new URLSearchParams(location.search).get('ptr');   // testing: &ptr=0.7,0.6 pins the cursor (fractions of the screen)
+  if (pin) { const [px, py] = pin.split(',').map(Number); const hold = () => { window.__ptr.x = px * innerWidth; window.__ptr.y = py * innerHeight; requestAnimationFrame(hold); }; hold(); }
+  const bar = document.createElement('div'); bar.className = 'aw-draftbar';
+  bar.innerHTML = '<span class="tag">Draft</span>' + frames.map((f) => '<a href="?draft=' + key(f) + '"' + (f === target ? ' class="on"' : '') + '>' + (f.closest('.ex').getAttribute('aria-label') || key(f)) + '</a>').join('') + '<button type="button" id="aw-always"></button>';
+  document.body.appendChild(bar);
+  const btn = bar.querySelector('#aw-always'), paint = () => { btn.textContent = always ? 'Always on' : 'Follows cursor'; btn.classList.toggle('on', always); };
+  btn.onclick = () => { always = !always; try { localStorage.setItem('aw-draft-always', always ? '1' : '0'); } catch (e) {} paint(); }; paint();
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    let last = null;
+    setInterval(() => fetch(location.pathname, { method: 'HEAD', cache: 'no-store' }).then((r) => {
+      const v = r.headers.get('last-modified') || r.headers.get('etag'); if (last && v && v !== last) location.reload(); last = v;
+    }).catch(() => {}), 800);
+  }
+})();
+</script>
 </body>
 </html>
