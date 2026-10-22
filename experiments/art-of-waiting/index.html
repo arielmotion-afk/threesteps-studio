@@ -401,8 +401,12 @@ html.aw-draft .ex.aw-draft-on { height: 100vh; max-height: none; border: 0; }
   const noHover = matchMedia('(hover: none)').matches;
   window.__ptr = { x: -9999, y: -9999 };
   addEventListener('pointermove', (e) => { window.__ptr.x = e.clientX; window.__ptr.y = e.clientY; }, { passive: true });
+  window.__noHover = noHover;
   window.__prox = (el) => {
-    if (noHover) return 1;
+    if (noHover) {                       // phones: no cursor, so each piece drifts near and away on its own slow rhythm
+      if (el.__seed === undefined) el.__seed = Math.random() * 6.28;
+      return 0.5 + 0.5 * Math.sin(performance.now() / 1000 * 0.33 + el.__seed);
+    }
     const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
     const d = Math.hypot(window.__ptr.x - cx, window.__ptr.y - cy), R = Math.min(r.width, r.height);
     const v = 1 - (d - R * 0.12) / (R * 0.55);
@@ -1052,7 +1056,12 @@ if (document.documentElement.classList.contains('aw-preview')) {
         window.__near = 1; it.draw(it.lt, scenes.aligning(it.lt, it.cap)); return;
       }
       if (it.name === 'burner' || it.name === 'optimist' || it.name === 'tantrum') {   // these never sleep; the cursor changes how they move                                    // the burner never sleeps; nearness only turns it down
-        const cv = it.f.querySelector('canvas'), r = cv.getBoundingClientRect(), P = window.__ptr || { x: -9999, y: -9999 };
+        const cv = it.f.querySelector('canvas'), r = cv.getBoundingClientRect();
+        let P = window.__ptr || { x: -9999, y: -9999 };
+        if (window.__noHover && !new URLSearchParams(location.search).get('ptr')) {   // phones: a slow virtual cursor wanders over the piece
+          const tt = performance.now() / 1000; if (it.seed === undefined) it.seed = Math.random() * 10;
+          P = { x: r.left + r.width * (0.5 + 0.3 * Math.sin(tt * 0.29 + it.seed)), y: r.top + r.height * (0.5 + 0.24 * Math.sin(tt * 0.43 + it.seed * 1.7)) };
+        }
         const hh = Math.max(1, r.height), x = (P.x - r.left) / hh, y = (r.bottom - P.y) / hh, inside = r.height > 1 && P.x > r.left && P.x < r.right && P.y > r.top && P.y < r.bottom;
         const c = it.cur || (it.cur = { x, y, sx: x, sy: y, a: 0 });
         c.W = r.width / hh; c.inside = inside;
