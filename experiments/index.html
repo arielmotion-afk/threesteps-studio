@@ -39,10 +39,6 @@
   .lab-meta .mono { color: var(--muted); }
   .lab-desc { color: var(--ink-2); margin-top: 4px; max-width: 52ch; }
   .lab-media--rive { background: #110920; }
-  .lab-item--wide { grid-column: 1 / -1; }
-  .lab-item--wide .lab-media { aspect-ratio: 16 / 6; }
-  .lab-split { display: grid; grid-template-columns: 1fr 1fr; }
-  .lab-split > div { position: relative; overflow: hidden; }
   .lab-media--fabric { background: linear-gradient(135deg, #E4E9F1, #FFC7C2 45%, #E9D6FF); }
   .lab-media .mini-orb-stage { background: transparent; }
   .lab-media .mini-orb { width: 34%; }
@@ -50,7 +46,7 @@
   .lab-media--live { background: #000; }
   .lab-live { position: absolute; left: 0; top: 0; width: 1600px; height: 800px; border: 0; transform-origin: 0 0; pointer-events: none; opacity: 0; transition: opacity .6s ease; }
   .lab-live.on { opacity: 1; }
-  @media (max-width: 760px) { .lab-list { grid-template-columns: 1fr; gap: 44px; } .lab-item--lead .lab-media, .lab-item--wide .lab-media { aspect-ratio: 16 / 10; } }
+  @media (max-width: 760px) { .lab-list { grid-template-columns: 1fr; gap: 44px; } .lab-item--lead .lab-media { aspect-ratio: 16 / 10; } }
 </style>
 </head>
 <body data-orb-palette="notch">
@@ -90,14 +86,16 @@
       <div class="lab-meta"><h2>Voice assistant orb</h2><span class="mono">WebGL</span></div>
       <p class="lab-desc">The Notch agent orb: idle, listening, thinking, speaking. Opens the case study.</p>
     </a>
-    <!-- Rive and WebGL: two small pieces that live here (no page of their own), playable in place; full width keeps the grid even. -->
-    <div class="lab-item lab-item--wide">
-      <div class="lab-media lab-split">
-        <div class="lab-media--rive"><span class="lab-tag">Rive</span><canvas id="lab-squish"></canvas></div>
-        <div class="lab-media--fabric" id="hero-fabric" data-variant="rich"><span class="lab-tag">WebGL</span><canvas id="hero-fabric-gl"></canvas></div>
-      </div>
-      <div class="lab-meta"><h2>Squish Stack and Fabric Gradient</h2><span class="mono">Rive · WebGL</span></div>
-      <p class="lab-desc">Two small interactive pieces. Left, built in Rive: a stack of soft shapes with idle breathing; poke it three times and it topples and rebuilds. Right, a WebGL shader: fabric folds that drift on their own and follow the cursor.</p>
+    <!-- Squish Stack and Fabric Gradient have no page of their own: they play in place, so these two tiles are not links. -->
+    <div class="lab-item">
+      <div class="lab-media lab-media--rive"><span class="lab-tag">Rive</span><canvas id="lab-squish"></canvas></div>
+      <div class="lab-meta"><h2>Squish Stack</h2><span class="mono">Rive state machine</span></div>
+      <p class="lab-desc">A stack of soft shapes with idle breathing. Poke it three times and it topples and rebuilds.</p>
+    </div>
+    <div class="lab-item">
+      <div class="lab-media lab-media--fabric" id="hero-fabric" data-variant="rich"><span class="lab-tag">WebGL</span><canvas id="hero-fabric-gl"></canvas></div>
+      <div class="lab-meta"><h2>Fabric Gradient</h2><span class="mono">WebGL shader</span></div>
+      <p class="lab-desc">Shot silk. A new colour bleeds across it every few seconds; click or tap to start one. The light follows the cursor, and dragging pulls the folds.</p>
     </div>
   </div>
 </main>
@@ -130,7 +128,7 @@
 </script>
 <script src="../js/fabric-glass.js"></script>
 <script src="../js/v2.js?v=3"></script>
-<script src="../js/hero-fabric.js?v=3"></script>
+<script src="../js/hero-fabric.js?v=4"></script>
 <script src="../js/bubbles.js?v=9"></script>
 <script>
   Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
