@@ -31,7 +31,7 @@
   .lab-item--lead .lab-media { aspect-ratio: 16 / 8; }
   .lab-media img, .lab-media canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
   .lab-media::after { content: ""; position: absolute; inset: 0; background: rgb(12, 10, 14); opacity: 0; transition: opacity var(--dur-short) var(--ease-standard); pointer-events: none; }
-  .lab-item:hover .lab-media::after { opacity: .1; }
+  a.lab-item:hover .lab-media::after { opacity: .1; }
   .lab-tag { position: absolute; top: 14px; left: 14px; z-index: 2; font-family: var(--label); font-size: 11px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.92); color: var(--ink); }
   .lab-tag--new { background: var(--ink); color: #fff; }
   .lab-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 14px; }
@@ -39,6 +39,10 @@
   .lab-meta .mono { color: var(--muted); }
   .lab-desc { color: var(--ink-2); margin-top: 4px; max-width: 52ch; }
   .lab-media--rive { background: #110920; }
+  .lab-item--wide { grid-column: 1 / -1; }
+  .lab-item--wide .lab-media { aspect-ratio: 16 / 6; }
+  .lab-split { display: grid; grid-template-columns: 1fr 1fr; }
+  .lab-split > div { position: relative; overflow: hidden; }
   .lab-media--fabric { background: linear-gradient(135deg, #E4E9F1, #FFC7C2 45%, #E9D6FF); }
   .lab-media .mini-orb-stage { background: transparent; }
   .lab-media .mini-orb { width: 34%; }
@@ -46,7 +50,7 @@
   .lab-media--live { background: #000; }
   .lab-live { position: absolute; left: 0; top: 0; width: 1600px; height: 800px; border: 0; transform-origin: 0 0; pointer-events: none; opacity: 0; transition: opacity .6s ease; }
   .lab-live.on { opacity: 1; }
-  @media (max-width: 760px) { .lab-list { grid-template-columns: 1fr; gap: 44px; } .lab-item--lead .lab-media { aspect-ratio: 16 / 10; } }
+  @media (max-width: 760px) { .lab-list { grid-template-columns: 1fr; gap: 44px; } .lab-item--lead .lab-media, .lab-item--wide .lab-media { aspect-ratio: 16 / 10; } }
 </style>
 </head>
 <body data-orb-palette="notch">
@@ -74,28 +78,27 @@
     <a class="lab-item lab-item--lead" href="art-of-waiting/">
       <div class="lab-media lab-media--live"><img src="art-of-waiting/cover.webp?v=3" alt="The Art of Waiting: grey glowing spheres on black with the title rail"><iframe class="lab-live" data-src="art-of-waiting/?preview" title="The Art of Waiting, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div>
       <div class="lab-meta"><h2>The Art of Waiting</h2><span class="mono">Code animations</span></div>
-      <p class="lab-desc">Eight WebGL loaders that react to your cursor.</p>
+      <p class="lab-desc">A one-page site of WebGL loading animations, hung like exhibits on alternating black and white walls. Each loader reacts to the cursor.</p>
     </a>
     <a class="lab-item" href="nightshade/">
       <div class="lab-media"><span class="lab-tag lab-tag--new">New</span><img src="nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels"></div>
       <div class="lab-meta"><h2>Nightshade</h2><span class="mono">In progress</span></div>
-      <p class="lab-desc">Visual tests for a small murder-mystery game. Twelve scenes lit and animated in WebGL.</p>
-    </a>
-    <a class="lab-item" href="../projects/project-07.html">
-      <div class="lab-media lab-media--rive"><span class="lab-tag">Rive</span><canvas id="lab-squish"></canvas></div>
-      <div class="lab-meta"><h2>Squish Stack</h2><span class="mono">Rive state machine</span></div>
-      <p class="lab-desc">A stack of soft shapes you can poke.</p>
+      <p class="lab-desc">Visual tests for a small murder-mystery game. Twelve night scenes, each built as a simple 3D room and lit in WebGL: moonlight, fire, fog, rain. The page goes from the first pixel drafts to the current scenes.</p>
     </a>
     <a class="lab-item" href="../projects/notch-voice-assistant.html">
       <div class="lab-media"><span class="lab-tag">Code</span><div class="mini-orb-stage"><div class="mini-orb"></div></div></div>
       <div class="lab-meta"><h2>Voice assistant orb</h2><span class="mono">WebGL</span></div>
-      <p class="lab-desc">The Notch agent orb: idle, listening, thinking, speaking.</p>
+      <p class="lab-desc">The Notch agent orb: idle, listening, thinking, speaking. Opens the case study.</p>
     </a>
-    <a class="lab-item" href="../projects/project-07.html">
-      <div class="lab-media lab-media--fabric" id="hero-fabric" data-variant="rich"><span class="lab-tag">Code</span><canvas id="hero-fabric-gl"></canvas></div>
-      <div class="lab-meta"><h2>Fabric Gradient</h2><span class="mono">WebGL shader</span></div>
-      <p class="lab-desc">Folds that drift on their own and follow the cursor.</p>
-    </a>
+    <!-- Rive and WebGL: two small pieces that live here (no page of their own), playable in place; full width keeps the grid even. -->
+    <div class="lab-item lab-item--wide">
+      <div class="lab-media lab-split">
+        <div class="lab-media--rive"><span class="lab-tag">Rive</span><canvas id="lab-squish"></canvas></div>
+        <div class="lab-media--fabric" id="hero-fabric" data-variant="rich"><span class="lab-tag">WebGL</span><canvas id="hero-fabric-gl"></canvas></div>
+      </div>
+      <div class="lab-meta"><h2>Squish Stack and Fabric Gradient</h2><span class="mono">Rive · WebGL</span></div>
+      <p class="lab-desc">Two small interactive pieces. Left, built in Rive: a stack of soft shapes with idle breathing; poke it three times and it topples and rebuilds. Right, a WebGL shader: fabric folds that drift on their own and follow the cursor.</p>
+    </div>
   </div>
 </main>
 
