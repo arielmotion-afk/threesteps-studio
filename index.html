@@ -266,11 +266,11 @@
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Dex Loader</h3><span class="mono">Lottie</span></div>
       </a>
-      <!-- Experiments: one card for all code/interactive pieces. Its image is always the newest experiment. -->
+      <!-- Experiments: one card for all code/interactive pieces. Its image is the newest experiment that doesn't have its own card. -->
       <a class="case rv" data-track="product" href="experiments/">
         <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">Experiments · 5</span>
-          <img src="experiments/nightshade/cover.webp" alt="Nightshade, the newest experiment" loading="lazy">
-          <iframe class="exp-live" data-src="experiments/nightshade/scenes/?s=folly_midnight&amp;embed&amp;cover" title="Nightshade, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
+          <img src="experiments/art-of-waiting/cover.webp?v=3" alt="The Art of Waiting, an experiment" loading="lazy">
+          <iframe class="exp-live" data-src="experiments/art-of-waiting/?preview" title="The Art of Waiting, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Experiments</h3><span class="mono">WebGL · Claude Code</span></div>
       </a>
@@ -279,6 +279,14 @@
           <video src="videos/imagen-01-desktop.mp4" autoplay muted loop playsinline poster="images/thumbnails/imagen-01-desktop-poster.jpg" style="object-position: left bottom"></video>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Product &amp; web animations</h3><span class="mono">Lottie</span></div>
+      </a>
+      <!-- Nightshade: full width, so the two-column grid stays even under every filter. -->
+      <a class="case case--featured rv" data-track="product" href="experiments/nightshade/">
+        <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">In progress</span>
+          <img src="experiments/nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels" loading="lazy">
+          <iframe class="exp-live" data-src="experiments/nightshade/scenes/?s=folly_midnight&amp;embed&amp;cover" title="Nightshade, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Nightshade</h3><span class="mono">WebGL · Game</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-02.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
@@ -527,9 +535,9 @@
   // Pause live pieces while they're off screen
   const live = new IntersectionObserver((es) => es.forEach((e) => e.target._onVisible && e.target._onVisible(e.isIntersecting)));
 
-  // Experiments card: the live piece runs only while the card is hovered (desktop pointers only)
-  const expCard = document.querySelector('a.case[href="experiments/"]'), expLive = expCard && expCard.querySelector('.exp-live');
-  if (expLive && matchMedia('(hover: hover)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  // Cards with a live piece (Experiments, Nightshade): it runs only while the card is hovered (desktop pointers only)
+  if (matchMedia('(hover: hover)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('a.case .exp-live').forEach((expLive) => {
+    const expCard = expLive.closest('a.case');
     const box = expLive.parentElement, fit = () => { const w = box.clientWidth, h = box.clientHeight, k = Math.max(w / 1600, h / 1000); expLive.style.height = '1000px'; expLive.style.transform = 'translate(' + (w - 1600 * k) / 2 + 'px,' + (h - 1000 * k) / 2 + 'px) scale(' + k + ')'; };  // same crop as the cover image
     let ready = false;
     expCard.addEventListener('pointerenter', () => {
@@ -539,7 +547,7 @@
     });
     expCard.addEventListener('pointerleave', () => expLive.classList.remove('on'));
     addEventListener('resize', fit);
-  }
+  });
 
   // Poking the stack shouldn't navigate; the ↗︎ badge and the title still open the page
   const squishEl = document.getElementById('squish');   // only present if a Rive card is on the page
