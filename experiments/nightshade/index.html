@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nightshade · Ariel Paz</title>
+  <meta name="description" content="Visual tests for a small murder-mystery game: twelve night scenes drawn, lit and animated in code. In progress.">
+  <meta property="og:title" content="Nightshade · Ariel Paz">
+  <meta property="og:description" content="Visual tests for a small murder-mystery game: twelve night scenes drawn, lit and animated in code.">
+  <meta property="og:image" content="https://threesteps.studio/experiments/nightshade/cover.webp">
+  <meta property="og:image:width" content="1600">
+  <meta property="og:image:height" content="1000">
+  <meta property="og:url" content="https://threesteps.studio/experiments/nightshade/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://threesteps.studio/experiments/nightshade/cover.webp">
+  <link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --night: #04050f;
+      --navy: #0b0f2b;
+      --ink: #1b2150;
+      --blue: #3a5fd0;
+      --pale: #a8b6ef;
+      --paper: #ece6d6;
+      --muted: #8d93b5;
+      --orange: #ff6a33;
+      --pink: #ff4f9e;
+      --rule: rgba(168, 182, 239, 0.16);
+      --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+      --sans: "Geist", "Helvetica Neue", Arial, sans-serif;
+      --w: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--night); }
+    body { margin: 0; color: var(--paper); font: 400 17px/1.65 var(--sans); background: var(--night); -webkit-font-smoothing: antialiased; }
+    img { display: block; width: 100%; height: auto; }
+    .px { image-rendering: pixelated; }
+    a { color: var(--pale); text-underline-offset: 3px; }
+    .wrap { max-width: var(--w); margin: 0 auto; padding: 0 32px; }
+    .narrow { max-width: 680px; }
+
+    /* Hero */
+    header.wrap { padding-top: 72px; padding-bottom: 40px; }
+    h1 { font: 600 clamp(40px, 6vw, 64px)/1.05 var(--sans); letter-spacing: -0.02em; margin: 14px 0 14px; }
+    .back { display: inline-block; font: 400 12px/1 var(--mono); color: var(--muted); text-decoration: none; margin-bottom: 36px; }
+    .back:hover { color: var(--paper); }
+    .lede { font: 400 clamp(18px, 2vw, 21px)/1.5 var(--sans); color: var(--pale); max-width: 46ch; margin: 0; }
+    .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin: 44px 0 0; padding: 22px 0 0; border-top: 1px solid var(--rule); }
+    .facts div { font: 400 13px/1.5 var(--mono); color: var(--muted); }
+    .facts b { display: block; font: 500 13px/1.5 var(--mono); color: var(--paper); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+
+    .stage { position: relative; aspect-ratio: 16 / 9; width: 100%; background: #000; overflow: hidden; }
+    .stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .stage-cap { display: flex; justify-content: space-between; gap: 16px; font: 400 12px/1.5 var(--mono); color: var(--muted); padding: 10px 0 0; }
+
+    /* Sections */
+    section.wrap { padding-top: 112px; }
+    h2 { font: 600 clamp(26px, 3vw, 34px)/1.15 var(--sans); margin: 0 0 16px; letter-spacing: -0.015em; }
+    h3 { font: 600 19px/1.3 var(--sans); margin: 0 0 8px; }
+    p { margin: 0 0 16px; }
+    .muted { color: var(--muted); }
+
+    figure { margin: 0; }
+    figcaption { font: 400 13px/1.55 var(--mono); color: var(--muted); padding: 10px 0 0; }
+    figcaption b { color: var(--paper); font-weight: 500; }
+    .grid { display: grid; gap: 28px 24px; margin-top: 36px; }
+    .g2 { grid-template-columns: repeat(2, 1fr); }
+    .g3 { grid-template-columns: repeat(3, 1fr); }
+    .g4 { grid-template-columns: repeat(4, 1fr); }
+    .span2 { grid-column: span 2; }
+
+
+
+    /* Timeline of stages */
+    .steps { counter-reset: s; margin-top: 8px; }
+    .step { display: grid; grid-template-columns: 220px 1fr; gap: 32px; padding: 44px 0; border-top: 1px solid var(--rule); }
+    .step:first-child { border-top: 0; }
+    .step-head { position: sticky; top: 24px; align-self: start; }
+    .step-head .n { font: 500 12px/1 var(--mono); color: var(--orange); letter-spacing: 0.08em; }
+    .step-head h3 { margin-top: 10px; }
+    .step .grid { margin-top: 20px; }
+
+    /* Before / after */
+    .pairs { display: grid; gap: 40px; margin-top: 36px; }
+    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .pair figcaption { padding-top: 8px; }
+
+    /* How it works */
+    .how { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 36px; counter-reset: h; }
+    .how div { border-top: 2px solid var(--blue); padding-top: 16px; }
+    .how div::before { counter-increment: h; content: "0" counter(h); display: block; font: 500 12px/1 var(--mono); color: var(--blue); margin-bottom: 12px; }
+    .how b { display: block; font: 600 17px/1.3 var(--sans); margin-bottom: 6px; }
+    .how span { font-size: 15px; color: var(--muted); }
+    .numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--rule); }
+    .numbers b { display: block; font: 600 32px/1.1 var(--sans); color: var(--paper); letter-spacing: -0.02em; }
+    .numbers span { font: 400 12px/1.5 var(--mono); color: var(--muted); }
+
+
+    .next { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 32px; }
+    .next li { padding: 14px 0; border-top: 1px solid var(--rule); }
+    .next li b { font-weight: 500; }
+
+    footer { margin-top: 120px; padding: 32px 0 56px; border-top: 1px solid var(--rule); font: 400 13px/1.7 var(--mono); color: var(--muted); }
+    footer .wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    footer b { display: block; color: var(--paper); font-weight: 500; }
+
+    @media (max-width: 860px) {
+      .wrap { padding: 0 16px; }
+      header.wrap { padding-top: 44px; }
+      .facts, .numbers { grid-template-columns: repeat(2, 1fr); }
+      .how { grid-template-columns: 1fr; }
+      .g3, .g4 { grid-template-columns: repeat(2, 1fr); }
+      .g2 { grid-template-columns: 1fr; }
+      .span2 { grid-column: auto; }
+      .step { grid-template-columns: 1fr; gap: 8px; padding: 36px 0; }
+      .step-head { position: static; }
+      .next { grid-template-columns: 1fr; }
+      .stage-cap { flex-direction: column; gap: 6px; }
+      footer .wrap { grid-template-columns: 1fr; }
+      section.wrap { padding-top: 80px; }
+    }
+    @media (max-width: 520px) {
+      .pair { grid-template-columns: 1fr; }
+      .g3, .g4 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <a class="back" href="../">← Experiments</a>
+    <h1>Nightshade</h1>
+    <p class="lede">A small murder-mystery game for the browser. These are the visual tests so far.</p>
+    <div class="facts">
+      <div><b>Format</b>Browser game</div>
+      <div><b>Role</b>Story, motion, art direction</div>
+      <div><b>Built with</b>JavaScript, WebGL</div>
+      <div><b>Status</b>In progress</div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="stage"><iframe id="live" src="scenes/index.html?s=reading_room&embed" title="Nightshade, the twelve scenes, live" loading="lazy"></iframe></div>
+    <div class="stage-cap"><span>Current scenes, running live. Click for the next one.</span><a href="scenes/index.html?s=reading_room">Open full screen ↗</a></div>
+  </div>
+
+  <section class="wrap">
+    <div class="narrow">
+      <h2>About</h2>
+      <p>A botanical illustrator stays at a country house to draw an orchid that blooms one night a year. Someone dies during the night. The player looks around, talks to the household and works out what happened by morning.</p>
+      <p>Visual constraints: no characters on screen, no vector shapes, and warm light only from fires and lamps.</p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="narrow">
+      <h2>Process</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-head"><span class="n">01</span><h3>Pixel drafts</h3></div>
+        <div>
+          <p>Low-res scenes with a limited palette and ordered dithering. Too retro.</p>
+          <div class="grid g2">
+            <figure class="span2"><img src="img/04-pixel-drafts-six.jpg" alt="Six pixel-art scene drafts: arched windows, a lantern in the forest, a greenhouse at dawn" loading="lazy"></figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-head"><span class="n">02</span><h3>Four treatments</h3></div>
+        <div>
+          <p>One scene rendered four ways: fine grain, risograph, cinematic and hybrid. I went with the risograph.</p>
+          <div class="grid g2">
+            <figure class="span2"><img src="img/08-forest-study-four-treatments.jpg" alt="The same forest scene in four treatments: fine grain, risograph, cinematic and hybrid" loading="lazy"></figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-head"><span class="n">03</span><h3>Riso prints</h3></div>
+        <div>
+          <p>Three colours: dark navy, blue and orange. Orange only for light sources.</p>
+          <div class="grid g2">
+            <figure class="span2"><img src="img/10-riso-shots.jpg" alt="Six risograph-style night scenes in blue and orange" loading="lazy"></figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-head"><span class="n">04</span><h3>Generated references</h3></div>
+        <div>
+          <p>The code-only drawings lacked detail. Generated images had detail but looked generic and couldn't be animated. I used them as references and rebuilt each scene in code.</p>
+          <div class="grid g2">
+            <figure><img src="img/attempt-1-etching.webp" alt="A generated etching of a woman kneeling by a fire in the forest" loading="lazy"><figcaption>First generated test</figcaption></figure>
+            <figure><img src="img/attempt-2-chatgpt-pixel.webp" alt="A generated pixel-art image of a woman holding a glove over a campfire" loading="lazy"><figcaption>Second generated test</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="narrow">
+      <h2>From reference to code</h2>
+      <p>Rooms are built as simple 3D models so the moonlight and shadows line up with the windows. Left: reference. Right: in game.</p>
+    </div>
+    <div class="pairs">
+      <div class="pair">
+        <figure><img src="img/03-reading_room.webp" alt="Generated reference: a dark reading room with arched windows and blood on the rug" loading="lazy"><figcaption>Reference</figcaption></figure>
+        <figure><img class="px" src="img/03-reading_room.png" alt="The reading room in code: arched windows with tracery, hanging ferns, blood in the moonlight" loading="lazy"><figcaption>In game</figcaption></figure>
+      </div>
+      <div class="pair">
+        <figure><img src="img/02-stairs_dark.webp" alt="Generated reference: a dark staircase with an arched moonlit window and lamplight under a door" loading="lazy"><figcaption>Reference</figcaption></figure>
+        <figure><img class="px" src="img/02-stairs_dark.png" alt="The stairs in code: moonlight striping the steps through the balusters" loading="lazy"><figcaption>In game</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="narrow">
+      <h2>How it works</h2>
+    </div>
+    <div class="how">
+      <div><b>Bake</b><span>Lighting and shadows are calculated once and saved as an image per scene.</span></div>
+      <div><b>Animate</b><span>Fire, lamps and clouds are animated per frame on the GPU.</span></div>
+      <div><b>Colour</b><span>The result is reduced to a blue and an orange palette with dithering.</span></div>
+      <div><b>Load</b><span>Upcoming scenes are preloaded. Scenes change with a dither transition.</span></div>
+    </div>
+    <div class="numbers">
+      <div><b>12</b><span>scenes</span></div>
+      <div><b>~10 ms</b><span>to load a scene</span></div>
+      <div><b>60 fps</b><span>in the browser</span></div>
+      <div><b>2.4 MB</b><span>all scenes</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div><b>Nightshade</b>In progress, October 2026</div>
+      <div><b>Code</b>JavaScript, WebGL2. Built with Claude Code.</div>
+      <div><b>References</b>Generated with ChatGPT</div>
+    </div>
+  </footer>
+
+  <script>
+    // Only render the live scenes while they're on screen.
+    const live = document.getElementById("live");
+    new IntersectionObserver(([e]) => live.contentWindow && live.contentWindow.postMessage({ nightshade: e.isIntersecting ? "wake" : "sleep" }, "*"), { threshold: 0.05 }).observe(live);
+  </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nightshade · scenes</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: #04050f; color: #e8e2d2; font: 13px/1.45 system-ui, sans-serif; overflow: hidden; }
+    canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; object-fit: contain; image-rendering: pixelated; }
+    body.cover canvas { object-fit: cover; }
+    .cap { position: fixed; left: 24px; bottom: 20px; max-width: 60ch; padding: 10px 14px; background: rgba(6, 7, 16, 0.78); }
+    .cap b { display: block; font-size: 12px; letter-spacing: 0.04em; color: #9fa6c8; }
+    .hud { position: fixed; right: 20px; bottom: 20px; padding: 6px 10px; background: rgba(6, 7, 16, 0.78); color: #9fa6c8; font: 12px ui-monospace, monospace; }
+    .loading { position: fixed; inset: 0; display: grid; place-items: center; color: #6c7090; pointer-events: none; }
+    [hidden] { display: none !important; }
+    /* Embedded (?embed): no captions or HUD, small arrows and the page name. */
+    .nav { display: none; }
+    body.embed .cap, body.embed .hud { display: none; }
+    body.embed .nav { display: flex; position: fixed; left: 0; right: 0; bottom: 0; align-items: center; justify-content: space-between; padding: 10px 12px; font: 11px/1 ui-monospace, monospace; color: #c8cce0; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+    body.embed:hover .nav, body.embed .nav:focus-within { opacity: 1; }
+    .nav button { pointer-events: auto; background: rgba(6, 7, 16, 0.78); color: inherit; border: 0; font: inherit; padding: 8px 12px; cursor: pointer; }
+    .nav span { background: rgba(6, 7, 16, 0.78); padding: 8px 12px; }
+  </style>
+</head>
+<body>
+  <canvas id="stage"></canvas>
+  <div class="loading" id="loading" hidden>printing the scene…</div>
+  <p class="cap" id="cap"><b></b><span></span></p>
+  <div class="hud" id="hud"></div>
+  <div class="nav"><button id="prev" aria-label="Previous page">←</button><span id="navlabel"></span><button id="next" aria-label="Next page">→</button></div>
+
+  <script src="base.js"></script>
+  <script src="engine.js"></script>
+  <script src="ray.js"></script>
+  <script src="loader.js"></script>
+  <script src="s01-guest.js"></script>
+  <script src="s02-stairs.js"></script>
+  <script src="s03-reading.js"></script>
+  <script src="s04-parlor.js"></script>
+  <script src="s05-fork.js"></script>
+  <script src="s06-kitchen.js"></script>
+  <script src="s07-rival.js"></script>
+  <script src="s08-garden.js"></script>
+  <script src="s09-niece.js"></script>
+  <script src="s10-forest.js"></script>
+  <script src="s11-fire.js"></script>
+  <script src="s12-dawn.js"></script>
+  <script>
+    // ←/→ pages · H hide text · P pause · R resolution · C cover/contain
+    const ORDER = ["guest_room_dusk", "stairs_dark", "reading_room", "parlor_evening", "parlor_fork", "kitchen", "rival_room", "garden_night", "niece_room", "forest_night", "folly_midnight", "lawn_sunrise"];
+    const list = ORDER.map((id) => SCENES.find((s) => s.id === id)).filter(Boolean);
+    const stage = createStage(document.getElementById("stage"));
+    const cap = document.getElementById("cap"), hud = document.getElementById("hud"), loading = document.getElementById("loading");
+    let i = Math.max(0, list.findIndex((s) => s.id === new URLSearchParams(location.search).get("s")));
+    let loadMs = 0, loadFrom = "", full = false, paused = false, token = 0;
+    const byId = (id) => list.find((s) => s.id === id);
+
+    // While a page is up, fetch and prepare the pages that can come next (story branches,
+    // plus the neighbours in this viewer), one after another so nothing stutters.
+    async function prefetch(s) {
+      const ids = [...new Set([...(NEXT[s.id] || []), list[(i + 1) % list.length].id, list[(i - 1 + list.length) % list.length].id])];
+      for (const id of ids) {
+        const n = byId(id);
+        if (!n) continue;
+        const data = await loadScene(n);
+        await new Promise((r) => (window.requestIdleCallback || setTimeout)(r, { timeout: 300 }));
+        stage.prepare(n, data);
+      }
+    }
+
+    function show(k) {
+      i = (k + list.length) % list.length;
+      const s = list[i], my = ++token, t0 = performance.now();
+      cap.querySelector("b").textContent = `${i + 1}/${list.length} · ${s.id}`;
+      cap.querySelector("span").textContent = s.caption || "";
+      document.getElementById("navlabel").textContent = `${i + 1}/${list.length} · ${s.id.replace(/_/g, " ")}`;
+      const q = new URLSearchParams(location.search); q.set("s", s.id);
+      history.replaceState(null, "", `?${q.toString().replace(/=(&|$)/g, "$1")}`);
+      window.sceneReady = null;
+      const slow = setTimeout(() => { if (my === token) loading.hidden = false; }, 250);
+      loadScene(s).then((data) => {
+        if (my !== token) return;
+        clearTimeout(slow); loading.hidden = true;
+        loadMs = Math.round(performance.now() - t0); loadFrom = data.from;
+        stage.show(s, data);
+        // Tell a host page the first scene is up (the portfolio fades its preview in on "aw-ready").
+        if (!window.announced && parent !== window) { window.announced = true; requestAnimationFrame(() => parent.postMessage("aw-ready", "*")); }
+        window.sceneReady = s.id;
+        prefetch(s);
+      });
+    }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") show(i + 1);
+      if (e.key === "ArrowLeft") show(i - 1);
+      if (e.key === "h" || e.key === "H") { cap.hidden = !cap.hidden; hud.hidden = cap.hidden; }
+      if (e.key === "p" || e.key === "P") { paused = !paused; stage.pause(paused); }
+      if (e.key === "r" || e.key === "R") { full = !full; full ? stage.resize(1280, 720) : stage.resize(640, 360); }
+      if (e.key === "c" || e.key === "C") document.body.classList.toggle("cover");
+    });
+    let last = performance.now(), lastFrames = 0;
+    setInterval(() => {
+      const now = performance.now(), fps = ((stage.stats.frames - lastFrames) * 1000) / (now - last);
+      last = now; lastFrames = stage.stats.frames;
+      hud.textContent = `${Math.round(fps)} fps · ready in ${loadMs} ms (${loadFrom}) · ←/→ · H · P · R · C`;
+    }, 1000);
+    // Embedding: ?embed hides the text; the host page can pause rendering while it's off screen.
+    // ?cover fills the frame (crops instead of letterboxing), for preview tiles.
+    if (new URLSearchParams(location.search).has("cover")) document.body.classList.add("cover");
+    if (new URLSearchParams(location.search).has("embed")) {
+      document.body.classList.add("embed");
+      document.getElementById("prev").onclick = () => show(i - 1);
+      document.getElementById("next").onclick = () => show(i + 1);
+      document.getElementById("stage").onclick = () => show(i + 1);
+      addEventListener("message", (e) => { if (e.data && e.data.nightshade) stage.sleep(e.data.nightshade === "sleep"); });
+    }
+    // Dev helper: post the current frame to a local frame sink (sketch tooling only).
+    window.grab = async (name, t = 4) => {
+      stage.drawAt(t);
+      const b = await new Promise((r) => document.getElementById("stage").toBlob(r, "image/png"));
+      return (await fetch("http://127.0.0.1:8124/" + name, { method: "POST", body: b })).status;
+    };
+    window.go = (id) => show(list.findIndex((s) => s.id === id));
+    show(i);
+  </script>
+</body>
+</html>
