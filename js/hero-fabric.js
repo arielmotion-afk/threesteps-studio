@@ -1,4 +1,4 @@
-// Fabric gradient: WebGL prism light. Streaks of dispersed light, thin and broad, cross toward a soft glow.
+// Golden Strings (file name kept from when it was a fabric shader): WebGL prism light. Streaks of dispersed light, thin and broad, cross toward a soft glow.
 // - The light drifts on its own. The streaks flutter like cords in a breeze; moving the cursor stirs a gust that sways them more,
 //   then dies down. A string glows along its length while the cursor is over it.
 // - Click or tap sends a soft wave outward that bends the streaks and shifts their colours as it passes. Now and then one comes by itself.
