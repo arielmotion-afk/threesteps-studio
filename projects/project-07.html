@@ -64,7 +64,7 @@
     .lc-shot { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
     .lc-shot.is-on { display: block; }
     /* Fabric gradient: the shader from the v1 homepage hero, as a clickable piece */
-    .fabric-frame { position: relative; width: 100%; max-width: 1120px; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(135deg, #E4E9F1, #FFC7C2 45%, #E9D6FF); cursor: crosshair; }
+    .fabric-frame { position: relative; width: 100%; max-width: 1120px; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(135deg, #15100A, #3A2A16 60%, #241A0E); cursor: crosshair; }
     .fabric-frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
     .orb-cta { margin-top: 20px; display: inline-flex; padding: 12px 22px; border-radius: 999px; background: var(--text); color: var(--bg); font-size: 0.875rem; font-weight: 500; text-decoration: none; transition: transform .25s cubic-bezier(.2,0,0,1); }
     .orb-cta:hover { transform: translateY(-2px); }
@@ -149,10 +149,10 @@
       <div class="lottie-section">
         <div class="lottie-section-header">
           <h2 class="lottie-section-title">Fabric Gradient</h2>
-          <p class="lottie-section-desc">A WebGL shader of shot silk. A new colour bleeds across it every few seconds; click or tap to start one. The light follows your cursor, and dragging pulls the folds.</p>
+          <p class="lottie-section-desc">A WebGL shader. Streaks of prism light on a dark ground, crossing toward a soft glow. They sway like cords in a light wind. Moving the cursor stirs up a gust and lights up the strings it passes over; a click or tap sends a slow wave through them that shifts the colours.</p>
         </div>
         <div class="orb-section">
-          <div class="fabric-frame" id="hero-fabric" data-variant="rich"><canvas id="hero-fabric-gl"></canvas></div>
+          <div class="fabric-frame" id="hero-fabric" data-palette="gold"><canvas id="hero-fabric-gl"></canvas></div>
           <p class="orb-caption">Move and click</p>
         </div>
       </div>
@@ -184,7 +184,7 @@
     });
   </script>
   <script src="../js/main.js?v=3"></script>
-  <script src="../js/hero-fabric.js?v=4"></script>
+  <script src="../js/hero-fabric.js?v=11"></script>
 
   <script>
   // Voice orb: state chips drive the orb iframe. The mic is only requested on first "Listening".

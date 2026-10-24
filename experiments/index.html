@@ -39,7 +39,7 @@
   .lab-meta .mono { color: var(--muted); }
   .lab-desc { color: var(--ink-2); margin-top: 4px; max-width: 52ch; }
   .lab-media--rive { background: #110920; }
-  .lab-media--fabric { background: linear-gradient(135deg, #E4E9F1, #FFC7C2 45%, #E9D6FF); }
+  .lab-media--fabric { background: linear-gradient(135deg, #15100A, #3A2A16 60%, #241A0E); }
   .lab-media .mini-orb-stage { background: transparent; }
   .lab-media .mini-orb { width: 34%; }
   /* live preview: the real page at 1600px wide, scaled down to the tile; clicks go to the tile's link */
@@ -77,7 +77,7 @@
       <p class="lab-desc">A one-page site of WebGL loading animations, hung like exhibits on alternating black and white walls. Each loader reacts to the cursor.</p>
     </a>
     <a class="lab-item" href="nightshade/">
-      <div class="lab-media"><span class="lab-tag lab-tag--new">New</span><img src="nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels"></div>
+      <div class="lab-media lab-media--live"><span class="lab-tag lab-tag--new">New</span><img src="nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels"><iframe class="lab-live" data-always data-src="nightshade/scenes/?s=folly_midnight&amp;embed&amp;cover" title="Nightshade, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div>
       <div class="lab-meta"><h2>Nightshade</h2><span class="mono">In progress</span></div>
       <p class="lab-desc">Visual tests for a small murder-mystery game. Twelve night scenes, each built as a simple 3D room and lit in WebGL: moonlight, fire, fog, rain. The page goes from the first pixel drafts to the current scenes.</p>
     </a>
@@ -93,9 +93,9 @@
       <p class="lab-desc">A stack of soft shapes with idle breathing. Poke it three times and it topples and rebuilds.</p>
     </div>
     <div class="lab-item">
-      <div class="lab-media lab-media--fabric" id="hero-fabric" data-variant="rich"><span class="lab-tag">WebGL</span><canvas id="hero-fabric-gl"></canvas></div>
+      <div class="lab-media lab-media--fabric" id="hero-fabric" data-palette="gold"><span class="lab-tag">WebGL</span><canvas id="hero-fabric-gl"></canvas></div>
       <div class="lab-meta"><h2>Fabric Gradient</h2><span class="mono">WebGL shader</span></div>
-      <p class="lab-desc">Shot silk. A new colour bleeds across it every few seconds; click or tap to start one. The light follows the cursor, and dragging pulls the folds.</p>
+      <p class="lab-desc">Streaks of prism light on a dark ground, crossing toward a soft glow. They sway like cords in a light wind. Moving the cursor stirs up a gust and lights up the strings it passes over; a click or tap sends a slow wave through them that shifts the colours.</p>
     </div>
   </div>
 </main>
@@ -112,10 +112,23 @@
 <script>
   // Live preview for the lead tile: load the page only when the tile is near the screen, keep it scaled to the tile.
   (function () {
-    const f = document.querySelector('.lab-live'); if (!f) return;
+    const f = document.querySelector('.lab-live:not([data-always])'); if (!f) return;
     const box = f.parentElement, fit = () => { const w = box.clientWidth, h = box.clientHeight, k = Math.max(w / 1600, h / 1000); f.style.height = '1000px'; f.style.transform = 'translate(' + (w - 1600 * k) / 2 + 'px,' + (h - 1000 * k) / 2 + 'px) scale(' + k + ')'; };  // same crop as the cover image (1600x1000, object-fit: cover), so nothing jumps when it fades in
     fit(); addEventListener('resize', fit);
     new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { f.src = f.dataset.src; addEventListener('message', (e) => { if (e.source === f.contentWindow && e.data === 'aw-ready') f.classList.add('on'); }); io.disconnect(); } }, { rootMargin: '300px' }).observe(box);
+  }());
+</script>
+<script>
+  // Nightshade tile: its live scene plays all the time (same as the homepage card). Loads near the screen, sleeps when scrolled away.
+  (function () {
+    const f = document.querySelector('.lab-live[data-always]'); if (!f || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const box = f.parentElement, fit = () => { const w = box.clientWidth, h = box.clientHeight, k = Math.max(w / 1600, h / 1000); f.style.height = '1000px'; f.style.transform = 'translate(' + (w - 1600 * k) / 2 + 'px,' + (h - 1000 * k) / 2 + 'px) scale(' + k + ')'; };  // same crop as the cover image
+    fit(); addEventListener('resize', fit);
+    addEventListener('message', (e) => { if (e.source === f.contentWindow && e.data === 'aw-ready') f.classList.add('on'); });
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !f.src) f.src = f.dataset.src;
+      if (f.contentWindow) f.contentWindow.postMessage({ nightshade: e.isIntersecting ? 'wake' : 'sleep' }, '*');
+    }, { rootMargin: '300px' }).observe(box);
   }());
 </script>
 <script src="https://unpkg.com/@rive-app/webgl2@2"></script>
@@ -128,7 +141,7 @@
 </script>
 <script src="../js/fabric-glass.js"></script>
 <script src="../js/v2.js?v=3"></script>
-<script src="../js/hero-fabric.js?v=4"></script>
+<script src="../js/hero-fabric.js?v=11"></script>
 <script src="../js/bubbles.js?v=9"></script>
 <script>
   Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
