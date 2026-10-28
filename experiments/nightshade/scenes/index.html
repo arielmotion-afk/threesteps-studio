@@ -47,12 +47,20 @@
   <script src="s10-forest.js"></script>
   <script src="s11-fire.js"></script>
   <script src="s12-dawn.js"></script>
+  <script src="t0-lettering.js"></script>
+  <script src="t2-door.js"></script>
+  <script src="t3-pines.js"></script>
+  <script src="t4-orchid.js"></script>
+  <script src="t5-station.js"></script>
   <script>
     // ←/→ pages · H hide text · P pause · R resolution · C cover/contain
     const ORDER = ["guest_room_dusk", "stairs_dark", "reading_room", "parlor_evening", "parlor_fork", "kitchen", "rival_room", "garden_night", "niece_room", "forest_night", "folly_midnight", "lawn_sunrise"];
     // Mobile: on a tall screen (or with ?m) show each scene's portrait version (<id>_m) on a portrait
     // stage; scenes without one yet are left out. ?d forces desktop.
     const Q = new URLSearchParams(location.search);
+    // ?titles: the title pages come in as chapter cards, each before the scene it opens.
+    if (Q.has("titles")) for (const [t, before] of [["title_reading_door", "reading_room"], ["title_pines", "forest_night"], ["title_orchid_house", "lawn_sunrise"]]) ORDER.splice(ORDER.indexOf(before), 0, t);
+    if (Q.has("titles")) ORDER.push("title_station");
     const MOBILE = Q.has("m") || (!Q.has("d") && innerHeight > innerWidth);
     const vid = (id) => (MOBILE ? id + "_m" : id);
     const list = ORDER.map((id) => SCENES.find((s) => s.id === vid(id))).filter(Boolean);
