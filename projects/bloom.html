@@ -30,16 +30,17 @@
   :root { --iris: #2E2A6B; --iris-card: #3D3986; --iris-fg: #F1EEFF; --iris-sub: #B9B3E6;
     --b-pink: #FFB3C7; --b-butter: #FFE58A; --b-tang: #FF8A4C; --b-sky: #A9D8FF; --ease-ios: cubic-bezier(.32, .72, 0, 1); }
   .show { margin-top: 28px; }
-  .steps { display: flex; justify-content: center; gap: 6%; padding: 56px 6% 40px; }
-  .steps figure { margin: 0; width: 22%; text-align: center; }
-  .steps figcaption { margin-top: 18px; font-family: var(--label); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--iris-fg); opacity: .75; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .steps figure { margin: 0; }
+  .steps img, .steps video { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: #FCE6EC; }
+  .steps figcaption { margin-top: 10px; font-family: var(--label); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
   .cast-v { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
   @media (max-width: 640px) { .cast-v { aspect-ratio: 2 / 3; } }
   .headers { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .headers img { display: block; width: 100%; height: auto; }
   .palette { display: flex; justify-content: center; gap: 8%; padding: 56px 0 40px; background: var(--iris); }
   .palette figure { width: 21%; margin: 0; text-align: center; }
-  .palette .iphone, .steps .iphone { position: relative; box-shadow: inset 0 0 0 2px #5b5b62, inset 0 0 0 5px #1f1f23, 0 30px 60px rgba(8, 5, 40, .45); }
+  .palette .iphone { position: relative; box-shadow: inset 0 0 0 2px #5b5b62, inset 0 0 0 5px #1f1f23, 0 30px 60px rgba(8, 5, 40, .45); }
   .palette figcaption { margin-top: 16px; font-family: var(--label); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--iris-fg); opacity: .75; }
   .panel { background: var(--iris); color: var(--iris-fg); position: relative; overflow: hidden; }
   .cs-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
@@ -133,8 +134,7 @@
     .stage--bloom .logo { left: 50%; top: 6%; width: 70%; transform: translateX(-50%); }
     .stage--bloom .iphone { left: 22%; top: 30%; width: 56%; }
     .headers { grid-template-columns: 1fr; gap: 10px; }
-    .steps { gap: 4%; padding: 32px 4% 24px; }
-    .steps figure { width: 30%; }
+    .steps { gap: 8px; }
     .palette figure { width: 38%; }
     .palette { padding: 36px 0 28px; }
     .face--moon { width: 18%; left: 3%; top: 48%; }
@@ -245,10 +245,10 @@
         <p>The steps moved to photographs from one fixed setup, so 12 stills cover all 18 steps. Moves that depend on a path, like eye circles, get a short video.</p>
       </div>
     </section>
-    <div class="panel steps show">
-      <figure><div class="iphone"><div class="scr"><img src="../images/process/bloom/player-drawing.webp" alt="The exercise player with the Lymph sweep step as a drawing" loading="lazy"></div></div><figcaption>Drawing</figcaption></figure>
-      <figure><div class="iphone"><div class="scr"><img src="../images/process/bloom/player-photo.webp" alt="The exercise player with the Lymph sweep step as a photo" loading="lazy"></div></div><figcaption>Photo</figcaption></figure>
-      <figure><div class="iphone"><div class="scr"><video src="../images/process/bloom/player-video.mp4" poster="../images/process/bloom/player-video-poster.jpg" muted loop playsinline autoplay aria-label="The exercise player with the Eye circles step as a video"></video></div></div><figcaption>Video</figcaption></figure>
+    <div class="steps show">
+      <figure><img src="../images/process/bloom/drawn-sweep-2.webp" alt="Lymph sweep, drawn: an illustrated character with fingers on the forehead" loading="lazy"><figcaption>Drawing</figcaption></figure>
+      <figure><img src="../images/process/bloom/photo-sweep-2.webp" alt="Lymph sweep, photographed: fingers on the forehead" loading="lazy"><figcaption>Photo</figcaption></figure>
+      <figure><video src="../images/process/bloom/exercise-circles.mp4" poster="../images/process/bloom/exercise-circles-poster.jpg" muted loop playsinline autoplay aria-label="Eye circles: fingers trace circles around the eyes"></video><figcaption>Video</figcaption></figure>
     </div>
 
     <section class="block">
