@@ -324,7 +324,12 @@
     var dlg = document.querySelector('.app-view'); if (!dlg || !dlg.showModal) return;
     var desk = matchMedia('(min-width: 861px) and (hover: hover)');
     var f = dlg.querySelector('iframe'), scr = dlg.querySelector('.scr');
-    function fit() { f.style.transform = 'scale(' + scr.clientWidth / 390 + ')'; }
+    // The app starts below the dynamic island (a 47pt band, like the top safe area on a real iPhone) and keeps its
+    // full 390 × 844 layout, scaled to fit the rest; the thin side margins are the same blue-violet, so they don't show.
+    function fit() {
+      var k = scr.clientWidth / 390, top = 47 * k, k2 = (scr.clientHeight - top) / 844;
+      f.style.transform = 'translate(' + (scr.clientWidth - 390 * k2) / 2 + 'px,' + top + 'px) scale(' + k2 + ')';
+    }
     document.querySelectorAll('a[href^="https://bloom.arielmotion.workers.dev"]').forEach(function (a) {
       a.addEventListener('click', function (e) {
         if (!desk.matches) return;           // phones open the app itself
