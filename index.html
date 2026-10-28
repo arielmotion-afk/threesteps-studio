@@ -90,10 +90,6 @@
 
   /* ─── Work: featured case study, then a uniform 2-up grid ─── */
   .work-head { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 40px; }
-  .filters { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); position: relative; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
-  .filters button { position: relative; z-index: 1; border: 0; background: none; padding: 8px 16px; border-radius: 999px; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: color var(--dur-short) var(--ease-standard); }
-  .filters button.on { color: #fff; }
-  .filters .pill { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 999px; background: var(--ink); transition: transform var(--dur-medium) var(--ease-emphasized), width var(--dur-medium) var(--ease-emphasized); }
 
   .cases { display: grid; grid-template-columns: 1fr 1fr; gap: 56px var(--gutter); }
   .case { display: flex; flex-direction: column; gap: 14px; }
@@ -272,17 +268,11 @@
   <section class="section wrap" id="work">
     <div class="work-head">
       <h2 class="h2">Work</h2>
-      <div class="filters" id="filters">
-        <span class="pill"></span>
-        <button class="on" data-f="all">All</button>
-        <button data-f="motion">Motion Design</button>
-      </div>
     </div>
 
-    <!-- Ordered by how strong the still frame is, not by case-study status. One full-width card (data-featured)
-         breaks the grid in the middle, never first. Under a filter it shrinks to a normal card, and if the count
-         is odd the last card stretches full width (see the filter script), so rows are always complete.
-         Filter: data-track="motion" (Motion Design). Bloom has data-track="brand" for a Brand & Identity filter later. Interactive work has its own row below. -->
+    <!-- Ordered by how strong the still frame is, not by case-study status. One full-width card (case--featured)
+         breaks the grid in the middle, never first; keep the other cards an even number so rows are complete.
+         data-track is kept on each card (motion / brand) in case filters come back. Interactive work has its own row below. -->
     <div class="cases">
       <a class="case rv" data-track="motion" href="projects/notch-voice-assistant.html">
         <div class="case-shell"><div class="case-media case-media--light"><span class="tag cs">Case study</span>
@@ -494,7 +484,6 @@
     const queue = () => { if (!queued) { queued = true; setTimeout(pick, 120); } };   // at most ~8 checks a second while scrolling
     addEventListener('scroll', queue, { capture: true, passive: true });   // capture also catches the sideways swipe rows
     addEventListener('resize', queue);
-    document.getElementById('filters')?.addEventListener('click', () => setTimeout(queue, 450));
     queue();
   })();
 
@@ -629,25 +618,6 @@
     wi = (wi + 1) % words.length;
   }, 2600);
 
-  // Case filter with sliding pill
-  const fwrap = document.getElementById('filters'), pill = fwrap.querySelector('.pill');
-  const fbtns = fwrap.querySelectorAll('button');
-  function movePill(b) { pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft}px)`; }
-  fbtns.forEach((b) => b.addEventListener('click', () => {
-    fbtns.forEach((x) => x.classList.toggle('on', x === b)); movePill(b);
-    const all = b.dataset.f === 'all', cards = [...document.querySelectorAll('#work .case')];
-    cards.forEach((c) => {
-      const show = all || c.dataset.track.split(' ').includes(b.dataset.f);
-      c.classList.toggle('is-hidden', !show);
-      // full width: only the planned card under All; under a filter, only the last card when the count is odd
-      c.classList.toggle('case--featured', all && c.hasAttribute('data-featured'));
-      if (show) c.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 400, easing: ease });
-    });
-    const shown = cards.filter((c) => !c.classList.contains('is-hidden'));
-    if (!all && shown.length % 2) shown[shown.length - 1].classList.add('case--featured');
-  }));
-  addEventListener('load', () => movePill(fwrap.querySelector('button.on')));
-  addEventListener('resize', () => movePill(fwrap.querySelector('button.on')));
 
 
   // Pause live pieces while they're off screen
