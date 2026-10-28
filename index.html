@@ -137,6 +137,18 @@
 
 
 
+  /* ─── Design & code: second to motion, so smaller cards, three to a row ─── */
+  .dc-head { gap: 24px; }
+  .dc-lede { font-size: 17px; color: var(--ink-2); max-width: 52ch; margin-top: 14px; }
+  .dc-all { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 14px; font-weight: 500; white-space: nowrap;
+    transition: background var(--dur-short) var(--ease-standard), color var(--dur-short) var(--ease-standard); }
+  .dc-all:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .dc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
+  .dc .case-meta h3 { font-size: 17px; }
+  .dc .bloom-phones { gap: 5%; padding-top: 7%; }
+  .dc .bloom-phones span { flex-basis: 24%; }
+  .dc .bloom-phones span:nth-child(odd) { margin-top: 9%; }
+
   /* ─── Earlier work: a quiet horizontal scroller in the same card language ─── */
   .rail-head { flex-direction: row; justify-content: space-between; align-items: flex-end; }
   .rail-nav { display: flex; gap: 8px; }
@@ -156,14 +168,14 @@
   .mini h4 { font-family: var(--head); font-size: 15px; font-weight: 800; letter-spacing: 0; }
 
   /* ─── About ─── */
-  .about { max-width: 920px; }
+  .about { max-width: none; }
   .who { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
   .avatar { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; flex: none; }
   .avatar img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); }
   .who b { display: block; font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
   .who span { font-family: var(--label); font-size: 12px; color: var(--muted); }
   .about > p { font-size: var(--fs-intro); line-height: 1.45; color: var(--ink-2); max-width: 56ch; }
-  .caps { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); margin-top: 48px; }
+  .caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); margin-top: 48px; }
   .caps h4 { font-family: var(--label); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; padding-bottom: 12px; border-bottom: 1px solid var(--ink); margin-bottom: 4px; }
   .caps li { list-style: none; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px; display: flex; justify-content: space-between; gap: 12px; }
   .caps li span { font-family: var(--label); font-size: 11px; color: var(--muted); }
@@ -172,6 +184,11 @@
     .case-meta h3 { font-size: 19px; }
     .hero { padding-top: 40px; }
     .caps, .cases { grid-template-columns: 1fr; }
+    .dc-head { flex-direction: column; align-items: flex-start; }
+    .dc-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); scroll-padding: 0 var(--gutter); }
+    .dc-grid::-webkit-scrollbar { display: none; }
+    .dc-grid > .case { flex: 0 0 78%; scroll-snap-align: start; }
+    .dc-grid > .rv { transform: none; }
     .minis > .mini { flex-basis: 78%; }
     .case--featured .case-media { aspect-ratio: 16 / 10; }
     .case--featured .mini-orb { width: 40%; }
@@ -260,90 +277,97 @@
         <button class="on" data-f="all">All</button>
         <button data-f="product">Product</button>
         <button data-f="marketing">Marketing</button>
-        <button data-f="vibe">Vibe coding</button>
       </div>
     </div>
 
+    <!-- Motion first. One full-width card opens and one closes the grid; the six between pair up under every filter
+         (All 6 · Marketing 4 · Product 2), so no card is ever left alone in a row. -->
     <div class="cases">
-      <!-- Bloom: an app I designed and built with AI. Full width, so the grid stays even under every filter.
-           data-track can list several filters (space-separated). -->
-      <a class="case case--featured rv" data-track="product vibe" href="projects/bloom.html">
-        <div class="case-shell"><div class="case-media case-media--bloom"><span class="tag cs">Case study</span>
-          <div class="bloom-phones" aria-hidden="true">
-            <span><img src="images/process/bloom/screen-player-tap.webp" alt="" loading="lazy"></span>
-            <span><video src="images/process/bloom/bloom-demo.mp4" poster="images/process/bloom/bloom-demo-poster.jpg" autoplay muted loop playsinline></video></span>
-            <span><img src="images/process/bloom/screen-skin-am.webp" alt="" loading="lazy"></span>
-            <span><img src="images/process/bloom/screen-track.webp" alt="" loading="lazy"></span>
-          </div>
+      <a class="case case--featured rv" data-track="marketing" href="projects/project-02.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <video src="images/thumbnails/video/maestro.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/maestro-poster.jpg"></video>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Bloom</h3><span class="mono">Vibe coding · App</span></div>
-      </a>
-      <a class="case rv" data-track="product" href="projects/notch-voice-assistant.html">
-        <div class="case-shell"><div class="case-media case-media--light"><span class="tag cs">Case study</span>
-          <div class="mini-orb-stage"><div class="mini-orb"></div></div>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Notch Voice Assistant</h3><span class="mono">Code animation</span></div>
+        <div class="case-meta"><h3>AI21 Maestro</h3><span class="mono">Launch film · Motion graphics</span></div>
       </a>
       <a class="case rv" data-track="product" href="projects/dex-loader.html">
         <div class="case-shell"><div class="case-media"><span class="tag cs">Case study</span>
           <video src="images/process/dex/onboarding-discovery.mp4" autoplay muted loop playsinline poster="images/process/dex/onboarding-discovery-poster.jpg" style="object-position: 35% center"></video>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Dex Loader</h3><span class="mono">Lottie</span></div>
-      </a>
-      <!-- Experiments: one card for all code/interactive pieces. Its image is the newest experiment that doesn't have its own card. -->
-      <a class="case rv" data-track="product" href="experiments/">
-        <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">Experiments · 5</span>
-          <img src="experiments/art-of-waiting/cover.webp?v=3" alt="The Art of Waiting, an experiment" loading="lazy">
-          <iframe class="exp-live" data-src="experiments/art-of-waiting/?preview" title="The Art of Waiting, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Experiments</h3><span class="mono">WebGL · Claude Code</span></div>
-      </a>
-      <a class="case rv" data-track="product" href="projects/project-08.html">
-        <div class="case-shell"><div class="case-media"><span class="tag">Product</span>
-          <video src="videos/imagen-01-desktop.mp4" autoplay muted loop playsinline poster="images/thumbnails/imagen-01-desktop-poster.jpg" style="object-position: left bottom"></video>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Product &amp; web animations</h3><span class="mono">Lottie</span></div>
-      </a>
-      <!-- Nightshade: full width, so the two-column grid stays even under every filter. -->
-      <a class="case case--featured rv" data-track="product vibe" href="experiments/nightshade/">
-        <div class="case-shell"><div class="case-media case-media--exp"><span class="tag cs">Case study</span>
-          <img src="experiments/nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels" loading="lazy">
-          <iframe class="exp-live" data-always data-src="experiments/nightshade/scenes/?s=folly_midnight&amp;embed&amp;cover" title="Nightshade, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Nightshade</h3><span class="mono">WebGL · In progress</span></div>
-      </a>
-      <!-- The Art of Waiting: shown only under "Vibe coding" (under All it's already the Experiments card's cover).
-           To add a vibe-coded project: give its card data-track="... vibe"; full width keeps the filtered grid even. -->
-      <a class="case case--featured rv is-hidden" data-track="vibe" data-filter-only href="experiments/art-of-waiting/">
-        <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">Experiment</span>
-          <img src="experiments/art-of-waiting/cover.webp?v=3" alt="The Art of Waiting: grey glowing spheres on black" loading="lazy">
-          <iframe class="exp-live" data-src="experiments/art-of-waiting/?preview" title="The Art of Waiting, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>The Art of Waiting</h3><span class="mono">Vibe coding · WebGL loaders</span></div>
-      </a>
-      <a class="case rv" data-track="marketing" href="projects/project-02.html">
-        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
-          <video src="images/thumbnails/video/maestro.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/maestro-poster.jpg"></video>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>AI21 Maestro</h3><span class="mono">Motion graphics</span></div>
+        <div class="case-meta"><h3>Dex Loader</h3><span class="mono">Product motion · Lottie</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-12.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
           <video src="images/thumbnails/video/notch.mp4" autoplay muted loop playsinline poster="images/thumbnails/notch%20thumbnail.png"></video>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Notch</h3><span class="mono">Motion graphics</span></div>
+        <div class="case-meta"><h3>Notch</h3><span class="mono">Product videos · Motion graphics</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-15.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
           <video src="images/thumbnails/video/yaap.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/yaap-poster.jpg"></video>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>YAAP</h3><span class="mono">Motion graphics · Video</span></div>
+        <div class="case-meta"><h3>YAAP</h3><span class="mono">Title design · Video</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-13.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
           <img src="images/thumbnails/elementor.gif" alt="">
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Elementor</h3><span class="mono">Motion graphics · AI</span></div>
+        <div class="case-meta"><h3>Elementor</h3><span class="mono">Brand retainer · Motion · AI</span></div>
+      </a>
+      <a class="case rv" data-track="product" href="projects/project-08.html">
+        <div class="case-shell"><div class="case-media"><span class="tag">Product</span>
+          <video src="videos/imagen-01-desktop.mp4" autoplay muted loop playsinline poster="images/thumbnails/imagen-01-desktop-poster.jpg" style="object-position: left bottom"></video>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Product &amp; web animations</h3><span class="mono">Lottie · Web</span></div>
+      </a>
+      <a class="case rv" data-track="marketing" href="projects/project-01.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <video src="images/thumbnails/video/island.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/island-poster.jpg"></video>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Island</h3><span class="mono">Product video · Motion graphics</span></div>
+      </a>
+      <a class="case case--featured rv" data-track="product" href="projects/notch-voice-assistant.html">
+        <div class="case-shell"><div class="case-media case-media--light"><span class="tag cs">Case study</span>
+          <div class="mini-orb-stage"><div class="mini-orb"></div></div>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Notch Voice Assistant</h3><span class="mono">Product motion · WebGL</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═════════ DESIGN & CODE: second to motion. Apps, games and web pieces designed and built with AI.
+       To add one: copy a card below; three per row on desktop, a swipe row on phones. ═════════ -->
+  <section class="section wrap" id="design-code">
+    <div class="work-head rail-head dc-head">
+      <div>
+        <h2 class="h2">Design &amp; code</h2>
+        <p class="dc-lede">Apps and interactive pieces I design and build myself with AI (vibe coding): the interface, the illustration, the motion and the code.</p>
+      </div>
+      <a class="dc-all" href="experiments/">All experiments<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+    </div>
+    <div class="dc-grid">
+      <a class="case dc rv" href="projects/bloom.html">
+        <div class="case-shell"><div class="case-media case-media--bloom"><span class="tag cs">Case study</span>
+          <div class="bloom-phones" aria-hidden="true">
+            <span><img src="images/process/bloom/screen-skin-am.webp" alt="" loading="lazy"></span>
+            <span><video src="images/process/bloom/bloom-demo.mp4" poster="images/process/bloom/bloom-demo-poster.jpg" autoplay muted loop playsinline></video></span>
+            <span><img src="images/process/bloom/screen-track.webp" alt="" loading="lazy"></span>
+          </div>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Bloom</h3><span class="mono">App · UI · Illustration</span></div>
+      </a>
+      <a class="case dc rv" href="experiments/nightshade/">
+        <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">In progress</span>
+          <img src="experiments/nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels" loading="lazy">
+          <iframe class="exp-live" data-always data-src="experiments/nightshade/scenes/?s=folly_midnight&amp;embed&amp;cover" title="Nightshade, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Nightshade</h3><span class="mono">Game visuals · WebGL</span></div>
+      </a>
+      <a class="case dc rv" href="experiments/art-of-waiting/">
+        <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">Experiment</span>
+          <img src="experiments/art-of-waiting/cover.webp?v=3" alt="The Art of Waiting: grey glowing spheres on black" loading="lazy">
+          <iframe class="exp-live" data-src="experiments/art-of-waiting/?preview" title="The Art of Waiting, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>The Art of Waiting</h3><span class="mono">Web · WebGL loaders</span></div>
       </a>
     </div>
   </section>
@@ -359,8 +383,7 @@
     </div>
     <div class="minis" id="rail" tabindex="0" aria-label="Earlier work">
       <a class="mini rv" href="projects/project-03.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/jamba.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/jamba-poster.jpg"></video></div></div><div class="case-meta"><h4>Jamba</h4><span class="mono">Motion graphics</span></div></a>
-      <a class="mini rv" href="projects/project-01.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/island.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/island-poster.jpg"></video></div></div><div class="case-meta"><h4>Island.io</h4><span class="mono">Motion graphics</span></div></a>
-      <a class="mini rv" href="projects/project-11.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/noma.png" alt=""></div></div><div class="case-meta"><h4>Noma</h4><span class="mono">Motion graphics</span></div></a>
+            <a class="mini rv" href="projects/project-11.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/noma.png" alt=""></div></div><div class="case-meta"><h4>Noma</h4><span class="mono">Motion graphics</span></div></a>
       <a class="mini rv" href="ugc.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/ugc.mp4" autoplay muted loop playsinline poster="images/thumbnails/ugc-thumbnail.png"></video></div></div><div class="case-meta"><h4>AI-UGC</h4><span class="mono">Paid social</span></div></a>
       <a class="mini rv" href="projects/project-04.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/sounds%20familiar%20thumbnail.png" alt=""></div></div><div class="case-meta"><h4>Wordtune</h4><span class="mono">Motion graphics</span></div></a>
       <a class="mini rv" href="projects/project-10.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/dont%20sweat%20it.png" alt=""></div></div><div class="case-meta"><h4>Wordtune: Don't Sweat It</h4><span class="mono">Motion graphics</span></div></a>
@@ -375,7 +398,7 @@
         <div class="avatar"><img src="images/profile-black.png" alt="Ariel Paz"></div>
         <div><b>Ariel Paz</b><span>Motion designer · Three Steps Studio</span></div>
       </div>
-      <p>Motion designer with a BA in Visual Communications and 9+ years of experience in brand films, product videos, UGC, AI-generated content and UI motion. Off screen, I like cooking, hiking and cats.</p>
+      <p>Motion designer with a BA in Visual Communications and 9+ years of experience in brand films, product videos, UGC, AI-generated content and UI motion. I also design and build apps and interactive pieces with AI. Off screen, I like cooking, hiking and cats.</p>
       <div class="caps">
         <div>
           <h4>Product motion</h4>
@@ -395,6 +418,16 @@
             <li>AI-UGC &amp; generative video <span>pipelines</span></li>
             <li>Editing &amp; sound <span>Premiere</span></li>
             <li>Brand motion systems <span>toolkits</span></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Design &amp; code</h4>
+          <ul>
+            <li>Graphic design &amp; layout <span>BA Vis. Comm.</span></li>
+            <li>App &amp; UI design <span>Figma · code</span></li>
+            <li>Illustration &amp; characters <span>SVG</span></li>
+            <li>AI image &amp; video direction <span>ChatGPT · Kling · Veo</span></li>
+            <li>Apps &amp; sites with AI <span>Claude Code</span></li>
           </ul>
         </div>
       </div>
@@ -555,8 +588,8 @@
   function movePill(b) { pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft}px)`; }
   fbtns.forEach((b) => b.addEventListener('click', () => {
     fbtns.forEach((x) => x.classList.toggle('on', x === b)); movePill(b);
-    document.querySelectorAll('.case').forEach((c) => {
-      const show = (b.dataset.f === 'all' && !c.hasAttribute('data-filter-only')) || c.dataset.track.split(' ').includes(b.dataset.f);
+    document.querySelectorAll('#work .case').forEach((c) => {
+      const show = b.dataset.f === 'all' || c.dataset.track.split(' ').includes(b.dataset.f);
       c.classList.toggle('is-hidden', !show);
       if (show) c.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 400, easing: ease });
     });
