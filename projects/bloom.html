@@ -30,6 +30,10 @@
   :root { --iris: #2E2A6B; --iris-card: #3D3986; --iris-fg: #F1EEFF; --iris-sub: #B9B3E6;
     --b-pink: #FFB3C7; --b-butter: #FFE58A; --b-tang: #FF8A4C; --b-sky: #A9D8FF; --ease-ios: cubic-bezier(.32, .72, 0, 1); }
   .show { margin-top: 28px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .steps figure { margin: 0; }
+  .steps img, .steps video { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: #FCE6EC; }
+  .steps figcaption { margin-top: 10px; font-family: var(--label); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
   .cast-v { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
   @media (max-width: 640px) { .cast-v { aspect-ratio: 2 / 3; } }
   .headers { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -42,7 +46,6 @@
   .btn { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; font-weight: 600; background: var(--iris); color: var(--iris-fg);
     transition: background var(--dur-short) var(--ease-standard), transform var(--dur-short) var(--ease-standard); }
   .btn:hover { background: #3A3584; } .btn:active { transform: scale(.97); }
-  .facts { grid-template-columns: repeat(3, 1fr); }
 
   /* Phone screens: no device chrome, just the screen with iPhone-like corners */
   .phone { display: block; aspect-ratio: 390 / 844; border-radius: 13% / 6%; overflow: hidden; background: var(--iris);
@@ -52,14 +55,13 @@
   /* ─── Stage: the app in use (a real screen recording) between two stills ─── */
   /* Banner: the logotype large on the left, the tilted phone on the right, stickers in the corners */
   .stage--bloom { aspect-ratio: 16 / 9; }
-  .stage--bloom .logo { position: absolute; left: 6%; top: 46%; width: 52%; height: auto; transform: translateY(-50%); }
+  .stage--bloom .logo { position: absolute; left: 6%; top: 44%; width: 50%; height: auto; transform: translateY(-50%); }
   .stage--bloom .phone--main { position: absolute; left: 61%; top: 8%; width: 20%; transform: rotate(-6deg); z-index: 1; }
   /* the three header stickers around the phone (a canvas keys the clip's blue-violet out, see the script at the end) */
   .stk { position: absolute; aspect-ratio: 1; object-fit: cover; }
   .stk-src { opacity: 0; pointer-events: none; }   /* the clip only feeds the canvas drawn over it */
-  .stk--sprout { width: 12%; left: 9%; top: 72%; rotate: -8deg; }
   .stk--sun { width: 14%; right: 2%; top: 4%; }
-  .stk--moon { width: 11%; right: 3%; top: 66%; rotate: 6deg; }
+  .stk--moon { width: 11%; left: 30%; top: 66%; rotate: 6deg; }
   .qr { display: flex; align-items: center; gap: 10px; padding: 6px 12px 6px 6px; border-radius: 14px; background: var(--iris-fg); color: var(--iris); }
   .cs-actions { align-items: center; }
   .qr img { width: 52px; height: 52px; }
@@ -114,14 +116,14 @@
   @media (max-width: 860px) {
     .facts { grid-template-columns: 1fr 1fr; }
     .stage--bloom { aspect-ratio: 3 / 4; }
-    .stage--bloom .logo { left: 50%; top: 4%; width: 78%; transform: translateX(-50%); }
+    .stage--bloom .logo { left: 50%; top: 6%; width: 74%; transform: translateX(-50%); }
     .stage--bloom .phone--main { left: 50%; top: 29%; width: 46%; transform: translateX(-50%) rotate(-5deg); }
     .headers { grid-template-columns: 1fr; gap: 10px; }
+    .steps { gap: 8px; }
     .palette figure { width: 38%; }
     .palette { padding: 36px 0 28px; }
-    .stk--sprout { width: 19%; left: 4%; top: 50%; }
-    .stk--sun { width: 21%; right: 2%; top: 36%; }
-    .stk--moon { width: 18%; right: 5%; top: 72%; }
+    .stk--sun { width: 21%; right: 2%; top: 38%; }
+    .stk--moon { width: 18%; left: 4%; top: 60%; }
     .qr { display: none; }   /* already on a phone: the button does it */
     .motion { grid-template-columns: 1fr; padding: 24px 20px; gap: 24px; }
     .motion .phone { width: 62%; margin: 0 auto; }
@@ -154,35 +156,42 @@
     <a href="../index.html#work" class="back">← All work</a>
     <div class="eyebrow" style="margin-bottom:16px"><b>App identity</b> · Case study</div>
     <h1 class="cs-title">Dewy</h1>
-    <p class="cs-summary">A face yoga and skincare app, designed end to end: illustration, lettering, colour, interface and motion.</p>
+    <p class="cs-summary">Dewy is a face yoga and skincare app I designed for my own daily routine. I created its identity, a cast of animated sticker characters, the lettering and the interface. It’s live, and it sits on my Home Screen.</p>
     <div class="cs-actions">
       <a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
       <a class="qr" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener"><img src="../images/process/bloom/qr-bloom.svg" alt="QR code for bloom.arielmotion.workers.dev"><span><b>Try it</b>Scan to open on your phone</span></a>
     </div>
     <dl class="facts">
+      <div><dt>Project</dt><dd>Personal</dd></div>
       <div><dt>Role</dt><dd>Identity · illustration · UI · motion</dd></div>
+      <div><dt>Scope</dt><dd>Logotype · 9 characters · 4 headers</dd></div>
       <div><dt>Year</dt><dd>2026</dd></div>
     </dl>
   </header>
 
   <div class="wrap">
     <div class="stage stage--bloom panel">
-      <img class="logo" src="../images/process/bloom/dewy-logo.png" alt="Dewy" width="1006" height="554">
+      <img class="logo" src="../images/process/bloom/dewy-lockup.png" alt="Dewy" width="1011" height="360">
       <span class="phone phone--main"><video src="../images/process/bloom/bloom-demo.mp4" poster="../images/process/bloom/bloom-demo-poster.jpg" muted loop playsinline autoplay aria-label="Screen recording: playing an exercise, ticking skincare steps, switching to evening, opening the streak calendar"></video></span>
-      <video class="stk stk--sprout stk-src" src="../images/process/bloom/sticker-sprout.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
       <video class="stk stk--sun stk-src" src="../images/process/bloom/sticker-sun.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
       <video class="stk stk--moon stk-src" src="../images/process/bloom/sticker-moon.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
     </div>
     <p class="cap stage-cap"><span>Recorded in the app</span><span>Add to Home Screen and it opens full screen</span></p>
 
     <section class="block">
-      <div class="block-label"><h2>Why</h2></div>
-      <div class="prose"><p>One app for my own face yoga and skincare routine.</p></div>
+      <div class="block-label"><h2>The brief</h2></div>
+      <div class="prose">
+        <p>Six face yoga exercises, a seven-step morning routine and four steps at night. I wanted one calm place to follow them, with my moves, my products and a streak.</p>
+        <p>It had to feel like a personal notebook, not a clinic.</p>
+      </div>
     </section>
 
     <section class="block">
       <div class="block-label"><h2>The cast</h2></div>
-      <div class="prose"><p>A sticker for every screen and every exercise, animated in stop-motion.</p></div>
+      <div class="prose">
+        <p>Every screen and every exercise has its own sticker: a sprout for face yoga, a sun and a moon for morning and night, and six faces that act out each move. They share one line weight and a die-cut white edge, so they read as one set.</p>
+        <p>They’re animated in stop-motion at 12 fps, on twos. Each holds still most of the time and has one small moment: the sprout’s lashes flutter, the sun puts on its sunglasses, the moon nods off.</p>
+      </div>
     </section>
     <div class="panel show">
       <video class="cast-v" data-wide="../images/process/bloom/sticker-cast.mp4" data-tall="../images/process/bloom/sticker-cast-tall.mp4" poster="../images/process/bloom/sticker-cast-poster.jpg" muted loop playsinline autoplay aria-label="The sticker cast, labelled: Face yoga, Morning skincare and Night skincare, and the six exercises, Under-eye tapping, Eye circles, Lymph sweep, Cheek lifter, Jaw release and Neck stretch, each acting out its move"></video>
@@ -190,7 +199,9 @@
 
     <section class="block">
       <div class="block-label"><h2>Lettering</h2></div>
-      <div class="prose"><p>Hand-lettered headers, with a new squiggle on every visit.</p></div>
+      <div class="prose">
+        <p>Screen titles are set in a condensed serif, each letter at its own slight angle, with a hand-drawn squiggle underneath that changes on every visit. The Dewy logotype pairs the sprout with the same serif in lowercase.</p>
+      </div>
     </section>
     <div class="headers show">
       <img src="../images/process/bloom/header-face.webp" alt="Face Yoga header with the sprout sticker" loading="lazy">
@@ -201,7 +212,9 @@
 
     <section class="block">
       <div class="block-label"><h2>Colour</h2></div>
-      <div class="prose"><p>Berry, then Iris: one blue-violet for the whole app, warm colours for the characters.</p></div>
+      <div class="prose">
+        <p>The first palette, Berry, gave every tab its own colour, and the app changed character each time. Iris keeps one deep blue-violet throughout and saves the warm colours for the characters.</p>
+      </div>
     </section>
     <div class="palette show">
       <figure><span class="phone"><img src="../images/process/bloom/berry-skin-am.webp" alt="Berry palette: the skincare screen in butter yellow and plum" loading="lazy"></span><figcaption>Berry</figcaption></figure>
@@ -209,9 +222,27 @@
     </div>
 
     <section class="block">
-      <div class="block-label"><h2>Next</h2></div>
+      <div class="block-label"><h2>From drawing to video</h2></div>
       <div class="prose">
-        <p>Filmed motion references, to bring the exercise player to life.</p>
+        <p>I first tested the exercise steps as illustrations, in the same style as the stickers. They had charm, but you couldn’t tell which finger goes where.</p>
+        <p>The steps moved to photographs from one fixed setup, so 12 stills cover all 18 steps. Moves that depend on a path, like eye circles, get a short video.</p>
+      </div>
+    </section>
+    <div class="steps show">
+      <figure><img src="../images/process/bloom/drawn-sweep-2.webp" alt="Lymph sweep, drawn: an illustrated character with fingers on the forehead" loading="lazy"><figcaption>Drawing</figcaption></figure>
+      <figure><img src="../images/process/bloom/photo-sweep-2.webp" alt="Lymph sweep, photographed: fingers on the forehead" loading="lazy"><figcaption>Photo</figcaption></figure>
+      <figure><video src="../images/process/bloom/exercise-circles.mp4" poster="../images/process/bloom/exercise-circles-poster.jpg" muted loop playsinline autoplay aria-label="Eye circles: fingers trace circles around the eyes"></video><figcaption>Video</figcaption></figure>
+    </div>
+
+    <section class="block">
+      <div class="block-label"><h2>Outcome</h2></div>
+      <div class="prose">
+        <p>Dewy is live and in daily use. Next: filmed motion references for the remaining exercise videos.</p>
+        <div class="outcome" style="margin-top:36px">
+          <div class="kpi"><b>9</b><span>Animated characters</span></div>
+          <div class="kpi"><b>12 fps</b><span>Stop-motion, on twos</span></div>
+          <div class="kpi"><b>4</b><span>Hand-lettered headers</span></div>
+        </div>
         <div class="cs-actions"><a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
       </div>
     </section>
