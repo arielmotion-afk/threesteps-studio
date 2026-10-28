@@ -102,6 +102,11 @@
   .turn p b { font-family: var(--label); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; margin-right: 4px; }
   .turn p b::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--b-tang); }
   .turn p.fixed b::before { background: var(--mark); }
+  /* the cards' text area in the app's own blue-violet */
+  .turn { background: var(--iris); }
+  .turn h3 { color: var(--iris-fg); }
+  .turn p { color: var(--iris-sub); }
+  .turn-body .mono { color: var(--iris-sub); opacity: .8; }
   .chip-on { position: absolute; z-index: 2; top: 10px; font-family: var(--label); font-size: 11px; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.92); color: var(--ink); }
   .chip-on.no { background: var(--b-tang); color: #2A0E00; } .chip-on.yes { background: var(--mark); }
   .split { display: grid; grid-template-columns: 1fr 1fr; height: 100%; gap: 2px; background: #fff; }
