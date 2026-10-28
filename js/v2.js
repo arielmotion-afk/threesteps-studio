@@ -25,18 +25,24 @@
   const items = orbs.map((o, i) => {
     o.innerHTML = '<canvas class="mo-canvas"></canvas><span class="mo-rim"></span>';
     const cv = o.firstChild; cv.width = cv.height = SIZE;
-    return { el: o, ctx: cv.getContext('2d'), seed: i * 17.3, on: false };
+    return { el: o, ctx: cv.getContext('2d'), seed: i * 17.3, on: false, t: 0, drawn: false };
   });
   const io = new IntersectionObserver((es) => es.forEach((e) => { items.find((it) => it.el === e.target).on = e.isIntersecting; }));
   items.forEach((it) => io.observe(it.el));
   const slow = matchMedia('(prefers-reduced-motion: reduce)').matches ? .15 : 1;
-  let t = 0, last = performance.now();
+  // On the homepage grid (cards marked data-thumb) an orb holds still until its card is playing.
+  let last = performance.now();
   (function frame(now) {
-    t += Math.min(.05, (now - last) / 1000) * slow; last = now;
+    const dt = Math.min(.05, (now - last) / 1000) * slow; last = now;
     for (const it of items) {
       if (!it.on) continue;
-      fg.render(t + it.seed, 0);
+      const card = it.el.closest('[data-thumb]');
+      const moving = !card || card.classList.contains('is-playing');
+      if (!moving && it.drawn) continue;
+      if (moving) it.t += dt;
+      fg.render(it.t + it.seed, 0);
       it.ctx.clearRect(0, 0, SIZE, SIZE); it.ctx.drawImage(fg.canvas, 0, 0);
+      it.drawn = true;
     }
     requestAnimationFrame(frame);
   })(last);
