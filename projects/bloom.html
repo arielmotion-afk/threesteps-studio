@@ -54,14 +54,19 @@
   .phone img, .phone video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ─── Project header: flat yellow, the app in a 3D iPhone running off the bottom edge, the logotype, three faces, the QR ─── */
-  .stage--bloom { aspect-ratio: 16 / 9; background: var(--iris); }
+  .stage--bloom { aspect-ratio: 16 / 9; background: var(--iris); position: relative; overflow: hidden; }
   .stage--bloom .logo { position: absolute; left: 7%; top: 40%; width: 40%; height: auto; transform: translateY(-50%); }
-  .stage--bloom .iphone { position: absolute; left: 55%; top: 9%; width: 27%; rotate: -7deg; }   /* a flat tilt: renders the same in every browser */
+  /* Light 3D phone: a rendered frame (images/process/bloom/iphone-3d.png, transparent screen) over the recording,
+     which a script maps onto the screen's four corners with one matrix3d, so it renders the same in every browser */
+  .phone3d { position: absolute; aspect-ratio: 441.5 / 904.46; }
+  .stage--bloom .phone3d { left: 54%; top: 8%; width: 30%; }
+  .p3-video { position: absolute; left: 0; top: 0; width: 390px; height: 844px; max-width: none; max-height: none; transform-origin: 0 0; object-fit: cover; background: var(--iris); }
+  .p3-frame { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; filter: drop-shadow(0 30px 36px rgba(8, 5, 40, .5)); }
   .face { position: absolute; height: auto; pointer-events: none; }
   /* two faces stuck onto the phone's edges, like stickers */
   .face { z-index: 2; }
-  .face--moon { width: 11%; left: 48%; top: 60%; rotate: -10deg; }
-  .face--sun { width: 15%; left: 74%; top: 18%; rotate: 10deg; }
+  .face--moon { width: 11%; left: 47%; top: 62%; rotate: -10deg; }
+  .face--sun { width: 14%; left: 82%; top: 34%; rotate: 10deg; }
   .stage--bloom .qr { position: absolute; right: 22px; top: 22px; z-index: 2; }
   /* An iPhone in CSS: titanium edge, black bezel, dynamic island, side buttons. Used in the header and the live-app viewer. */
   .iphone { border-radius: 15% / 7%; padding: 2.6%; background: #0d0d10;
@@ -70,6 +75,7 @@
   .iphone::before { top: 18%; height: 7%; }
   .iphone::after { top: 28%; height: 11%; box-shadow: 0 calc(100% + 40px) 0 #3a3a40; }
   .iphone .scr { position: relative; width: 100%; aspect-ratio: 390 / 844; border-radius: 12.6% / 5.8%; overflow: hidden; background: var(--iris); isolation: isolate; }
+  .iphone .scr { -webkit-mask-image: -webkit-radial-gradient(#fff, #000); transform: translateZ(0); }   /* Safari: keep the video inside the rounded screen when the phone is rotated */
   .iphone .scr > video, .iphone .scr > img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .iphone .island { position: absolute; z-index: 3; top: 2.1%; left: 50%; width: 31%; height: 3.4%; transform: translateX(-50%); border-radius: 999px; background: #000; }
   /* Live app on desktop: the real app inside the iPhone, in an overlay, at phone proportions */
@@ -133,7 +139,7 @@
     .facts { grid-template-columns: 1fr 1fr; }
     .stage--bloom { aspect-ratio: 4 / 5; }
     .stage--bloom .logo { left: 50%; top: 6%; width: 70%; transform: translateX(-50%); }
-    .stage--bloom .iphone { left: 22%; top: 31%; width: 56%; rotate: -5deg; }
+    .stage--bloom .phone3d { left: 18%; top: 30%; width: 62%; }
     .headers { grid-template-columns: 1fr; gap: 10px; }
     .steps { gap: 8px; }
     .palette figure { width: 38%; }
@@ -188,7 +194,7 @@
     <div class="stage stage--bloom">
       <img class="logo" src="../images/process/bloom/dewy-lockup.png" alt="Dewy" width="1011" height="360">
       <img class="face face--moon" src="../images/process/bloom/face-moon.png" alt="" aria-hidden="true">
-            <div class="iphone"><span class="island"></span><div class="scr"><video src="../images/process/bloom/bloom-demo.mp4" poster="../images/process/bloom/bloom-demo-poster.jpg" muted loop playsinline autoplay aria-label="Screen recording: playing an exercise, ticking skincare steps, switching to evening, opening the streak calendar"></video></div></div>
+            <div class="phone3d"><video class="p3-video" src="../images/process/bloom/bloom-demo.mp4" poster="../images/process/bloom/bloom-demo-poster.jpg" muted loop playsinline autoplay aria-label="Screen recording: playing an exercise, ticking skincare steps, switching to evening, opening the streak calendar"></video><img class="p3-frame" src="../images/process/bloom/iphone-3d.png" alt="" aria-hidden="true"></div>
       <img class="face face--sun" src="../images/process/bloom/face-sun.png" alt="" aria-hidden="true">
       <a class="qr" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener"><img src="../images/process/bloom/qr-bloom.svg" alt="QR code for bloom.arielmotion.workers.dev"><span><b>Try it</b>Scan to open on your phone</span></a>
     </div>
@@ -307,6 +313,27 @@
   })();
 </script>
 <script>
+  // Light 3D phone: map the 390 × 844 recording onto the rendered frame's screen corners (one matrix3d).
+  (function () {
+    var C = [[0.14433, 0.02239], [0.9605, 0.07943], [0.05202, 0.97749], [0.92965, 0.97619]];   // screen corners in the frame image: top-left, top-right, bottom-left, bottom-right (fractions)
+    function adj(m) { return [m[4]*m[8]-m[5]*m[7], m[2]*m[7]-m[1]*m[8], m[1]*m[5]-m[2]*m[4], m[5]*m[6]-m[3]*m[8], m[0]*m[8]-m[2]*m[6], m[2]*m[3]-m[0]*m[5], m[3]*m[7]-m[4]*m[6], m[1]*m[6]-m[0]*m[7], m[0]*m[4]-m[1]*m[3]]; }
+    function mm(a, b) { var c = []; for (var i = 0; i < 3; i++) for (var j = 0; j < 3; j++) { var t = 0; for (var k = 0; k < 3; k++) t += a[3*i+k] * b[3*k+j]; c[3*i+j] = t; } return c; }
+    function mv(m, v) { return [m[0]*v[0]+m[1]*v[1]+m[2]*v[2], m[3]*v[0]+m[4]*v[1]+m[5]*v[2], m[6]*v[0]+m[7]*v[1]+m[8]*v[2]]; }
+    function basis(p) { var m = [p[0], p[2], p[4], p[1], p[3], p[5], 1, 1, 1], v = mv(adj(m), [p[6], p[7], 1]); return mm(m, [v[0], 0, 0, 0, v[1], 0, 0, 0, v[2]]); }
+    document.querySelectorAll('.phone3d').forEach(function (box) {
+      var v = box.querySelector('.p3-video');
+      function fit() {
+        var W = box.clientWidth, H = box.clientHeight; if (!W) return;
+        var d = [C[0][0]*W, C[0][1]*H, C[1][0]*W, C[1][1]*H, C[2][0]*W, C[2][1]*H, C[3][0]*W, C[3][1]*H];
+        var t = mm(basis(d), adj(basis([0, 0, 390, 0, 0, 844, 390, 844])));
+        for (var i = 0; i < 9; i++) t[i] /= t[8];
+        v.style.transform = 'matrix3d(' + [t[0], t[3], 0, t[6], t[1], t[4], 0, t[7], 0, 0, 1, 0, t[2], t[5], 0, t[8]].join(',') + ')';
+      }
+      fit(); addEventListener('resize', fit);
+      if (window.ResizeObserver) new ResizeObserver(fit).observe(box);
+    });
+  })();
+
   // Desktop: "Open the app" shows the live app inside the iPhone at phone size, instead of a stretched browser tab.
   (function () {
     var dlg = document.querySelector('.app-view'); if (!dlg || !dlg.showModal) return;
