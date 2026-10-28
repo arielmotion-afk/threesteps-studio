@@ -63,6 +63,10 @@
   .reel-slide.is-on { opacity: 1; }
   .reel-row { display: flex; gap: 2%; width: 88%; }
   .reel-row lottie-player { flex: 1; aspect-ratio: 1; }
+  .case-media--lottie { background: #fff; }   /* Product & web: the four Wordtune in-app illustrations */
+  .case-media--lottie { display: grid; place-items: center; }
+  .lottie-row { display: flex; gap: 2%; width: 90%; }
+  .lottie-row lottie-player { flex: 1 1 0; min-width: 0; height: auto; aspect-ratio: 1; transform: scale(1.45); }   /* the files have wide margins around each icon */
   .reel-dex { width: 58%; aspect-ratio: 600 / 400; }
   .reel-label { position: absolute; left: 20px; bottom: 18px; z-index: 2; font-family: var(--label); font-size: 14px; color: var(--ink); padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.92); }
   .reel-label:hover { background: #fff; }
@@ -295,8 +299,13 @@
         <div class="case-meta"><h3>Bloom</h3><span class="mono">App identity · Illustration · UI</span></div>
       </a>
       <a class="case rv" data-track="motion" href="projects/project-08.html">
-        <div class="case-shell"><div class="case-media">
-          <video src="videos/imagen-01-desktop.mp4" muted loop playsinline preload="none" poster="images/thumbnails/imagen-01-desktop-poster.jpg" style="object-position: left bottom"></video>
+        <div class="case-shell"><div class="case-media case-media--lottie">
+          <div class="lottie-row" aria-hidden="true">
+            <lottie-player src="animations/square-switch.json" background="transparent" loop></lottie-player>
+            <lottie-player src="animations/treasure-01.json" background="transparent" loop></lottie-player>
+            <lottie-player src="animations/Clock extra sparkles.json" background="transparent" loop></lottie-player>
+            <lottie-player src="animations/abcd-loader.json" background="transparent" loop></lottie-player>
+          </div>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Product &amp; web animations</h3><span class="mono">Lottie · UI animation</span></div>
       </a>
@@ -432,17 +441,20 @@
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const fitFrame = (f) => { const box = f.parentElement, w = box.clientWidth, h = box.clientHeight, k = Math.max(w / 1600, h / 1000); f.style.height = '1000px'; f.style.transform = 'translate(' + (w - 1600 * k) / 2 + 'px,' + (h - 1000 * k) / 2 + 'px) scale(' + k + ')'; };   // same crop as the cover image
     const thumbs = [...document.querySelectorAll('#work .case, #design-code .case, #earlier .mini')].map((card) => {
-      const v = card.querySelector('.case-media video'), f = card.querySelector('.exp-live'), orb = card.querySelector('.mini-orb'), riv = card.querySelector('canvas#squish');
-      if (!v && !f && !orb && !riv) return null;
+      const v = card.querySelector('.case-media video'), f = card.querySelector('.exp-live'), orb = card.querySelector('.mini-orb'), riv = card.querySelector('canvas#squish'), lps = [...card.querySelectorAll('.case-media lottie-player')];
+      if (!v && !f && !orb && !riv && !lps.length) return null;
       card.setAttribute('data-thumb', '');
       let on = false, ready = false;
+      const hold = (lp) => { if (lp.seek) { lp.seek(lp.dataset.still || '50%'); lp.pause(); } };   // the still frame shown when not playing
+      lps.forEach((lp) => lp.addEventListener('ready', () => { if (!on) hold(lp); }));
       if (f) {
         addEventListener('resize', () => fitFrame(f));
         addEventListener('message', (e) => { if (e.source === f.contentWindow && e.data === 'aw-ready') { ready = true; if (on) f.classList.add('on'); } });
       }
       const set = (x) => {
         if (x === on) return; on = x; card.classList.toggle('is-playing', x);
-        if (riv && riv._play) riv._play(x);   // set once the Rive file has loaded (Squish Stack, below)
+        if (riv && riv._play) riv._play(x);
+        lps.forEach((lp) => (x ? lp.play && lp.play() : hold(lp)));   // set once the Rive file has loaded (Squish Stack, below)
         if (v) { if (x) { v.muted = true; v.play().catch(() => {}); } else { v.pause(); v.load(); } }   // load() puts the poster back
         if (f) {
           if (x) { fitFrame(f); if (!f.src) f.src = f.dataset.src; else if (ready) f.classList.add('on'); }
