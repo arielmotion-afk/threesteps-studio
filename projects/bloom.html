@@ -31,6 +31,7 @@
     --b-pink: #FFB3C7; --b-butter: #FFE58A; --b-tang: #FF8A4C; --b-sky: #A9D8FF; --ease-ios: cubic-bezier(.32, .72, 0, 1); }
   .show { margin-top: 28px; }
   .cast-v { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  @media (max-width: 640px) { .cast-v { aspect-ratio: 2 / 3; } }
   .headers { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .headers img { display: block; width: 100%; height: auto; }
   .palette { display: flex; justify-content: center; gap: 8%; padding: 56px 0 40px; background: var(--iris); }
@@ -178,7 +179,7 @@
       <div class="prose"><p>A sticker for every screen and every exercise, animated in stop-motion.</p></div>
     </section>
     <div class="panel show">
-      <video class="cast-v" src="../images/process/bloom/sticker-cast.mp4" poster="../images/process/bloom/sticker-cast-poster.jpg" muted loop playsinline autoplay aria-label="The sticker cast: sprout, sun, moon and wink, and the six exercise faces, each acting out its move"></video>
+      <video class="cast-v" data-wide="../images/process/bloom/sticker-cast.mp4" data-tall="../images/process/bloom/sticker-cast-tall.mp4" poster="../images/process/bloom/sticker-cast-poster.jpg" muted loop playsinline autoplay aria-label="The sticker cast, labelled: Face yoga, Morning skincare and Night skincare, and the six exercises, Under-eye tapping, Eye circles, Lymph sweep, Cheek lifter, Jaw release and Neck stretch, each acting out its move"></video>
     </div>
 
     <section class="block">
@@ -237,6 +238,15 @@
     homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
     glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],
   });
+</script>
+<script>
+  // The sticker cast: a wide recording, or a tall one on phones so the labels stay readable
+  (function () {
+    var v = document.querySelector('.cast-v'); if (!v) return;
+    var tall = matchMedia('(max-width: 640px)').matches;
+    if (tall) v.poster = v.poster.replace('sticker-cast-poster', 'sticker-cast-tall-poster');
+    v.src = tall ? v.dataset.tall : v.dataset.wide;
+  })();
 </script>
 </body>
 </html>
