@@ -50,10 +50,14 @@
   .phone img, .phone video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ─── Stage: the app in use (a real screen recording) between two stills ─── */
-  .stage--bloom { aspect-ratio: 16 / 9; display: flex; justify-content: center; align-items: center; gap: 3.5%; }
-  .stage--bloom .phone { flex: 0 0 19%; }
-  .stage--bloom .phone--main { flex-basis: 24%; }
-  .stage--bloom .phone--side { opacity: .9; transform: translateY(6%); }
+  .stage--bloom { aspect-ratio: 16 / 9; display: flex; justify-content: center; align-items: center; }
+  .stage--bloom .phone--main { flex: 0 0 24%; position: relative; z-index: 1; }
+  /* the three header stickers around the phone (a canvas keys the clip's blue-violet out, see the script at the end) */
+  .stk { position: absolute; aspect-ratio: 1; object-fit: cover; }
+  .stk-src { opacity: 0; pointer-events: none; }   /* the clip only feeds the canvas drawn over it */
+  .stk--sprout { width: 23%; left: 13%; top: 10%; }
+  .stk--moon { width: 20%; left: 19%; top: 54%; }
+  .stk--sun { width: 25%; right: 11%; top: 34%; }
   .stage-mark { position: absolute; left: 26px; top: 22px; display: flex; align-items: center; gap: 10px; }
   .stage-mark img { width: 38px; height: 38px; border-radius: 10px; }
   .stage-mark span { font-family: 'Caveat Brush', cursive; font-size: 30px; color: var(--b-pink); transform: rotate(-4deg); line-height: 1; }
@@ -109,13 +113,14 @@
 
   @media (max-width: 860px) {
     .facts { grid-template-columns: 1fr 1fr; }
-    .stage--bloom { aspect-ratio: 4 / 5; gap: 4%; }
+    .stage--bloom { aspect-ratio: 4 / 5; }
     .headers { grid-template-columns: 1fr; gap: 10px; }
     .palette figure { width: 38%; }
     .palette { padding: 36px 0 28px; }
-    .stage--bloom .phone { flex-basis: 27%; }
-    .stage--bloom .phone--main { flex-basis: 46%; }
-    .stage--bloom .phone--side { transform: translateY(8%); }
+    .stage--bloom .phone--main { flex-basis: 48%; }
+    .stk--sprout { width: 34%; left: -5%; top: 6%; }
+    .stk--sun { width: 36%; right: -6%; top: 18%; }
+    .stk--moon { width: 30%; left: -1%; top: 62%; }
     .stage-mark { left: 16px; top: 14px; } .stage-mark img { width: 30px; height: 30px; } .stage-mark span { font-size: 24px; }
     .qr { display: none; }   /* already on a phone: the button does it */
     .motion { grid-template-columns: 1fr; padding: 24px 20px; gap: 24px; }
@@ -162,9 +167,10 @@
   <div class="wrap">
     <div class="stage stage--bloom panel">
       <div class="stage-mark" aria-hidden="true"><img src="../images/process/bloom/app-icon.png" alt=""></div>
-      <span class="phone phone--side"><img src="../images/process/bloom/screen-skin-am.webp" alt="Skincare checklist, morning"></span>
       <span class="phone phone--main"><video src="../images/process/bloom/bloom-demo.mp4" poster="../images/process/bloom/bloom-demo-poster.jpg" muted loop playsinline autoplay aria-label="Screen recording: playing an exercise, ticking skincare steps, switching to evening, opening the streak calendar"></video></span>
-      <span class="phone phone--side"><img src="../images/process/bloom/screen-track.webp" alt="Tracking: a 13-day streak and the month calendar"></span>
+      <video class="stk stk--sprout stk-src" src="../images/process/bloom/sticker-sprout.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
+      <video class="stk stk--sun stk-src" src="../images/process/bloom/sticker-sun.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
+      <video class="stk stk--moon stk-src" src="../images/process/bloom/sticker-moon.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
       <a class="qr" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener"><img src="../images/process/bloom/qr-bloom.svg" alt="QR code for bloom.arielmotion.workers.dev"><span><b>Try it</b>Scan to open on your phone</span></a>
     </div>
     <p class="cap stage-cap"><span>Recorded in the app</span><span>Add to Home Screen and it opens full screen</span></p>
@@ -246,6 +252,33 @@
     var tall = matchMedia('(max-width: 640px)').matches;
     if (tall) v.poster = v.poster.replace('sticker-cast-poster', 'sticker-cast-tall-poster');
     v.src = tall ? v.dataset.tall : v.dataset.wide;
+  })();
+</script>
+<script>
+  // Hero stickers: each clip is recorded on the app's blue-violet; a canvas over it keys that colour out,
+  // so only the sticker shows, with no box, whatever colour the browser gives the video.
+  (function () {
+    var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('video.stk-src').forEach(function (v) {
+      var c = document.createElement('canvas');
+      c.className = v.className.replace(' stk-src', ''); c.setAttribute('aria-hidden', 'true');
+      v.after(c);
+      var x = c.getContext('2d', { willReadFrequently: true });
+      function draw() {
+        if (!v.videoWidth) return;
+        if (c.width !== v.videoWidth) { c.width = v.videoWidth; c.height = v.videoHeight; }
+        x.drawImage(v, 0, 0);
+        var d = x.getImageData(0, 0, c.width, c.height), p = d.data;
+        for (var i = 0; i < p.length; i += 4) {
+          var r = p[i] - 46, g = p[i + 1] - 42, b = p[i + 2] - 107, k = r * r + g * g + b * b;
+          if (k < 260) p[i + 3] = 0; else if (k < 1600) p[i + 3] = Math.round(255 * (k - 260) / 1340);
+        }
+        x.putImageData(d, 0, 0);
+      }
+      function loop() { draw(); v.requestVideoFrameCallback ? v.requestVideoFrameCallback(loop) : requestAnimationFrame(loop); }
+      v.addEventListener('loadeddata', function () { draw(); if (!still) { v.play().catch(function () {}); loop(); } }, { once: true });
+      if (v.readyState >= 2) v.dispatchEvent(new Event('loadeddata'));
+    });
   })();
 </script>
 </body>
