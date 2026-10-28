@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Face Yoga App Case Study · Ariel Paz</title>
-<meta name="description" content="Face Yoga App: a face yoga and skincare app. Illustration, lettering, colour, interface and motion.">
-<meta property="og:title" content="Face Yoga App · Ariel Paz">
-<meta property="og:description" content="Face Yoga App: a face yoga and skincare app. Illustration, lettering, colour, interface and motion.">
+<title>Dewy Case Study · Ariel Paz</title>
+<meta name="description" content="Dewy: a face yoga and skincare app. Illustration, lettering, colour, interface and motion.">
+<meta property="og:title" content="Dewy · Ariel Paz">
+<meta property="og:description" content="Dewy: a face yoga and skincare app. Illustration, lettering, colour, interface and motion.">
 <meta property="og:image" content="https://threesteps.studio/images/og-image.jpg?v=6">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -50,19 +50,19 @@
   .phone img, .phone video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ─── Stage: the app in use (a real screen recording) between two stills ─── */
-  .stage--bloom { aspect-ratio: 16 / 9; display: flex; justify-content: center; align-items: center; }
-  .stage--bloom .phone--main { flex: 0 0 24%; position: relative; z-index: 1; }
+  /* Banner: the logotype large on the left, the tilted phone on the right, stickers in the corners */
+  .stage--bloom { aspect-ratio: 16 / 9; }
+  .stage--bloom .logo { position: absolute; left: 6%; top: 46%; width: 52%; height: auto; transform: translateY(-50%); }
+  .stage--bloom .phone--main { position: absolute; left: 61%; top: 8%; width: 20%; transform: rotate(-6deg); z-index: 1; }
   /* the three header stickers around the phone (a canvas keys the clip's blue-violet out, see the script at the end) */
   .stk { position: absolute; aspect-ratio: 1; object-fit: cover; }
   .stk-src { opacity: 0; pointer-events: none; }   /* the clip only feeds the canvas drawn over it */
-  .stk--sprout { width: 23%; left: 13%; top: 10%; }
-  .stk--moon { width: 20%; left: 19%; top: 54%; }
-  .stk--sun { width: 25%; right: 11%; top: 34%; }
-  .stage-mark { position: absolute; left: 26px; top: 22px; display: flex; align-items: center; gap: 10px; }
-  .stage-mark img { width: 38px; height: 38px; border-radius: 10px; }
-  .stage-mark span { font-family: 'Caveat Brush', cursive; font-size: 30px; color: var(--b-pink); transform: rotate(-4deg); line-height: 1; }
-  .qr { position: absolute; right: 22px; top: 22px; display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border-radius: 16px; background: var(--iris-fg); color: var(--iris); }
-  .qr img { width: 76px; height: 76px; }
+  .stk--sprout { width: 12%; left: 9%; top: 72%; rotate: -8deg; }
+  .stk--sun { width: 14%; right: 2%; top: 4%; }
+  .stk--moon { width: 11%; right: 3%; top: 66%; rotate: 6deg; }
+  .qr { display: flex; align-items: center; gap: 10px; padding: 6px 12px 6px 6px; border-radius: 14px; background: var(--iris-fg); color: var(--iris); }
+  .cs-actions { align-items: center; }
+  .qr img { width: 52px; height: 52px; }
   .qr span { font-family: var(--label); font-size: 12px; line-height: 1.35; max-width: 12ch; }
   .qr b { display: block; font-family: var(--display); font-size: 14px; font-weight: 600; }
   .stage-cap { display: flex; justify-content: space-between; gap: 16px; margin-top: 10px; }
@@ -113,15 +113,15 @@
 
   @media (max-width: 860px) {
     .facts { grid-template-columns: 1fr 1fr; }
-    .stage--bloom { aspect-ratio: 4 / 5; }
+    .stage--bloom { aspect-ratio: 3 / 4; }
+    .stage--bloom .logo { left: 50%; top: 4%; width: 78%; transform: translateX(-50%); }
+    .stage--bloom .phone--main { left: 50%; top: 29%; width: 46%; transform: translateX(-50%) rotate(-5deg); }
     .headers { grid-template-columns: 1fr; gap: 10px; }
     .palette figure { width: 38%; }
     .palette { padding: 36px 0 28px; }
-    .stage--bloom .phone--main { flex-basis: 48%; }
-    .stk--sprout { width: 34%; left: -5%; top: 6%; }
-    .stk--sun { width: 36%; right: -6%; top: 18%; }
-    .stk--moon { width: 30%; left: -1%; top: 62%; }
-    .stage-mark { left: 16px; top: 14px; } .stage-mark img { width: 30px; height: 30px; } .stage-mark span { font-size: 24px; }
+    .stk--sprout { width: 19%; left: 4%; top: 50%; }
+    .stk--sun { width: 21%; right: 2%; top: 36%; }
+    .stk--moon { width: 18%; right: 5%; top: 72%; }
     .qr { display: none; }   /* already on a phone: the button does it */
     .motion { grid-template-columns: 1fr; padding: 24px 20px; gap: 24px; }
     .motion .phone { width: 62%; margin: 0 auto; }
@@ -153,10 +153,11 @@
   <header class="cs-hero wrap">
     <a href="../index.html#work" class="back">← All work</a>
     <div class="eyebrow" style="margin-bottom:16px"><b>App identity</b> · Case study</div>
-    <h1 class="cs-title">Face Yoga App</h1>
+    <h1 class="cs-title">Dewy</h1>
     <p class="cs-summary">A face yoga and skincare app, designed end to end: illustration, lettering, colour, interface and motion.</p>
     <div class="cs-actions">
       <a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+      <a class="qr" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener"><img src="../images/process/bloom/qr-bloom.svg" alt="QR code for bloom.arielmotion.workers.dev"><span><b>Try it</b>Scan to open on your phone</span></a>
     </div>
     <dl class="facts">
       <div><dt>Role</dt><dd>Identity · illustration · UI · motion</dd></div>
@@ -166,12 +167,11 @@
 
   <div class="wrap">
     <div class="stage stage--bloom panel">
-      <div class="stage-mark" aria-hidden="true"><img src="../images/process/bloom/app-icon.png" alt=""></div>
+      <img class="logo" src="../images/process/bloom/dewy-logo.png" alt="Dewy" width="1006" height="554">
       <span class="phone phone--main"><video src="../images/process/bloom/bloom-demo.mp4" poster="../images/process/bloom/bloom-demo-poster.jpg" muted loop playsinline autoplay aria-label="Screen recording: playing an exercise, ticking skincare steps, switching to evening, opening the streak calendar"></video></span>
       <video class="stk stk--sprout stk-src" src="../images/process/bloom/sticker-sprout.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
       <video class="stk stk--sun stk-src" src="../images/process/bloom/sticker-sun.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
       <video class="stk stk--moon stk-src" src="../images/process/bloom/sticker-moon.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
-      <a class="qr" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener"><img src="../images/process/bloom/qr-bloom.svg" alt="QR code for bloom.arielmotion.workers.dev"><span><b>Try it</b>Scan to open on your phone</span></a>
     </div>
     <p class="cap stage-cap"><span>Recorded in the app</span><span>Add to Home Screen and it opens full screen</span></p>
 
