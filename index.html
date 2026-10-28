@@ -145,9 +145,9 @@
   .dc-all:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
   .dc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
   .dc .case-meta h3 { font-size: 17px; }
-  .dc .bloom-phones { gap: 5%; padding-top: 7%; }
-  .dc .bloom-phones span { flex-basis: 24%; }
-  .dc .bloom-phones span:nth-child(odd) { margin-top: 9%; }
+  /* Bloom: one phone, zoomed in and cropped by the card's bottom edge, so the header reads and the small UI doesn't */
+  .dc .bloom-phones { padding-top: 9%; }
+  .dc-grid .dc .bloom-phones span { flex-basis: 54%; margin-top: 0; border-radius: 9% / 4.2%; }
 
   /* ─── Earlier work: a quiet horizontal scroller in the same card language ─── */
   .rail-head { flex-direction: row; justify-content: space-between; align-items: flex-end; }
@@ -280,10 +280,11 @@
       </div>
     </div>
 
-    <!-- Motion first. Notch Voice Assistant (my own design, motion and prototype) opens full width, the Maestro film closes it; the six between pair up under every filter
-         (All 6 · Marketing 4 · Product 2), so no card is ever left alone in a row. -->
+    <!-- Motion first. Pairs open the grid; one full-width card (data-featured) breaks it in the middle, never first.
+         Under a filter the full-width card shrinks to a normal one, and if the count is odd the last card
+         stretches full width (see the filter script), so rows are always complete. -->
     <div class="cases">
-      <a class="case case--featured rv" data-track="product" href="projects/notch-voice-assistant.html">
+      <a class="case rv" data-track="product" href="projects/notch-voice-assistant.html">
         <div class="case-shell"><div class="case-media case-media--light"><span class="tag cs">Case study</span>
           <div class="mini-orb-stage"><div class="mini-orb"></div></div>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
@@ -307,6 +308,12 @@
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Notch</h3><span class="mono">Product videos · Motion graphics</span></div>
       </a>
+      <a class="case case--featured rv" data-featured data-track="marketing" href="projects/project-02.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <video src="images/thumbnails/video/maestro.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/maestro-poster.jpg"></video>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>AI21 Maestro</h3><span class="mono">Launch film · Motion graphics</span></div>
+      </a>
       <a class="case rv" data-track="marketing" href="projects/project-15.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
           <video src="images/thumbnails/video/yaap.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/yaap-poster.jpg"></video>
@@ -318,18 +325,6 @@
           <video src="videos/imagen-01-desktop.mp4" autoplay muted loop playsinline poster="images/thumbnails/imagen-01-desktop-poster.jpg" style="object-position: left bottom"></video>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Product &amp; web animations</h3><span class="mono">Lottie · Web</span></div>
-      </a>
-      <a class="case rv" data-track="marketing" href="projects/project-01.html">
-        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
-          <video src="images/thumbnails/video/island.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/island-poster.jpg"></video>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Island</h3><span class="mono">Product video · Motion graphics</span></div>
-      </a>
-      <a class="case case--featured rv" data-track="marketing" href="projects/project-02.html">
-        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
-          <video src="images/thumbnails/video/maestro.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/maestro-poster.jpg"></video>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>AI21 Maestro</h3><span class="mono">Launch film · Motion graphics</span></div>
       </a>
     </div>
   </section>
@@ -348,9 +343,7 @@
       <a class="case dc rv" href="projects/bloom.html">
         <div class="case-shell"><div class="case-media case-media--bloom"><span class="tag cs">Case study</span>
           <div class="bloom-phones" aria-hidden="true">
-            <span><img src="images/process/bloom/screen-skin-am.webp" alt="" loading="lazy"></span>
             <span><video src="images/process/bloom/bloom-demo.mp4" poster="images/process/bloom/bloom-demo-poster.jpg" autoplay muted loop playsinline></video></span>
-            <span><img src="images/process/bloom/screen-track.webp" alt="" loading="lazy"></span>
           </div>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Bloom</h3><span class="mono">App · UI · Illustration</span></div>
@@ -383,6 +376,7 @@
     </div>
     <div class="minis" id="rail" tabindex="0" aria-label="Earlier work">
       <a class="mini rv" href="projects/project-03.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/jamba.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/jamba-poster.jpg"></video></div></div><div class="case-meta"><h4>Jamba</h4><span class="mono">Motion graphics</span></div></a>
+      <a class="mini rv" href="projects/project-01.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/island.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/island-poster.jpg"></video></div></div><div class="case-meta"><h4>Island.io</h4><span class="mono">Motion graphics</span></div></a>
             <a class="mini rv" href="projects/project-11.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/noma.png" alt=""></div></div><div class="case-meta"><h4>Noma</h4><span class="mono">Motion graphics</span></div></a>
       <a class="mini rv" href="ugc.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/ugc.mp4" autoplay muted loop playsinline poster="images/thumbnails/ugc-thumbnail.png"></video></div></div><div class="case-meta"><h4>AI-UGC</h4><span class="mono">Paid social</span></div></a>
       <a class="mini rv" href="projects/project-04.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/sounds%20familiar%20thumbnail.png" alt=""></div></div><div class="case-meta"><h4>Wordtune</h4><span class="mono">Motion graphics</span></div></a>
@@ -588,11 +582,16 @@
   function movePill(b) { pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft}px)`; }
   fbtns.forEach((b) => b.addEventListener('click', () => {
     fbtns.forEach((x) => x.classList.toggle('on', x === b)); movePill(b);
-    document.querySelectorAll('#work .case').forEach((c) => {
-      const show = b.dataset.f === 'all' || c.dataset.track.split(' ').includes(b.dataset.f);
+    const all = b.dataset.f === 'all', cards = [...document.querySelectorAll('#work .case')];
+    cards.forEach((c) => {
+      const show = all || c.dataset.track.split(' ').includes(b.dataset.f);
       c.classList.toggle('is-hidden', !show);
+      // full width: only the planned card under All; under a filter, only the last card when the count is odd
+      c.classList.toggle('case--featured', all && c.hasAttribute('data-featured'));
       if (show) c.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 400, easing: ease });
     });
+    const shown = cards.filter((c) => !c.classList.contains('is-hidden'));
+    if (!all && shown.length % 2) shown[shown.length - 1].classList.add('case--featured');
   }));
   addEventListener('load', () => movePill(fwrap.querySelector('button.on')));
   addEventListener('resize', () => movePill(fwrap.querySelector('button.on')));
