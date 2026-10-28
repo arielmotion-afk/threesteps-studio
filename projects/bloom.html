@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bloom Case Study · Ariel Paz</title>
-<meta name="description" content="Bloom: a face yoga and skincare app. Identity, illustration, interface and motion designed as one system.">
-<meta property="og:title" content="Bloom · Ariel Paz">
-<meta property="og:description" content="Bloom: a face yoga and skincare app. Identity, illustration, interface and motion designed as one system.">
+<title>Face Yoga App Case Study · Ariel Paz</title>
+<meta name="description" content="Face Yoga App: a face yoga and skincare app. Identity, illustration, interface and motion designed as one system.">
+<meta property="og:title" content="Face Yoga App · Ariel Paz">
+<meta property="og:description" content="Face Yoga App: a face yoga and skincare app. Identity, illustration, interface and motion designed as one system.">
 <meta property="og:image" content="https://threesteps.studio/images/og-image.jpg?v=6">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -63,6 +63,8 @@
 
   /* ─── Iterations: six cards ─── */
   .turns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px; }
+  .turns--two { grid-template-columns: repeat(2, 1fr); }
+  .turns--two .turn-media { aspect-ratio: 16 / 9; }
   .turn { background: var(--surface); display: flex; flex-direction: column; }
   .turn-media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #FCE6EC; }
   .turn-media > img, .turn-media > video { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -135,7 +137,7 @@
   <header class="cs-hero wrap">
     <a href="../index.html#work" class="back">← All work</a>
     <div class="eyebrow" style="margin-bottom:16px"><b>App identity</b> · Case study</div>
-    <h1 class="cs-title">Bloom</h1>
+    <h1 class="cs-title">Face Yoga App</h1>
     <p class="cs-summary">A face yoga and skincare app, designed as one system: identity, illustration, interface and motion. One deep blue-violet carries the brand, and a cast of sticker characters gives every screen its own moment. Live, and made to sit on an iPhone Home Screen.</p>
     <div class="cs-actions">
       <a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
@@ -148,7 +150,7 @@
 
   <div class="wrap">
     <div class="stage stage--bloom panel">
-      <div class="stage-mark" aria-hidden="true"><img src="../images/process/bloom/app-icon.png" alt=""><span>bloom</span></div>
+      <div class="stage-mark" aria-hidden="true"><img src="../images/process/bloom/app-icon.png" alt=""></div>
       <span class="phone phone--side"><img src="../images/process/bloom/screen-skin-am.webp" alt="Skincare checklist, morning"></span>
       <span class="phone phone--main"><video src="../images/process/bloom/bloom-demo.mp4" poster="../images/process/bloom/bloom-demo-poster.jpg" muted loop playsinline autoplay aria-label="Screen recording: playing an exercise, ticking skincare steps, switching to evening, opening the streak calendar"></video></span>
       <span class="phone phone--side"><img src="../images/process/bloom/screen-track.webp" alt="Tracking: a 13-day streak and the month calendar"></span>
@@ -180,70 +182,67 @@
     </section>
 
     <section class="block">
-      <div class="block-label"><div class="eyebrow">Process</div><h2>What failed, and what I changed</h2></div>
+      <div class="block-label"><div class="eyebrow">Process</div><h2>Visual language</h2></div>
       <div class="prose">
-        <p>The first build worked. The design happened in the corrections.</p>
+        <p>One system across colour, imagery, type and motion, so every screen reads as the same app.</p>
       </div>
     </section>
     <div class="turns" style="margin-top:28px">
-      <article class="turn">
-        <div class="turn-media"><div class="split">
-          <div><span class="chip-on no">Before</span><img src="../images/process/bloom/drawn-sweep-2.webp" alt="Illustrated character, fingers on the forehead" loading="lazy"></div>
-          <div><span class="chip-on yes">After</span><img src="../images/process/bloom/photo-sweep-2.webp" alt="Photo: fingers on the forehead" loading="lazy"></div>
-        </div></div>
-        <div class="turn-body"><span class="mono">01</span><h3>Drawings → photos</h3>
-          <p><b>Failed</b>A drawn character with mitten hands. Lovely, but you can’t tell which finger goes where.</p>
-          <p class="fixed"><b>Changed</b>Photographic frames from one fixed setup. 12 stills cover all 18 steps.</p></div>
-      </article>
-      <article class="turn">
-        <div class="turn-media"><img src="../images/process/bloom/photo-tap-1.webp" alt="Ring fingertips resting under each eye" loading="lazy" style="object-position:50% 30%">
-          <div class="quote">“<mark>Count each hand from the thumb</mark>… the ring finger is the only finger touching the skin.”</div></div>
-        <div class="turn-body"><span class="mono">02</span><h3>The ring finger</h3>
-          <p><b>Failed</b>The pose called for a ring finger; the image showed an index finger.</p>
-          <p class="fixed"><b>Changed</b>Every hand pose re-described in full, counted from a visible thumb.</p></div>
-      </article>
-      <article class="turn">
-        <div class="turn-media rejected"><span class="chip-on no" style="left:10px">Rejected</span><video src="../images/process/bloom/clip-rejected.mp4" poster="../images/process/bloom/clip-rejected-poster.jpg" muted loop playsinline autoplay aria-label="Generated clip where the fingers slide onto the eyelids" style="object-position:50% 30%"></video></div>
-        <div class="turn-body"><span class="mono">03</span><h3>Fingers on the eyelids</h3>
-          <p><b>Failed</b>Every eye-circle clip slid onto the lids, the one thing the exercise forbids.</p>
-          <p class="fixed"><b>Changed</b>Clips are off until filmed motion references replace them.</p></div>
-      </article>
-      <article class="turn">
-        <div class="turn-media"><div class="ios-pair" aria-hidden="true">
-          <svg viewBox="0 0 190 360"><rect x="4" y="4" width="182" height="352" rx="34" fill="#2E2A6B" stroke="#060A16" stroke-width="3"/><rect x="16" y="40" width="158" height="30" rx="10" fill="#3D3986"/><rect x="16" y="78" width="158" height="30" rx="10" fill="#3D3986"/><rect x="7" y="262" width="176" height="34" fill="#221F52"/><rect x="7" y="296" width="176" height="57" fill="#fff" opacity=".92"/><path d="M7 296 H183" stroke="#FF8A4C" stroke-width="3" stroke-dasharray="6 5"/></svg>
-          <svg viewBox="0 0 190 360"><rect x="4" y="4" width="182" height="352" rx="34" fill="#2E2A6B" stroke="#060A16" stroke-width="3"/><rect x="16" y="40" width="158" height="30" rx="10" fill="#3D3986"/><rect x="16" y="78" width="158" height="30" rx="10" fill="#3D3986"/><rect x="18" y="292" width="154" height="38" rx="19" fill="#221F52"/><rect x="30" y="297" width="44" height="28" rx="14" fill="#F1EEFF" opacity=".2"/><rect x="66" y="340" width="58" height="5" rx="2.5" fill="#F1EEFF" opacity=".6"/></svg>
-        </div></div>
-        <div class="turn-body"><span class="mono">04</span><h3>The iPhone Home Screen</h3>
-          <p><b>Failed</b>Added to the Home Screen, the page stopped short and left a dead band under the tab bar.</p>
-          <p class="fixed"><b>Changed</b>Size the app from the real window; a floating tab bar above the home indicator.</p></div>
-      </article>
-      <article class="turn">
-        <div class="turn-media"><div class="ease-demo" aria-hidden="true">
-          <svg class="curve" viewBox="0 0 220 160"><path d="M10 150 H210 M10 150 V10" stroke="rgba(241,238,255,.25)" stroke-width="1.5" fill="none"/><path d="M10 150 C 74.4 42, 10 10, 210 10" stroke="#FFE58A" stroke-width="3" fill="none" stroke-linecap="round"/><circle class="dot" r="7" fill="#FFB3C7"/></svg>
-          <div class="mini-screen"><i style="top:12px"></i><i style="top:30px;right:40%"></i><i style="top:48px"></i><div class="mini-sheet"></div></div>
-        </div></div>
-        <div class="turn-body"><span class="mono">05</span><h3>Apple’s HIG for type and motion</h3>
-          <p><b>Failed</b>Early passes moved more than a daily tool should.</p>
-          <p class="fixed"><b>Changed</b>iOS text styles, and screens that move on the iOS sheet curve: fast start, soft settle, no bounce.</p></div>
-      </article>
       <article class="turn">
         <div class="turn-media"><div class="scheme-pair">
           <span class="phone"><img src="../images/process/bloom/berry-skin-am.webp" alt="Berry: the skincare screen flooded butter yellow" loading="lazy"></span>
           <span class="phone"><img src="../images/process/bloom/iris-skin-am.webp" alt="Iris: the same screen on deep blue-violet" loading="lazy"></span>
           <span class="chip-on" style="left:10px">Berry</span><span class="chip-on" style="right:10px">Iris</span>
         </div></div>
-        <div class="turn-body"><span class="mono">06</span><h3>Berry → Iris</h3>
-          <p><b>Failed</b>Berry flooded whole screens butter and pink. The app changed character with every tab.</p>
-          <p class="fixed"><b>Changed</b>One deep blue-violet everywhere; warm colours only on faces, ticks and badges.</p></div>
+        <div class="turn-body"><span class="mono">01</span><h3>Colour</h3>
+          <p>Two palettes tested on the same screens. Iris held the app together: one deep blue-violet everywhere, with warm colours kept for faces, ticks and badges.</p></div>
+      </article>
+      <article class="turn">
+        <div class="turn-media"><div class="split">
+          <div><span class="chip-on">Drawn</span><img src="../images/process/bloom/drawn-sweep-2.webp" alt="Illustrated character, fingers on the forehead" loading="lazy"></div>
+          <div><span class="chip-on">Photo</span><img src="../images/process/bloom/photo-sweep-2.webp" alt="Photo: fingers on the forehead" loading="lazy"></div>
+        </div></div>
+        <div class="turn-body"><span class="mono">02</span><h3>Imagery</h3>
+          <p>Stickers carry the character; photographs carry the instructions. The exercise frames share one fixed setup, so 12 stills cover all 18 steps.</p></div>
+      </article>
+      <article class="turn">
+        <div class="turn-media"><div class="ease-demo" aria-hidden="true">
+          <svg class="curve" viewBox="0 0 220 160"><path d="M10 150 H210 M10 150 V10" stroke="rgba(241,238,255,.25)" stroke-width="1.5" fill="none"/><path d="M10 150 C 74.4 42, 10 10, 210 10" stroke="#FFE58A" stroke-width="3" fill="none" stroke-linecap="round"/><circle class="dot" r="7" fill="#FFB3C7"/></svg>
+          <div class="mini-screen"><i style="top:12px"></i><i style="top:30px;right:40%"></i><i style="top:48px"></i><div class="mini-sheet"></div></div>
+        </div></div>
+        <div class="turn-body"><span class="mono">03</span><h3>Type and motion</h3>
+          <p>iOS text styles for reading, hand-lettered stickers for headers. Screens move on the iOS sheet curve: a fast start, a soft settle, no bounce.</p></div>
       </article>
     </div>
-    <p class="cap swipe-hint">Swipe for all six →</p>
+
+    <section class="block">
+      <div class="block-label"><h2>Fine-tuning</h2></div>
+      <div class="prose">
+        <p>The last stretch was detail: where a hand sits on a face, and how the app sits on a phone.</p>
+      </div>
+    </section>
+    <div class="turns turns--two" style="margin-top:28px">
+      <article class="turn">
+        <div class="turn-media"><img src="../images/process/bloom/photo-tap-1.webp" alt="Ring fingertips resting under each eye" loading="lazy" style="object-position:50% 30%">
+          <div class="quote">“<mark>Count each hand from the thumb</mark>… the ring finger is the only finger touching the skin.”</div></div>
+        <div class="turn-body"><span class="mono">04</span><h3>The ring finger</h3>
+          <p>Every hand pose checked against the exercise and counted from a visible thumb, so the right finger lands in the right place.</p></div>
+      </article>
+      <article class="turn">
+        <div class="turn-media"><span class="chip-on" style="left:10px">First pass</span><span class="chip-on" style="right:10px">Tuned</span><div class="ios-pair" aria-hidden="true">
+          <svg viewBox="0 0 190 360"><rect x="4" y="4" width="182" height="352" rx="34" fill="#2E2A6B" stroke="#060A16" stroke-width="3"/><rect x="16" y="40" width="158" height="30" rx="10" fill="#3D3986"/><rect x="16" y="78" width="158" height="30" rx="10" fill="#3D3986"/><rect x="7" y="262" width="176" height="34" fill="#221F52"/><rect x="7" y="296" width="176" height="57" fill="#fff" opacity=".92"/><path d="M7 296 H183" stroke="#FF8A4C" stroke-width="3" stroke-dasharray="6 5"/></svg>
+          <svg viewBox="0 0 190 360"><rect x="4" y="4" width="182" height="352" rx="34" fill="#2E2A6B" stroke="#060A16" stroke-width="3"/><rect x="16" y="40" width="158" height="30" rx="10" fill="#3D3986"/><rect x="16" y="78" width="158" height="30" rx="10" fill="#3D3986"/><rect x="18" y="292" width="154" height="38" rx="19" fill="#221F52"/><rect x="30" y="297" width="44" height="28" rx="14" fill="#F1EEFF" opacity=".2"/><rect x="66" y="340" width="58" height="5" rx="2.5" fill="#F1EEFF" opacity=".6"/></svg>
+        </div></div>
+        <div class="turn-body"><span class="mono">05</span><h3>The iPhone Home Screen</h3>
+          <p>Sized from the real window, so the app fills the screen when opened from the Home Screen, with a floating tab bar above the home indicator.</p></div>
+      </article>
+    </div>
 
     <section class="block">
       <div class="block-label"><h2>Next</h2></div>
       <div class="prose">
-        <p>Next: 16 filmed motion references, so the exercise player gets its motion back. The details are the design: which finger, where it lands, what an iPhone does to a web app.</p>
-        <div class="cs-actions"><a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open Bloom<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
+        <p>16 filmed motion references, to animate the exercise player.</p>
+        <div class="cs-actions"><a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
       </div>
     </section>
   </div>
