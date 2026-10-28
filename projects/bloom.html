@@ -52,16 +52,30 @@
     box-shadow: 0 0 0 1px rgba(241,238,255,.14), 0 28px 60px rgba(12,8,48,.45); }
   .phone img, .phone video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  /* ─── Stage: the app in use (a real screen recording) between two stills ─── */
-  /* Banner: the logotype large on the left, the tilted phone on the right, stickers in the corners */
-  .stage--bloom { aspect-ratio: 16 / 9; }
-  .stage--bloom .logo { position: absolute; left: 6%; top: 44%; width: 50%; height: auto; transform: translateY(-50%); }
-  .stage--bloom .phone--main { position: absolute; left: 61%; top: 8%; width: 20%; transform: rotate(-6deg); z-index: 1; }
-  /* the three header stickers around the phone (a canvas keys the clip's blue-violet out, see the script at the end) */
-  .stk { position: absolute; aspect-ratio: 1; object-fit: cover; }
-  .stk-src { opacity: 0; pointer-events: none; }   /* the clip only feeds the canvas drawn over it */
-  .stk--sun { width: 14%; right: 2%; top: 4%; }
-  .stk--moon { width: 11%; left: 30%; top: 66%; rotate: 6deg; }
+  /* ─── Project header: flat yellow, the app in a 3D iPhone running off the bottom edge, the logotype, three faces, the QR ─── */
+  .stage--bloom { aspect-ratio: 16 / 9; background: #FCEF8E; perspective: 1800px; }
+  .stage--bloom .logo { position: absolute; left: 7%; top: 40%; width: 40%; height: auto; transform: translateY(-50%); }
+  .stage--bloom .iphone { position: absolute; left: 54%; top: 9%; width: 29%; transform: rotateY(-18deg) rotateX(7deg) rotateZ(3deg); transform-style: preserve-3d; }
+  .face { position: absolute; height: auto; pointer-events: none; }
+  .face--moon { width: 10%; left: 10%; top: 64%; rotate: -8deg; }
+  .face--jaw { width: 8%; left: 37%; top: 72%; rotate: 7deg; }
+  .face--lymph { width: 9%; right: 6%; top: 46%; rotate: 9deg; }
+  .stage--bloom .qr { position: absolute; right: 22px; top: 22px; z-index: 2; }
+  /* An iPhone in CSS: titanium edge, black bezel, dynamic island, side buttons. Used in the header and the live-app viewer. */
+  .iphone { aspect-ratio: 390 / 844; border-radius: 16% / 7.4%; padding: 3.2%; background: #111114;
+    box-shadow: inset 0 0 0 2px #5b5b62, inset 0 0 0 5px #1f1f23, 0 50px 90px rgba(90, 70, 0, .32), 0 12px 24px rgba(90, 70, 0, .18); }
+  .iphone::before, .iphone::after { content: ""; position: absolute; left: -1.4%; width: 1.6%; border-radius: 3px 0 0 3px; background: #3a3a40; }
+  .iphone::before { top: 18%; height: 7%; }
+  .iphone::after { top: 28%; height: 11%; box-shadow: 0 calc(100% + 40px) 0 #3a3a40; }
+  .iphone .scr { position: relative; width: 100%; height: 100%; border-radius: 13% / 6%; overflow: hidden; background: var(--iris); }
+  .iphone .scr > video, .iphone .scr > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .iphone .island { position: absolute; z-index: 3; top: 2.1%; left: 50%; width: 31%; height: 3.4%; transform: translateX(-50%); border-radius: 999px; background: #000; }
+  /* Live app on desktop: the real app inside the iPhone, in an overlay, at phone proportions */
+  .app-view { position: fixed; inset: 0; margin: auto; width: fit-content; height: fit-content; border: 0; padding: 0; background: transparent; overflow: visible; max-width: none; max-height: none; }
+  .app-view::backdrop { background: rgba(20, 16, 50, .62); backdrop-filter: blur(6px); }
+  .app-view .iphone { position: relative; height: min(86vh, 880px); width: calc(min(86vh, 880px) * 390 / 844); box-shadow: inset 0 0 0 2px #5b5b62, inset 0 0 0 5px #1f1f23, 0 40px 120px rgba(0, 0, 0, .5); }
+  .app-view iframe { position: absolute; left: 0; top: 0; width: 390px; height: 844px; border: 0; transform-origin: 0 0; }
+  .app-close { position: absolute; top: 0; right: -64px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--iris-fg); color: var(--iris); font-size: 22px; line-height: 1; cursor: pointer; }
   .qr { display: flex; align-items: center; gap: 10px; padding: 6px 12px 6px 6px; border-radius: 14px; background: var(--iris-fg); color: var(--iris); }
   .cs-actions { align-items: center; }
   .qr img { width: 52px; height: 52px; }
@@ -115,15 +129,16 @@
 
   @media (max-width: 860px) {
     .facts { grid-template-columns: 1fr 1fr; }
-    .stage--bloom { aspect-ratio: 3 / 4; }
-    .stage--bloom .logo { left: 50%; top: 6%; width: 74%; transform: translateX(-50%); }
-    .stage--bloom .phone--main { left: 50%; top: 29%; width: 46%; transform: translateX(-50%) rotate(-5deg); }
+    .stage--bloom { aspect-ratio: 4 / 5; }
+    .stage--bloom .logo { left: 50%; top: 6%; width: 70%; transform: translateX(-50%); }
+    .stage--bloom .iphone { left: 22%; top: 30%; width: 56%; }
     .headers { grid-template-columns: 1fr; gap: 10px; }
     .steps { gap: 8px; }
     .palette figure { width: 38%; }
     .palette { padding: 36px 0 28px; }
-    .stk--sun { width: 21%; right: 2%; top: 38%; }
-    .stk--moon { width: 18%; left: 4%; top: 60%; }
+    .face--moon { width: 18%; left: 3%; top: 48%; }
+    .face--jaw { display: none; }
+    .face--lymph { width: 17%; right: 3%; top: 66%; }
     .qr { display: none; }   /* already on a phone: the button does it */
     .motion { grid-template-columns: 1fr; padding: 24px 20px; gap: 24px; }
     .motion .phone { width: 62%; margin: 0 auto; }
@@ -159,7 +174,6 @@
     <p class="cs-summary">Dewy is a face yoga and skincare app I designed for my own daily routine. I created its identity, a cast of animated sticker characters, the lettering and the interface. It’s live, and it sits on my Home Screen.</p>
     <div class="cs-actions">
       <a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
-      <a class="qr" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener"><img src="../images/process/bloom/qr-bloom.svg" alt="QR code for bloom.arielmotion.workers.dev"><span><b>Try it</b>Scan to open on your phone</span></a>
     </div>
     <dl class="facts">
       <div><dt>Project</dt><dd>Personal</dd></div>
@@ -170,11 +184,13 @@
   </header>
 
   <div class="wrap">
-    <div class="stage stage--bloom panel">
-      <img class="logo" src="../images/process/bloom/dewy-lockup.png" alt="Dewy" width="1011" height="360">
-      <span class="phone phone--main"><video src="../images/process/bloom/bloom-demo.mp4" poster="../images/process/bloom/bloom-demo-poster.jpg" muted loop playsinline autoplay aria-label="Screen recording: playing an exercise, ticking skincare steps, switching to evening, opening the streak calendar"></video></span>
-      <video class="stk stk--sun stk-src" src="../images/process/bloom/sticker-sun.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
-      <video class="stk stk--moon stk-src" src="../images/process/bloom/sticker-moon.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
+    <div class="stage stage--bloom">
+      <img class="logo" src="../images/process/bloom/dewy-lockup-ink.png" alt="Dewy" width="1011" height="360">
+      <img class="face face--moon" src="../images/process/bloom/face-moon.png" alt="" aria-hidden="true">
+      <img class="face face--jaw" src="../images/process/bloom/face-jaw.png" alt="" aria-hidden="true">
+      <div class="iphone"><span class="island"></span><div class="scr"><video src="../images/process/bloom/bloom-demo.mp4" poster="../images/process/bloom/bloom-demo-poster.jpg" muted loop playsinline autoplay aria-label="Screen recording: playing an exercise, ticking skincare steps, switching to evening, opening the streak calendar"></video></div></div>
+      <img class="face face--lymph" src="../images/process/bloom/face-lymph.png" alt="" aria-hidden="true">
+      <a class="qr" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener"><img src="../images/process/bloom/qr-bloom.svg" alt="QR code for bloom.arielmotion.workers.dev"><span><b>Try it</b>Scan to open on your phone</span></a>
     </div>
     <p class="cap stage-cap"><span>Recorded in the app</span><span>Add to Home Screen and it opens full screen</span></p>
 
@@ -249,6 +265,11 @@
   </div>
 </main>
 
+<dialog class="app-view" aria-label="Dewy, the live app">
+  <button class="app-close" type="button" aria-label="Close">×</button>
+  <div class="iphone"><span class="island"></span><div class="scr"><iframe title="Dewy, the live app"></iframe></div></div>
+</dialog>
+
 <footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
   <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
   <h2 class="bub-name">LET'S TALK</h2>
@@ -286,6 +307,25 @@
   })();
 </script>
 <script>
+  // Desktop: "Open the app" shows the live app inside the iPhone at phone size, instead of a stretched browser tab.
+  (function () {
+    var dlg = document.querySelector('.app-view'); if (!dlg || !dlg.showModal) return;
+    var desk = matchMedia('(min-width: 861px) and (hover: hover)');
+    var f = dlg.querySelector('iframe'), scr = dlg.querySelector('.scr');
+    function fit() { f.style.transform = 'scale(' + scr.clientWidth / 390 + ')'; }
+    document.querySelectorAll('a[href^="https://bloom.arielmotion.workers.dev"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        if (!desk.matches) return;           // phones open the app itself
+        e.preventDefault();
+        if (!f.src) f.src = a.href;
+        dlg.showModal(); fit();
+      });
+    });
+    addEventListener('resize', function () { if (dlg.open) fit(); });
+    dlg.querySelector('.app-close').addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });   // click outside the phone
+  })();
+
   // Hero stickers: each clip is recorded on the app's blue-violet; a canvas over it keys that colour out,
   // so only the sticker shows, with no box, whatever colour the browser gives the video.
   (function () {
