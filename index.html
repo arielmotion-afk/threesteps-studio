@@ -124,6 +124,12 @@
   /* Rive artboard is square on a dark ground: fill the card with the same colour so it reads edge to edge */
   .case-media--rive { background: #110920; }
   .case-media--exp { background: #000; }
+  /* Bloom: the app's Iris ground with four phone screens, the outer ones lower and cropped by the card edge */
+  .case-media--bloom { background: #2E2A6B; }
+  .bloom-phones { position: absolute; inset: 0; display: flex; justify-content: center; align-items: flex-start; gap: 2.4%; padding-top: 4.5%; }
+  .bloom-phones span { flex: 0 0 15%; aspect-ratio: 390 / 844; border-radius: 13% / 6%; overflow: hidden; box-shadow: 0 0 0 1px rgba(241,238,255,.14), 0 24px 50px rgba(12,8,48,.45); }
+  .bloom-phones span:nth-child(odd) { margin-top: 5%; }
+  .bloom-phones img, .bloom-phones video { width: 100%; height: 100%; object-fit: cover; display: block; }
   .case-media--exp img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   /* hover: the newest experiment runs live (rendered at 1600px wide, scaled to the card); off when not hovered */
   .exp-live { position: absolute; left: 0; top: 0; width: 1600px; height: 1000px; border: 0; transform-origin: 0 0; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility 0s .4s; }
@@ -169,6 +175,10 @@
     .minis > .mini { flex-basis: 78%; }
     .case--featured .case-media { aspect-ratio: 16 / 10; }
     .case--featured .mini-orb { width: 40%; }
+    .bloom-phones { gap: 4%; padding-top: 7%; }
+    .bloom-phones span { flex-basis: 27%; }
+    .bloom-phones span:nth-child(4) { display: none; }
+    .bloom-phones span:nth-child(odd) { margin-top: 9%; }
     .cases { row-gap: 40px; }
     .hero-top { justify-content: flex-start; margin-bottom: 28px; }
     .hero-tools { text-align: left; }
@@ -250,10 +260,24 @@
         <button class="on" data-f="all">All</button>
         <button data-f="product">Product</button>
         <button data-f="marketing">Marketing</button>
+        <button data-f="vibe">Vibe coding</button>
       </div>
     </div>
 
     <div class="cases">
+      <!-- Bloom: an app I designed and built with AI. Full width, so the grid stays even under every filter.
+           data-track can list several filters (space-separated). -->
+      <a class="case case--featured rv" data-track="product vibe" href="projects/bloom.html">
+        <div class="case-shell"><div class="case-media case-media--bloom"><span class="tag cs">Case study</span>
+          <div class="bloom-phones" aria-hidden="true">
+            <span><img src="images/process/bloom/screen-player-tap.webp" alt="" loading="lazy"></span>
+            <span><video src="images/process/bloom/bloom-demo.mp4" poster="images/process/bloom/bloom-demo-poster.jpg" autoplay muted loop playsinline></video></span>
+            <span><img src="images/process/bloom/screen-skin-am.webp" alt="" loading="lazy"></span>
+            <span><img src="images/process/bloom/screen-track.webp" alt="" loading="lazy"></span>
+          </div>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Bloom</h3><span class="mono">Vibe coding · App</span></div>
+      </a>
       <a class="case rv" data-track="product" href="projects/notch-voice-assistant.html">
         <div class="case-shell"><div class="case-media case-media--light"><span class="tag cs">Case study</span>
           <div class="mini-orb-stage"><div class="mini-orb"></div></div>
@@ -281,12 +305,21 @@
         <div class="case-meta"><h3>Product &amp; web animations</h3><span class="mono">Lottie</span></div>
       </a>
       <!-- Nightshade: full width, so the two-column grid stays even under every filter. -->
-      <a class="case case--featured rv" data-track="product" href="experiments/nightshade/">
+      <a class="case case--featured rv" data-track="product vibe" href="experiments/nightshade/">
         <div class="case-shell"><div class="case-media case-media--exp"><span class="tag cs">Case study</span>
           <img src="experiments/nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels" loading="lazy">
           <iframe class="exp-live" data-always data-src="experiments/nightshade/scenes/?s=folly_midnight&amp;embed&amp;cover" title="Nightshade, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Nightshade</h3><span class="mono">WebGL · In progress</span></div>
+      </a>
+      <!-- The Art of Waiting: shown only under "Vibe coding" (under All it's already the Experiments card's cover).
+           To add a vibe-coded project: give its card data-track="... vibe"; full width keeps the filtered grid even. -->
+      <a class="case case--featured rv is-hidden" data-track="vibe" data-filter-only href="experiments/art-of-waiting/">
+        <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">Experiment</span>
+          <img src="experiments/art-of-waiting/cover.webp?v=3" alt="The Art of Waiting: grey glowing spheres on black" loading="lazy">
+          <iframe class="exp-live" data-src="experiments/art-of-waiting/?preview" title="The Art of Waiting, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>The Art of Waiting</h3><span class="mono">Vibe coding · WebGL loaders</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-02.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
@@ -523,7 +556,7 @@
   fbtns.forEach((b) => b.addEventListener('click', () => {
     fbtns.forEach((x) => x.classList.toggle('on', x === b)); movePill(b);
     document.querySelectorAll('.case').forEach((c) => {
-      const show = b.dataset.f === 'all' || c.dataset.track === b.dataset.f;
+      const show = (b.dataset.f === 'all' && !c.hasAttribute('data-filter-only')) || c.dataset.track.split(' ').includes(b.dataset.f);
       c.classList.toggle('is-hidden', !show);
       if (show) c.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 400, easing: ease });
     });

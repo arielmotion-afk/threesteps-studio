@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloom Case Study · Ariel Paz</title>
+<meta name="description" content="Bloom: a face yoga and skincare app I designed and vibe coded with Claude Code for my own daily routine. What failed, and what I changed.">
+<meta property="og:title" content="Bloom · Ariel Paz">
+<meta property="og:description" content="A face yoga and skincare app I designed and vibe coded for my own daily routine. What failed, and what I changed.">
+<meta property="og:image" content="https://threesteps.studio/images/og-image.jpg?v=6">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://threesteps.studio/projects/bloom.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ariel Paz · Three Steps Studio">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://threesteps.studio/projects/bloom.html">
+<link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600&family=Caveat+Brush&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/v2.css?v=12">
+<link rel="stylesheet" href="../css/case-study.css?v=10">
+<style>
+  /* ─── Bloom: the app's Iris palette lives only inside its panels; the page keeps the site's look ─── */
+  :root { --iris: #2E2A6B; --iris-card: #3D3986; --iris-fg: #F1EEFF; --iris-sub: #B9B3E6;
+    --b-pink: #FFB3C7; --b-butter: #FFE58A; --b-tang: #FF8A4C; --b-sky: #A9D8FF; --ease-ios: cubic-bezier(.32, .72, 0, 1); }
+  .panel { background: var(--iris); color: var(--iris-fg); position: relative; overflow: hidden; }
+  .cs-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .btn { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; font-weight: 600; background: var(--iris); color: var(--iris-fg);
+    transition: background var(--dur-short) var(--ease-standard), transform var(--dur-short) var(--ease-standard); }
+  .btn:hover { background: #3A3584; } .btn:active { transform: scale(.97); }
+  .facts { grid-template-columns: repeat(3, 1fr); }
+
+  /* Phone screens: no device chrome, just the screen with iPhone-like corners */
+  .phone { display: block; aspect-ratio: 390 / 844; border-radius: 13% / 6%; overflow: hidden; background: var(--iris);
+    box-shadow: 0 0 0 1px rgba(241,238,255,.14), 0 28px 60px rgba(12,8,48,.45); }
+  .phone img, .phone video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ─── Stage: the app in use (a real screen recording) between two stills ─── */
+  .stage--bloom { aspect-ratio: 16 / 9; display: flex; justify-content: center; align-items: center; gap: 3.5%; }
+  .stage--bloom .phone { flex: 0 0 19%; }
+  .stage--bloom .phone--main { flex-basis: 24%; }
+  .stage--bloom .phone--side { opacity: .9; transform: translateY(6%); }
+  .stage-mark { position: absolute; left: 26px; top: 22px; display: flex; align-items: center; gap: 10px; }
+  .stage-mark img { width: 38px; height: 38px; border-radius: 10px; }
+  .stage-mark span { font-family: 'Caveat Brush', cursive; font-size: 30px; color: var(--b-pink); transform: rotate(-4deg); line-height: 1; }
+  .qr { position: absolute; right: 22px; top: 22px; display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border-radius: 16px; background: var(--iris-fg); color: var(--iris); }
+  .qr img { width: 76px; height: 76px; }
+  .qr span { font-family: var(--label); font-size: 12px; line-height: 1.35; max-width: 12ch; }
+  .qr b { display: block; font-family: var(--display); font-size: 14px; font-weight: 600; }
+  .stage-cap { display: flex; justify-content: space-between; gap: 16px; margin-top: 10px; }
+
+  /* ─── Motion: the Icon Lab recording beside the four rules ─── */
+  .motion { display: grid; grid-template-columns: 240px 1fr; gap: 36px; align-items: center; padding: 32px; margin-top: 28px; }
+  .motion-notes { list-style: none; display: grid; gap: 18px; }
+  .motion-notes li { font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.45; color: var(--iris-sub); padding-left: 16px; border-left: 2px solid rgba(241,238,255,.16); }
+  .motion-notes b { display: block; color: var(--b-butter); font-weight: 600; font-size: 16px; margin-bottom: 2px; }
+
+  /* ─── Iterations: six cards ─── */
+  .turns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px; }
+  .turn { background: var(--surface); display: flex; flex-direction: column; }
+  .turn-media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #FCE6EC; }
+  .turn-media > img, .turn-media > video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .turn-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .turn-body .mono { color: var(--muted); font-size: 11px; letter-spacing: .06em; }
+  .turn h3 { font-family: var(--head); font-size: 18px; line-height: 1.15; }
+  .turn p { font-size: 14.5px; line-height: 1.45; color: var(--ink-2); }
+  .turn p b { font-family: var(--label); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; margin-right: 4px; }
+  .turn p b::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--b-tang); }
+  .turn p.fixed b::before { background: var(--mark); }
+  .chip-on { position: absolute; z-index: 2; top: 10px; font-family: var(--label); font-size: 11px; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.92); color: var(--ink); }
+  .chip-on.no { background: var(--b-tang); color: #2A0E00; } .chip-on.yes { background: var(--mark); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; height: 100%; gap: 2px; background: #fff; }
+  .split > div { position: relative; overflow: hidden; }
+  .split img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+  .split .chip-on { left: 10px; }
+  .quote { position: absolute; left: 10px; right: 10px; bottom: 10px; padding: 10px 12px; border-radius: 10px; background: rgba(255,255,255,.94); font-family: var(--label); font-size: 12.5px; line-height: 1.4; color: var(--ink); }
+  .quote mark { background: var(--b-butter); color: inherit; border-radius: 3px; padding: 0 .12em; }
+  .rejected { outline: 3px solid var(--b-tang); outline-offset: -3px; }
+  .ios-pair { display: flex; justify-content: center; align-items: center; gap: 10%; height: 100%; background: #EEF1F7; }
+  .ios-pair svg { height: 84%; width: auto; }
+  .ease-demo { height: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px; background: var(--iris); }
+  .curve { width: 100%; height: 100%; }
+  .curve .dot { offset-path: path("M10 150 C 74.4 42, 10 10, 210 10"); animation: along 2.6s infinite linear; }
+  @keyframes along { 0% { offset-distance: 0%; animation-timing-function: var(--ease-ios); } 20%, 100% { offset-distance: 100%; } }
+  .mini-screen { position: relative; border-radius: 14px; background: var(--iris-card); overflow: hidden; }
+  .mini-screen i { position: absolute; left: 10px; right: 10px; height: 10px; border-radius: 5px; background: rgba(241,238,255,.12); }
+  .mini-sheet { position: absolute; left: 0; right: 0; bottom: 0; height: 74%; border-radius: 12px 12px 0 0; background: var(--b-pink); animation: sheet 2.6s infinite; }
+  @keyframes sheet { 0% { transform: translateY(102%); animation-timing-function: var(--ease-ios); } 20% { transform: none; } 62% { transform: none; animation-timing-function: var(--ease-ios); } 76.6%, 100% { transform: translateY(102%); } }
+  .scheme-pair { display: flex; justify-content: center; align-items: flex-start; gap: 6%; height: 100%; padding-top: 6%; background: linear-gradient(90deg, #4A1036 50%, var(--iris) 50%); }
+  .scheme-pair .phone { width: 34%; flex: none; }
+  .scheme-pair .chip-on { top: auto; bottom: 10px; }
+  @media (prefers-reduced-motion: reduce) { .mini-sheet, .curve .dot { animation: none; } .mini-sheet { transform: none; } }
+
+  @media (max-width: 860px) {
+    .facts { grid-template-columns: 1fr 1fr; }
+    .stage--bloom { aspect-ratio: 4 / 5; gap: 4%; }
+    .stage--bloom .phone { flex-basis: 27%; }
+    .stage--bloom .phone--main { flex-basis: 46%; }
+    .stage--bloom .phone--side { transform: translateY(8%); }
+    .stage-mark { left: 16px; top: 14px; } .stage-mark img { width: 30px; height: 30px; } .stage-mark span { font-size: 24px; }
+    .qr { display: none; }   /* already on a phone: the button does it */
+    .motion { grid-template-columns: 1fr; padding: 24px 20px; gap: 24px; }
+    .motion .phone { width: 62%; margin: 0 auto; }
+    /* six cards become a swipe row, so the page stays short */
+    .turns { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 84%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+      margin: 8px calc(-1 * var(--gutter)) 0; padding: 0 var(--gutter); scroll-padding: 0 var(--gutter); }
+    .turns::-webkit-scrollbar { display: none; }
+    .turn { scroll-snap-align: start; }
+    .swipe-hint { display: block !important; }
+  }
+  .swipe-hint { display: none; margin-top: 10px; }
+</style>
+<link rel="stylesheet" href="../css/bubbles.css?v=3">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="brand-dot"></span>Ariel Paz</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Resume<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <header class="cs-hero wrap">
+    <a href="../index.html#work" class="back">← All work</a>
+    <div class="eyebrow" style="margin-bottom:16px"><b>Vibe coding</b> · Case study</div>
+    <h1 class="cs-title">Bloom</h1>
+    <p class="cs-summary">A face yoga and skincare app for my own daily routine. I designed it, art-directed every image and vibe coded it with Claude Code in a day. It’s live, and it’s on my Home Screen.</p>
+    <div class="cs-actions">
+      <a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+    </div>
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Design · art direction · build</dd></div>
+      <div><dt>Made with</dt><dd>Claude Code · ChatGPT · Kling · Veo</dd></div>
+      <div><dt>Year</dt><dd>2026</dd></div>
+    </dl>
+  </header>
+
+  <div class="wrap">
+    <div class="stage stage--bloom panel">
+      <div class="stage-mark" aria-hidden="true"><img src="../images/process/bloom/app-icon.png" alt=""><span>bloom</span></div>
+      <span class="phone phone--side"><img src="../images/process/bloom/screen-skin-am.webp" alt="Skincare checklist, morning"></span>
+      <span class="phone phone--main"><video src="../images/process/bloom/bloom-demo.mp4" poster="../images/process/bloom/bloom-demo-poster.jpg" muted loop playsinline autoplay aria-label="Screen recording: playing an exercise, ticking skincare steps, switching to evening, opening the streak calendar"></video></span>
+      <span class="phone phone--side"><img src="../images/process/bloom/screen-track.webp" alt="Tracking: a 13-day streak and the month calendar"></span>
+      <a class="qr" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener"><img src="../images/process/bloom/qr-bloom.svg" alt="QR code for bloom.arielmotion.workers.dev"><span><b>Try it</b>Scan to open on your phone</span></a>
+    </div>
+    <p class="cap stage-cap"><span>Recorded in the live app</span><span>Add to Home Screen and it opens full screen</span></p>
+
+    <section class="block">
+      <div class="block-label"><h2>Why</h2></div>
+      <div class="prose">
+        <p>Six face yoga exercises, a seven-step morning routine, four steps at night. I wanted one app with exactly that: my moves, my products, a timer I can follow with my hands on my face, and a streak. No account, no subscription, works offline.</p>
+        <p>I directed; Claude Code wrote the code. I tested every change on my phone and decided what stayed.</p>
+        <div class="outcome" style="margin-top:36px">
+          <div class="kpi"><b>1 day</b><span>First commit to live</span></div>
+          <div class="kpi"><b>$0</b><span>To host</span></div>
+          <div class="kpi"><b>Daily</b><span>I actually use it</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label"><h2>Motion</h2></div>
+      <div class="prose">
+        <p>Each screen has a sticker character that acts out its moment, animated like stop-motion: the sprout’s leaves flutter, the sun squints, the moon nods off, and Track flips through the six exercise faces as each one does its move.</p>
+        <div class="motion panel">
+          <span class="phone"><video src="../images/process/bloom/bloom-lab.mp4" poster="../images/process/bloom/bloom-lab-poster.jpg" muted loop playsinline autoplay aria-label="The Icon Lab: stickers act on cue, the speed drops to a quarter and back, then the six exercise faces"></video></span>
+          <ul class="motion-notes">
+            <li><b>12 fps, on twos</b>One shared clock drives every character, so they all step together, like hand-drawn animation.</li>
+            <li><b>Crisp outlines</b>An earlier pass wobbled every edge with a pixel filter. It read as a glitch, so it went.</li>
+            <li><b>Rare surprises</b>The title dances once a session; the squiggle under it redraws every 20 to 40 seconds.</li>
+            <li><b>An Icon Lab</b>A hidden page in the app with fps, slow motion, pause and frame-step, my After Effects timeline for code.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label"><div class="eyebrow">Process</div><h2>What failed, and what I changed</h2></div>
+      <div class="prose">
+        <p>AI got the app working fast. The design work was in the last stretch.</p>
+      </div>
+    </section>
+    <div class="turns" style="margin-top:28px">
+      <article class="turn">
+        <div class="turn-media"><div class="split">
+          <div><span class="chip-on no">Before</span><img src="../images/process/bloom/drawn-sweep-2.webp" alt="Illustrated character, fingers on the forehead" loading="lazy"></div>
+          <div><span class="chip-on yes">After</span><img src="../images/process/bloom/photo-sweep-2.webp" alt="Photo: fingers on the forehead" loading="lazy"></div>
+        </div></div>
+        <div class="turn-body"><span class="mono">01</span><h3>Drawings → photos</h3>
+          <p><b>Failed</b>A drawn character with mitten hands. Lovely, but you can’t tell which finger goes where.</p>
+          <p class="fixed"><b>Changed</b>Realistic AI starter frames with one fixed setup. 12 stills cover all 18 steps.</p></div>
+      </article>
+      <article class="turn">
+        <div class="turn-media"><img src="../images/process/bloom/photo-tap-1.webp" alt="Ring fingertips resting under each eye" loading="lazy" style="object-position:50% 30%">
+          <div class="quote">“<mark>Count each hand from the thumb</mark>… the ring finger is the only finger touching the skin.”</div></div>
+        <div class="turn-body"><span class="mono">02</span><h3>The ring finger</h3>
+          <p><b>Failed</b>Ask for a ring finger, get an index finger pointing.</p>
+          <p class="fixed"><b>Changed</b>Four prompt rounds describing the whole hand, counted from a visible thumb.</p></div>
+      </article>
+      <article class="turn">
+        <div class="turn-media rejected"><span class="chip-on no" style="left:10px">Rejected</span><video src="../images/process/bloom/clip-rejected.mp4" poster="../images/process/bloom/clip-rejected-poster.jpg" muted loop playsinline autoplay aria-label="Generated clip where the fingers slide onto the eyelids" style="object-position:50% 30%"></video></div>
+        <div class="turn-body"><span class="mono">03</span><h3>Fingers on the eyelids</h3>
+          <p><b>Failed</b>Every generated eye-circle clip slid onto the lids, the one thing the exercise forbids.</p>
+          <p class="fixed"><b>Changed</b>Clips are off; I’m filming my own motion references to drive the AI.</p></div>
+      </article>
+      <article class="turn">
+        <div class="turn-media"><div class="ios-pair" aria-hidden="true">
+          <svg viewBox="0 0 190 360"><rect x="4" y="4" width="182" height="352" rx="34" fill="#2E2A6B" stroke="#060A16" stroke-width="3"/><rect x="16" y="40" width="158" height="30" rx="10" fill="#3D3986"/><rect x="16" y="78" width="158" height="30" rx="10" fill="#3D3986"/><rect x="7" y="262" width="176" height="34" fill="#221F52"/><rect x="7" y="296" width="176" height="57" fill="#fff" opacity=".92"/><path d="M7 296 H183" stroke="#FF8A4C" stroke-width="3" stroke-dasharray="6 5"/></svg>
+          <svg viewBox="0 0 190 360"><rect x="4" y="4" width="182" height="352" rx="34" fill="#2E2A6B" stroke="#060A16" stroke-width="3"/><rect x="16" y="40" width="158" height="30" rx="10" fill="#3D3986"/><rect x="16" y="78" width="158" height="30" rx="10" fill="#3D3986"/><rect x="18" y="292" width="154" height="38" rx="19" fill="#221F52"/><rect x="30" y="297" width="44" height="28" rx="14" fill="#F1EEFF" opacity=".2"/><rect x="66" y="340" width="58" height="5" rx="2.5" fill="#F1EEFF" opacity=".6"/></svg>
+        </div></div>
+        <div class="turn-body"><span class="mono">04</span><h3>The iPhone Home Screen</h3>
+          <p><b>Failed</b>Added to the Home Screen, the page stopped short and left a dead band under the tab bar.</p>
+          <p class="fixed"><b>Changed</b>Size the app from the real window; a floating tab bar above the home indicator.</p></div>
+      </article>
+      <article class="turn">
+        <div class="turn-media"><div class="ease-demo" aria-hidden="true">
+          <svg class="curve" viewBox="0 0 220 160"><path d="M10 150 H210 M10 150 V10" stroke="rgba(241,238,255,.25)" stroke-width="1.5" fill="none"/><path d="M10 150 C 74.4 42, 10 10, 210 10" stroke="#FFE58A" stroke-width="3" fill="none" stroke-linecap="round"/><circle class="dot" r="7" fill="#FFB3C7"/></svg>
+          <div class="mini-screen"><i style="top:12px"></i><i style="top:30px;right:40%"></i><i style="top:48px"></i><div class="mini-sheet"></div></div>
+        </div></div>
+        <div class="turn-body"><span class="mono">05</span><h3>Apple’s HIG for type and motion</h3>
+          <p><b>Failed</b>Early passes moved more than a daily tool should.</p>
+          <p class="fixed"><b>Changed</b>iOS text styles, and screens that move on the iOS sheet curve: fast start, soft settle, no bounce.</p></div>
+      </article>
+      <article class="turn">
+        <div class="turn-media"><div class="scheme-pair">
+          <span class="phone"><img src="../images/process/bloom/berry-skin-am.webp" alt="Berry: the skincare screen flooded butter yellow" loading="lazy"></span>
+          <span class="phone"><img src="../images/process/bloom/iris-skin-am.webp" alt="Iris: the same screen on deep blue-violet" loading="lazy"></span>
+          <span class="chip-on" style="left:10px">Berry</span><span class="chip-on" style="right:10px">Iris</span>
+        </div></div>
+        <div class="turn-body"><span class="mono">06</span><h3>Berry → Iris</h3>
+          <p><b>Failed</b>Berry flooded whole screens butter and pink. The app changed character with every tab.</p>
+          <p class="fixed"><b>Changed</b>One deep blue-violet everywhere; warm colours only on faces, ticks and badges.</p></div>
+      </article>
+    </div>
+    <p class="cap swipe-hint">Swipe for all six →</p>
+
+    <section class="block">
+      <div class="block-label"><h2>Next</h2></div>
+      <div class="prose">
+        <p>Filming my own motion references, 16 takes, so the player gets its motion back. The lesson so far: AI makes the first 80% fast. Which finger, where it lands, what an iPhone does to a web app: that part is design.</p>
+        <div class="cs-actions"><a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open Bloom<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
+  <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
+  <h2 class="bub-name">LET'S TALK</h2>
+  <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
+</footer>
+
+<script>
+(function () {
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 8), { passive: true });
+
+  // Videos play only while on screen
+  const vio = new IntersectionObserver((es) => es.forEach((e) => { e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause(); }), { threshold: 0.15 });
+  document.querySelectorAll('video').forEach((v) => { v.muted = true; vio.observe(v); });
+
+}());
+</script>
+<script src="../js/v2.js?v=3"></script>
+<script src="../js/bubbles.js?v=9"></script>
+<script>
+  Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
+    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
+    homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
+    glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],
+  });
+</script>
+</body>
+</html>
