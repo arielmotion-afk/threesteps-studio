@@ -10,7 +10,8 @@ SCENES.push({
   sway: 3,
   bake() {
     const M2 = (draw) => makeMask(draw);
-    const house = M2((g) => {
+    const HX = FRAME.view ? -360 : 0; // on mobile the house stands closer, so it fits the tall frame beside the greenhouse
+    const house = M2((g) => { g.translate(HX, 0);
       g.fillRect(950, 190, 340, 340);
       g.beginPath(); g.moveTo(990, 200); g.lineTo(1060, 128); g.lineTo(1130, 200); g.fill();
       g.beginPath(); g.moveTo(1150, 205); g.lineTo(1215, 140); g.lineTo(1280, 205); g.fill();
@@ -23,9 +24,9 @@ SCENES.push({
       g.fillRect(805, 470, 175, 8);
     });
     const winList = [[888, 200, 26, 48], [920, 200, 26, 48], [888, 300, 26, 50], [920, 300, 26, 50], [1000, 240, 30, 54], [1050, 240, 30, 54], [1170, 250, 28, 54], [1222, 250, 28, 54], [1000, 360, 30, 60], [1050, 360, 30, 60], [1170, 360, 28, 60], [1222, 360, 28, 60], [1046, 150, 26, 34]];
-    const wins = M2((g) => { for (const [x, y, w, h] of winList) g.fillRect(x, y, w, h); });
-    const lit = M2((g) => { const [x, y, w, h] = winList[6]; g.fillRect(x + 3, y + 3, w - 6, h - 6); });
-    const trim = M2((g) => { g.lineWidth = 3; for (const [x, y, w, h] of winList) { g.strokeRect(x, y, w, h); g.beginPath(); g.moveTo(x + w / 2, y); g.lineTo(x + w / 2, y + h); g.moveTo(x, y + h / 2); g.lineTo(x + w, y + h / 2); g.stroke(); } g.lineWidth = 2; g.beginPath(); for (let y = 200; y < 530; y += 70) { g.moveTo(950, y); g.lineTo(1290, y); } g.stroke(); });
+    const wins = M2((g) => { g.translate(HX, 0); for (const [x, y, w, h] of winList) g.fillRect(x, y, w, h); });
+    const lit = M2((g) => { g.translate(HX, 0); const [x, y, w, h] = winList[6]; g.fillRect(x + 3, y + 3, w - 6, h - 6); });
+    const trim = M2((g) => { g.translate(HX, 0); g.lineWidth = 3; for (const [x, y, w, h] of winList) { g.strokeRect(x, y, w, h); g.beginPath(); g.moveTo(x + w / 2, y); g.lineTo(x + w / 2, y + h); g.moveTo(x, y + h / 2); g.lineTo(x + w, y + h / 2); g.stroke(); } g.lineWidth = 2; g.beginPath(); for (let y = 200; y < 530; y += 70) { g.moveTo(950, y); g.lineTo(1290, y); } g.stroke(); });
     const glass = M2((g) => { g.beginPath(); g.moveTo(-10, 535); g.lineTo(-10, 400); g.lineTo(120, 330); g.lineTo(250, 400); g.lineTo(250, 535); g.fill(); });
     const gbars = M2((g) => { g.lineWidth = 2; for (let x = 0; x <= 250; x += 18) { g.beginPath(); g.moveTo(x, 535); g.lineTo(x, 400 - Math.max(0, 70 - Math.abs(x - 120) * 0.54)); g.stroke(); } g.beginPath(); g.moveTo(-10, 400); g.lineTo(250, 400); g.moveTo(-10, 465); g.lineTo(250, 465); g.moveTo(-10, 400); g.lineTo(120, 330); g.lineTo(250, 400); g.stroke(); });
     const tree = M2((g) => {
@@ -43,9 +44,9 @@ SCENES.push({
       for (let x = 0; x <= 1280; x += 6) { const h = 12 + 22 * noise(x * 0.012, 1) + 14 * noise(x * 0.04, 2) + (hash(Math.floor(x / 40), 9) > 2 ? 45 * Math.exp(-((((x % 40) - 20) / 6) ** 2)) : 0); g.lineTo(x, 420 - h); }
       g.lineTo(1280, 430); g.closePath(); g.fill();
     });
-    const prints = M2((g) => { for (let k = 0; k < 14; k++) { const t = k / 13, x = lerp(1000, 640, t) + (k % 2 ? 10 : -10) * (1 - t), y = lerp(712, 470, Math.pow(t, 0.75)), s = 1.2 - t * 0.85; g.beginPath(); g.ellipse(x, y, 12 * s, 5 * s, -0.4, 0, TAU); g.fill(); } });
+    const prints = M2((g) => { g.translate(HX, 0); for (let k = 0; k < 14; k++) { const t = k / 13, x = lerp(1000, 640, t) + (k % 2 ? 10 : -10) * (1 - t), y = lerp(712, 470, Math.pow(t, 0.75)), s = 1.2 - t * 0.85; g.beginPath(); g.ellipse(x, y, 12 * s, 5 * s, -0.4, 0, TAU); g.fill(); } });
     const SUN = { x: 640, y: 384 };
-    return bakeGrid(640, 360, (x, y, o) => {
+    return bakeGrid(...FRAME.grid, (x, y, o) => {
       const [wx, wy] = warp(x, y, 1.2);
       const horizon = Math.exp(-(((y - 372) / 34) ** 2)) * (0.45 + 0.55 * Math.exp(-(((x - SUN.x) / 340) ** 2)));
       const clouds = smooth(0.45, 0.7, noise(x * 0.004, y * 0.02) * 0.7 + noise(x * 0.015, y * 0.05) * 0.3);
@@ -94,3 +95,8 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   }
 }`,
 });
+
+// Mobile: the bare tree and the greenhouse catching the first light on the left, the sun low in the
+// middle, the house pulled in on the right with its one lit window; a tall dawn sky above, the wet
+// lawn and the footprints below.
+SCENES.push(mobile(SCENES.find((s) => s.id === "lawn_sunrise"), { view: [-20, -330, 1.05] }));

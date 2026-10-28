@@ -51,6 +51,7 @@ SCENES.push({
     W.rect(0, -2.3, 0.8, 4.7, 0, 3, paper); W.rect(0, 2.3, 0.8, 4.7, 0, 3, paper);
     W.rect(2, 0.86, -2.3, 2.3, 0, 3, paper, (u, v) => Math.abs(u) < 0.39 && v < 2.1);
     W.rect(1, 0, -2.3, 2.3, 0.8, 4.7, M.boards(0.3, 0.15, 0.06));
+    W.rect(1, 3, -2.3, 2.3, 0.8, 4.7, 0.1, null, { noShadow: true }); // ceiling (only seen in the tall mobile frame; casts no shadow)
     // Window: reveal, sill, casing, two sashes (the lower one raised a little), glass set back.
     W.rect(0, WX0, 4.7, GLASS, SILL, TOP, 0.24); W.rect(0, WX1, 4.7, GLASS, SILL, TOP, 0.24);
     W.rect(1, TOP, WX0, WX1, 4.7, GLASS, 0.2);
@@ -123,3 +124,11 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   }
 }`,
 });
+
+// Mobile: the same room, taller. The window high in the frame, the moonlight down the middle of the
+// floor, the bed at the left edge; the lower part (under the text box) is quiet floor.
+SCENES.push(mobile(SCENES.find((s) => s.id === "guest_room_dusk"), {
+  cam: { pos: [0.1, 1.5, 1.05], yaw: -0.08, pitch: -0.12, f: 640, cx: 360, cy: 440 },
+  // the dust, moved into the moonlight under this frame's window
+  glsl: SCENES.find((s) => s.id === "guest_room_dusk").glsl.replace("620.0 + 300.0", "170.0 + 150.0").replace("640.0 - mod(", "560.0 - mod(").replace("hash(vec2(fi, 6.0)), 420.0)", "hash(vec2(fi, 6.0)), 320.0)"),
+}));

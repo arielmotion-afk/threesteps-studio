@@ -133,3 +133,10 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   }
 }`,
 });
+
+// Mobile: turned toward the fire: the hearth on the left, the chairs, the window light on the rug.
+SCENES.push(mobile(SCENES.find((s) => s.id === "parlor_evening"), {
+  cam: { ...PARLOR_CAM, yaw: -0.42, pitch: -0.14, f: 560, cx: 360, cy: 470 },
+  // the flames and the steam, placed through this frame's camera
+  update() { const cam = this.cam; return { uFire: project(cam, [-2.4, 0.12, 3.7]), uKettle: project(cam, [0.05, 1.16, 9.0]) }; },
+}));

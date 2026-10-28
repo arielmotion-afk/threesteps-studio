@@ -4,13 +4,17 @@
 // shadows, soft window fill, and one bounce of reflection on glossy floors.
 // World units are metres, y is up, the camera looks along +z.
 
+let CAM_OVERRIDE = null;
 function makeWorld() {
   const prims = [];
   const W = {
     prims, amb: 0.05, moon: null, warm: null, fills: [], far: 12,
     backdrop: () => ({ C: 0, sky: 0 }),
-    cam: { pos: [0, 1.6, 0], yaw: 0, pitch: 0, f: 1000, cx: 640, cy: 360 },
   };
+  // The camera. A mobile variant sets CAM_OVERRIDE while it bakes, and every use of W.cam (the bake,
+  // and anything a scene projects onto the screen) sees that camera instead of the scene's own.
+  let cam = { pos: [0, 1.6, 0], yaw: 0, pitch: 0, f: 1000, cx: 640, cy: 360 };
+  Object.defineProperty(W, "cam", { get: () => CAM_OVERRIDE || cam, set: (v) => { cam = v; }, enumerable: true });
   let target = prims;
   const add = (p, o) => { target.push(Object.assign(p, o || {})); return p; };
   // Everything added inside fn goes into one group with a bounding box, so rays that miss the
@@ -181,6 +185,7 @@ function shadeHit(W, H, d, depth) {
     const R = {}, rh = castRay(W.prims, O, rd, W.far, R, 1);
     const rs = rh ? shadeHit(W, R, rd, 1) : W.backdrop(rd[0], rd[1], rd[2]);
     C += H.refl * (rs.C || 0); K += H.refl * (rs.K || 0);
+    if (W.reflB) B += H.refl * (rs.B || 0); // opt-in: glowing things (B) show in reflections too
   }
   return { C, K, B, moon: H.al * moon };
 }
@@ -206,7 +211,7 @@ function project(cam, p) {
 }
 
 // Bake a world: main pass without sway objects, plus the sway layer into aux R/G.
-function bakeWorld(W, w = 640, h = 360, extra) {
+function bakeWorld(W, w = FRAME.grid[0], h = FRAME.grid[1], extra) {
   const H = {}, H2 = {};
   return bakeGrid(w, h, (sx, sy, o) => {
     const d = camDir(W.cam, sx, sy), O = W.cam.pos;

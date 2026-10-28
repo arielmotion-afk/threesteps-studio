@@ -38,14 +38,19 @@ SCENES.push({
     });
     const glassBars = makeMask((g) => { const { x, y } = GLASS10; g.lineWidth = 1.3; for (let k = -30; k <= 34; k += 7) { g.beginPath(); g.moveTo(x + k, y + 22); g.lineTo(x + k, y - 15 + Math.max(0, Math.abs(k - 2) - 15) * 0.85); g.stroke(); } g.beginPath(); g.moveTo(x - 30, y + 8); g.lineTo(x + 34, y + 8); g.moveTo(x - 30, y - 1); g.lineTo(x + 34, y - 1); g.stroke(); });
     const near = makeVolume((g) => {
-      for (const [x, w] of [[90, 130], [700, 46], [1150, 92], [1262, 60], [560, 34]]) { g.beginPath(); g.moveTo(x - w / 2 - w * 0.2, 740); g.quadraticCurveTo(x - w / 2, 560, x - w * 0.45, -10); g.lineTo(x + w * 0.45, -10); g.quadraticCurveTo(x + w / 2, 560, x + w / 2 + w * 0.2, 740); g.fill(); }
+      for (const [x, w] of [[90, 130], [700, 46], [1150, 92], [1262, 60], [560, 34]]) { const T = TOPY(); g.beginPath(); g.moveTo(x - w / 2 - w * 0.2, 740); g.quadraticCurveTo(x - w / 2, 560, x - w * 0.45, -10); g.lineTo(x - w * 0.45, T); g.lineTo(x + w * 0.45, T); g.lineTo(x + w * 0.45, -10); g.quadraticCurveTo(x + w / 2, 560, x + w / 2 + w * 0.2, 740); g.fill(); }
     }, 10, 5);
     const midL = Array.from({ length: 16 }, (_, i) => [hash(i, 71) * 1280, 16 + hash(i, 72) * 22]).filter(([x]) => Math.abs(x - GLASS10.x) > 70);
-    const mid = makeMask((g) => { for (const [x, w] of midL) { g.fillRect(x - w / 2, -10, w, 470); for (let k = 0; k < 5; k++) { const y = 30 + k * 34 + hash(x, k) * 16, len = 30 + k * 12; g.lineWidth = 2; g.beginPath(); g.moveTo(x, y); g.lineTo(x + (k % 2 ? 1 : -1) * len, y + len * 0.4); g.stroke(); } } });
-    const far = makeMask((g) => { for (let i = 0; i < 46; i++) { const x = hash(i, 81) * 1280, w = 4 + hash(i, 82) * 10; if (Math.abs(x - GLASS10.x) < 60 && hash(i, 83) > 0.3) continue; g.fillRect(x - w / 2, -10, w, 445); } });
+    const mid = makeMask((g) => { for (const [x, w] of midL) { g.fillRect(x - w / 2, TOPY(), w, 460 - TOPY()); for (let k = 0; k < 5; k++) { const y = 30 + k * 34 + hash(x, k) * 16, len = 30 + k * 12; g.lineWidth = 2; g.beginPath(); g.moveTo(x, y); g.lineTo(x + (k % 2 ? 1 : -1) * len, y + len * 0.4); g.stroke(); } } });
+    const far = makeMask((g) => { for (let i = 0; i < 46; i++) { const x = hash(i, 81) * 1280, w = 4 + hash(i, 82) * 10; if (Math.abs(x - GLASS10.x) < 60 && hash(i, 83) > 0.3) continue; g.fillRect(x - w / 2, TOPY(), w, 435 - TOPY()); } });
     const ferns = makeMask((g) => {
       for (let k = 0; k < 9; k++) fern(g, -20 + k * 32, 740, 170 + hash(k, 1) * 110, -Math.PI / 2 + 0.3 + k * 0.1, k);
       for (let k = 0; k < 9; k++) fern(g, 1300 - k * 32, 740, 160 + hash(k, 2) * 110, -Math.PI / 2 - 0.3 - k * 0.1, k + 30);
+      if (FRAME.view) { // the tall window's own bottom corners
+        const [vx, vy, vs] = FRAME.view, B = vy + 1280 * vs + 30, R = vx + 720 * vs;
+        for (let k = 0; k < 8; k++) fern(g, vx - 40 + k * 34, B, 260 + hash(k, 5) * 140, -Math.PI / 2 + 0.35 + k * 0.09, k + 90);
+        for (let k = 0; k < 8; k++) fern(g, R + 40 - k * 34, B, 240 + hash(k, 6) * 140, -Math.PI / 2 - 0.35 - k * 0.09, k + 120);
+      }
       for (const [x, y, s] of [[640, 560, 0.6], [790, 500, 0.45], [200, 560, 0.6], [880, 470, 0.35], [470, 500, 0.4]])
         for (let k = 0; k < 7; k++) fern(g, x + (k - 3) * 9 * s, y, 150 * s, -Math.PI / 2 + (k - 3) * 0.32, k + x);
     });
@@ -55,7 +60,7 @@ SCENES.push({
       return 0.03 + 0.3 * mist + 0.1 * Math.exp(-(((y - 160) / 160) ** 2)) * Math.exp(-(((x - 520) / 400) ** 2));
     };
     const pinkAt = (x, y) => Math.exp(-((Math.hypot((x - GLASS10.x) / 1.3, y - GLASS10.y) / 42) ** 2));
-    return bakeGrid(640, 360, (x, y, o) => {
+    return bakeGrid(...FRAME.grid, (x, y, o) => {
       const [wx, wy] = warp(x, y, 1.5), S = sky(x, y), pk = pinkAt(x, y);
       if (ferns(wx, wy) > 0.5) { o.C = 0.1 + 0.28 * noise(x * 0.04, y * 0.04) * (y / 720); o.K = 0.4; o.D = 1; }
       else if (near.at(wx, wy) > 0.5) {
@@ -97,3 +102,8 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   if (b.a < 0.5) C += 0.06 * exp(-pow((sp.y - 430.0) / 40.0, 2.0)) * (noise(vec2((sp.x - t * 12.0) * 0.005, 3.0)) - 0.3);
 }`,
 });
+
+// Mobile: a tall window onto the forest: the trunks rising out of the top, the pink glow of the
+// greenhouse through the trees on the left, the lantern on the right, the path and the footprints
+// coming toward us between them.
+SCENES.push(mobile(SCENES.find((s) => s.id === "forest_night"), { view: [270, -300, 1.1] }));

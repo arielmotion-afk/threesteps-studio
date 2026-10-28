@@ -121,3 +121,10 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   if (h.r > 0.5) { C = h.g; W = 0.0; }
 }`,
 });
+
+// Mobile: closer in: the range glowing on the left, the table, the plate rack.
+SCENES.push(mobile(SCENES.find((s) => s.id === "kitchen"), {
+  cam: { ...KITCHEN_CAM, pos: [0.1, 1.55, 0.4], f: 520, cx: 360, cy: 500 },
+  // the flames and the steam, placed through this frame's camera
+  update() { const cam = this.cam; return { uKettle: project(cam, [-2.0, 1.17, 1.96]), uFire: project(cam, [-1.9, 0.4, 2.5]) }; },
+}));

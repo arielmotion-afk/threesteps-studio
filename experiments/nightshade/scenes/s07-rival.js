@@ -119,3 +119,8 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   C -= a.a * 0.6 * cloud;
 }`,
 });
+
+// Mobile: closer in: the desk and the candle under the window, the bed at the left.
+SCENES.push(mobile(SCENES.find((s) => s.id === "rival_room"), {
+  cam: { ...RIVAL_CAM, pos: [0.1, 1.55, 1.1], f: 560, cx: 360, cy: 470 },
+}));

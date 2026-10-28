@@ -55,6 +55,7 @@ SCENES.push({
     W.rect(0, -2.6, 0.9, BZ, 0, 4.2, paper); W.rect(0, 2.6, 0.9, BZ, 0, 4.2, paper);
     W.rect(2, 0.9, -2.6, 2.6, 0, 4.2, paper, (u, v) => u > -0.55 && u < 0.45 && v < 2.2);
     W.rect(1, 0, -2.6, 2.6, 0.9, BZ, M.boards(0.22, 0.13, 0.08));
+    W.rect(1, 4.2, -2.6, 2.6, 0.9, BZ, 0.1, null, { noShadow: true }); // ceiling (only seen in the tall mobile frame; casts no shadow)
     W.box([-2.6, 0, BZ - 0.04], [2.6, 0.2, BZ], 0.16);
     // Window and door glazing, set back in the wall: tracery for the windows, bars for the doors.
     const tracery = (cx, w, spring, bottom) => (u, v) => {
@@ -142,3 +143,8 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   if (f.r > 0.5) { C = f.g; W = 0.0; }
 }`,
 });
+
+// Mobile: further in: the three windows high, the table and the blood mid-frame, floor below.
+SCENES.push(mobile(SCENES.find((s) => s.id === "reading_room"), {
+  cam: { pos: [0, 1.6, 1.3], yaw: 0, pitch: -0.08, f: 600, cx: 360, cy: 470 },
+}));

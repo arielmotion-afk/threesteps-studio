@@ -53,12 +53,40 @@ function unpackBake(d, w, h) {
 // (It covers the scene's own bake code, not the shared helpers.)
 function bakeKey(scene) {
   let h = 2166136261;
-  const src = scene.bake.toString();
+  const src = scene.bakeSrc || scene.bake.toString();
   for (let i = 0; i < src.length; i++) h = Math.imul(h ^ src.charCodeAt(i), 16777619);
   return (h >>> 0).toString(36);
 }
 let manifest = null;
 const getManifest = (base) => (manifest ??= fetch(`${base}manifest.json`, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({})));
+
+// Image scenes (scene.art): the picture is loaded before baking, from art/ next to baked/.
+const artCache = new Map();
+function loadArt(scene, base = "baked/") {
+  if (!scene.art) return Promise.resolve();
+  const url = base.replace(/baked\/$/, "art/") + scene.art;
+  if (!artCache.has(url)) artCache.set(url, new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = url; }));
+  return artCache.get(url).then((im) => { scene.artImage = im; });
+}
+// Bake an image scene on a w x h grid: the picture, scaled smoothly to the grid, goes into the bake
+// RGB; fn(x, y, [r, g, b], o) (x, y in the 1280 x 720 frame, colours 0..255) sets o.A (bake alpha)
+// and o.r, o.g, o.b, o.a (aux), all 0..1.
+function bakeArt(scene, fn, w = 640, h = 360) {
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const g = c.getContext("2d", { willReadFrequently: true });
+  g.imageSmoothingEnabled = true; g.imageSmoothingQuality = "high";
+  g.drawImage(scene.artImage, 0, 0, w, h);
+  const d = g.getImageData(0, 0, w, h).data, bake = new Uint8Array(w * h * 4), aux = new Uint8Array(w * h * 4), o = {};
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const i = (y * w + x) * 4;
+    o.A = 0; o.r = 0; o.g = 0; o.b = 0; o.a = 0;
+    fn(((x + 0.5) * RW) / w, ((y + 0.5) * RH) / h, [d[i], d[i + 1], d[i + 2]], o);
+    bake[i] = d[i]; bake[i + 1] = d[i + 1]; bake[i + 2] = d[i + 2]; bake[i + 3] = clamp(o.A) * 255;
+    aux[i] = clamp(o.r) * 255; aux[i + 1] = clamp(o.g) * 255; aux[i + 2] = clamp(o.b) * 255; aux[i + 3] = clamp(o.a) * 255;
+  }
+  return { w, h, bake, aux };
+}
 
 const sceneCache = new Map();
 // Load a scene's baked data (cached). Resolves to { w, h, bake, aux, from: "file" | "baked" }.
@@ -74,7 +102,7 @@ function loadScene(scene, base = "baked/") {
       g.drawImage(bmp, 0, 0);
       return { ...unpackBake(g.getImageData(0, 0, bmp.width, bmp.height).data, w, h), from: "file" };
     })
-    .catch((e) => new Promise((res) => setTimeout(() => { console.warn(`${scene.id}: baking live (${e.message}); re-run bake.html`); res({ ...scene.bake(), from: "baked live" }); }, 0)));
+    .catch((e) => loadArt(scene, base).then(() => new Promise((res) => setTimeout(() => { console.warn(`${scene.id}: baking live (${e.message}); re-run bake.html`); res({ ...scene.bake(), from: "baked live" }); }, 0))));
   sceneCache.set(scene.id, p);
   return p;
 }

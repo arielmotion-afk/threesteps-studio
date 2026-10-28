@@ -54,6 +54,7 @@ function stairsWorld() {
   W.box([WX0 - 0.08, WY0 - 0.06, SZ - 0.1], [WX1 + 0.08, WY0, SZ + 0.16], M.wood(0.4));
   W.rect(0, X0, SZ, 8.4, BOT, 4, paper);
   W.rect(0, X1, -2, 8.4, BOT, 4, paper);
+  W.rect(1, 4, -2.4, X1, -2, 8.4, 0.02, null, { noShadow: true }); // ceiling (only seen in the tall mobile frame; casts no shadow)
   W.box([X1 - 0.03, BOT, -2], [X1, BOT + 0.9, 8.4], dark);
   const DX0 = 0.15, DX1 = 0.95, DTOP = BOT + 2.15;
   W.rect(2, 8.0, X0, X1, BOT, 4, paper, (u, v) => u > DX0 && u < DX1 && v < DTOP);
@@ -117,3 +118,8 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   W = b.g * 2.0 * flick + b.b * 1.3 * flick;
 }`,
 });
+
+// Mobile: straight down the stairs: the window and the lamp at the bottom, the moonlight on the treads.
+SCENES.push(mobile(SCENES.find((s) => s.id === "stairs_dark"), {
+  cam: { pos: [0.3, 1.7, -0.2], yaw: -0.1, pitch: -0.3, f: 560, cx: 360, cy: 520 },
+}));

@@ -5,7 +5,8 @@
 //   midnight  the deepest dark      blue  the night      warm  fire / lamps / lilies
 // Shapes are drawn once into masks, then sampled through a small noise warp.
 
-const RW = 1280, RH = 720, TAU = Math.PI * 2;
+let RW = 1280, RH = 720; // the frame being drawn: 1280 x 720 (desktop) or 720 x 1280 (mobile, see FRAME in engine.js)
+const TAU = Math.PI * 2;
 const ORANGE = "#ff6a33", PINK = "#ff4f9e";
 const PAPER = [239, 231, 212], MIDNIGHT = [27, 33, 80], BLUE = [58, 95, 208];
 
@@ -47,19 +48,29 @@ function lancet(x, y, cx, w, spring, bottom, r) {
   return (x - lc) ** 2 + (y - spring) ** 2 <= r * r && (x - rc) ** 2 + (y - spring) ** 2 <= r * r;
 }
 
-function makeMask(draw) {
-  const c = document.createElement("canvas");
-  c.width = RW;
-  c.height = RH;
+// The area masks cover: normally the frame (0, 0, RW, RH). A mobile view onto a painted scene sets it
+// to cover the whole tall window too, so shapes can run on above and below the desktop frame.
+let MASK_AREA = null;
+const maskArea = () => MASK_AREA || [0, 0, RW, RH];
+function maskCanvas() {
+  const [x0, y0, w, h] = maskArea(), c = document.createElement("canvas");
+  c.width = w; c.height = h;
   const g = c.getContext("2d", { willReadFrequently: true });
+  g.translate(-x0, -y0);
   g.fillStyle = g.strokeStyle = "#fff";
   g.lineCap = g.lineJoin = "round";
-  draw(g);
-  const d = g.getImageData(0, 0, RW, RH).data;
+  return { c, g, x0, y0, w, h };
+}
+function maskLookup(d, x0, y0, w, h) {
   return (x, y) => {
-    x = Math.round(x); y = Math.round(y);
-    return x < 0 || y < 0 || x >= RW || y >= RH ? 0 : d[(y * RW + x) * 4 + 3] / 255;
+    x = Math.round(x) - x0; y = Math.round(y) - y0;
+    return x < 0 || y < 0 || x >= w || y >= h ? 0 : d[(y * w + x) * 4 + 3] / 255;
   };
+}
+function makeMask(draw) {
+  const { g, x0, y0, w, h } = maskCanvas();
+  draw(g);
+  return maskLookup(g.getImageData(0, 0, w, h).data, x0, y0, w, h);
 }
 
 // ── Shapes ──────────────────────────────────────
@@ -263,21 +274,11 @@ function person(G, x, base, h, c) {
 
 // Several masks drawn together (e.g. body, pale details, lantern).
 function makeMasks(names, draw) {
-  const G = {}, data = {};
-  for (const n of names) {
-    const c = document.createElement("canvas");
-    c.width = RW; c.height = RH;
-    const g = c.getContext("2d", { willReadFrequently: true });
-    g.fillStyle = g.strokeStyle = "#fff";
-    g.lineCap = g.lineJoin = "round";
-    G[n] = g;
-  }
+  const G = {}, C = {};
+  for (const n of names) { C[n] = maskCanvas(); G[n] = C[n].g; }
   draw(G);
   const out = {};
-  for (const n of names) {
-    const d = G[n].getImageData(0, 0, RW, RH).data;
-    out[n] = (x, y) => { x = Math.round(x); y = Math.round(y); return x < 0 || y < 0 || x >= RW || y >= RH ? 0 : d[(y * RW + x) * 4 + 3] / 255; };
-  }
+  for (const n of names) { const { g, x0, y0, w, h } = C[n]; out[n] = maskLookup(g.getImageData(0, 0, w, h).data, x0, y0, w, h); }
   return out;
 }
 
@@ -286,17 +287,15 @@ function makeMasks(names, draw) {
 // A shape with volume: coverage, plus a soft normal from a blurred copy, so it can be lit
 // from a direction (lx, ly) pointing toward the light. shade() is 0 (away) .. 1 (facing).
 function makeVolume(draw, blur = 6, k = 4) {
-  const c = document.createElement("canvas"), b = document.createElement("canvas");
-  c.width = b.width = RW; c.height = b.height = RH;
-  const g = c.getContext("2d", { willReadFrequently: true });
-  g.fillStyle = g.strokeStyle = "#fff"; g.lineCap = g.lineJoin = "round";
+  const { c, g, x0, y0, w, h } = maskCanvas(), b = document.createElement("canvas");
   draw(g);
+  b.width = w; b.height = h;
   const bg = b.getContext("2d", { willReadFrequently: true });
   bg.filter = `blur(${blur}px)`; bg.drawImage(c, 0, 0);
-  const d = g.getImageData(0, 0, RW, RH).data, hd = bg.getImageData(0, 0, RW, RH).data;
-  const H = (x, y) => { x = clamp(Math.round(x), 0, RW - 1); y = clamp(Math.round(y), 0, RH - 1); return hd[(y * RW + x) * 4 + 3] / 255; };
+  const d = g.getImageData(0, 0, w, h).data, hd = bg.getImageData(0, 0, w, h).data;
+  const H = (x, y) => { x = clamp(Math.round(x) - x0, 0, w - 1); y = clamp(Math.round(y) - y0, 0, h - 1); return hd[(y * w + x) * 4 + 3] / 255; };
   return {
-    at: (x, y) => { x = Math.round(x); y = Math.round(y); return x < 0 || y < 0 || x >= RW || y >= RH ? 0 : d[(y * RW + x) * 4 + 3] / 255; },
+    at: maskLookup(d, x0, y0, w, h),
     shade: (x, y, lx, ly) => clamp(0.5 + ((H(x - 2, y) - H(x + 2, y)) * lx + (H(x, y - 2) - H(x, y + 2)) * ly) * k),
   };
 }

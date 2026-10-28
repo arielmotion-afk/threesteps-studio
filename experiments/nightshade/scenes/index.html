@@ -34,6 +34,7 @@
   <script src="engine.js"></script>
   <script src="ray.js"></script>
   <script src="loader.js"></script>
+  <script src="dev.js"></script>
   <script src="s01-guest.js"></script>
   <script src="s02-stairs.js"></script>
   <script src="s03-reading.js"></script>
@@ -49,17 +50,23 @@
   <script>
     // ←/→ pages · H hide text · P pause · R resolution · C cover/contain
     const ORDER = ["guest_room_dusk", "stairs_dark", "reading_room", "parlor_evening", "parlor_fork", "kitchen", "rival_room", "garden_night", "niece_room", "forest_night", "folly_midnight", "lawn_sunrise"];
-    const list = ORDER.map((id) => SCENES.find((s) => s.id === id)).filter(Boolean);
+    // Mobile: on a tall screen (or with ?m) show each scene's portrait version (<id>_m) on a portrait
+    // stage; scenes without one yet are left out. ?d forces desktop.
+    const Q = new URLSearchParams(location.search);
+    const MOBILE = Q.has("m") || (!Q.has("d") && innerHeight > innerWidth);
+    const vid = (id) => (MOBILE ? id + "_m" : id);
+    const list = ORDER.map((id) => SCENES.find((s) => s.id === vid(id))).filter(Boolean);
     const stage = createStage(document.getElementById("stage"));
+    if (MOBILE) stage.resize(360, 640);
     const cap = document.getElementById("cap"), hud = document.getElementById("hud"), loading = document.getElementById("loading");
-    let i = Math.max(0, list.findIndex((s) => s.id === new URLSearchParams(location.search).get("s")));
+    let i = Math.max(0, list.findIndex((s) => s.id === vid(Q.get("s")) || s.id === Q.get("s")));
     let loadMs = 0, loadFrom = "", full = false, paused = false, token = 0;
-    const byId = (id) => list.find((s) => s.id === id);
+    const byId = (id) => list.find((s) => s.id === vid(id));
 
     // While a page is up, fetch and prepare the pages that can come next (story branches,
     // plus the neighbours in this viewer), one after another so nothing stutters.
     async function prefetch(s) {
-      const ids = [...new Set([...(NEXT[s.id] || []), list[(i + 1) % list.length].id, list[(i - 1 + list.length) % list.length].id])];
+      const ids = [...new Set([...(NEXT[s.base || s.id] || []), list[(i + 1) % list.length].base || list[(i + 1) % list.length].id, list[(i - 1 + list.length) % list.length].base || list[(i - 1 + list.length) % list.length].id])];
       for (const id of ids) {
         const n = byId(id);
         if (!n) continue;
@@ -75,7 +82,7 @@
       cap.querySelector("b").textContent = `${i + 1}/${list.length} · ${s.id}`;
       cap.querySelector("span").textContent = s.caption || "";
       document.getElementById("navlabel").textContent = `${i + 1}/${list.length} · ${s.id.replace(/_/g, " ")}`;
-      const q = new URLSearchParams(location.search); q.set("s", s.id);
+      const q = new URLSearchParams(location.search); q.set("s", s.base || s.id);
       history.replaceState(null, "", `?${q.toString().replace(/=(&|$)/g, "$1")}`);
       window.sceneReady = null;
       const slow = setTimeout(() => { if (my === token) loading.hidden = false; }, 250);
@@ -95,7 +102,7 @@
       if (e.key === "ArrowLeft") show(i - 1);
       if (e.key === "h" || e.key === "H") { cap.hidden = !cap.hidden; hud.hidden = cap.hidden; }
       if (e.key === "p" || e.key === "P") { paused = !paused; stage.pause(paused); }
-      if (e.key === "r" || e.key === "R") { full = !full; full ? stage.resize(1280, 720) : stage.resize(640, 360); }
+      if (e.key === "r" || e.key === "R") { full = !full; const [w, h] = MOBILE ? [360, 640] : [640, 360]; full ? stage.resize(w * 2, h * 2) : stage.resize(w, h); }
       if (e.key === "c" || e.key === "C") document.body.classList.toggle("cover");
     });
     let last = performance.now(), lastFrames = 0;
@@ -120,7 +127,7 @@
       const b = await new Promise((r) => document.getElementById("stage").toBlob(r, "image/png"));
       return (await fetch("http://127.0.0.1:8124/" + name, { method: "POST", body: b })).status;
     };
-    window.go = (id) => show(list.findIndex((s) => s.id === id));
+    window.go = (id) => show(list.findIndex((s) => s.id === vid(id) || s.id === id));
     show(i);
   </script>
 </body>

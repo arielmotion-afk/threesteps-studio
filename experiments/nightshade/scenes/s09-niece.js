@@ -85,3 +85,8 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   if (b.b > 0.5) { W = 0.3; C = 0.12; }
 }`,
 });
+
+// Mobile: closer in: the moonlit window between the curtains, the bed at the left.
+SCENES.push(mobile(SCENES.find((s) => s.id === "niece_room"), {
+  cam: { pos: [0.05, 1.5, 0.9], yaw: 0, pitch: -0.06, f: 560, cx: 360, cy: 470 },
+}));

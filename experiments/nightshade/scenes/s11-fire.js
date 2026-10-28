@@ -12,11 +12,12 @@ SCENES.push({
     const stoneList = [[548, 592, 50, 32], [652, 628, 48, 30], [790, 630, 52, 30], [884, 590, 46, 34], [896, 536, 36, 26], [828, 496, 32, 20], [632, 498, 32, 20], [455, 660, 62, 38], [720, 694, 70, 34], [960, 668, 62, 38], [330, 694, 56, 32]];
     const stones = makeVolume((g) => { for (const [x, y, rx, ry] of stoneList) { g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, TAU); g.fill(); } }, 6, 7);
     const near = makeVolume((g) => {
-      g.beginPath(); g.moveTo(150, -10); g.lineTo(330, -10); g.quadraticCurveTo(340, 420, 420, 610); g.lineTo(60, 640); g.quadraticCurveTo(160, 420, 150, -10); g.fill();
-      g.beginPath(); g.moveTo(1080, -10); g.lineTo(1290, -10); g.lineTo(1290, 620); g.lineTo(1010, 600); g.quadraticCurveTo(1090, 420, 1080, -10); g.fill();
+      const T = TOPY();
+      g.beginPath(); g.moveTo(150, T); g.lineTo(330, T); g.lineTo(330, -10); g.quadraticCurveTo(340, 420, 420, 610); g.lineTo(60, 640); g.quadraticCurveTo(160, 420, 150, -10); g.closePath(); g.fill();
+      g.beginPath(); g.moveTo(1080, T); g.lineTo(1290, T); g.lineTo(1290, 620); g.lineTo(1010, 600); g.quadraticCurveTo(1090, 420, 1080, -10); g.closePath(); g.fill();
     }, 14, 5);
-    const mid = makeMask((g) => { for (let i = 0; i < 9; i++) { const x = 380 + hash(i, 61) * 640, w = 26 + hash(i, 62) * 34; g.fillRect(x - w / 2, -10, w, 420); } });
-    const far = makeMask((g) => { for (let i = 0; i < 26; i++) { const x = 300 + hash(i, 51) * 800, w = 6 + hash(i, 52) * 14; g.fillRect(x - w / 2, -10, w, 395); } });
+    const mid = makeMask((g) => { for (let i = 0; i < 9; i++) { const x = 380 + hash(i, 61) * 640, w = 26 + hash(i, 62) * 34; g.fillRect(x - w / 2, TOPY(), w, 410 - TOPY()); } });
+    const far = makeMask((g) => { for (let i = 0; i < 26; i++) { const x = 300 + hash(i, 51) * 800, w = 6 + hash(i, 52) * 14; g.fillRect(x - w / 2, TOPY(), w, 385 - TOPY()); } });
     const boughs = makeMask((g) => { g.lineWidth = 1.6; for (let i = 0; i < 9; i++) { const x = 380 + hash(i, 61) * 640; for (let k = 0; k < 5; k++) { const y = 20 + k * 40 + hash(i, k) * 20, len = 40 + hash(k, i) * 50, d = hash(i, k + 9) > 0.5 ? 1 : -1; g.beginPath(); g.moveTo(x, y); g.lineTo(x + d * len, y + len * 0.35); g.stroke(); for (let n = 0; n < len; n += 4) { g.beginPath(); g.moveTo(x + d * n, y + n * 0.35); g.lineTo(x + d * (n + 3), y + n * 0.35 + 9); g.stroke(); } } } });
     const needles = makeMask((g) => {
       g.lineWidth = 1.5;
@@ -25,11 +26,16 @@ SCENES.push({
     const ferns = makeMask((g) => {
       for (let k = 0; k < 8; k++) fern(g, -30 + k * 40, 740, 180 + hash(k, 1) * 120, -Math.PI / 2 + 0.3 + k * 0.1, k);
       for (let k = 0; k < 6; k++) fern(g, 1300 - k * 40, 740, 160 + hash(k, 2) * 100, -Math.PI / 2 - 0.3 - k * 0.12, k + 30);
+      if (FRAME.view) { // the tall window's own bottom corners
+        const [vx, vy, vs] = FRAME.view, B = vy + 1280 * vs + 30, R = vx + 720 * vs;
+        for (let k = 0; k < 8; k++) fern(g, vx - 40 + k * 34, B, 260 + hash(k, 5) * 140, -Math.PI / 2 + 0.35 + k * 0.09, k + 90);
+        for (let k = 0; k < 8; k++) fern(g, R + 40 - k * 34, B, 240 + hash(k, 6) * 140, -Math.PI / 2 - 0.35 - k * 0.09, k + 120);
+      }
       for (let k = 0; k < 6; k++) fern(g, 300 + k * 20, 520, 110 + hash(k, 3) * 50, -Math.PI / 2 - 0.9 + k * 0.3, k + 60);
     });
     const toward = (px, py) => { const ax = FIRE11.x - px, ay = FIRE11.y - py, l = Math.hypot(ax, ay) || 1; return [ax / l, ay / l]; };
     const sky = (x, y) => 0.04 + 0.42 * Math.exp(-(((y - 275) / 85) ** 2)) * Math.exp(-(((x - 660) / 460) ** 2)) + 0.04 * (noise(x * 0.006, y * 0.03) - 0.5);
-    return bakeGrid(640, 360, (x, y, o) => {
+    return bakeGrid(...FRAME.grid, (x, y, o) => {
       const [wx, wy] = warp(x, y, 1.5), S = sky(x, y);
       const [fx, fy] = toward(x, y);
       if (stones.at(wx, wy) > 0.5) {
@@ -77,3 +83,7 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   }
 }`,
 });
+
+// Mobile: centred on the fire in its ring of stones, the near trunks rising on both sides out of the
+// top of the frame, the embers going up between them.
+SCENES.push(mobile(SCENES.find((s) => s.id === "folly_midnight"), { view: [314, -150, 1.15] }));

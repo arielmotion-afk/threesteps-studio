@@ -12,7 +12,13 @@ SCENES.push({
   sway: 4,
   bake() {
     const M2 = (draw) => makeMask(draw);
-    const house = makeVolume((g) => { g.beginPath(); g.moveTo(-10, -10); g.lineTo(400, -10); g.lineTo(420, 30); g.lineTo(420, 470); g.lineTo(-10, 520); g.fill(); }, 6, 4);
+    const house = makeVolume((g) => {
+      g.beginPath(); g.moveTo(-10, -10); g.lineTo(400, -10); g.lineTo(420, 30); g.lineTo(420, 470); g.lineTo(-10, 520); g.fill();
+    }, 6, 4);
+    // above the desktop frame (seen in the tall mobile one): the rest of the wall, a cornice, the roof
+    const houseUp = (x, y) => y < 30 && x < 420 && y > -250 - (x > 260 ? (x - 260) * 0 : 0);
+    const roofUp = (x, y) => y <= -250 && y > -250 - Math.max(0, 230 - Math.abs(x - 150) * 1.1) && x < 420;
+    const chimney = (x, y) => x > 300 && x < 344 && y < -250 && y > -360;
     const WINS = [[122, 80, 70, 360], [256, 84, 66, 362], [354, 60, 96, 352]];
     const inWin = (x, y) => WINS.some(([cx, w, top, bot]) => lancet(x, y, cx, w, top + w * 0.75, bot, w * 0.85));
     const bars = M2((g) => { g.lineWidth = 3; for (const [x, w, top, bot] of WINS) { g.beginPath(); g.moveTo(x, top + 10); g.lineTo(x, bot); for (let k = 1; k < 5; k++) { const y = top + w + ((bot - top - w) * k) / 5; g.moveTo(x - w / 2, y); g.lineTo(x + w / 2, y); } g.stroke(); g.lineWidth = 5; g.beginPath(); g.moveTo(x - w / 2, top + w); g.lineTo(x - w / 2, bot); g.moveTo(x + w / 2, top + w); g.lineTo(x + w / 2, bot); g.stroke(); g.lineWidth = 3; } });
@@ -38,11 +44,16 @@ SCENES.push({
     const pathC = (y) => 760 + (470 - y) * 0.9 + 60 * Math.sin((470 - y) / 60);
     const gravel = M2((g) => { g.beginPath(); for (let y = 470; y >= 330; y -= 4) g.lineTo(pathC(y) - (y - 300) * 0.35, y); for (let y = 330; y <= 470; y += 4) g.lineTo(pathC(y) + (y - 300) * 0.2 + 10, y); g.closePath(); g.fill(); g.beginPath(); g.moveTo(700, 470); g.quadraticCurveTo(760, 500, 860, 480); g.lineTo(890, 470); g.fill(); });
     const prints = M2((g) => { for (let k = 0; k < 10; k++) { const t = k / 9, x = lerp(520, 300, t) + (k % 2 ? 14 : -14) * (1 - t * 0.6), y = lerp(712, 470, Math.pow(t, 0.8)), s = 1.4 - t * 0.9; g.beginPath(); g.ellipse(x, y, 13 * s, 6 * s, -0.25, 0, TAU); g.fill(); } for (let k = 0; k < 6; k++) { const t = k / 5, x = lerp(330, 640, t) + (k % 2 ? 8 : -8), y = lerp(462, 445, t), s = 0.55; g.beginPath(); g.ellipse(x, y, 13 * s, 6 * s, 0.1, 0, TAU); g.fill(); } });
-    const moon = { x: 868, y: 72 };
-    return bakeGrid(640, 360, (x, y, o) => {
+    const moon = FRAME.view ? { x: 560, y: -190 } : { x: 868, y: 72 };
+    return bakeGrid(...FRAME.grid, (x, y, o) => {
       const [wx, wy] = warp(x, y, 1.2), md = Math.hypot(x - moon.x, y - moon.y);
       const sky = md < 18 ? 1 : 0.1 + 0.35 * Math.exp(-((md / 130) ** 2)) + 0.08 * (1 - y / 400) - 0.08 * smooth(0.55, 0.7, noise(x * 0.004, y * 0.02));
       const lampD = Math.hypot(x - LAMP8.x, (y - LAMP8.y) * 1.6);
+      if (y < 0 && (houseUp(wx, wy) || roofUp(wx, wy) || chimney(wx, wy))) {
+        if (roofUp(wx, wy) || chimney(wx, wy)) { const edge = !roofUp(wx, wy - 4) && !chimney(wx, wy - 4); o.C = edge ? 0.2 : 0.05 + 0.03 * ((Math.floor(x / 9) + Math.floor(y / 7)) % 2); o.D = 0.7; return; }
+        const cornice = y < -236; const block = M.stone(1, 26, 14); const H = { nx: 0, ny: 0, nz: 1, x, y: -y, z: 0 }; block(H);
+        o.C = cornice ? 0.2 : (ivy(wx, wy + 520) > 0.5 && y > -120 ? 0.05 + 0.08 * noise(x * 0.3, y * 0.3) : 0.04 + 0.1 * H.al) * (0.6 + 0.6 * house.shade(wx, 40, 1, -0.3)); o.D = 0.7; return;
+      }
       if (blooms(wx, wy) > 0.5) { o.C = 0.45 + 0.3 * noise(x * 0.3, y * 0.3); o.K = 0.3; o.D = 0.6; o.B = 0.3; return; }
       if (house.at(wx, wy) > 0.5 && !(steps(wx, wy) > 0.5 && y > 395)) {
         if (inWin(wx, wy)) { const bar = bars(wx, wy) > 0.5; o.C = bar ? 0.06 : 0.3 + 0.22 * noise(x * 0.03, y * 0.03) + 0.1 * (y / 360); o.D = 0.7; o.b = bar ? 0 : 1; return; }
@@ -95,3 +106,8 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   if (a.b > 0.5 && b.a > 0.5) C += 0.03 * sin(t * 0.8 + sp.y * 0.05);
 }`,
 });
+
+// Mobile: a tall window onto the garden's plane, over the house side: the reading-room windows and
+// the mud on the sill, the roof and chimney above, the moon over the trees, the boot prints across
+// the lawn toward us.
+SCENES.push(mobile(SCENES.find((s) => s.id === "garden_night"), { view: [10, -380, 1] }));
