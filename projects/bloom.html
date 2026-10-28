@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Face Yoga App Case Study · Ariel Paz</title>
-<meta name="description" content="Face Yoga App: a face yoga and skincare app. Identity, illustration, interface and motion designed as one system.">
+<meta name="description" content="Face Yoga App: a face yoga and skincare app. Illustration, lettering, colour, interface and motion.">
 <meta property="og:title" content="Face Yoga App · Ariel Paz">
-<meta property="og:description" content="Face Yoga App: a face yoga and skincare app. Identity, illustration, interface and motion designed as one system.">
+<meta property="og:description" content="Face Yoga App: a face yoga and skincare app. Illustration, lettering, colour, interface and motion.">
 <meta property="og:image" content="https://threesteps.studio/images/og-image.jpg?v=6">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -29,6 +29,13 @@
   /* ─── Bloom: the app's Iris palette lives only inside its panels; the page keeps the site's look ─── */
   :root { --iris: #2E2A6B; --iris-card: #3D3986; --iris-fg: #F1EEFF; --iris-sub: #B9B3E6;
     --b-pink: #FFB3C7; --b-butter: #FFE58A; --b-tang: #FF8A4C; --b-sky: #A9D8FF; --ease-ios: cubic-bezier(.32, .72, 0, 1); }
+  .show { margin-top: 28px; }
+  .cast-v { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .headers { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .headers img { display: block; width: 100%; height: auto; }
+  .palette { display: flex; justify-content: center; gap: 8%; padding: 56px 0 40px; background: var(--iris); }
+  .palette figure { width: 21%; margin: 0; text-align: center; }
+  .palette figcaption { margin-top: 16px; font-family: var(--label); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--iris-fg); opacity: .75; }
   .panel { background: var(--iris); color: var(--iris-fg); position: relative; overflow: hidden; }
   .cs-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
   .btn { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; font-weight: 600; background: var(--iris); color: var(--iris-fg);
@@ -102,6 +109,9 @@
   @media (max-width: 860px) {
     .facts { grid-template-columns: 1fr 1fr; }
     .stage--bloom { aspect-ratio: 4 / 5; gap: 4%; }
+    .headers { grid-template-columns: 1fr; gap: 10px; }
+    .palette figure { width: 38%; }
+    .palette { padding: 36px 0 28px; }
     .stage--bloom .phone { flex-basis: 27%; }
     .stage--bloom .phone--main { flex-basis: 46%; }
     .stage--bloom .phone--side { transform: translateY(8%); }
@@ -138,7 +148,7 @@
     <a href="../index.html#work" class="back">← All work</a>
     <div class="eyebrow" style="margin-bottom:16px"><b>App identity</b> · Case study</div>
     <h1 class="cs-title">Face Yoga App</h1>
-    <p class="cs-summary">A face yoga and skincare app, designed as one system: identity, illustration, interface and motion. One deep blue-violet carries the brand, and a cast of sticker characters gives every screen its own moment. Live, and made to sit on an iPhone Home Screen.</p>
+    <p class="cs-summary">A face yoga and skincare app, designed end to end: illustration, lettering, colour, interface and motion.</p>
     <div class="cs-actions">
       <a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
     </div>
@@ -160,88 +170,41 @@
 
     <section class="block">
       <div class="block-label"><h2>Why</h2></div>
-      <div class="prose">
-        <p>Six face yoga exercises, a seven-step morning routine, four steps at night. I wanted one app with exactly that: my moves, my products, a timer I can follow with my hands on my face, and a streak. No account, no subscription, works offline.</p>
-      </div>
+      <div class="prose"><p>One app for my own face yoga and skincare routine.</p></div>
     </section>
 
     <section class="block">
-      <div class="block-label"><h2>Motion</h2></div>
-      <div class="prose">
-        <p>Each screen has a sticker character that acts out its moment, animated like stop-motion: the sprout’s leaves flutter, the sun squints, the moon nods off, and Track flips through the six exercise faces as each one does its move.</p>
-        <div class="motion panel">
-          <span class="phone"><video src="../images/process/bloom/bloom-lab.mp4" poster="../images/process/bloom/bloom-lab-poster.jpg" muted loop playsinline autoplay aria-label="The Icon Lab: stickers act on cue, the speed drops to a quarter and back, then the six exercise faces"></video></span>
-          <ul class="motion-notes">
-            <li><b>12 fps, on twos</b>One shared clock drives every character, so they all step together, like hand-drawn animation.</li>
-            <li><b>Crisp outlines</b>An earlier pass wobbled every edge with a pixel filter. It read as a glitch, so it went.</li>
-            <li><b>Rare surprises</b>The title dances once a session; the squiggle under it redraws every 20 to 40 seconds.</li>
-            <li><b>An Icon Lab</b>A hidden page in the app with fps, slow motion, pause and frame-step, my After Effects timeline for code.</li>
-          </ul>
-        </div>
-      </div>
+      <div class="block-label"><h2>The cast</h2></div>
+      <div class="prose"><p>A sticker for every screen and every exercise, animated in stop-motion.</p></div>
     </section>
-
-    <section class="block">
-      <div class="block-label"><div class="eyebrow">Process</div><h2>Visual language</h2></div>
-      <div class="prose">
-        <p>One system across colour, imagery, type and motion, so every screen reads as the same app.</p>
-      </div>
-    </section>
-    <div class="turns" style="margin-top:28px">
-      <article class="turn">
-        <div class="turn-media"><div class="scheme-pair">
-          <span class="phone"><img src="../images/process/bloom/berry-skin-am.webp" alt="Berry: the skincare screen flooded butter yellow" loading="lazy"></span>
-          <span class="phone"><img src="../images/process/bloom/iris-skin-am.webp" alt="Iris: the same screen on deep blue-violet" loading="lazy"></span>
-          <span class="chip-on" style="left:10px">Berry</span><span class="chip-on" style="right:10px">Iris</span>
-        </div></div>
-        <div class="turn-body"><span class="mono">01</span><h3>Colour</h3>
-          <p>Two palettes tested on the same screens. Iris held the app together: one deep blue-violet everywhere, with warm colours kept for faces, ticks and badges.</p></div>
-      </article>
-      <article class="turn">
-        <div class="turn-media"><div class="split">
-          <div><span class="chip-on">Drawn</span><img src="../images/process/bloom/drawn-sweep-2.webp" alt="Illustrated character, fingers on the forehead" loading="lazy"></div>
-          <div><span class="chip-on">Photo</span><img src="../images/process/bloom/photo-sweep-2.webp" alt="Photo: fingers on the forehead" loading="lazy"></div>
-        </div></div>
-        <div class="turn-body"><span class="mono">02</span><h3>Imagery</h3>
-          <p>Stickers carry the character; photographs carry the instructions. The exercise frames share one fixed setup, so 12 stills cover all 18 steps.</p></div>
-      </article>
-      <article class="turn">
-        <div class="turn-media"><div class="ease-demo" aria-hidden="true">
-          <svg class="curve" viewBox="0 0 220 160"><path d="M10 150 H210 M10 150 V10" stroke="rgba(241,238,255,.25)" stroke-width="1.5" fill="none"/><path d="M10 150 C 74.4 42, 10 10, 210 10" stroke="#FFE58A" stroke-width="3" fill="none" stroke-linecap="round"/><circle class="dot" r="7" fill="#FFB3C7"/></svg>
-          <div class="mini-screen"><i style="top:12px"></i><i style="top:30px;right:40%"></i><i style="top:48px"></i><div class="mini-sheet"></div></div>
-        </div></div>
-        <div class="turn-body"><span class="mono">03</span><h3>Type and motion</h3>
-          <p>iOS text styles for reading, hand-lettered stickers for headers. Screens move on the iOS sheet curve: a fast start, a soft settle, no bounce.</p></div>
-      </article>
+    <div class="panel show">
+      <video class="cast-v" src="../images/process/bloom/sticker-cast.mp4" poster="../images/process/bloom/sticker-cast-poster.jpg" muted loop playsinline autoplay aria-label="The sticker cast: sprout, sun, moon and wink, and the six exercise faces, each acting out its move"></video>
     </div>
 
     <section class="block">
-      <div class="block-label"><h2>Fine-tuning</h2></div>
-      <div class="prose">
-        <p>The last stretch was detail: where a hand sits on a face, and how the app sits on a phone.</p>
-      </div>
+      <div class="block-label"><h2>Lettering</h2></div>
+      <div class="prose"><p>Hand-lettered headers, with a new squiggle on every visit.</p></div>
     </section>
-    <div class="turns turns--two" style="margin-top:28px">
-      <article class="turn">
-        <div class="turn-media"><img src="../images/process/bloom/photo-tap-1.webp" alt="Ring fingertips resting under each eye" loading="lazy" style="object-position:50% 30%">
-          <div class="quote">“<mark>Count each hand from the thumb</mark>… the ring finger is the only finger touching the skin.”</div></div>
-        <div class="turn-body"><span class="mono">04</span><h3>The ring finger</h3>
-          <p>Every hand pose checked against the exercise and counted from a visible thumb, so the right finger lands in the right place.</p></div>
-      </article>
-      <article class="turn">
-        <div class="turn-media"><span class="chip-on" style="left:10px">First pass</span><span class="chip-on" style="right:10px">Tuned</span><div class="ios-pair" aria-hidden="true">
-          <svg viewBox="0 0 190 360"><rect x="4" y="4" width="182" height="352" rx="34" fill="#2E2A6B" stroke="#060A16" stroke-width="3"/><rect x="16" y="40" width="158" height="30" rx="10" fill="#3D3986"/><rect x="16" y="78" width="158" height="30" rx="10" fill="#3D3986"/><rect x="7" y="262" width="176" height="34" fill="#221F52"/><rect x="7" y="296" width="176" height="57" fill="#fff" opacity=".92"/><path d="M7 296 H183" stroke="#FF8A4C" stroke-width="3" stroke-dasharray="6 5"/></svg>
-          <svg viewBox="0 0 190 360"><rect x="4" y="4" width="182" height="352" rx="34" fill="#2E2A6B" stroke="#060A16" stroke-width="3"/><rect x="16" y="40" width="158" height="30" rx="10" fill="#3D3986"/><rect x="16" y="78" width="158" height="30" rx="10" fill="#3D3986"/><rect x="18" y="292" width="154" height="38" rx="19" fill="#221F52"/><rect x="30" y="297" width="44" height="28" rx="14" fill="#F1EEFF" opacity=".2"/><rect x="66" y="340" width="58" height="5" rx="2.5" fill="#F1EEFF" opacity=".6"/></svg>
-        </div></div>
-        <div class="turn-body"><span class="mono">05</span><h3>The iPhone Home Screen</h3>
-          <p>Sized from the real window, so the app fills the screen when opened from the Home Screen, with a floating tab bar above the home indicator.</p></div>
-      </article>
+    <div class="headers show">
+      <img src="../images/process/bloom/header-face.webp" alt="Face Yoga header with the sprout sticker" loading="lazy">
+      <img src="../images/process/bloom/header-skin-am.webp" alt="Skincare header with the sun sticker, morning" loading="lazy">
+      <img src="../images/process/bloom/header-skin-pm.webp" alt="Skincare header with the moon sticker, night" loading="lazy">
+      <img src="../images/process/bloom/header-track.webp" alt="Tracking header with an exercise face" loading="lazy">
+    </div>
+
+    <section class="block">
+      <div class="block-label"><h2>Colour</h2></div>
+      <div class="prose"><p>Berry, then Iris: one blue-violet for the whole app, warm colours for the characters.</p></div>
+    </section>
+    <div class="palette show">
+      <figure><span class="phone"><img src="../images/process/bloom/berry-skin-am.webp" alt="Berry palette: the skincare screen in butter yellow and plum" loading="lazy"></span><figcaption>Berry</figcaption></figure>
+      <figure><span class="phone"><img src="../images/process/bloom/iris-skin-am.webp" alt="Iris palette: the same screen on deep blue-violet" loading="lazy"></span><figcaption>Iris</figcaption></figure>
     </div>
 
     <section class="block">
       <div class="block-label"><h2>Next</h2></div>
       <div class="prose">
-        <p>16 filmed motion references, to animate the exercise player.</p>
+        <p>Filmed motion references, to bring the exercise player to life.</p>
         <div class="cs-actions"><a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
       </div>
     </section>
