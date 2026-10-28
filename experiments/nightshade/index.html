@@ -57,6 +57,7 @@
     .stage { position: relative; aspect-ratio: 16 / 9; width: 100%; background: #000; overflow: hidden; }
     .stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .stage-cap { display: flex; justify-content: space-between; gap: 16px; font: 400 12px/1.5 var(--mono); color: var(--muted); padding: 10px 0 0; }
+    .stage-cap .links { display: flex; gap: 16px; }
 
     /* Sections */
     section.wrap { padding-top: 112px; }
@@ -145,7 +146,7 @@
 
   <div class="wrap">
     <div class="stage"><iframe id="live" src="scenes/index.html?s=reading_room&embed" title="Nightshade, the twelve scenes, live" loading="lazy"></iframe></div>
-    <div class="stage-cap"><span>Current scenes, running live. Click for the next one.</span><a href="scenes/index.html?s=reading_room">Open full screen ↗</a></div>
+    <div class="stage-cap"><span>Current scenes, running live. Click for the next one.</span><span class="links"><a href="titles/">Title pages ↗</a><a href="scenes/index.html?s=reading_room">Open full screen ↗</a></span></div>
   </div>
 
   <section class="wrap">

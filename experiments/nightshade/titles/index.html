@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nightshade · title pages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Pixelify+Sans:wght@400;500&family=Silkscreen:wght@400;700&family=Jacquard+24&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ui.css">
+  <style>
+    /* The title pages: each is a scene with its words built into it (a gate, a door, a signpost,
+       a glasshouse, a station board). ←/→ pages · ↑/↓ on the station sets the hour ·
+       E on a picture page switches to the engine-printed version · ?p=N */
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--night); color: var(--text); overflow: hidden; }
+    canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; object-fit: cover; image-rendering: pixelated; }
+    .start { position: fixed; left: 50%; bottom: 9vh; transform: translateX(-50%); min-width: 200px; padding: 14px 20px; }
+    .start .choice { opacity: 1; }
+    .start[hidden] { display: none; }
+    .nav { position: fixed; left: 20px; bottom: 18px; color: var(--soft); }
+    .loading { position: fixed; inset: 0; display: grid; place-items: center; color: var(--soft); pointer-events: none; }
+    .loading[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <canvas id="stage"></canvas>
+  <div class="loading label" id="loading">printing…</div>
+  <div class="start px-frame" id="start" hidden><ul class="choices"><li class="choice sel">Begin</li></ul></div>
+  <span class="nav label" id="nav"></span>
+
+  <script src="../scenes/base.js"></script>
+  <script src="../scenes/engine.js"></script>
+  <script src="../scenes/ray.js"></script>
+  <script src="../scenes/loader.js"></script>
+  <script src="../scenes/dev.js"></script>
+  <script src="../scenes/s01-guest.js"></script>
+  <script src="../scenes/s03-reading.js"></script>
+  <script src="../scenes/t0-lettering.js"></script>
+  <script src="../scenes/t2-door.js"></script>
+  <script src="../scenes/t3-pines.js"></script>
+  <script src="../scenes/t4-orchid.js"></script>
+  <script src="../scenes/t5-station.js"></script>
+  <script>
+    const ORDER = ["title_reading_door", "title_pines", "title_orchid_house", "title_station"];
+    // Mobile: on a tall screen (or ?m) the portrait versions (<id>_m) on a portrait stage. ?d forces desktop.
+    const Q = new URLSearchParams(location.search);
+    const MOBILE = Q.has("m") || (!Q.has("d") && innerHeight > innerWidth);
+    const list = ORDER.map((id) => SCENES.find((s) => s.id === (MOBILE ? id + "_m" : id))).filter(Boolean);
+    const stage = createStage(document.getElementById("stage"));
+    if (MOBILE) stage.resize(360, 640);
+    let i = Math.min(list.length - 1, Math.max(0, (+new URLSearchParams(location.search).get("p") || 1) - 1)), token = 0;
+    const fonts = loadTitleFonts();
+    async function show(k) {
+      i = (k + list.length) % list.length;
+      const s = list[i], my = ++token;
+      history.replaceState(null, "", `?p=${i + 1}${MOBILE && Q.has("m") ? "&m" : ""}`);
+      document.getElementById("nav").textContent = `${i + 1}/${list.length} · ←/→${(s.base || s.id) === "title_station" ? " · ↑/↓ hour" : ""}${"print" in s ? " · E printed / picture" : ""}`;
+      document.getElementById("start").hidden = (s.base || s.id) !== "title_gate";
+      await fonts;
+      const data = await loadScene(s, "../scenes/baked/");
+      if (my !== token) return;
+      document.getElementById("loading").hidden = true;
+      // where to keep when the window crops the 16:9 frame (scene.focus, in % of width and height)
+      document.getElementById("stage").style.objectPosition = s.focus ? `${s.focus[0]}% ${s.focus[1]}%` : "50% 50%";
+      stage.show(s, data);
+      window.sceneReady = s.id;
+    }
+    addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") show(i + 1);
+      if (e.key === "ArrowLeft") show(i - 1);
+      const st = list[i];
+      if (st.setHour && (e.key === "ArrowUp" || e.key === "ArrowDown")) { e.preventDefault(); st.setHour(st.hour + (e.key === "ArrowUp" ? 1 : -1)); }
+      if ("print" in st && (e.key === "e" || e.key === "E")) st.print = st.print ? 0 : 1;
+    });
+    // A click or tap turns the page (on the station, the clock keeps its arrows).
+    document.getElementById("stage").addEventListener("click", () => show(i + 1));
+    window.grab = async (name, t = 6) => {
+      stage.drawAt(t);
+      const b = await new Promise((r) => document.getElementById("stage").toBlob(r, "image/png"));
+      return (await fetch("http://127.0.0.1:8124/" + name, { method: "POST", body: b })).status;
+    };
+    show(i);
+  </script>
+</body>
+</html>

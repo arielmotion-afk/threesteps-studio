@@ -33,12 +33,17 @@ SCENES.push({
       }
       for (let k = 0; k < 6; k++) fern(g, 300 + k * 20, 520, 110 + hash(k, 3) * 50, -Math.PI / 2 - 0.9 + k * 0.3, k + 60);
     });
+    // The logs the fire burns from: charred, ember-lit along the edges (B = 1 marks them for the shader).
+    const logs = makeVolume((g) => { g.lineCap = "round"; for (const [x0, y0, x1, y1, w] of [[668, 580, 792, 556, 17], [684, 552, 784, 584, 15], [700, 570, 760, 548, 12], [742, 588, 806, 572, 11]]) { g.lineWidth = w; g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.stroke(); } }, 5, 4);
     const toward = (px, py) => { const ax = FIRE11.x - px, ay = FIRE11.y - py, l = Math.hypot(ax, ay) || 1; return [ax / l, ay / l]; };
     const sky = (x, y) => 0.04 + 0.42 * Math.exp(-(((y - 275) / 85) ** 2)) * Math.exp(-(((x - 660) / 460) ** 2)) + 0.04 * (noise(x * 0.006, y * 0.03) - 0.5);
     return bakeGrid(...FRAME.grid, (x, y, o) => {
       const [wx, wy] = warp(x, y, 1.5), S = sky(x, y);
       const [fx, fy] = toward(x, y);
-      if (stones.at(wx, wy) > 0.5) {
+      if (logs.at(wx, wy) > 0.5) {
+        const top = logs.shade(wx, wy, 0, -1), bark = noise(x * 0.3, y * 0.08);
+        o.C = 0.02 + 0.05 * top * bark; o.K = 0.3 + 0.9 * top ** 2 * bark; o.B = 1; o.D = 0.72;
+      } else if (stones.at(wx, wy) > 0.5) {
         const fs = stones.shade(wx, wy, fx, fy), top = stones.shade(wx, wy, 0.3, -1);
         const rim = stones.at(wx, wy + 5) < 0.5 || stones.at(wx - 5, wy) < 0.5 || stones.at(wx + 5, wy) < 0.5 ? 0.35 : 1, grit = 0.6 + 0.7 * noise(x * 0.12, y * 0.12) * hash(x >> 1, y >> 1);
         o.C = 0.025 + 0.14 * top ** 3 * grit; o.K = (0.1 + 1.25 * fs ** 3) * rim * grit; o.D = 0.7 + 0.25 * (y / 720);
@@ -71,9 +76,12 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   // Smoke.
   float px = sp.x - f.x - (f.y - sp.y) * 0.1 - sin(t * 0.45 + sp.y * 0.012) * 22.0, rise = clamp((f.y - 150.0 - sp.y) / 380.0, 0.0, 1.0);
   if (sp.y < f.y - 150.0 && b.a < 0.7) C += 0.1 * exp(-px * px / 2400.0) * (1.0 - rise) * noise(vec2(sp.x * 0.015, sp.y * 0.01 + t * 0.35));
-  // Flames.
+  // The logs: embers creeping along the cracks.
+  bool log = b.b > 0.9;
+  if (log) { float e = noise(vec2(sp.x * 0.12, sp.y * 0.2 + t * 0.6)); if (e > 0.62) { W = 0.7 + 0.5 * flick * (e - 0.62) / 0.38; C = e > 0.8 ? 0.2 : 0.0; gPink = 0.0; } }
+  // Flames, rising out of the logs (the front logs stay in front of their base).
   vec2 dq = sp - f;
-  float fl = flame(vec2(dq.x / 80.0, (f.y + 22.0 - sp.y) / (200.0 * (0.85 + 0.3 * flick))), t, 1.0);
+  float fl = log && sp.y > f.y + 8.0 ? 0.0 : flame(vec2(dq.x / 72.0, (f.y + 30.0 - sp.y) / (190.0 * (0.85 + 0.3 * flick))), t, 1.0);
   if (fl > 0.5) { W = fl > 1.5 ? 1.45 : 0.95; C = fl > 1.5 ? 0.32 : 0.0; gPink = 0.0; }
   // Embers.
   for (int i = 0; i < 44; i++) {

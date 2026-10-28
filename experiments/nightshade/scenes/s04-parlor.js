@@ -68,10 +68,12 @@ SCENES.push({
     W.box([-2.6, 0, FZ0 - 0.38], [-2.26, 1.22, FZ0], marble); W.box([-2.6, 0, FZ1], [-2.26, 1.22, FZ1 + 0.38], marble);
     W.box([-2.6, FY, FZ0], [-2.26, 1.22, FZ1], marble);
     W.box([-2.6, 1.22, FZ0 - 0.5], [-2.16, 1.3, FZ1 + 0.5], M.wood(0.36));
-    W.box([-2.6, 0, FZ0 - 0.5], [-1.95, 0.05, FZ1 + 0.5], 0.3);
-    W.box([-2.6, 0, FZ0], [-2.5, FY, FZ1], soot);
-    W.rect(2, FZ0 + 0.001, -2.6, -2.26, 0, FY, soot); W.rect(2, FZ1 - 0.001, -2.6, -2.26, 0, FY, soot);
-    for (const [y, a, b] of [[0.1, 3.4, 4.0], [0.16, 3.45, 3.9]]) W.rod([-2.42, y, a], [-2.36, y, b], 0.05, 0.12);
+    // Inside the firebox is marked (B = 0.5) so the shader only draws flames there.
+    const inside = (al) => (H) => { H.al = al; H.wb = 0.5; };
+    W.box([-2.6, 0, FZ0 - 0.5], [-1.95, 0.05, FZ1 + 0.5], (H) => { H.al = 0.3; if (H.x < -2.26 && H.z > FZ0 && H.z < FZ1) H.wb = 0.5; });
+    W.box([-2.6, 0, FZ0], [-2.5, FY, FZ1], inside(soot));
+    W.rect(2, FZ0 + 0.001, -2.6, -2.26, 0, FY, inside(soot)); W.rect(2, FZ1 - 0.001, -2.6, -2.26, 0, FY, inside(soot));
+    for (const [y, a, b] of [[0.1, 3.4, 4.0], [0.16, 3.45, 3.9]]) W.rod([-2.42, y, a], [-2.36, y, b], 0.05, inside(0.12));
     W.box([-2.5, 1.3, 3.52], [-2.3, 1.52, 3.88], M.wood(0.3)); W.ball(-2.4, 1.55, 3.7, 0.1, M.wood(0.32)); W.cyl(-2.29, 3.7, 0.06, 1.38, 1.46, 0.6);
     for (const z of [FZ0 - 0.3, FZ1 + 0.3]) { W.cyl(-2.4, z, 0.04, 1.3, 1.5, 0.5); W.cyl(-2.4, z, 0.016, 1.5, 1.66, 0.85); }
     W.box([-2.6, 1.7, 3.1], [-2.56, 2.55, 4.3], M.wood(0.24)); W.rect(0, -2.555, 3.2, 4.2, 1.8, 2.45, (H) => { H.al = 0.16 + 0.16 * noise(H.z * 8, H.y * 8); });
@@ -119,11 +121,13 @@ void scene(vec2 sp, vec4 b, vec4 a, float t, inout float C, inout float W) {
   float flick = 0.75 + 0.25 * noise(vec2(t * 5.5, 1.0)) + 0.06 * sin(t * 21.0);
   W = b.g * 2.0 * flick;
   // Flames in the fireplace: low, licking up from the logs.
+  // Only inside the firebox (marked in the bake), so they never spill over the surround or the hearth.
   vec2 f = uFire.xy; float s = uFire.z;
   vec2 q = (sp - f) / s;
-  float fl = flame(vec2(q.x / 0.36, -q.y / (0.34 * (0.8 + 0.3 * flick))), t, 3.0);
+  bool box = b.b > 0.3 && b.b < 0.7;
+  float fl = box ? flame(vec2(q.x / 0.36, -q.y / (0.34 * (0.8 + 0.3 * flick))), t, 3.0) : 0.0;
   if (fl > 0.5) { W = fl > 1.5 ? 1.35 : 0.9; C = fl > 1.5 ? 0.3 : 0.0; }
-  if (abs(q.y) < 0.04 && abs(q.x) < 0.36 && noise(vec2(sp.x * 0.2, t)) > 0.5) W = 0.9;
+  if (box && abs(q.y) < 0.04 && abs(q.x) < 0.36 && noise(vec2(sp.x * 0.2, t)) > 0.5) W = 0.9;
   // Steam drifting out of the kettle in the kitchen.
   vec2 k = (sp - uKettle.xy) / uKettle.z;
   if (k.y < 0.0 && k.y > -1.1) {
