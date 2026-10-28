@@ -143,11 +143,11 @@
   .dc-all { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 14px; font-weight: 500; white-space: nowrap;
     transition: background var(--dur-short) var(--ease-standard), color var(--dur-short) var(--ease-standard); }
   .dc-all:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .dc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
+  .dc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gutter); }
   .dc .case-meta h3 { font-size: 17px; }
-  /* Bloom: one phone, zoomed in and cropped by the card's bottom edge, so the header reads and the small UI doesn't */
-  .dc .bloom-phones { padding-top: 9%; }
-  .dc-grid .dc .bloom-phones span { flex-basis: 54%; margin-top: 0; border-radius: 9% / 4.2%; }
+  /* Bloom card: one phone, zoomed in and cropped by the card's bottom edge, so the header reads and the small UI doesn't */
+  .bloom-phones.bloom-phones--one { padding-top: 7%; }
+  .bloom-phones.bloom-phones--one span { flex-basis: 46%; margin-top: 0; border-radius: 9% / 4.2%; }
 
   /* ─── Earlier work: a quiet horizontal scroller in the same card language ─── */
   .rail-head { flex-direction: row; justify-content: space-between; align-items: flex-end; }
@@ -290,6 +290,14 @@
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Notch Voice Assistant</h3><span class="mono">Product motion · WebGL</span></div>
       </a>
+      <a class="case rv" data-track="product" href="projects/bloom.html">
+        <div class="case-shell"><div class="case-media case-media--bloom"><span class="tag cs">Case study</span>
+          <div class="bloom-phones bloom-phones--one" aria-hidden="true">
+            <span><video src="images/process/bloom/bloom-demo.mp4" poster="images/process/bloom/bloom-demo-poster.jpg" autoplay muted loop playsinline></video></span>
+          </div>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Bloom</h3><span class="mono">App design · UI · Illustration</span></div>
+      </a>
       <a class="case rv" data-track="product" href="projects/dex-loader.html">
         <div class="case-shell"><div class="case-media"><span class="tag cs">Case study</span>
           <video src="images/process/dex/onboarding-discovery.mp4" autoplay muted loop playsinline poster="images/process/dex/onboarding-discovery-poster.jpg" style="object-position: 35% center"></video>
@@ -302,17 +310,17 @@
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Elementor</h3><span class="mono">Brand retainer · Motion · AI</span></div>
       </a>
-      <a class="case rv" data-track="marketing" href="projects/project-12.html">
-        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
-          <video src="images/thumbnails/video/notch.mp4" autoplay muted loop playsinline poster="images/thumbnails/notch%20thumbnail.png"></video>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Notch</h3><span class="mono">Product videos · Motion graphics</span></div>
-      </a>
       <a class="case case--featured rv" data-featured data-track="marketing" href="projects/project-02.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
           <video src="images/thumbnails/video/maestro.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/maestro-poster.jpg"></video>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>AI21 Maestro</h3><span class="mono">Launch film · Motion graphics</span></div>
+      </a>
+      <a class="case rv" data-track="marketing" href="projects/project-12.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <video src="images/thumbnails/video/notch.mp4" autoplay muted loop playsinline poster="images/thumbnails/notch%20thumbnail.png"></video>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Notch</h3><span class="mono">Product videos · Motion graphics</span></div>
       </a>
       <a class="case rv" data-track="marketing" href="projects/project-15.html">
         <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
@@ -326,6 +334,12 @@
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>Product &amp; web animations</h3><span class="mono">Lottie · Web</span></div>
       </a>
+      <a class="case rv" data-track="marketing" href="projects/project-01.html">
+        <div class="case-shell"><div class="case-media"><span class="tag mkt">Marketing</span>
+          <video src="images/thumbnails/video/island.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/island-poster.jpg"></video>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Island</h3><span class="mono">Product video · Motion graphics</span></div>
+      </a>
     </div>
   </section>
 
@@ -335,19 +349,11 @@
     <div class="work-head rail-head dc-head">
       <div>
         <h2 class="h2">Design &amp; code</h2>
-        <p class="dc-lede">Side projects I design and build for myself with AI: an app I use every day, a game in progress, and a few web experiments.</p>
+        <p class="dc-lede">Side projects I design and build for myself with AI: a game in progress and a few web experiments.</p>
       </div>
       <a class="dc-all" href="experiments/">All experiments<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
     </div>
     <div class="dc-grid">
-      <a class="case dc rv" href="projects/bloom.html">
-        <div class="case-shell"><div class="case-media case-media--bloom"><span class="tag cs">Case study</span>
-          <div class="bloom-phones" aria-hidden="true">
-            <span><video src="images/process/bloom/bloom-demo.mp4" poster="images/process/bloom/bloom-demo-poster.jpg" autoplay muted loop playsinline></video></span>
-          </div>
-          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Bloom</h3><span class="mono">App · UI · Illustration</span></div>
-      </a>
       <a class="case dc rv" href="experiments/nightshade/">
         <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">In progress</span>
           <img src="experiments/nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels" loading="lazy">
@@ -376,8 +382,7 @@
     </div>
     <div class="minis" id="rail" tabindex="0" aria-label="Earlier work">
       <a class="mini rv" href="projects/project-03.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/jamba.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/jamba-poster.jpg"></video></div></div><div class="case-meta"><h4>Jamba</h4><span class="mono">Motion graphics</span></div></a>
-      <a class="mini rv" href="projects/project-01.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/island.mp4" autoplay muted loop playsinline poster="images/thumbnails/video/island-poster.jpg"></video></div></div><div class="case-meta"><h4>Island.io</h4><span class="mono">Motion graphics</span></div></a>
-            <a class="mini rv" href="projects/project-11.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/noma.png" alt=""></div></div><div class="case-meta"><h4>Noma</h4><span class="mono">Motion graphics</span></div></a>
+                  <a class="mini rv" href="projects/project-11.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/noma.png" alt=""></div></div><div class="case-meta"><h4>Noma</h4><span class="mono">Motion graphics</span></div></a>
       <a class="mini rv" href="ugc.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/ugc.mp4" autoplay muted loop playsinline poster="images/thumbnails/ugc-thumbnail.png"></video></div></div><div class="case-meta"><h4>AI-UGC</h4><span class="mono">Paid social</span></div></a>
       <a class="mini rv" href="projects/project-04.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/sounds%20familiar%20thumbnail.png" alt=""></div></div><div class="case-meta"><h4>Wordtune</h4><span class="mono">Motion graphics</span></div></a>
       <a class="mini rv" href="projects/project-10.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/dont%20sweat%20it.png" alt=""></div></div><div class="case-meta"><h4>Wordtune: Don't Sweat It</h4><span class="mono">Motion graphics</span></div></a>
