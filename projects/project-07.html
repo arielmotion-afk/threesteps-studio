@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Animations · Three Steps Studio</title>
-  <meta name="description" content="Interactive Animations · Three Steps Studio.">
+  <meta name="description" content="Interactive and code animation by Ariel Paz: loaders, game scenes, a Rive toy, an app, a voice orb and a shader.">
   <meta property="og:title" content="Interactive Animations · Three Steps Studio">
-  <meta property="og:description" content="Motion design by Three Steps Studio.">
+  <meta property="og:description" content="Interactive and code animation by Ariel Paz: loaders, game scenes, a Rive toy, an app, a voice orb and a shader.">
   <meta property="og:image" content="https://threesteps.studio/images/og-image.jpg?v=6">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
@@ -76,6 +76,31 @@
     .lc-wip span { padding: 10px 18px; border-radius: 999px; background: rgba(26,26,26,.85); color: #fff; font-size: 14px; font-weight: 500; }
     .lc-frame.has-rive .lc-wip { display: none; }
     #lc-stars { display: none; }
+    /* Live pieces: the real work runs in the page. Each loads when it nears the screen and shows a still until it has drawn. */
+    .live-frame { position: relative; width: 100%; max-width: 1120px; aspect-ratio: 16 / 10; overflow: hidden; background: #000; }
+    .live-frame > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .live-frame > iframe { position: absolute; left: 0; top: 0; border: 0; pointer-events: none; opacity: 0; transition: opacity .6s ease; }
+    .live-frame > iframe.on { opacity: 1; }
+    .live-frame--aw > iframe { width: 1600px; height: 1000px; transform-origin: 0 0; }
+    .live-frame--ns > iframe { width: 100%; height: 100%; }
+    .live-frame--ns { background: #0B1020; }
+    /* "Try it": the piece is a link; a pill fades in on hover (always shown on touch screens) */
+    a.live-frame, .dewy-stage { display: block; color: inherit; text-decoration: none; }
+    .try-pill { position: absolute; right: 18px; bottom: 18px; z-index: 4; display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 999px; background: #fff; color: #1a1a1a; font-size: 14px; font-weight: 500; text-decoration: none; opacity: 0; transform: translateY(6px); transition: opacity .25s ease, transform .25s ease; }
+    .try-pill .arw { width: 10px; height: 10px; }
+    a.live-frame::after { content: ""; position: absolute; inset: 0; z-index: 3; background: rgba(0, 0, 0, .28); opacity: 0; transition: opacity .25s ease; }
+    a.live-frame:hover::after { opacity: 1; }
+    a.live-frame:hover .try-pill, .dewy-stage:hover .try-pill, .try-pill:focus-visible { opacity: 1; transform: none; }
+    @media (hover: none) { .try-pill { opacity: 1; transform: none; right: 12px; bottom: 12px; padding: 8px 14px; font-size: 13px; } }
+    /* Dewy: the real app inside an iPhone, at its own 390 x 844 layout */
+    .dewy-stage { position: relative; width: 100%; max-width: 1120px; display: grid; place-items: center; padding: 48px 0; background: #5B57D6; }
+    .iphone { position: relative; width: min(300px, 72vw); border-radius: 15% / 7%; padding: calc(min(300px, 72vw) * .026); background: #0d0d10; box-shadow: inset 0 0 0 1.5px #6a6a72, inset 0 0 0 4px #1d1d22, 0 40px 80px rgba(8, 5, 40, .5), 0 10px 22px rgba(8, 5, 40, .3); }
+    .iphone .scr { position: relative; width: 100%; aspect-ratio: 390 / 844; border-radius: 12.6% / 5.8%; overflow: hidden; background: #2E2A6B; isolation: isolate; -webkit-mask-image: -webkit-radial-gradient(#fff, #000); transform: translateZ(0); }
+    .iphone::before, .iphone::after { content: ""; position: absolute; left: -1.4%; width: 1.6%; border-radius: 3px 0 0 3px; background: #3a3a40; }
+    .iphone::before { top: 18%; height: 7%; }
+    .iphone::after { top: 28%; height: 11%; }
+    .iphone .island { position: absolute; z-index: 3; top: 2.1%; left: 50%; width: 31%; height: 3.4%; transform: translateX(-50%); border-radius: 999px; background: #000; }
+    .iphone iframe { position: absolute; left: 0; top: 0; width: 390px; height: 844px; border: 0; transform-origin: 0 0; }
     .lc-frame.has-rive + #lc-stars { display: flex; }   /* buttons come back once the Rive file exists */
   </style>
 <link rel="stylesheet" href="../css/bubbles.css?v=3">
@@ -98,11 +123,33 @@
       <div class="project-header">
         <div>
           <h1 class="project-title">Interactive Animations</h1>
-          <p class="project-category">Code · Rive · Interactive</p>
+          <p class="project-category">Code · WebGL · Rive</p>
         </div>
-        <p class="project-description">Interactive motion in Rive and WebGL: pieces that respond to touch, cursor and voice. Each one runs on a state machine or a shader instead of a timeline.</p>
+        <p class="project-description">Interactive and code animation. Every piece on this page runs live: it responds to cursor, touch or voice, driven by code, a shader or a state machine instead of a timeline.</p>
       </div>
 
+      <hr class="project-rule">
+      <div class="lottie-section">
+        <div class="lottie-section-header">
+          <h2 class="lottie-section-title">The Art of Waiting // Loading</h2>
+          <p class="lottie-section-desc">A gallery of loaders with personalities: rings that come undone, planets that almost align, a burner that turns down as you lean in. Drawn live in WebGL.</p>
+        </div>
+        <div class="orb-section">
+          <a class="live-frame live-frame--aw" href="../experiments/art-of-waiting/" aria-label="Try The Art of Waiting"><img src="../experiments/art-of-waiting/cover.webp?v=3" alt="The Art of Waiting: glass spheres hanging in a row on black" loading="lazy"><iframe data-src="../experiments/art-of-waiting/?preview" title="The Art of Waiting, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe><span class="try-pill">Try it<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></a>
+          <p class="orb-caption">Eight loaders, each one reacts to the cursor</p>
+        </div>
+      </div>
+      <hr class="project-rule">
+      <div class="lottie-section">
+        <div class="lottie-section-header">
+          <h2 class="lottie-section-title">Nightshade</h2>
+          <p class="lottie-section-desc">Visual tests for a small murder-mystery game: twelve night scenes drawn, lit and animated in code. In progress.</p>
+        </div>
+        <div class="orb-section">
+          <a class="live-frame live-frame--ns" href="../experiments/nightshade/" aria-label="Try Nightshade"><img src="../experiments/nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels" loading="lazy"><iframe data-src="../experiments/nightshade/scenes/?s=folly_midnight&amp;embed&amp;cover" title="Nightshade, live scene" tabindex="-1" aria-hidden="true" scrolling="no"></iframe><span class="try-pill">Try it<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></a>
+          <p class="orb-caption">One of twelve scenes</p>
+        </div>
+      </div>
       <hr class="project-rule">
 
       <div class="lottie-section">
@@ -117,6 +164,18 @@
       </div>
 
 
+      <hr class="project-rule">
+      <div class="lottie-section">
+        <div class="lottie-section-header">
+          <h2 class="lottie-section-title">Dewy</h2>
+          <p class="lottie-section-desc">A face yoga and skincare app: illustration, interface and motion, running as a working web app.</p>
+        </div>
+        <div class="orb-section">
+          <div class="dewy-stage"><div class="iphone"><span class="island"></span><div class="scr"><iframe data-src="https://bloom.arielmotion.workers.dev/?portfolio" title="Dewy, the live app"></iframe></div></div><a class="try-pill" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Try it<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
+          <p class="orb-caption">Tap through the app</p>
+          <a class="orb-cta" href="bloom.html">Read the case study →</a>
+        </div>
+      </div>
       <hr class="project-rule">
 
       <div class="lottie-section">
@@ -182,6 +241,33 @@
         window.addEventListener('resize', () => r.resizeDrawingSurfaceToCanvas());
       },
     });
+  </script>
+  <script>
+  // Live pieces: each loads when it nears the screen and shows once it has drawn; the game scene sleeps when scrolled away.
+  (function () {
+    var aw = document.querySelector('.live-frame--aw'), ns = document.querySelector('.live-frame--ns'), dw = document.querySelector('.dewy-stage');
+    var awf = aw.querySelector('iframe');
+    function fitAw() { var w = aw.clientWidth, h = aw.clientHeight, k = Math.max(w / 1600, h / 1000);
+      awf.style.transform = 'translate(' + (w - 1600 * k) / 2 + 'px,' + (h - 1000 * k) / 2 + 'px) scale(' + k + ')'; }
+    // The app keeps its 390pt width, starts below the island and fills the rest of the screen. The frame is a
+    // scrollbar wider, so a visible scrollbar (desktop setting) sits outside the clipped screen.
+    var sb = (function () { var d = document.createElement('div'); d.style.cssText = 'position:absolute;top:-99px;width:50px;height:50px;overflow:scroll';
+      document.body.appendChild(d); var w = d.offsetWidth - d.clientWidth; d.remove(); return w; }());
+    function fitDewy() { var scr = dw.querySelector('.scr'), f = scr.querySelector('iframe'), k = scr.clientWidth / 390, top = 47 * k;
+      f.style.width = (390 + sb) + 'px'; f.style.height = (scr.clientHeight - top) / k + 'px';
+      f.style.transform = 'translate(0,' + top + 'px) scale(' + k + ')'; }
+    fitAw(); fitDewy(); addEventListener('resize', function () { fitAw(); fitDewy(); });
+    addEventListener('message', function (e) { if (e.source === awf.contentWindow && e.data === 'aw-ready') awf.classList.add('on'); });
+    var load = function (box) { var f = box.querySelector('iframe'); if (f.src) return f; f.src = f.dataset.src;
+      if (box !== aw) f.addEventListener('load', function () { setTimeout(function () { f.classList.add('on'); }, 300); }, { once: true }); return f; };
+    if (!('IntersectionObserver' in window)) { [aw, ns, dw].forEach(load); return; }
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) {
+      if (!e.isIntersecting && !e.target.querySelector('iframe').src) return;
+      var f = load(e.target);
+      if (e.target === ns && f.contentWindow) f.contentWindow.postMessage({ nightshade: e.isIntersecting ? 'wake' : 'sleep' }, '*');
+    }); }, { rootMargin: '300px' });
+    [aw, ns, dw].forEach(function (b) { io.observe(b); });
+  }());
   </script>
   <script src="../js/main.js?v=3"></script>
   <script src="../js/hero-fabric.js?v=11"></script>
