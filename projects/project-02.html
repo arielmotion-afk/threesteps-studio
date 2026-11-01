@@ -20,6 +20,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css?v=5">
 <link rel="stylesheet" href="../css/bubbles.css?v=3">
+  <style>
+    /* AI production pairs: caption underneath each image, as in css/case-study.css */
+    .process--ai { margin-top: 56px; }
+    .process-intro { max-width: 900px; margin: 0 auto 24px; color: var(--muted); line-height: 1.55; }
+    .process-grid--2col-wide.process-grid--captioned { row-gap: 24px; align-items: start; }
+    .process-grid--captioned figure { margin: 0; }
+    .process-grid--captioned img { aspect-ratio: 1200 / 676; }
+    .process-grid--captioned figcaption { margin-top: 10px; font-size: 13px; line-height: 1.45; letter-spacing: .01em; color: var(--muted); }
+  </style>
 </head>
 <body>
 
@@ -69,6 +78,19 @@
           <video autoplay muted loop playsinline><source src="../videos/process/maestro-02.mp4" type="video/mp4"></video>
           <video autoplay muted loop playsinline><source src="../videos/process/maestro-03.mp4" type="video/mp4"></video>
           <video autoplay muted loop playsinline><source src="../videos/process/maestro-04.mp4" type="video/mp4"></video>
+        </div>
+      </section>
+
+      <section class="process process--ai">
+        <h2 class="section-label">AI production</h2>
+        <p class="process-intro">The live-action footage wasn't strong enough, so it was replaced with three matching AI-generated 4K shots, with a green screen built into the monitor. The Maestro UI was then tracked and composited in After Effects.</p>
+        <div class="process-grid process-grid--2col-wide process-grid--captioned">
+          <figure><img src="../images/process/Maestro/01-original-footage.jpg" alt="Live-action footage: hands typing on a white keyboard at a wooden desk, a mug beside it, in flat daylight" width="1200" height="676" loading="lazy"><figcaption>Original live-action footage</figcaption></figure>
+          <figure><img src="../images/process/Maestro/02-ai-replacement.jpg" alt="The same framing generated with AI: hands on the keyboard in warm, low sunlight" width="1200" height="676" loading="lazy"><figcaption>AI-generated replacement</figcaption></figure>
+          <figure><img src="../images/process/Maestro/03-ai-green-screen.jpg" alt="AI-generated wide shot of a sunlit home office with blinds, the monitor showing a green screen" width="1200" height="676" loading="lazy"><figcaption>AI-generated shot, green screen in the monitor</figcaption></figure>
+          <figure><img src="../images/process/Maestro/04-final-ui-tracked.jpg" alt="The same office with the Maestro interface on the monitor and the line "What if your AI agents were accurate from day 1?"" width="1200" height="676" loading="lazy"><figcaption>Final, UI tracked onto the screen</figcaption></figure>
+          <figure><img src="../images/process/Maestro/05-ai-shot.jpg" alt="AI-generated close shot of hands typing in front of a monitor, a plant and a framed print behind" width="1200" height="676" loading="lazy"><figcaption>AI-generated shot</figcaption></figure>
+          <figure><img src="../images/process/Maestro/06-final-ui-composited.jpg" alt="The same shot with an AI21 Maestro Agent prompt box and interface composited over it" width="1200" height="676" loading="lazy"><figcaption>Final, UI composited</figcaption></figure>
         </div>
       </section>
 
