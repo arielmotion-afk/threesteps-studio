@@ -145,7 +145,8 @@
   .dc-all:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
   .more-work { display: flex; align-items: center; gap: 16px; margin-top: 56px; }
   .more-work span { font-family: var(--label); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-  .dc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
+  .dc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); }
+  @media (max-width: 1100px) { .dc-grid { grid-template-columns: repeat(2, 1fr); } }
   .dc .case-meta h3 { font-size: 17px; }
   /* Bloom card: one phone, zoomed in and cropped by the card's bottom edge, so the header reads and the small UI doesn't */
   .bloom-phones.bloom-phones--one { padding-top: 7%; }
@@ -358,7 +359,7 @@
     <div class="work-head rail-head dc-head">
       <div>
         <h2 class="h2">Interactive</h2>
-        <p class="dc-lede">Motion that responds to touch and cursor: Rive state machines, WebGL experiments and a game in progress.</p>
+        <p class="dc-lede">Motion that responds to touch and cursor: Rive state machines, WebGL experiments, a game in progress and a concept website.</p>
       </div>
       <a class="dc-all" href="experiments/">All experiments<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
     </div>
@@ -383,6 +384,12 @@
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
         <div class="case-meta"><h3>The Art of Waiting</h3><span class="mono">WebGL loaders</span></div>
       </a>
+      <a class="case dc rv" href="projects/ardent.html">
+        <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">Website</span>
+          <video src="images/process/ardent/site-home-scroll.mp4" muted loop playsinline preload="none" poster="images/process/ardent/thumb.jpg" aria-label="Scrolling through the Ardent website"></video>
+          <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
+        <div class="case-meta"><h3>Ardent</h3><span class="mono">Concept site · Web</span></div>
+      </a>
     </div>
   </section>
 
@@ -400,7 +407,6 @@
       <a class="mini rv" href="ugc.html"><div class="case-shell"><div class="case-media"><video src="images/thumbnails/video/ugc.mp4" muted loop playsinline preload="none" poster="images/thumbnails/ugc-thumbnail.png"></video></div></div><div class="case-meta"><h4>AI-UGC</h4><span class="mono">Paid social</span></div></a>
       <a class="mini rv" href="projects/project-10.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/dont%20sweat%20it.png" alt=""></div></div><div class="case-meta"><h4>Wordtune: Don't Sweat It</h4><span class="mono">Motion graphics</span></div></a>
       <a class="mini rv" href="projects/project-09.html"><div class="case-shell"><div class="case-media"><img src="images/thumbnails/lexi%20thumbnail.png" alt=""></div></div><div class="case-meta"><h4>Wordtune Ad</h4><span class="mono">Motion graphics</span></div></a>
-      <a class="mini rv" href="projects/ardent.html"><div class="case-shell"><div class="case-media"><img src="images/process/ardent/thumb.jpg" alt="" loading="lazy"></div></div><div class="case-meta"><h4>Ardent</h4><span class="mono">Web design · Campaign</span></div></a>
     </div>
   </section>
 
