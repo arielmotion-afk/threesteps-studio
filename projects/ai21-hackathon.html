@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Jamba Hackathon · Ariel Paz</title>
+<meta name="description" content="Jamba Hackathon: a LinkedIn video for the Jamba release and the hackathon landing page.">
+<link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/v2.css?v=12">
+<link rel="stylesheet" href="../css/case-study.css?v=10">
+<style>
+  /* ─── Context Window: the Jamba film's colours live inside its panels; the page keeps the site's look ─── */
+  :root { --h-ink: #000; --h-circle: #FED1CC; --h-lilac: #FFADF2; --h-peach: #FFEBCC; --h-off: #F6F4F2; --h-mute: #8C8690; --h-edge: rgba(254,209,204,.22); }
+  .dark { background: var(--h-ink); color: var(--h-off); }
+  .show { margin-top: 28px; }
+  .top-hero { padding-top: 0; }   /* coast to coast, like the other project videos */
+  .film { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+  .top-hero + .cs-hero { padding-top: 48px; }
+  .cs-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .btn { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; font-weight: 600; background: var(--h-ink); color: var(--h-off);
+    transition: transform var(--dur-short) var(--ease-standard); }
+  .btn:active { transform: scale(.97); }
+
+  /* hero: the landing page recorded on desktop and phone, as on the Ardent page */
+  .hero-mock { aspect-ratio: 16 / 10; position: relative; overflow: hidden; border-radius: 10px; background: radial-gradient(120% 90% at 70% 110%, #3A1D35 0, var(--h-ink) 60%); }
+  .hm-desk { position: absolute; left: 6%; top: 8%; width: 72%; }
+  .hm-desk video { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .hm-phone { position: absolute; right: 7%; bottom: -6%; width: 19%; background: var(--h-ink); }
+  .hm-phone video { display: block; width: 100%; aspect-ratio: 390 / 844; object-fit: cover; }
+
+  /* full pages that scroll inside their frame */
+  .browser { border-radius: 10px; overflow: hidden; background: var(--h-ink); }
+  .browser .bar { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #111; }
+  .browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #2C2A2E; }
+  .browser .bar span { margin-left: 12px; font: 500 11px 'Geist Mono', monospace; color: var(--h-mute); }
+  .scroll { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }   /* no scrollbar: on this light page it read as a black edge */
+  .scroll::-webkit-scrollbar { display: none; }
+  .scroll img { display: block; width: 100%; height: auto; }
+  .browser .scroll { aspect-ratio: 16 / 10; }
+  .phones { display: grid; grid-template-columns: 1fr; justify-items: center; padding: 40px 0 0; margin-top: 14px; }
+  .phones figure { width: min(300px, 62%); }
+  .phone { border-radius: 10px; overflow: hidden; }   /* same corners as the desktop frames, no shadows */
+  .phone .scroll { aspect-ratio: 390 / 844; }
+  .swag { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .swag img { display: block; width: 100%; height: auto; border-radius: 10px; }
+  .phones figcaption { margin-top: 12px; text-align: center; color: var(--h-mute); }
+
+
+  .prose p, .cap { text-wrap: pretty; }
+
+  @media (max-width: 860px) {
+    .cs-title { font-size: min(38px, 8.7vw); }   /* "Hackathon" is one long word: keep it inside a phone screen */
+    .hero-mock { aspect-ratio: 4 / 3.4; }
+    .hm-desk { left: 4%; top: 6%; width: 84%; }
+    .hm-phone { right: 4%; bottom: -4%; width: 30%; }
+    .browser .scroll { aspect-ratio: 4 / 5; }
+  }
+</style>
+<link rel="stylesheet" href="../css/bubbles.css?v=3">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="brand-dot"></span>Ariel Paz</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Resume<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="top-hero">
+    <video class="film" src="../videos/jamba.mp4" poster="../images/thumbnails/posters/jamba.jpg" autoplay muted loop playsinline controls aria-label="The Jamba video"></video>
+  </div>
+
+  <header class="cs-hero wrap">
+    <a href="../index.html#work" class="back">← All work</a>
+    <div class="eyebrow" style="margin-bottom:16px"><b>Video and landing page</b> · AI21 Labs</div>
+    <h1 class="cs-title">Jamba Hackathon</h1>
+    <p class="cs-summary">A video to promote a hackathon on LinkedIn for the Jamba release, and the hackathon's landing page.</p>
+    <div class="cs-actions"><a class="btn" href="../ai21-hackathon/landing/" target="_blank" rel="noopener">Visit the landing page<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
+    <dl class="facts">
+      <div><dt>Client</dt><dd>AI21 Labs</dd></div>
+      <div><dt>Role</dt><dd>Motion · web design</dd></div>
+      <div><dt>Scope</dt><dd>LinkedIn video · landing page · swag</dd></div>
+    </dl>
+  </header>
+
+  <div class="wrap">
+
+    <section class="block">
+      <div class="block-label"><h2>Landing page</h2></div>
+    </section>
+    <div class="stage hero-mock">
+      <div class="browser hm-desk">
+        <div class="bar"><i></i><i></i><i></i><span>hackathon.ai21.internal</span></div>
+        <video src="../images/process/ai21-hackathon/site-scroll.mp4" poster="../images/process/ai21-hackathon/site-scroll.jpg" muted loop playsinline preload="auto" aria-label="Scrolling through the hackathon landing page on desktop"></video>
+      </div>
+      <div class="phone hm-phone"><video src="../images/process/ai21-hackathon/site-scroll-phone.mp4" poster="../images/process/ai21-hackathon/site-scroll-phone.jpg" muted loop playsinline preload="auto" aria-label="Scrolling through the hackathon landing page on a phone"></video></div>
+    </div>
+    <p class="cap">The landing page, recorded in the browser</p>
+    <div class="browser show">
+      <div class="bar"><i></i><i></i><i></i><span>hackathon.ai21.internal</span></div>
+      <div class="scroll" tabindex="0" aria-label="The landing page, full length"><img src="../images/process/ai21-hackathon/site-full.jpg" alt="The hackathon landing page, full length" loading="lazy"></div>
+    </div>
+    <div class="phones">
+      <figure><div class="phone"><div class="scroll" tabindex="0" aria-label="The landing page on a phone, full length"><img src="../images/process/ai21-hackathon/site-full-phone.jpg" alt="The landing page on a phone" loading="lazy"></div></div><figcaption class="cap">On a phone</figcaption></figure>
+    </div>
+
+    <section class="block">
+      <div class="block-label"><h2>Swag</h2></div>
+    </section>
+    <div class="swag show">
+      <img src="../images/process/ai21-hackathon/tee.jpg" alt="A black t-shirt, back side up, printed with the circle grid reading The Context Window 48H Hackathon and the AI21 logo" loading="lazy">
+      <img src="../images/process/ai21-hackathon/badges.jpg" alt="Four event badges on black lanyards, one per role in lilac, peach, salmon and pink, with names handwritten in marker" loading="lazy">
+      <img src="../images/process/ai21-hackathon/stickers.jpg" alt="A closed laptop with circle and pill stickers reading Context, Window and 48H, the AI21 logo and a cursor, next to the half-used sticker sheet" loading="lazy">
+      <img src="../images/process/ai21-hackathon/mug.jpg" alt="A black mug on a windowsill, printed all round with the circle grid and the words The Context Window Hackathon 48H, with the AI21 logo" loading="lazy">
+    </div>
+  </div>
+</main>
+
+<footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
+  <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
+  <h2 class="bub-name">LET'S TALK</h2>
+  <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
+</footer>
+
+<script>
+(function () {
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 8), { passive: true });
+  // Videos play only while on screen, and start from the top the first time they're seen (so the header animation isn't missed)
+  const vio = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target; if (e.isIntersecting) { if (v.dataset.src && !v.src) v.src = v.dataset.src; if (!v._seen) { v._seen = true; v.currentTime = 0; } v.play().catch(() => {}); } else v.pause(); }), { threshold: 0.15, rootMargin: '200px 0px' });
+  document.querySelectorAll('video').forEach((v) => { v.muted = true; vio.observe(v); });
+}());
+</script>
+<script src="../js/v2.js?v=4"></script>
+<script src="../js/bubbles.js?v=9"></script>
+<script>
+  Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
+    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
+    homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
+    glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],
+  });
+</script>
+</body>
+</html>

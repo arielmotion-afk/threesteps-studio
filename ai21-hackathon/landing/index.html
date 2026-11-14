@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Context Window · AI21 hackathon</title>
+<meta name="description" content="Context Window, the AI21 internal hackathon. Two days, mixed teams, real demos. Tel Aviv office and remote.">
+<style>
+@font-face{font-family:G;src:url(../shared/fonts/Geist-Variable.ttf);font-weight:100 900;font-display:swap}
+@font-face{font-family:GM;src:url(../shared/fonts/GeistMono-Variable.ttf);font-weight:100 900;font-display:swap}
+:root{
+  --ink:#0B0B0B;--off:#F6F4F2;--white:#fff;
+  --lilac:#FFADF2;--pink:#FED6F9;--pink-2:#FFE7FA;--pink-3:#FEC5F5;--peach:#FFEBCC;--salmon:#FEBDB5;   /* sampled from the Jamba film */
+  --dim:#2C2A2E;--mute:#6B6670;--line:#D8D3D9;
+  --theme:var(--lilac);            /* the one colour a future hackathon swaps */
+  --pad:clamp(16px,4vw,56px);--max:1440px;
+  --ease:cubic-bezier(.2,0,0,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--off);color:var(--ink);font:400 17px/1.5 G;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img,video{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--theme);outline-offset:3px}
+.wrap{padding-left:var(--pad);padding-right:var(--pad)}
+.in{max-width:var(--max);margin:0 auto}
+.label{font:400 12px/1.2 GM;letter-spacing:.08em;text-transform:uppercase}
+.h2{font:500 clamp(32px,3.6vw,52px)/1.02 G;letter-spacing:-.035em}
+.pill{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:999px;border:1px solid transparent;
+  background:var(--ink);color:var(--white);font:500 16px G;letter-spacing:-.01em;text-decoration:none;cursor:pointer;transition:transform .2s var(--ease),background .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn--theme{background:var(--theme);color:var(--ink)}
+.btn--ghost{background:transparent;color:inherit;border-color:currentColor}
+p,li,span,figcaption,summary,dd,.lede{text-wrap:pretty}
+h1,h2,h3,.prizes b,.models b{text-wrap:balance}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ── nav ── */
+.nav{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--white)}
+.nav .in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:24px}
+.nav .logo{height:18px;filter:invert(1)}
+.nav ul{display:flex;gap:28px;list-style:none;font-size:14px}
+.nav ul a{text-decoration:none;opacity:.75;transition:opacity .2s}.nav ul a:hover{opacity:1}
+.nav .btn{min-height:38px;padding:0 16px;font-size:14px;background:var(--white);color:var(--ink)}
+
+/* ── hero: the Jamba film's circle frame, rebuilt in code on the film's own 1920 x 1080 grid ── */
+.hero{background:#000;color:var(--white);padding-bottom:clamp(40px,5vw,72px)}
+.frame{position:relative;overflow:hidden;background:#000}
+.stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.stage .it{position:absolute;height:140px;border-radius:70px;background:#FED1CC;color:#000;will-change:transform}
+.stage .c{width:140px}
+.stage .w{display:flex;align-items:center;justify-content:center;font:400 84px/1 G;letter-spacing:-.025em;white-space:nowrap}
+.stage .chk{position:absolute;left:0;top:0;width:140px;height:140px;overflow:visible}
+.stage .chk{transition:opacity .6s ease}.stage .chk path{fill:none;stroke:#000;stroke-width:3.6;stroke-dasharray:110;stroke-dashoffset:110;transition:stroke-dashoffset .55s cubic-bezier(.45,0,.2,1)}
+.stage.clearing .chk{opacity:0}
+.stage .ticked .chk path{stroke-dashoffset:0}
+.cursor{position:absolute;left:0;top:0;width:110px;height:110px;transition:opacity .6s ease;z-index:3;pointer-events:none;will-change:transform}
+.hero-row{padding-top:clamp(24px,3vw,44px);display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.when{font-size:clamp(18px,1.5vw,21px);line-height:1.45;color:#D9D4DC}.when b{color:var(--white);font-weight:500}
+.cta{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+.hero .btn--ghost{color:var(--white);border-color:#4A474D}
+.count{text-align:right}
+.count .label{color:var(--theme);margin-bottom:10px}
+.count-n{display:flex;gap:clamp(14px,2vw,28px)}
+.count-n div{min-width:2.1ch;text-align:left}
+.count-n b{display:block;font:500 clamp(40px,4.4vw,64px)/1 G;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.count-n span{font:400 11px GM;letter-spacing:.08em;color:#9C96A0}
+
+/* ── question ── */
+.q{background:var(--peach);position:relative;padding-top:clamp(64px,8vw,128px);padding-bottom:clamp(56px,7vw,112px)}
+.q::before{content:"";position:absolute;left:0;right:0;top:0;height:clamp(14px,1.6vw,24px);background:var(--theme)}
+.q h2{font:500 clamp(42px,6.6vw,108px)/.94 G;letter-spacing:-.04em;text-transform:uppercase;max-width:13.5ch}
+.q .lede{margin-top:28px;font-size:clamp(18px,1.5vw,21px);line-height:1.45;max-width:54ch}
+.units{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.units div{background:rgba(255,255,255,.55);border-radius:16px;padding:22px}
+.units b{display:block;font:500 clamp(34px,3.4vw,52px)/1 G;letter-spacing:-.04em}
+.units span{display:block;margin-top:10px;font-size:15px;line-height:1.35}
+.q .label{margin-bottom:18px}
+.models{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.models div{background:var(--ink);color:var(--white);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:6px;min-height:170px}
+.models .label{color:#FED1CC;margin:0 0 auto}
+.models b{font:500 clamp(24px,2.2vw,32px)/1.05 G;letter-spacing:-.03em;margin-top:auto}
+.models p{color:#BDB6C0;font-size:15px}
+.models code{align-self:flex-start;margin-top:8px;font:400 13px GM;background:#FED1CC;color:var(--ink);padding:3px 10px;border-radius:999px}
+.fits{margin-top:clamp(28px,3vw,40px);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.fits p{max-width:56ch;font-size:17px}
+.arw{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6}
+
+/* ── chart: rebuilt from the Jamba film's context-length chart ── */
+.chart{background:var(--off)}
+.chart-head{padding-top:clamp(56px,7vw,112px);padding-bottom:clamp(36px,4vw,56px)}
+.chart-head .pre{font:400 clamp(20px,1.9vw,30px)/1.2 G;letter-spacing:-.02em}
+.chart-head h2{margin-top:clamp(10px,1vw,16px);font:400 clamp(44px,5.4vw,84px)/.98 G;letter-spacing:-.04em}
+.cw{container-type:inline-size;position:relative;aspect-ratio:16/9;background:var(--lilac);overflow:hidden}
+.cw .row{position:absolute;left:0;right:0;height:25%}
+.cw .fill{position:absolute;left:0;top:0;bottom:0;clip-path:inset(0 100% 0 0)}
+.cw .row:nth-child(1){top:0}.cw .row:nth-child(1) .fill{background:var(--white)}
+.cw .row:nth-child(2){top:25%}.cw .row:nth-child(2) .fill{background:#FFE7FA}
+.cw .row:nth-child(3){top:50%}.cw .row:nth-child(3) .fill{background:#FED6F9}
+.cw .row:nth-child(4){top:75%}.cw .row:nth-child(4) .fill{background:#FEC5F5}
+.cw .lab{position:absolute;left:2.4cqw;bottom:2cqw;font:400 1.9cqw/1 G;letter-spacing:-.02em;white-space:nowrap}
+.cw .num{position:absolute;left:2.4cqw;top:1.8cqw;font:400 10cqw/.9 G;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.cw .row:nth-child(1) .lab{bottom:auto;top:11.2cqw}
+.cw .ch{opacity:0;transition:opacity .35s linear}
+.cw .ch.on{opacity:1}
+.cw .grid{position:absolute;top:0;bottom:2.2cqw;width:1px;background:var(--ink);transform-origin:top;transform:scaleY(0);transition:transform 1s cubic-bezier(.2,0,0,1)}
+.cw .ax{position:absolute;bottom:2.2cqw;font:400 3.2cqw/1 G;letter-spacing:-.03em;writing-mode:vertical-rl;transform:rotate(180deg);opacity:0;transition:opacity .5s .4s}
+.cw.go .grid{transform:scaleY(1)}.cw.go .ax{opacity:1}
+@media (max-width:760px){
+  .models{grid-template-columns:1fr}.models div{min-height:0}
+  .cw{aspect-ratio:4/5}
+  .chart-head h2{font-size:36px}
+  .cw .num{font-size:18cqw;top:3cqw}.cw .row:nth-child(1) .lab{top:20cqw}
+  .cw .lab{font-size:3.8cqw;left:4cqw;bottom:3.6cqw}.cw .num{left:4cqw}
+  .cw .ax{font-size:5.4cqw;bottom:3.6cqw}.cw .grid{bottom:3.6cqw}
+}
+
+/* ── sections ── */
+.sec{padding-top:clamp(64px,7vw,112px);padding-bottom:clamp(64px,7vw,112px)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.sec-head p{max-width:44ch;color:#3A363C}
+
+/* schedule */
+.sched{margin-top:40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(20px,3vw,48px);align-items:start}
+.day h3{margin-bottom:12px;color:var(--mute)}
+.day ol{list-style:none}
+.day li{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:14px 0;border-top:1px solid var(--line);font-size:17px}
+.day li time{font:400 14px GM;color:var(--mute);padding-top:3px}
+.day li.hl{font-weight:500}.day li.hl time{color:var(--ink)}
+.day li.work{background:#FED1CC;border-top-color:transparent;border-radius:12px;padding-left:14px;padding-right:14px;margin:0 -14px}.day li.work time{color:var(--ink)}.day li.work+li{border-top-color:transparent}
+.film{background:var(--white);border-radius:16px;overflow:hidden}
+.player{position:relative;aspect-ratio:16/9;background:var(--peach);cursor:pointer}
+.player video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.play{margin-top:16px;display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 18px 0 8px;border:0;border-radius:999px;
+  background:var(--theme);color:var(--ink);font:500 15px G;letter-spacing:-.01em;cursor:pointer;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.play i{width:30px;height:30px;border-radius:50%;background:var(--white);display:grid;place-items:center}
+.play i svg{width:10px;height:12px;margin-left:2px}
+.play .t{font:400 12px GM;opacity:.7}
+.play:hover{transform:translateY(-1px)}
+.play .ic-pause{display:none}.film.is-playing .play .ic-play{display:none}.film.is-playing .play .ic-pause{display:block}
+.prog{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(11,11,11,.08);opacity:0;transition:opacity .3s}
+.prog b{display:block;height:100%;width:0;background:var(--theme)}
+.film.is-playing .prog,.film.is-paused .prog{opacity:1}
+.film figcaption{padding:18px 20px 20px;font-size:15px;line-height:1.45;color:#3A363C}.film figcaption b{display:block;color:var(--ink);font-weight:500;margin-bottom:4px}
+
+/* teams + register */
+.teams{background:var(--ink);color:var(--white)}
+.teams .sec-head p{color:#BDB6C0}
+.reg{margin-top:48px;display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(24px,4vw,64px);align-items:start}
+form{display:grid;gap:26px}
+.field>span,.field legend{display:block;margin-bottom:10px;color:#BDB6C0}
+fieldset{border:0}
+input[type=text],textarea{width:100%;background:transparent;border:0;border-bottom:1px solid #4A474D;color:var(--white);font:500 clamp(22px,2vw,28px)/1.3 G;letter-spacing:-.02em;padding:6px 0 10px;border-radius:0}
+textarea{font-size:18px;font-weight:400;resize:vertical;min-height:84px}
+input[type=text]::placeholder,textarea::placeholder{color:#5E5A62}
+input[type=text]:focus,textarea:focus{outline:0;border-bottom-color:var(--theme)}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choices label{position:relative;cursor:pointer}
+.choices input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.choices span{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #4A474D;font:500 16px G;transition:background .2s,color .2s,border-color .2s}
+.choices input:checked+span{background:var(--c,var(--white));border-color:var(--c,var(--white));color:var(--ink)}
+.choices input:focus-visible+span{outline:2px solid var(--theme);outline-offset:3px}
+.role-dev{--c:var(--lilac)}.role-research{--c:var(--peach)}.role-product{--c:var(--salmon)}.role-ops{--c:var(--pink)}
+.err{color:var(--salmon);font-size:14px;min-height:20px}
+
+/* badge preview */
+.badge-wrap{position:sticky;top:96px;display:flex;flex-direction:column;align-items:center}
+.strap{width:30px;height:110px;overflow:hidden;background:var(--rc,var(--lilac));display:flex;align-items:center;justify-content:center;transition:background .3s}
+.strap span{white-space:nowrap;writing-mode:vertical-rl;font:500 9px GM;letter-spacing:.14em;color:var(--ink)}
+.badge{width:min(100%,300px);aspect-ratio:54/86;background:var(--white);color:var(--ink);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 60px rgba(0,0,0,.4);transition:transform .4s var(--ease)}
+.badge-top{background:var(--rc,var(--lilac));padding:18px 20px 30px;transition:background .3s}
+.badge-top .label{font-size:10px}
+.badge-name{margin-top:42px;font:500 32px/1 G;letter-spacing:-.04em;min-height:1em;overflow-wrap:anywhere}
+.badge-team{margin-top:6px;font-size:14px}
+.badge-dots{padding:16px 20px 0;display:grid;grid-template-columns:repeat(8,1fr);gap:6px}.badge-hint{padding:8px 20px 0;font:400 9px GM;letter-spacing:.08em;color:#9C96A0;text-transform:uppercase}
+.badge-dots i{aspect-ratio:1;border-radius:50%;background:#ECE8EC}.badge-dots i.on{background:var(--ink)}
+.badge-role{margin:auto 20px 18px;display:flex;justify-content:space-between;align-items:center}
+.badge-role .label{font-weight:600}
+.badge-role img{height:12px}
+.badge-note{margin-top:18px;font:400 12px GM;color:#8C8690;text-align:center}
+.done{display:none;border:1px solid #4A474D;border-radius:16px;padding:28px}
+.done b{display:block;font:500 28px/1.1 G;letter-spacing:-.03em;margin-bottom:8px}
+.done p{color:#BDB6C0}
+.reg.is-done form{display:none}.reg.is-done .done{display:block}
+.reg.is-done .badge{transform:rotate(-3deg)}
+
+/* prizes */
+.prizes{margin-top:40px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.prizes div{border-radius:16px;padding:24px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;font-size:15px;line-height:1.4}
+.prizes b{font:500 clamp(24px,2vw,30px)/1.05 G;letter-spacing:-.03em}
+
+/* faq */
+.faq{display:grid;grid-template-columns:1fr 2fr;gap:clamp(24px,4vw,64px)}
+details{border-top:1px solid var(--line)}details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:22px 0;font:500 clamp(18px,1.6vw,22px)/1.3 G;letter-spacing:-.02em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:28px;height:28px;border-radius:50%;background:var(--pink) center/12px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 1v10M1 6h10' stroke='%230B0B0B' stroke-width='1.6'/%3E%3C/svg%3E");transition:transform .3s var(--ease)}
+details[open] summary::after{transform:rotate(45deg);background-color:var(--theme)}
+details code{font:400 .9em GM;background:var(--pink-2);padding:1px 6px;border-radius:6px}details p{padding:0 0 22px;max-width:60ch;color:#3A363C}
+
+footer{background:var(--ink);color:var(--white)}
+footer .in{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-top:40px;padding-bottom:40px}
+footer img{height:20px;filter:invert(1)}
+footer .label{color:#8C8690}
+
+@media (max-width:1000px){
+  .sched{grid-template-columns:1fr 1fr}.sched .film{grid-column:1/-1;order:-1}
+  .prizes{grid-template-columns:1fr 1fr}
+  .reg{grid-template-columns:1fr}.badge-wrap{position:static;order:-1}
+  .faq{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .nav ul{display:none}
+  .count{text-align:left}
+  .units{grid-template-columns:1fr 1fr}
+  .sched{grid-template-columns:1fr}
+  .prizes div{min-height:170px;padding:18px}.prizes b{font-size:22px}
+  .badge{width:240px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.cw .fill{clip-path:none!important}.cw .ch{opacity:1}.cw .grid{transform:none}.cw .ax{opacity:1}}
+</style>
+</head>
+<body>
+
+<nav class="nav wrap" aria-label="Main"><div class="in">
+  <img class="logo" src="../shared/ai21.png" alt="AI21">
+  <ul><li><a href="#what">Jamba</a></li><li><a href="#schedule">Schedule</a></li><li><a href="#teams">Teams</a></li><li><a href="#prizes">Prizes</a></li><li><a href="#faq">FAQ</a></li></ul>
+  <a class="btn" href="#teams">Register</a>
+</div></nav>
+
+<header class="hero">
+  <h1 class="sr">Context Window, AI21 hackathon</h1>
+  <div class="frame" id="frame" aria-hidden="true"><div class="stage" id="stage"></div></div>
+  <div class="wrap"><div class="in hero-row">
+    <div>
+      <p class="when"><b>AI21 internal hackathon</b><br>10 to 11 Dec · Tel Aviv office and remote</p>
+      <div class="cta"><a class="btn btn--theme" href="#teams">Register</a><a class="btn btn--ghost" href="#what">About Jamba</a></div>
+    </div>
+    <div class="count" aria-live="polite">
+      <div class="label" id="count-label">Starts in</div>
+      <div class="count-n" id="count-n"><div><b id="cd">00</b><span>DAYS</span></div><div><b id="ch">00</b><span>HRS</span></div><div><b id="cm">00</b><span>MIN</span></div><div><b id="cs">00</b><span>SEC</span></div></div>
+    </div>
+  </div></div>
+</header>
+
+<section class="q wrap" id="what"><div class="in">
+  <h2>Build with Jamba</h2>
+  <p class="lede">Jamba is AI21's family of open models. It combines Mamba and Transformer layers in one architecture and reads up to 256K tokens in a single prompt. For two days, mixed teams of engineers, researchers, product and ops build demos on it and show them on day two.</p>
+  <div class="units">
+    <div><b>256K</b><span>tokens of context on every Jamba model</span></div>
+    <div><b>9</b><span>languages, including Hebrew and Arabic</span></div>
+    <div><b>3</b><span>models to choose from</span></div>
+    <div><b>Open</b><span>weights, deployable in a private VPC or on-prem</span></div>
+  </div>
+  <div class="models">
+    <div><b>Jamba Large 1.7</b><p>398B parameters, 94B active</p><code>jamba-large</code></div>
+    <div><b>Jamba Mini 2</b><p>52B parameters, 12B active</p><code>jamba-mini</code></div>
+    <div><b>Jamba2 3B</b><p>3B parameters, the smallest in the family</p><code>open weights</code></div>
+  </div>
+  <div class="fits"><p>Good fits for two days: long-document analysis, the retrieval step of a RAG pipeline, and tools that work across languages.</p><a class="btn btn--ghost" href="https://docs.ai21.com/docs/jamba-foundation-models" target="_blank" rel="noopener">Read the Jamba docs<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
+</div></section>
+
+<section class="chart" aria-labelledby="chart-h">
+  <div class="chart-head wrap"><div class="in">
+    <p class="pre">Probably the</p>
+    <h2 id="chart-h">Longest Context Window<br>In The Building</h2>
+  </div></div>
+  <div class="cw" id="cw" role="img" aria-label="Bar chart in hours. This hackathon, 48 hours. Your last all-nighter, 24. A flight to New York, 12. Attention span, 8.">
+    <div class="row" data-h="48"><div class="fill"></div><div class="num" id="cw-num">0h</div><div class="lab">This hackathon</div></div>
+    <div class="row" data-h="24"><div class="fill"></div><div class="lab">Your last all-nighter</div></div>
+    <div class="row" data-h="12"><div class="fill"></div><div class="lab">A flight to New York</div></div>
+    <div class="row" data-h="8"><div class="fill"></div><div class="lab">Attention span</div></div>
+  </div>
+</section>
+
+<section class="sec wrap" id="schedule"><div class="in">
+  <div class="sec-head"><h2 class="h2">Schedule</h2><p>Both days run at the Tel Aviv office. Kickoff, check-ins and demos are streamed for remote teams.</p></div>
+  <div class="sched">
+    <div class="day"><h3 class="label">Day 1 · Thu 10 Dec</h3><ol>
+      <li class="hl"><time>09:00</time>Kickoff</li>
+      <li><time>09:30</time>Pitch ideas, form teams</li>
+      <li class="work"><time>10:30</time>Build</li>
+      <li><time>13:00</time>Lunch</li>
+      <li class="work"><time>14:00</time>Build</li>
+      <li><time>17:00</time>Check-in with mentors</li>
+      <li class="work"><time>17:30</time>Build</li>
+      <li><time>19:30</time>Dinner</li>
+      <li class="work"><time>20:30</time>Build late, optional</li></ol></div>
+    <div class="day"><h3 class="label">Day 2 · Fri 11 Dec</h3><ol>
+      <li><time>09:00</time>Breakfast</li>
+      <li class="work"><time>09:30</time>Build</li>
+      <li><time>12:00</time>Check-in with mentors</li>
+      <li><time>13:00</time>Lunch</li>
+      <li class="work"><time>13:45</time>Final build sprint</li>
+      <li class="hl"><time>15:00</time>Code freeze</li>
+      <li class="hl"><time>15:30</time>Demos, 4 minutes per team</li>
+      <li><time>17:30</time>Awards</li>
+      <li><time>18:00</time>Drinks</li></ol></div>
+    <figure class="film">
+      <div class="player" id="player">
+        <video id="film" src="../../videos/jamba.mp4" poster="media/jamba-poster.jpg" preload="none" playsinline></video>
+        <div class="prog" id="prog" aria-hidden="true"><b></b></div>
+      </div>
+      <figcaption><b>Kickoff opens with the Jamba film</b>The release film for Jamba, our hybrid Mamba-Transformer model with a 256K-token context window. Watch it before you come.<br>
+        <button class="play" id="play" type="button"><i><svg class="ic-play" viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z" fill="#0B0B0B"/></svg><svg class="ic-pause" viewBox="0 0 10 12" aria-hidden="true"><path d="M1 0h3v12H1zM6 0h3v12H6z" fill="#0B0B0B"/></svg></i><span id="play-l">Watch the film</span><span class="t" id="play-t">0:56</span></button></figcaption>
+    </figure>
+  </div>
+</div></section>
+
+<section class="sec teams wrap" id="teams"><div class="in">
+  <div class="sec-head"><h2 class="h2">Teams of 3 to 5,<br>mixed on purpose</h2><p>Sign up alone or with people you know. We fill the gaps so every team has at least two roles. Ideas go in #context-window before 7 Dec.</p></div>
+  <div class="reg" id="reg">
+    <div>
+      <form id="form" novalidate>
+        <label class="field"><span class="label">Your name</span><input type="text" id="f-name" name="name" placeholder="First name" autocomplete="off" maxlength="22"></label>
+        <fieldset class="field"><legend class="label">Your role</legend><div class="choices" id="f-role">
+          <label class="role-dev"><input type="radio" name="role" value="dev" checked><span>dev</span></label>
+          <label class="role-research"><input type="radio" name="role" value="research"><span>research</span></label>
+          <label class="role-product"><input type="radio" name="role" value="product"><span>product</span></label>
+          <label class="role-ops"><input type="radio" name="role" value="ops"><span>ops</span></label></div></fieldset>
+        <fieldset class="field"><legend class="label">Team</legend><div class="choices">
+          <label><input type="radio" name="team" value="looking" checked><span>Find me a team</span></label>
+          <label><input type="radio" name="team" value="have"><span>I have a team</span></label></div></fieldset>
+        <fieldset class="field"><legend class="label">Where</legend><div class="choices">
+          <label><input type="radio" name="where" value="office" checked><span>Tel Aviv office</span></label>
+          <label><input type="radio" name="where" value="remote"><span>Remote</span></label></div></fieldset>
+        <label class="field"><span class="label">An idea, if you have one</span><textarea name="idea" placeholder="Optional"></textarea></label>
+        <div><p class="err" id="err" role="alert"></p><button class="btn btn--theme" type="submit">Register</button></div>
+      </form>
+      <div class="done" id="done" tabindex="-1"><b>You're in.</b><p id="done-p">Your badge will be at the front desk on day one. Team matching goes out on 8 Dec.</p><button class="btn btn--ghost" type="button" id="again" style="margin-top:20px">Edit registration</button></div>
+    </div>
+    <div class="badge-wrap" aria-hidden="true">
+      <div class="strap"><span>CONTEXT WINDOW · 48H · CONTEXT WINDOW</span></div>
+      <div class="badge" id="badge">
+        <div class="badge-top"><div class="label">Context Window</div><div class="badge-name" id="b-name">Your name</div><div class="badge-team" id="b-team">Team to be matched</div></div>
+        <div class="badge-dots" id="b-dots"></div><div class="badge-hint">48 hours · tick one off each hour</div>
+        <div class="badge-role"><span class="label" id="b-role">dev</span><img src="../shared/ai21.png" alt=""></div>
+      </div>
+      <p class="badge-note">Your badge, in your role's colour</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec wrap" id="prizes"><div class="in">
+  <div class="sec-head"><h2 class="h2">Prizes</h2><p>Judged by a panel from across the company after the demos.</p></div>
+  <div class="prizes">
+    <div style="background:var(--lilac)"><b>Best demo</b><span>Works live, on stage, on the first try.</span></div>
+    <div style="background:var(--peach)"><b>Best use of long context</b><span>Puts Jamba's 256K tokens to real work.</span></div>
+    <div style="background:var(--salmon)"><b>Best mixed team</b><span>The most roles and the best result.</span></div>
+    <div style="background:var(--pink)"><b>Temperature 1.0</b><span>The strangest idea that still runs.</span></div>
+  </div>
+</div></section>
+
+<section class="sec wrap" id="faq" style="padding-top:0"><div class="in faq">
+  <h2 class="h2">FAQ</h2>
+  <div>
+    <details open><summary>Do I need to code?</summary><p>No. Teams need product, research and ops people as much as engineers.</p></details>
+    <details><summary>Can I join remotely?</summary><p>Yes. Kickoff, check-ins and demos are streamed, and remote people join the same teams.</p></details>
+    <details><summary>Which models can we use?</summary><p>The Jamba family through the internal API: Jamba Large 1.7 (<code>jamba-large</code>) and Jamba Mini 2 (<code>jamba-mini</code>). Jamba2 3B is there too as open weights, if your idea needs a small model. Keys are handed out at kickoff.</p></details>
+    <details><summary>How much context do we get?</summary><p>256K tokens on every Jamba model. That's enough for long contracts, full codebases or a year of support tickets in one prompt, so ideas that need a lot of input are welcome.</p></details>
+    <details><summary>Can we build in Hebrew?</summary><p>Yes. Jamba supports 9 languages: English, Hebrew, Arabic, Spanish, French, Portuguese, Italian, Dutch and German.</p></details>
+    <details><summary>What if I don't have an idea?</summary><p>Come anyway. Ideas are posted in #context-window before the event, and most teams form around one of those.</p></details>
+    <details><summary>Does it count as work time?</summary><p>Yes. Both days are cleared with team leads.</p></details>
+  </div>
+</div></section>
+
+<footer class="wrap"><div class="in"><img src="../shared/ai21.png" alt="AI21"><span class="label">Context Window · AI21 internal hackathon · 10 to 11 Dec</span></div></footer>
+
+<script>
+(() => {
+  const START = Date.parse('2026-12-10T07:00:00Z');   // 09:00 Tel Aviv
+  const HOURS = 48, END = START + HOURS * 3600e3;
+  const qs = new URLSearchParams(location.search);
+  const now = () => qs.has('at') ? Date.parse(qs.get('at')) : Date.now();   // ?at=2026-12-10T20:00:00Z previews the live state
+
+  // Hero: the film's circle frame. Same grid as the film (1920 x 1080, 140 px circles, 16 px gaps, rows every
+  // 170 px, same row starts), our words in the pills. Rows slide in from both sides, then a cursor ticks circles.
+  const $ = (id) => document.getElementById(id);
+  const frame = $('frame'), stage = $('stage');
+  const ROWS = [
+    { x: 294, items: ['c', 'c', 'THE', 'c', 'c', 'c', 'c', 'c', 'c'] },
+    { x: 160, items: ['c', 'c', 'CONTEXT', 'c', 'c', 'c', 'c'] },
+    { x: 286, items: ['c', 'c', 'c', 'WINDOW', 'c', 'c', 'c', 'c'] },
+    { x: 160, items: ['c', 'c', 'c', '48H', 'c', 'HACKATHON', 'c'] },
+    { x: 213, items: Array(10).fill('c') },
+  ];
+  const D = 140, GAP = 16.4, PITCH = 170, TOP = 130, RIGHT = 1800, PAD = 46;
+  const TICKS = [[3, 2], [4, 1], [0, 0], [1, 0], [0, 4], [1, 3], [0, 8], [2, 1], [4, 7]];
+  const grid = [];   // grid[row][item] = element
+  let wordsL = 1e9, wordsR = 0;
+  function build() {
+    const meas = document.createElement('span'); meas.className = 'it w'; meas.style.cssText = 'visibility:hidden;width:auto;padding:0'; stage.appendChild(meas);
+    ROWS.forEach((row, r) => {
+      let x = row.x; const els = [];
+      const split = Math.max(1, row.items.findIndex((t) => t !== 'c') + 1 || Math.ceil(row.items.length / 2));
+      row.items.forEach((t, i) => {
+        let w = D;
+        if (t !== 'c') { meas.textContent = t; meas.style.width = 'auto'; w = Math.ceil(meas.offsetWidth) + 2 * PAD; }
+        if (t === 'c' && x + w > RIGHT) return;   // keep the right edge where the film's is
+        const e = document.createElement('div');
+        e.className = 'it ' + (t === 'c' ? 'c' : 'w');
+        e.style.left = x + 'px'; e.style.top = (TOP + r * PITCH) + 'px'; e.style.width = w + 'px';
+        if (t === 'c') e.innerHTML = '<svg class="chk" viewBox="-70 -70 140 140"><path d="M-31 1 L-7 25 L34 -17"/></svg>';
+        else { e.textContent = t; wordsL = Math.min(wordsL, x); wordsR = Math.max(wordsR, x + w); }
+        e._side = i < split ? -1 : 1; e._dist = i < split ? split - 1 - i : i - split;
+        stage.appendChild(e); els.push(e); x += w + GAP;
+      });
+      els._split = split; grid.push(els);
+    });
+    meas.remove();
+  }
+  // Fit the circles themselves (not the film's full 1920 frame) so there is little black around them.
+  const BOX = { l: 160, t: 130, r: 1800, b: 950 };
+  function fit() {
+    const W = frame.clientWidth, phone = W < 760, m = phone ? 0 : Math.max(24, W * .035);
+    let s, ox;
+    if (phone) { s = W / ((wordsR - wordsL) + 260); ox = W / 2 - ((wordsL + wordsR) / 2) * s; }
+    else {
+      const maxH = Math.max(320, innerHeight - 64 - 190);   // leave room for the dates and countdown below
+      s = Math.min((W - 2 * m) / (BOX.r - BOX.l), (maxH - 2 * m) / (BOX.b - BOX.t));
+      ox = W / 2 - ((BOX.l + BOX.r) / 2) * s;
+    }
+    const pad = phone ? 24 : m;
+    frame.style.height = Math.round((BOX.b - BOX.t) * s + 2 * pad) + 'px';
+    stage._s = s; stage.style.transform = 'translate(' + ox + 'px,' + (pad - BOX.t * s) + 'px) scale(' + s + ')';
+  }
+  // cursor: white arrow with the film's warm shadow
+  const cur = document.createElement('div'); cur.className = 'cursor';
+  cur.innerHTML = '<svg viewBox="0 0 100 100" width="110" height="110"><path d="M25 19 L84 53 L56 65 L37 87 Z" fill="#FBE6C8" stroke="#FBE6C8" stroke-width="3" stroke-linejoin="round"/><path d="M25 19 L84 53 L56 65 L47 78 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ease = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  let cx = 1010, cy = 1180;
+  function moveTo(x, y, ms) {
+    const x0 = cx, y0 = cy, t0 = performance.now();
+    return new Promise((res) => (function f(n) {
+      const k = ease(Math.min(1, (n - t0) / ms)); cx = x0 + (x - x0) * k; cy = y0 + (y - y0) * k;
+      cur.style.transform = 'translate(' + (cx - 27) + 'px,' + (cy - 21) + 'px)';
+      k < 1 ? requestAnimationFrame(f) : res();
+    })(t0));
+  }
+  // Build-in, as in the film: each row's halves fly in on springs, overshoot, knock into each other and settle.
+  // Every circle and pill is a mass on its own spring; touching neighbours bounce off each other.
+  const ROW_LAG = [0, 170, 90, 260, 130];
+  const D0 = 1000, OMEGA = 3.1, ZETA = .72, KC = 3000, CC = 93;   // start offset (px), spring speed, damping; contact cushion stiffness and damping
+  const setX = (e, u) => { e.style.transform = u ? 'translateX(' + u.toFixed(1) + 'px)' : 'none'; };
+  function springIn() {
+    const rows = grid.map((row) => row.map((e) => {
+      const w = OMEGA * (1 - .03 * e._dist);   // outer pieces a little softer, so they trail and nudge the leaders
+      return { e, T: parseFloat(e.style.left), W: parseFloat(e.style.width), u: e._side * (D0 + e._dist * 35), v: 0, k: w * w, c: 2 * ZETA * w, f: 0 };
+    }));
+    rows.flat().forEach((p) => setX(p.e, p.u));
+    return new Promise((res) => {
+      const t0 = performance.now(); let last = t0;
+      (function f(now) {
+        let dt = Math.min(.05, (now - last) / 1000); last = now; let busy = false;
+        const steps = Math.ceil(dt / (1 / 240)), h = dt / steps;
+        rows.forEach((row, r) => {
+          if (now - t0 < ROW_LAG[r]) { busy = true; return; }
+          for (let s = 0; s < steps; s++) {
+            // neighbours that touch push apart through a soft, damped cushion instead of snapping, so nothing buzzes
+            row.forEach((p) => { p.f = -p.k * p.u - p.c * p.v; });
+            for (let j = 0; j < row.length - 1; j++) {
+              const a = row[j], b = row[j + 1], over = (a.T + a.u + a.W) - (b.T + b.u);
+              if (over > 0) { const push = KC * over + CC * Math.max(0, a.v - b.v); a.f -= push; b.f += push; }
+            }
+            row.forEach((p) => { p.v += p.f * h; p.u += p.v * h; });
+          }
+          row.forEach((p) => { setX(p.e, p.u); if (Math.abs(p.u) > .5 || Math.abs(p.v) > 6) busy = true; });
+        });
+        if (busy) requestAnimationFrame(f); else { rows.flat().forEach((p) => setX(p.e, 0)); res(); }
+      })(t0);
+    });
+  }
+  function slideOut() {   // leave the way they came, easing in, bottom row first
+    const t0 = performance.now(), DUR = 1500;
+    return new Promise((res) => (function f(now) {
+      let busy = false;
+      grid.forEach((row, r) => row.forEach((e) => {
+        const t = Math.max(0, Math.min(1, (now - t0 - ROW_LAG[4 - r] - e._dist * 25) / DUR));
+        if (t < 1) busy = true;
+        setX(e, e._side * (D0 + 400) * t * t * t);
+      }));
+      busy ? requestAnimationFrame(f) : res();
+    })(t0));
+  }
+  const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const whenVisible = () => new Promise((res) => { const go = () => (document.hidden ? setTimeout(go, 500) : res()); go(); });
+  async function run() {
+    const all = grid.flat();
+    all.forEach((e) => setX(e, e._side * D0 * 2));
+    if (reduce) { all.forEach((e) => { e.style.transform = 'none'; }); TICKS.forEach(([r, i]) => grid[r][i] && grid[r][i].classList.add('ticked')); return; }
+    stage.appendChild(cur); cur.style.opacity = 0;
+    let first = true;
+    await sleep(700);   // a beat of black before the first rows arrive
+    for (;;) {
+      await whenVisible();
+      await springIn(); await sleep(250);
+      // the first pass uses the film's order, later passes pick a new set of circles
+      const circles = []; grid.forEach((row, r) => row.forEach((e, i) => { if (e.classList.contains('c')) circles.push([r, i]); }));
+      const order = first ? TICKS : shuffle(circles).slice(0, 9).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+      first = false;
+      cx = 1010; cy = 1180; cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px)'; cur.style.opacity = 1;
+      for (const [r, i] of order) {
+        const e = grid[r][i]; if (!e || !e.classList.contains('c')) continue;
+        await moveTo(parseFloat(e.style.left) + 97, TOP + r * PITCH + 100, 820);
+        await sleep(120); e.classList.add('ticked'); await sleep(420);
+      }
+      await moveTo(cx + 140, 1200, 1100); cur.style.opacity = 0;
+      await sleep(1600);
+      stage.classList.add('clearing'); await sleep(700);
+      await slideOut();
+      all.forEach((e) => e.classList.remove('ticked')); stage.classList.remove('clearing');
+      await sleep(400);
+    }
+  }
+  document.fonts.ready.then(() => { build(); fit(); run(); });
+  addEventListener('resize', fit);
+
+  const pad = (n) => String(n).padStart(2, '0');
+  function tick() {
+    const t = now();
+    let left, label;
+    if (t < START) { left = START - t; label = 'Starts in'; }
+    else if (t < END) { left = END - t; label = 'Hour ' + (Math.floor((t - START) / 3600e3) + 1) + ' of 48 · time left'; }
+    else { left = 0; label = "That's a wrap"; }
+    $('count-label').textContent = label;
+    $('cd').textContent = pad(Math.floor(left / 864e5)); $('ch').textContent = pad(Math.floor(left / 36e5) % 24);
+    $('cm').textContent = pad(Math.floor(left / 6e4) % 60); $('cs').textContent = pad(Math.floor(left / 1e3) % 60);
+  }
+  tick(); setInterval(tick, 1000);
+
+  // Chart: same build as the film. Gridlines drop in, then each bar opens from the left (clip, so nothing
+  // stretches), its label fades in letter by letter as the bar's edge passes, and the top number counts to 48h.
+  const CW = $('cw'), MAX = 56, DUR = 1600, STAGGER = 180;
+  const LINES = matchMedia('(max-width: 760px)').matches ? [24, 36, 48] : [12, 24, 36];   // on phones the 12h line would cut through the labels
+  const outCubic = (t) => 1 - Math.pow(1 - t, 3), inv = (p) => 1 - Math.cbrt(1 - p);   // inv: when the edge reaches p
+  LINES.forEach((h) => {
+    const g = document.createElement('div'); g.className = 'grid'; g.style.left = (h / MAX * 100) + '%'; CW.appendChild(g);
+    const a = document.createElement('div'); a.className = 'ax'; a.textContent = h + 'H'; a.style.left = 'calc(' + (h / MAX * 100) + '% - 4cqw)'; CW.appendChild(a);
+  });
+  const rows = [...CW.querySelectorAll('.row')].map((r) => {
+    const lab = r.querySelector('.lab'), text = lab.textContent; lab.textContent = '';
+    const chars = [...text].map((c) => { const sp = document.createElement('span'); sp.className = 'ch'; sp.textContent = c; lab.appendChild(sp); return sp; });
+    return { r, fill: r.querySelector('.fill'), w: +r.dataset.h / MAX, chars, lab };
+  });
+  rows.forEach(({ fill, w }) => { fill.style.width = (w * 100) + '%'; });
+  function play() {
+    CW.classList.add('go');
+    const W = CW.clientWidth, t0 = performance.now() + 300, num = $('cw-num');
+    // when each letter is uncovered: its right edge as a share of the bar, mapped back through the easing
+    rows.forEach((row) => row.chars.forEach((c) => {
+      const x = (c.offsetLeft + row.lab.offsetLeft + c.offsetWidth) / (W * row.w);
+      c._at = inv(Math.min(1, x)) * DUR;
+    }));
+    (function frame(now) {
+      let busy = false;
+      rows.forEach((row, i) => {
+        const t = Math.max(0, Math.min(1, (now - t0 - i * STAGGER) / DUR));
+        row.fill.style.clipPath = 'inset(0 ' + ((1 - outCubic(t)) * 100) + '% 0 0)';
+        row.chars.forEach((c) => { if (!c.classList.contains('on') && t * DUR >= c._at) c.classList.add('on'); });
+        if (i === 0) num.textContent = Math.round(outCubic(t) * 48) + 'h';
+        if (t < 1) busy = true;
+      });
+      if (busy) requestAnimationFrame(frame);
+    })(performance.now());
+  }
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { $('cw-num').textContent = '48h'; CW.classList.add('go'); rows.forEach((r) => r.chars.forEach((c) => c.classList.add('on'))); }
+  else new IntersectionObserver((es, o) => es.forEach((e) => { if (e.isIntersecting) { o.disconnect(); play(); } }), { threshold: .45 }).observe(CW);
+
+  // Film: light custom player. The picture and the pill both play and pause; the bar along the bottom seeks.
+  const F = document.querySelector('.film'), V = $('film'), bar = $('prog').firstElementChild, L = $('play-l'), TL = $('play-t');
+  const fmt = (x) => Math.floor(x / 60) + ':' + String(Math.floor(x % 60)).padStart(2, '0');
+  const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+  function full() {   // pressing play opens the film full screen; native controls only while full screen
+    if (V.requestFullscreen) V.requestFullscreen().catch(() => {});
+    else if (V.webkitRequestFullscreen) V.webkitRequestFullscreen();
+    else if (V.webkitEnterFullscreen) V.webkitEnterFullscreen();   // iPhone
+  }
+  const toggle = () => { if (V.paused) { V.play(); full(); } else V.pause(); };
+  ['fullscreenchange', 'webkitfullscreenchange'].forEach((ev) => document.addEventListener(ev, () => { V.controls = !!fsEl(); if (!fsEl()) V.pause(); }));
+  V.addEventListener('webkitbeginfullscreen', () => { V.controls = true; });
+  V.addEventListener('webkitendfullscreen', () => { V.controls = false; V.pause(); });
+  $('player').addEventListener('click', (e) => { if (!e.target.closest('.prog')) toggle(); });
+  $('play').addEventListener('click', toggle);
+  V.addEventListener('play', () => { F.classList.add('is-playing'); F.classList.remove('is-paused'); L.textContent = 'Pause'; });
+  V.addEventListener('pause', () => { F.classList.remove('is-playing'); if (!V.ended) { F.classList.add('is-paused'); L.textContent = 'Resume'; } });
+  V.addEventListener('ended', () => { F.classList.remove('is-playing', 'is-paused'); L.textContent = 'Watch again'; V.currentTime = 0; bar.style.width = '0'; TL.textContent = '0:56'; });
+  V.addEventListener('timeupdate', () => { if (!V.duration) return; bar.style.width = (V.currentTime / V.duration * 100) + '%'; TL.textContent = fmt(V.duration - V.currentTime); });
+  $('prog').addEventListener('click', (e) => { const r = e.currentTarget.getBoundingClientRect(); if (V.duration) V.currentTime = (e.clientX - r.left) / r.width * V.duration; });
+
+  // Registration: the badge preview follows the form. Internal draft: nothing is sent anywhere.
+  const form = $('form'), reg = $('reg'), colours = { dev: 'var(--lilac)', research: 'var(--peach)', product: 'var(--salmon)', ops: 'var(--pink)' };
+  const B = $('b-dots'); for (let i = 0; i < 48; i++) B.appendChild(document.createElement('i'));
+  function sync() {
+    const f = new FormData(form), role = f.get('role'), name = (f.get('name') || '').trim();
+    reg.style.setProperty('--rc', colours[role]);
+    $('b-name').textContent = name || 'Your name';
+    $('b-role').textContent = role + (f.get('where') === 'remote' ? ' · remote' : '');
+    $('b-team').textContent = f.get('team') === 'have' ? 'Team to be named' : 'Team to be matched';
+  }
+  form.addEventListener('input', sync); sync();
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!$('f-name').value.trim()) { $('err').textContent = 'Add your name so we can print your badge.'; $('f-name').focus(); return; }
+    $('err').textContent = '';
+    const where = new FormData(form).get('where');
+    $('done-p').textContent = where === 'remote'
+      ? 'We will send the stream link and your team channel on 8 Dec.'
+      : 'Your badge will be at the front desk on day one. Team matching goes out on 8 Dec.';
+    reg.classList.add('is-done'); $('done').focus();
+  });
+  $('again').addEventListener('click', () => { reg.classList.remove('is-done'); $('f-name').focus(); });
+})();
+</script>
+</body>
+</html>
