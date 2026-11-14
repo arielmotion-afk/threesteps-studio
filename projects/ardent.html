@@ -24,6 +24,10 @@
   .stage--ard { aspect-ratio: 16 / 9; background: var(--a-space); }
   .stage--ard img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .full-img { display: block; width: 100%; height: auto; }
+  .cs-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .btn { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; font-weight: 600; background: var(--a-space); color: var(--a-off);
+    transition: transform var(--dur-short) var(--ease-standard); }
+  .btn:active { transform: scale(.97); }
   .hero-mock { background: radial-gradient(120% 90% at 70% 110%, #1A0B2E 0, var(--a-space) 60%); }
   .hm-desk { position: absolute; left: 6%; top: 8%; width: 72%; }
   .hm-desk video { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
@@ -88,6 +92,7 @@
     <div class="eyebrow" style="margin-bottom:16px"><b>Web design and campaigns</b> · Self-initiated</div>
     <h1 class="cs-title">Ardent</h1>
     <p class="cs-summary">Ardent is a fictional company I invented to explore how a deep-tech brand could look and move. It makes superconducting magnets for fusion developers. I designed its website, its social campaign and its stand for an energy expo.</p>
+<div class="cs-actions"><a class="btn" href="../ardent-fusion/web/site/home.html" target="_blank" rel="noopener">Visit the site<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
     <dl class="facts">
       <div><dt>Project</dt><dd>Self-initiated concept</dd></div>
       <div><dt>Role</dt><dd>Web design · motion · campaign</dd></div>

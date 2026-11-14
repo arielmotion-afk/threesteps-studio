@@ -1,0 +1,54 @@
+/* Ardent Fusion brand tokens. Self-initiated concept, fictional company. */
+@font-face { font-family: 'Geist'; src: url('fonts/Geist-Variable.ttf') format('truetype'); font-weight: 100 900; }
+@font-face { font-family: 'Archivo'; src: url('fonts/Archivo-Variable.ttf') format('truetype'); font-weight: 100 700; font-stretch: 62% 125%; }
+/* display: every bold use of Archivo (800-900) draws in Michroma. Headlines, wordmark, heat type, numbers. */
+@font-face { font-family: 'Archivo'; src: url('fonts/Michroma-Regular.ttf') format('truetype'); font-weight: 800 900; font-stretch: 50% 200%; }
+@font-face { font-family: 'Michroma'; src: url('fonts/Michroma-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Tektur'; src: url('fonts/Tektur-Variable.ttf') format('truetype'); font-weight: 400 900; font-stretch: 75% 125%; }
+@font-face { font-family: 'Unbounded'; src: url('fonts/Unbounded-Variable.ttf') format('truetype'); font-weight: 200 900; }
+@font-face { font-family: 'Geist Mono'; src: url('fonts/GeistMono-Variable.ttf') format('truetype'); font-weight: 100 900; }
+
+:root {
+  /* grounds */
+  --space: #03060C;     /* deep space, the default ground */
+  --space-2: #0A0F1C;   /* raised surfaces */
+  --space-3: #121A2E;   /* cards, table rows */
+  --rule: #1F2A44;      /* thin lines on dark */
+  --off: #EDF1F2;       /* cool off-white, the light ground */
+  --off-2: #DDE3E6;
+  --mute: #8B96AD;      /* secondary text on dark */
+  --mute-l: #5A6478;    /* secondary text on light */
+  /* the Warm rim ramp, outer edge to core */
+  --coral: #FF6B4A; --magenta: #E0306A; --violet: #8A2BB8; --blue: #2A3FD0;
+  --electric: #1E6BFF; --sky: #22B5F0; --teal: #2FE0C8; --mint: #7CF2B0; --core: #E6FFE8;
+  --ramp: linear-gradient(90deg, #FF6B4A, #E0306A 14%, #8A2BB8 28%, #2A3FD0 42%, #1E6BFF 54%, #22B5F0 68%, #2FE0C8 80%, #7CF2B0 90%, #E6FFE8);
+  --cool: linear-gradient(90deg, #1E6BFF, #22B5F0 40%, #2FE0C8 75%, #7CF2B0);
+
+  --sans: 'Archivo', 'Helvetica Neue', Arial, sans-serif;   /* body and UI: Archivo at normal width */
+  --mono: 'Geist Mono', ui-monospace, Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: var(--sans); text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased; }
+
+.dark  { background: var(--space); color: var(--off); --fg: var(--off); --fg-2: var(--mute); --ln: var(--rule); --tech: var(--teal); --hot: var(--coral); --bg: var(--space); }
+.light { background: var(--off); color: var(--space); --fg: var(--space); --fg-2: var(--mute-l); --ln: #C3CBD2; --tech: #1E4FD8; --hot: #D9442A; --bg: var(--off); }
+
+.mono { font-family: var(--mono); }
+.label { font: 500 11px/1.35 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--fg-2); }
+.display { font-family: var(--sans); font-weight: 900; font-stretch: 125%; letter-spacing: 0; line-height: 1.02; }
+.ramp-text { background: var(--cool); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* wordmark: live type, so the name can change in brand.js */
+.wordmark { display: inline-flex; align-items: baseline; gap: .55em; white-space: nowrap; line-height: 1; }
+.wordmark .wm-1 { font: 900 1em var(--sans); font-stretch: 125%; letter-spacing: .06em; margin-right: -.06em; text-transform: uppercase; }
+.wordmark .wm-2 { font: 500 max(.3em, 7px) var(--mono); letter-spacing: .32em; text-transform: uppercase; color: var(--fg-2); }
+.lockup { display: inline-flex; align-items: center; gap: .5em; }
+.lockup svg { height: 1.25em; width: auto; flex: none; }
+
+.grainy { position: relative; }
+.grainy::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: url('grain.png'); background-size: 512px; opacity: .55; }
+
+/* no box-shadow, CSS filter or blend modes on anything that prints to PDF: Chrome flattens them.
+   Glows are canvases (shared/thermal.js), grain is a tiled transparent PNG. */
