@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Ardent Case Study · Ariel Paz</title>
+<meta name="description" content="Ardent: a self-initiated brand for a fictional fusion magnet company. Identity, website, social and a trade-show kit.">
+<link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/v2.css?v=12">
+<link rel="stylesheet" href="../css/case-study.css?v=10">
+<style>
+  /* ─── Ardent: the brand's black and its two glow colours live only inside its panels; the page keeps the site's look ─── */
+  :root { --a-space: #020107; --a-pink: #F02DBE; --a-ice: #39F2F7; --a-off: #EDF1F2; --a-mute: #8B96AD; --a-edge: rgba(124,242,176,.22); }
+  .dark { background: var(--a-space); color: var(--a-off); }
+  .show { margin-top: 28px; }
+  .stage--ard { aspect-ratio: 16 / 9; background: var(--a-space); }
+  .stage--ard img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .full-img { display: block; width: 100%; height: auto; }
+  .hero-mock { background: radial-gradient(120% 90% at 70% 110%, #1A0B2E 0, var(--a-space) 60%); }
+  .hm-desk { position: absolute; left: 6%; top: 8%; width: 72%; }
+  .hm-desk video { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .hm-phone { position: absolute; right: 7%; bottom: -6%; width: 19%; background: var(--a-space); }
+  .hm-phone video { display: block; width: 100%; aspect-ratio: 390 / 844; object-fit: cover; }
+
+  /* Website: full pages that scroll inside their frame */
+  .browser { border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 1px var(--a-edge), 0 30px 60px rgba(2,1,7,.35); background: var(--a-space); }
+  .browser .bar { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #0E0D14; }
+  .browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #2A2833; }
+  .browser .bar span { margin-left: 12px; font: 500 11px 'Geist Mono', monospace; color: var(--a-mute); }
+  .scroll { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #2A2833 transparent; }
+  .scroll img { display: block; width: 100%; height: auto; }
+  .browser .scroll { aspect-ratio: 16 / 10; }
+  .phones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8%; padding: 48px 22%; margin-top: 14px; }
+  .phone { border-radius: 13% / 6%; overflow: hidden; box-shadow: 0 0 0 1px var(--a-edge), 0 28px 60px rgba(0,0,0,.45); }
+  .phone .scroll { aspect-ratio: 390 / 844; }
+  .phones figcaption { margin-top: 12px; text-align: center; color: var(--a-mute); }
+
+  /* Social: six animated posts */
+  .posts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .posts video { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--a-space); }
+
+  /* Trade show */
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .pair img { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--a-space); }
+
+  .tools { list-style: none; margin-top: 24px; }
+  .tools li { padding: 14px 0; border-top: 1px solid var(--line); font-size: 16px; color: var(--ink-2); }
+  .tools b { font-family: var(--label); font-weight: 500; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; }
+
+  @media (max-width: 860px) {
+    .stage.hero-mock { aspect-ratio: 4 / 3.4; }
+    .hm-desk { left: 4%; top: 6%; width: 84%; }
+    .hm-phone { right: 4%; bottom: -4%; width: 30%; }
+    .browser .scroll { aspect-ratio: 4 / 5; }
+    .phones { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 62%; overflow-x: auto; scroll-snap-type: x mandatory; padding: 32px 19%; gap: 16px; scrollbar-width: none; }
+    .phones figure { scroll-snap-align: center; }
+    .posts { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; scrollbar-width: none; }
+    .posts video { scroll-snap-align: start; }
+    .pair { grid-template-columns: 1fr; }
+  }
+</style>
+<link rel="stylesheet" href="../css/bubbles.css?v=3">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="brand-dot"></span>Ariel Paz</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Resume<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <header class="cs-hero wrap">
+    <a href="../index.html#work" class="back">← All work</a>
+    <div class="eyebrow" style="margin-bottom:16px"><b>Web design and campaigns</b> · Self-initiated</div>
+    <h1 class="cs-title">Ardent</h1>
+    <p class="cs-summary">Ardent is a fictional company I invented to explore how a deep-tech brand could look and move. It makes superconducting magnets for fusion developers. I designed its website, its social campaign and its stand for an energy expo.</p>
+    <dl class="facts">
+      <div><dt>Project</dt><dd>Self-initiated concept</dd></div>
+      <div><dt>Role</dt><dd>Web design · motion · campaign</dd></div>
+      <div><dt>Scope</dt><dd>5-page site · social · expo stand and swag</dd></div>
+      <div><dt>Year</dt><dd>2026</dd></div>
+    </dl>
+  </header>
+
+  <div class="wrap">
+    <div class="stage stage--ard hero-mock">
+      <div class="browser hm-desk">
+        <div class="bar"><i></i><i></i><i></i><span>ardent.example</span></div>
+        <video src="../images/process/ardent/site-home-scroll.mp4" poster="../images/process/ardent/site-home-scroll.jpg" muted loop playsinline autoplay aria-label="Scrolling through the Ardent homepage on desktop"></video>
+      </div>
+      <div class="phone hm-phone"><video src="../images/process/ardent/site-home-scroll-phone.mp4" poster="../images/process/ardent/site-home-scroll-phone.jpg" muted loop playsinline autoplay aria-label="Scrolling through the Ardent homepage on a phone"></video></div>
+    </div>
+    <p class="cap">The Ardent homepage, recorded in the browser</p>
+
+    <section class="block">
+      <div class="block-label"><h2>The brief</h2></div>
+      <div class="prose">
+        <p>Fusion developers need very strong magnets to hold their plasma. Ardent designs, winds and tests those magnets. It doesn't build reactors.</p>
+        <p>The company is made up. The science is real: every technical claim on the site and in the posts is a well-known fact about high-temperature superconducting magnets, like 20 tesla on the coil at 20 kelvin.</p>
+        <p>One visual rule runs through everything: the glow is always held by something black, the way a magnet holds a plasma.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label"><h2>Website</h2></div>
+      <div class="prose">
+        <p>Five pages, written for investors first and future hires second: home, technology, the AR-1 module, the company and careers. Each shape enters coast to coast, with the text on its dark side. Between them, animated diagrams explain the product in plain numbers.</p>
+        <p class="cap">Scroll inside the frames.</p>
+      </div>
+    </section>
+    <div class="browser show">
+      <div class="bar"><i></i><i></i><i></i><span>ardent.example/ar-1</span></div>
+      <div class="scroll" tabindex="0" aria-label="The AR-1 product page, full length"><img src="../images/process/ardent/site-ar-1.jpg" alt="The AR-1 product page" loading="lazy"></div>
+    </div>
+    <div class="phones dark">
+      <figure><div class="phone"><div class="scroll" tabindex="0"><img src="../images/process/ardent/site-technology-phone.jpg" alt="Technology page on a phone" loading="lazy"></div></div><figcaption class="cap">Technology</figcaption></figure>
+      <figure><div class="phone"><div class="scroll" tabindex="0"><img src="../images/process/ardent/site-ar-1-phone.jpg" alt="AR-1 product page on a phone" loading="lazy"></div></div><figcaption class="cap">AR-1</figcaption></figure>
+    </div>
+
+    <section class="block">
+      <div class="block-label"><h2>Social campaign</h2></div>
+      <div class="prose">
+        <p>The website's diagrams became animated LinkedIn posts. One idea per post, one number to remember, on the same grid every time.</p>
+      </div>
+    </section>
+    <div class="posts show">
+      <video src="../images/process/ardent/post-1-temp.mp4" poster="../images/process/ardent/post-1-temp.jpg" muted loop playsinline autoplay aria-label="Post: a coil at 20 K holds a plasma at 100 million K, on a temperature scale"></video>
+      <video src="../images/process/ardent/post-2-field.mp4" poster="../images/process/ardent/post-2-field.jpg" muted loop playsinline autoplay aria-label="Post: double the field, sixteen times the power density, with a rising curve"></video>
+      <video src="../images/process/ardent/post-3-coil.mp4" poster="../images/process/ardent/post-3-coil.jpg" muted loop playsinline autoplay aria-label="Post: four layers of one coil, each with one job"></video>
+    </div>
+
+    <section class="block">
+      <div class="block-label"><h2>Trade show</h2></div>
+      <div class="prose">
+        <p>A 6 × 2.5 m stand for an energy expo. Each panel gets one shape that fits its proportions: the long held ring across the back wall, the energy line down the roll-up, with the specs in the fold beside it. The headline sits above head height so it reads from across the hall.</p>
+        <p>The swag uses the same rule at small scale: a tote covered in the sticker set, and a shirt with the wordmark held behind a glowing ring.</p>
+      </div>
+    </section>
+    <img class="full-img show" src="../images/process/ardent/booth.jpg" alt="The Ardent stand: a black back wall with a glowing held ring, a counter and a roll-up banner" loading="lazy">
+    <div class="pair">
+      <!-- tote.jpg: the ChatGPT tote mockup; until it's saved, the stickers stand in -->
+      <img src="../images/process/ardent/tote.jpg" onerror="this.onerror=null;this.src='../images/process/ardent/stickers.jpg'" alt="A black Ardent tote covered in the sticker set, with the logo along the bottom" loading="lazy">
+      <img src="../images/process/ardent/shirt.jpg" alt="The Ardent shirt, front with a woven logo on the pocket and back with the ringed wordmark" loading="lazy">
+    </div>
+
+    <section class="block">
+      <div class="block-label"><h2>How it was made</h2></div>
+      <div class="prose">
+        <p>I designed the layouts, diagrams, posts and every page by hand. AI tools made the raw imagery, which I directed and then composed into the system.</p>
+        <ul class="tools">
+          <li><b>Shapes</b>Generated as stills, then animated with Kling</li>
+          <li><b>Mockups</b>Booth, shirt and tote placed by ChatGPT from my flat designs</li>
+          <li><b>Site and posts</b>Built in HTML and CSS, posts rendered from the same code</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label"><h2>Outcome</h2></div>
+      <div class="prose">
+        <div class="outcome">
+          <div class="kpi"><b>5</b><span>Website pages, desktop and phone</span></div>
+          <div class="kpi"><b>3</b><span>Animated diagram posts</span></div>
+          <div class="kpi"><b>1</b><span>Stand, tote and a shirt</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
+  <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
+  <h2 class="bub-name">LET'S TALK</h2>
+  <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
+</footer>
+
+<script>
+(function () {
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 8), { passive: true });
+  // Videos play only while on screen
+  const vio = new IntersectionObserver((es) => es.forEach((e) => { e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause(); }), { threshold: 0.15 });
+  document.querySelectorAll('video').forEach((v) => { v.muted = true; vio.observe(v); });
+}());
+</script>
+<script src="../js/v2.js?v=4"></script>
+<script src="../js/bubbles.js?v=9"></script>
+<script>
+  Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
+    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
+    homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
+    glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],
+  });
+</script>
+</body>
+</html>
