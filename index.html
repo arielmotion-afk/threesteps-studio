@@ -145,9 +145,7 @@
   .dc-all:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
   .more-work { display: flex; align-items: center; gap: 16px; margin-top: 56px; }
   .more-work span { font-family: var(--label); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-  .dc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); }
-  @media (max-width: 1100px) { .dc-grid { grid-template-columns: repeat(2, 1fr); } }
-  .dc .case-meta h3 { font-size: 17px; }
+  .dc-tools { display: flex; align-items: center; gap: 16px; flex: none; }
   /* Bloom card: one phone, zoomed in and cropped by the card's bottom edge, so the header reads and the small UI doesn't */
   .bloom-phones.bloom-phones--one { padding-top: 7%; }
   .bloom-phones.bloom-phones--one span { flex-basis: 46%; margin-top: 0; border-radius: 9% / 4.2%; }
@@ -168,6 +166,8 @@
   .minis > .mini.rv { transform: none; }   /* fade only inside the scroller: no vertical overflow */
   .minis > .mini { flex: 0 0 clamp(260px, calc((100% - 2 * var(--gutter)) / 3.3), 420px); scroll-snap-align: start; }
   .mini { display: flex; flex-direction: column; gap: 12px; }
+  .minis > .mini { min-width: 0; }
+  .minis .case-meta { flex-wrap: wrap; row-gap: 2px; }   /* a long title drops the label below it instead of widening the card */
   .mini h4 { font-family: var(--head); font-size: 15px; font-weight: 800; letter-spacing: 0; }
 
   /* ─── About ─── */
@@ -184,10 +184,6 @@
     .hero { padding-top: 40px; }
     .cases { grid-template-columns: 1fr; }
     .dc-head { flex-direction: column; align-items: flex-start; }
-    .dc-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); scroll-padding: 0 var(--gutter); }
-    .dc-grid::-webkit-scrollbar { display: none; }
-    .dc-grid > .case { flex: 0 0 78%; scroll-snap-align: start; }
-    .dc-grid > .rv { transform: none; }
     .minis > .mini { flex-basis: 78%; }
     .case--featured .case-media { aspect-ratio: 16 / 10; }
     .case--featured .mini-orb { width: 40%; }
@@ -361,34 +357,40 @@
         <h2 class="h2">Interactive</h2>
         <p class="dc-lede">Motion that responds to touch and cursor: Rive state machines, WebGL experiments, a game in progress and a concept website.</p>
       </div>
-      <a class="dc-all" href="experiments/">All experiments<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+      <div class="dc-tools">
+        <a class="dc-all" href="experiments/">All experiments<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+        <div class="rail-nav">
+          <button class="rail-btn" id="dc-prev" type="button" aria-label="Scroll back" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+          <button class="rail-btn" id="dc-next" type="button" aria-label="Scroll forward"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
     </div>
-    <div class="dc-grid">
-      <a class="case dc rv" href="experiments/nightshade/">
+    <div class="minis" id="rail-dc" tabindex="0" aria-label="Interactive">
+      <a class="mini case rv" href="experiments/nightshade/">
         <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">In progress</span>
           <img src="experiments/nightshade/cover.webp" alt="Nightshade: a campfire in a ring of stones in a dark pine forest, in blue and orange pixels" loading="lazy">
           <iframe class="exp-live" data-src="experiments/nightshade/scenes/?s=folly_midnight&amp;embed&amp;cover" title="Nightshade, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Nightshade</h3><span class="mono">Game visuals · WebGL</span></div>
+        <div class="case-meta"><h4>Nightshade</h4><span class="mono">Game visuals · WebGL</span></div>
       </a>
-      <a class="case dc rv" href="projects/project-07.html">
+      <a class="mini case rv" href="projects/project-07.html">
         <div class="case-shell"><div class="case-media case-media--rive"><span class="tag">Rive</span>
           <canvas id="squish" class="pokeable" aria-label="Squish Stack: a stack of blocks you can poke"></canvas>
           <span class="open open--always" aria-hidden="true"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Interactive animations</h3><span class="mono">Rive · Shaders</span></div>
+        <div class="case-meta"><h4>Interactive animations</h4><span class="mono">Rive · Shaders</span></div>
       </a>
-      <a class="case dc rv" href="experiments/art-of-waiting/">
+      <a class="mini case rv" href="experiments/art-of-waiting/">
         <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">Experiment</span>
           <img src="experiments/art-of-waiting/cover.webp?v=3" alt="The Art of Waiting: grey glowing spheres on black" loading="lazy">
           <iframe class="exp-live" data-src="experiments/art-of-waiting/?preview" title="The Art of Waiting, live preview" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>The Art of Waiting</h3><span class="mono">WebGL loaders</span></div>
+        <div class="case-meta"><h4>The Art of Waiting</h4><span class="mono">WebGL loaders</span></div>
       </a>
-      <a class="case dc rv" href="projects/ardent.html">
+      <a class="mini case rv" href="projects/ardent.html">
         <div class="case-shell"><div class="case-media case-media--exp"><span class="tag">Website</span>
           <video src="images/process/ardent/site-home-scroll.mp4" muted loop playsinline preload="none" poster="images/process/ardent/thumb.jpg" aria-label="Scrolling through the Ardent website"></video>
           <span class="open"><svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span></div></div>
-        <div class="case-meta"><h3>Ardent</h3><span class="mono">Concept site · Web</span></div>
+        <div class="case-meta"><h4>Ardent</h4><span class="mono">Concept site · Web</span></div>
       </a>
     </div>
   </section>
@@ -557,10 +559,10 @@
   }());
 
 
-  // Earlier work scroller: arrows move one card; they dim at either end.
-  (function () {
-    const rail = document.getElementById('rail'); if (!rail) return;
-    const prev = document.getElementById('rail-prev'), next = document.getElementById('rail-next');
+  // Scrollers (Interactive, Earlier work): arrows move one card; they dim at either end.
+  [['rail-dc', 'dc'], ['rail', 'rail']].forEach(([id, pre]) => {
+    const rail = document.getElementById(id); if (!rail) return;
+    const prev = document.getElementById(pre + '-prev'), next = document.getElementById(pre + '-next');
     const step = () => { const c = rail.querySelector('.mini'); return c ? c.getBoundingClientRect().width + parseFloat(getComputedStyle(rail).columnGap || 24) : 300; };
     function update() {
       const max = rail.scrollWidth - rail.clientWidth - 2;
@@ -571,7 +573,7 @@
     next.addEventListener('click', () => rail.scrollBy({ left: step() }));
     rail.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') rail.scrollBy({ left: step() }); if (e.key === 'ArrowLeft') rail.scrollBy({ left: -step() }); });
     rail.addEventListener('scroll', update, { passive: true }); addEventListener('resize', update); update();
-  }());
+  });
 
   // Nav border on scroll
   const nav = document.getElementById('nav');
