@@ -104,8 +104,9 @@
     let touched = false; inp.addEventListener('input', () => { touched = true; set(); }); set();
     // on first view the slider plays from 1 x to 2 x, unless someone already moved it
     el.play = () => { if (touched || (matchMedia('(prefers-reduced-motion: reduce)').matches && !window.__rate)) return; const t0 = performance.now();
-      const step = (now) => { if (touched) return; const k = Math.min(1, ((now - t0) * (window.__rate || 1) - 500) / 1800); const e = k < 0 ? 0 : 1 - (1 - k) ** 3; inp.value = 1 + e; set(); if (k < 1) requestAnimationFrame(step); };
-      inp.value = 1; set(); requestAnimationFrame(step); };
+      const step = (now) => { if (touched) return; const k = Math.min(1, ((now - t0) * (window.__rate || 1) - 500) / 1800); const e = k < 0 ? 0 : 1 - (1 - k) ** 3; inp.value = 1 + e; set(); if (k < 1) next(step); };
+      const next = (f) => (window.__rate ? setTimeout(() => f(performance.now()), 16) : requestAnimationFrame(f));
+      inp.value = 1; set(); next(step); };
   };
 
   const R = { ring, coil, temp, field };
