@@ -25,25 +25,20 @@
 <link rel="stylesheet" href="../css/bubbles.css?v=3">
 <style>
   /* Jamba Hackathon block: landing page mockups and swag. Same frames as the other project pages: 10px corners, no shadows */
-  .hk-btn { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 20px; margin-top: 20px; border-radius: 999px; font-size: 15px; font-weight: 600; background: #0B0B0B; color: #F6F4F2; text-decoration: none; }
+  .hk-btn { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 20px; margin-top: 24px; border-radius: 999px; font-size: 15px; font-weight: 600; background: #0B0B0B; color: #F6F4F2; text-decoration: none; }
   .hk-mock { position: relative; overflow: hidden; aspect-ratio: 16 / 10; border-radius: 10px; margin-top: 8px; background: radial-gradient(120% 90% at 70% 110%, #3A1D35 0, #000 60%); }
   .hk-desk { position: absolute; left: 6%; top: 8%; width: 72%; }
-  .hk-desk video { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
   .hk-phone-sm { position: absolute; right: 7%; bottom: -6%; width: 19%; }
-  .hk-phone-sm video { display: block; width: 100%; aspect-ratio: 390 / 844; object-fit: cover; }
   .hk-browser { border-radius: 10px; overflow: hidden; background: #000; }
   .hk-browser .bar { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #111; }
   .hk-browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #2C2A2E; }
   .hk-browser .bar span { margin-left: 12px; font: 500 11px ui-monospace, monospace; color: #8C8690; }
-  .hk-phone { border-radius: 10px; overflow: hidden; }
-  .hk-scroll { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
-  .hk-scroll::-webkit-scrollbar { display: none; }
-  .hk-scroll img { display: block; width: 100%; height: auto; }
-  .hk-browser .hk-scroll { aspect-ratio: 16 / 10; }
-  .hk-phone .hk-scroll { aspect-ratio: 390 / 844; }
-  .hk-full { margin-top: 14px; }
-  .hk-phones { display: grid; justify-items: center; padding: 40px 0 0; }
-  .hk-phones figure { width: min(300px, 62%); margin: 0; }
+  .hk-phone { border-radius: 10px; overflow: hidden; background: #000; }
+  /* the live landing page, rendered at its real width and scaled to the frame (scale set by the script below) */
+  .hk-live { position: relative; overflow: hidden; background: #000; }
+  .hk-desk .hk-live { aspect-ratio: 16 / 10; }
+  .hk-phone-sm .hk-live { aspect-ratio: 390 / 844; }
+  .hk-live iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; }
   .hk-kit-line { max-width: 60ch; margin: 0 0 24px; }
   .hk-kit { display: grid; grid-template-columns: 1fr 1.25fr; gap: 14px; max-width: 900px; margin: 0 auto; align-items: start; }
   .hk-kit img { display: block; width: 100%; height: auto; border-radius: 10px; }
@@ -51,11 +46,10 @@
   .hk-kit-files { max-width: 900px; margin: 18px auto 0; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15px; }
   .hk-kit-files a { display: inline-flex; align-items: center; gap: 4px; color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
   @media (max-width: 860px) { .hk-kit { grid-template-columns: 1fr; } }
-  @media (max-width: 860px) {
-    .hk-mock { aspect-ratio: 4 / 3.4; }
-    .hk-desk { left: 4%; top: 6%; width: 84%; }
-    .hk-phone-sm { right: 4%; bottom: -4%; width: 30%; }
-    .hk-browser .hk-scroll { aspect-ratio: 4 / 5; }
+  @media (max-width: 760px) {
+    .hk-mock { aspect-ratio: auto; padding: 16px 16px 24px; display: grid; gap: 22px; justify-items: center; }
+    .hk-mock .hk-desk, .hk-mock .hk-phone-sm { position: static; width: 100%; }
+    .hk-mock .hk-phone-sm { width: 62%; }
   }
 </style>
 </head>
@@ -87,7 +81,6 @@
         </div>
         <div class="project-header-right">
           <p class="project-description">The Jamba release hackathon: a video to promote it on LinkedIn, the landing page and the swag.</p>
-          <a class="hk-btn" href="../ai21-hackathon/landing/" target="_blank" rel="noopener">Visit the landing page<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
         </div>
       </header>
 
@@ -117,12 +110,10 @@
         <h2 class="section-label">Landing page</h2>
         <div class="hk-mock">
           <div class="hk-browser hk-desk"><div class="bar"><i></i><i></i><i></i><span>hackathon.ai21.internal</span></div>
-            <video class="hk-start" src="../images/process/ai21-hackathon/site-scroll.mp4" poster="../images/process/ai21-hackathon/site-scroll.jpg" muted loop playsinline preload="auto" aria-label="Scrolling through the hackathon landing page on desktop"></video></div>
-          <div class="hk-phone hk-phone-sm"><video class="hk-start" src="../images/process/ai21-hackathon/site-scroll-phone.mp4" poster="../images/process/ai21-hackathon/site-scroll-phone.jpg" muted loop playsinline preload="auto" aria-label="Scrolling through the hackathon landing page on a phone"></video></div>
+            <div class="hk-live" data-w="1280" data-h="800"><iframe src="../ai21-hackathon/landing/" title="The hackathon landing page on desktop, live: scroll inside the frame" loading="lazy"></iframe></div></div>
+          <div class="hk-phone hk-phone-sm"><div class="hk-live" data-w="390" data-h="844"><iframe src="../ai21-hackathon/landing/" title="The hackathon landing page on a phone, live: scroll inside the frame" loading="lazy"></iframe></div></div>
         </div>
-        <div class="hk-browser hk-full"><div class="bar"><i></i><i></i><i></i><span>hackathon.ai21.internal</span></div>
-          <div class="hk-scroll" tabindex="0" aria-label="The landing page, full length"><img src="../images/process/ai21-hackathon/site-full.jpg" alt="The hackathon landing page, full length" loading="lazy"></div></div>
-        <div class="hk-phones"><figure><div class="hk-phone"><div class="hk-scroll" tabindex="0" aria-label="The landing page on a phone, full length"><img src="../images/process/ai21-hackathon/site-full-phone.jpg" alt="The landing page on a phone" loading="lazy"></div></div></figure></div>
+        <a class="hk-btn" href="../ai21-hackathon/landing/" target="_blank" rel="noopener">Open the site<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
       </section>
 
       <hr class="project-rule">
@@ -192,10 +183,13 @@
   });
 </script>
 <script>
-  // Landing page recordings start from the top the first time they come into view, so the header animation isn't missed
+  // Live landing page in the mockup: each iframe renders at the real desktop or phone width and is scaled to its frame
   (function () {
-    const io = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target; if (e.isIntersecting) { if (!v._seen) { v._seen = true; v.currentTime = 0; } v.play().catch(() => {}); } else v.pause(); }), { threshold: 0.15 });
-    document.querySelectorAll('video.hk-start').forEach((v) => { v.muted = true; io.observe(v); });
+    const fit = () => document.querySelectorAll('.hk-live').forEach((f) => {
+      const w = +f.dataset.w, h = +f.dataset.h, k = f.clientWidth / w, fr = f.querySelector('iframe');
+      fr.style.width = w + 'px'; fr.style.height = h + 'px'; fr.style.transform = 'scale(' + k + ')';
+    });
+    fit(); addEventListener('resize', fit);
   }());
 </script>
 </body>
