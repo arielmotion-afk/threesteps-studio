@@ -35,7 +35,7 @@
   .glow { box-shadow: 0 0 0 1px rgba(253,211,197,.35), 0 0 28px rgba(253,211,197,.28); }
 
   /* 1 cover */
-  .s-cover .orb { position: absolute; right: -60px; top: 50%; width: 900px; mix-blend-mode: lighten; transform: translateY(-50%); animation: breathe 6s ease-in-out infinite; -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent); mask-image: radial-gradient(closest-side, #000 72%, transparent); }
+  .s-cover .orb { position: absolute; right: -60px; top: 50%; width: 900px; height: 900px; transform: translateY(-50%); animation: breathe 6s ease-in-out infinite; -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent); mask-image: radial-gradient(closest-side, #000 72%, transparent); }
   .s-cover .copy { position: absolute; left: 112px; top: 50%; transform: translateY(-50%); }
   .s-cover .sub { font-size: 30px; color: #CFCBC6; margin-top: 24px; font-weight: 300; }
   @keyframes breathe { 0%,100% { transform: translateY(-50%) scale(1); filter: brightness(1); } 50% { transform: translateY(-50%) scale(1.035); filter: brightness(1.08); } }
@@ -66,7 +66,7 @@
   @keyframes on { to { opacity: 1; } }
   .hiw .in { position: absolute; left: 0; display: flex; flex-direction: column; gap: 6px; opacity: 0; }
   .hiw .in span { font-size: 15px; color: var(--mute); }
-  .hiw .in .pill { height: 40px; font-size: 17px; }
+  .hiw .in .pill { height: 40px; font-size: 17px; width: 220px; justify-content: center; padding: 0; }   /* all four the same width, so every line starts at a pill edge */
   .slide.on .hiw .in { animation: fade .6s ease-out forwards; }
   .hiw .core { position: absolute; left: 50%; top: 50%; width: 420px; transform: translate(-50%,-50%); opacity: 0; }
   .slide.on .hiw .core { animation: fade .9s 1.2s ease-out forwards, pulse 5s 2.1s ease-in-out infinite; }
@@ -176,7 +176,7 @@
 <div class="stage"><div class="deck" id="deck">
 
   <section class="slide s-cover">
-    <video class="orb" src="../images/process/maestro-launch/web-orb.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+    <canvas class="orb" id="coverOrb" aria-hidden="true"></canvas>
     <div class="copy">
       <h1><span class="grad">AI21 Maestro</span></h1>
       <p class="sub">Reliable knowledge agents for enterprise work</p>
@@ -222,16 +222,16 @@
     <h2 style="font-size:56px">You define the task. Maestro plans the rest.</h2>
     <div class="hiw">
       <svg viewBox="0 0 1440 470" preserveAspectRatio="none" aria-hidden="true">
-        <path class="path" d="M190 60 H420 Q450 60 450 90 V200 Q450 230 480 230 H560"/>
-        <path class="path d2" d="M190 175 H400 Q430 175 430 205 V215 Q430 230 460 230 H560"/>
-        <path class="path d3" d="M190 290 H400 Q430 290 430 270 V255 Q430 240 460 240 H560"/>
-        <path class="path d4" d="M190 405 H420 Q450 405 450 375 V270 Q450 240 480 240 H560"/>
-        <path class="path out" d="M880 235 H1080"/>
-        <circle class="spark" r="4"><animateMotion dur="2.4s" repeatCount="indefinite" path="M190 60 H420 Q450 60 450 90 V200 Q450 230 480 230 H560"/></circle>
-        <circle class="spark" r="4"><animateMotion dur="2.4s" begin=".6s" repeatCount="indefinite" path="M190 175 H400 Q430 175 430 205 V215 Q430 230 460 230 H560"/></circle>
-        <circle class="spark" r="4"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M190 290 H400 Q430 290 430 270 V255 Q430 240 460 240 H560"/></circle>
-        <circle class="spark" r="4"><animateMotion dur="2.4s" begin="1.8s" repeatCount="indefinite" path="M190 405 H420 Q450 405 450 375 V270 Q450 240 480 240 H560"/></circle>
-        <circle class="spark" r="4"><animateMotion dur="1.6s" repeatCount="indefinite" path="M880 235 H1080"/></circle>
+        <path class="path" d="M220 60 H420 Q450 60 450 90 V200 Q450 230 480 230 H632"/>
+        <path class="path d2" d="M220 175 H400 Q430 175 430 205 V215 Q430 230 460 230 H632"/>
+        <path class="path d3" d="M220 290 H400 Q430 290 430 270 V255 Q430 240 460 240 H632"/>
+        <path class="path d4" d="M220 405 H420 Q450 405 450 375 V270 Q450 240 480 240 H632"/>
+        <path class="path out" d="M808 235 H1080"/>
+        <circle class="spark" r="4"><animateMotion dur="2.4s" repeatCount="indefinite" path="M220 60 H420 Q450 60 450 90 V200 Q450 230 480 230 H632"/></circle>
+        <circle class="spark" r="4"><animateMotion dur="2.4s" begin=".6s" repeatCount="indefinite" path="M220 175 H400 Q430 175 430 205 V215 Q430 230 460 230 H632"/></circle>
+        <circle class="spark" r="4"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M220 290 H400 Q430 290 430 270 V255 Q430 240 460 240 H632"/></circle>
+        <circle class="spark" r="4"><animateMotion dur="2.4s" begin="1.8s" repeatCount="indefinite" path="M220 405 H420 Q450 405 450 375 V270 Q450 240 480 240 H632"/></circle>
+        <circle class="spark" r="4"><animateMotion dur="1.6s" repeatCount="indefinite" path="M808 235 H1080"/></circle>
       </svg>
       <div class="in" style="top:18px"><span>Requirements</span><div class="pill">Accuracy · Format</div></div>
       <div class="in" style="top:133px;animation-delay:.2s"><span>Tools</span><div class="pill">Search · Data · Files</div></div>
@@ -239,7 +239,7 @@
       <div class="in" style="top:363px;animation-delay:.6s"><span>Budget</span><div class="pill">Cost · Latency</div></div>
       <video class="core" src="../images/process/maestro-launch/web-orb.mp4" autoplay muted loop playsinline aria-hidden="true" style="width:400px;mix-blend-mode:lighten;-webkit-mask-image:radial-gradient(closest-side,#000 70%,transparent);mask-image:radial-gradient(closest-side,#000 70%,transparent)"></video>
       <div class="outbox box"><span style="font-family:'Be Vietnam Pro';font-size:22px;display:block;margin-bottom:8px">Output</span>Requirement 1: <i>[True]</i><br>Requirement 2: <i>[True]</i><br>Requirement 3: <i>[True]</i></div>
-      <span class="cap" style="left:0">Input</span><span class="cap" style="left:50%;transform:translateX(-50%)">Plan &amp; execute</span><span class="cap" style="right:0">Output</span>
+      <span class="cap" style="left:110px;transform:translateX(-50%)">Input</span><span class="cap" style="left:50%;transform:translateX(-50%)">Plan &amp; execute</span><span class="cap" style="right:180px;transform:translateX(50%)">Output</span>
     </div>
     <span class="brand">AI21 Labs</span><span class="num">05</span>
   </section>
@@ -273,8 +273,8 @@
         <text x="20" y="116" fill="#9A9692" font-size="15" font-family="Geist Mono">100%</text>
         <text x="553" y="56" fill="#F4F1EC" font-size="22" font-family="Inter Tight">$</text>
       </svg>
-      <div class="tag" style="left:20px;top:-26px"><i style="background:linear-gradient(135deg,#FED7AC,#F2A97E)"></i>Accuracy</div>
-      <div class="tag" style="right:-20px;bottom:30px"><i style="background:linear-gradient(135deg,#B8C2EC,#8A97C3)"></i>Compute</div>
+      <div class="tag" style="left:60px;top:16px;transform:translate(-50%,-100%)"><i style="background:linear-gradient(135deg,#FED7AC,#F2A97E)"></i>Accuracy</div>
+      <div class="tag" style="right:20px;top:516px"><i style="background:linear-gradient(135deg,#B8C2EC,#8A97C3)"></i>Compute</div>
     </div>
     <span class="brand">AI21 Labs</span><span class="num">07</span>
   </section>
@@ -340,5 +340,7 @@
     addEventListener('touchend', function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1)); x0 = null; });
   }());
 </script>
+<script src="../js/maestro-orb.js?v=5"></script>
+<script>MaestroOrb(document.getElementById('coverOrb'), { scale: .17 });   /* drawn live, so it stays sharp at any size */</script>
 </body>
 </html>
