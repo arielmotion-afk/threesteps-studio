@@ -60,6 +60,7 @@
   .ml-light video { background: #F6F4F1; }
   .ml-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; font-weight: 600; background: var(--accent); color: #1A1410; margin-top: 24px; }
   .ml-btn:hover { background: #FFE6C9; }
+  button.ml-btn { border: 0; font-family: inherit; cursor: pointer; }
   .ml-film { position: relative; display: block; }
   .ml-film img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
   .ml-film span { position: absolute; left: 16px; bottom: 16px; padding: 8px 14px; border-radius: 999px; background: rgba(11,11,11,.72); font-size: 14px; font-weight: 500; }
@@ -93,7 +94,8 @@
     .ml-mock .mm-phone { width: 62%; }
   }
   .ml-mock .shot { position: relative; }
-  .ml-mock .ov-l { position: absolute; background: #212121; }
+  .ml-mock .ov-l { position: absolute; background: #212121; opacity: 0; transition: opacity .3s; }
+  .ml-mock .ov-l.on { opacity: 1; }
   .ml-mock .ov-l.paper { background: #FBFAF8; }
   .ml .bub--foot { background: #212121; }
   .ml .bub-legal { color: #8E8A86; }
@@ -104,6 +106,11 @@
   .ml-stand .scr.glass { pointer-events: none; background: linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.03) 38%, rgba(255,255,255,0) 39%, rgba(255,255,255,0) 100%), linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.25)); box-shadow: inset 0 0 0 10px rgba(0,0,0,.55), inset 0 0 60px rgba(0,0,0,.6); filter: none; }
   .ml-stand > img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .ml-stand .scr { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; object-fit: cover; background: #111; filter: brightness(.92); }
+  .ml-note { margin-top: 12px; color: var(--muted, #8E8A86); font-size: 14px; }
+  .ml-lb { margin: auto; inset: 0; height: fit-content; border: 0; padding: 0; background: #000; width: min(92vw, 1280px); max-width: none; overflow: visible; }
+  .ml-lb::backdrop { background: rgba(10,10,10,.85); }
+  .ml-lb video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+  .ml-lb-x { position: absolute; right: 0; top: -44px; width: 40px; height: 40px; border: 0; background: none; color: #F3ECE2; font-size: 30px; line-height: 1; cursor: pointer; }
   .ml-learned { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.6; max-width: 58ch; color: var(--text); }
 
   @media (max-width: 860px) {
@@ -179,10 +186,9 @@
           <figure><div class="ml-stand" style="aspect-ratio:1498/1050"><img src="../images/process/maestro-launch/booth-render-1.jpg?v=5" alt="Draft 1: a corner stand with oak floor, timber slats, a standing table and the booth video on a screen set inside the orb on the back wall" loading="lazy"><video class="scr" data-w="1498" data-quad="914,412 1151,441 1151,594 914,565" data-src="../images/process/maestro-launch/booth.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><i class="scr glass" data-w="1498" data-quad="914,412 1151,441 1151,594 914,565"></i></div><figcaption><b>Draft 1.</b> A 6 × 3 m corner stand with a screen wall, timber slats and a standing table.</figcaption></figure>
           <figure><div class="ml-stand" style="aspect-ratio:1498/1050"><img src="../images/process/maestro-launch/booth-render-2.jpg?v=3" alt="Draft 2: a curved pop-up wall with the Maestro orb and a counter with a screen" loading="lazy"><video class="scr" data-w="1498" data-quad="220,388 452,388 452,518 220,518" data-src="../images/process/maestro-launch/booth.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><i class="scr glass" data-w="1498" data-quad="220,388 452,388 452,518 220,518"></i></div><figcaption><b>Draft 2.</b> A 3 m curved pop-up wall and a counter with a screen, for a smaller stand.</figcaption></figure>
         </div>
-        <p class="ml-intro" style="margin-top:56px">The booth video ran on a loop and tells the whole story without sound, so it reads from across the hall. It ends on a QR code that takes visitors to the Maestro page.</p>
-        <div class="spot-video-wrap" style="background:var(--panel)">
-          <video data-lazy src="../images/process/maestro-launch/booth.mp4" poster="../images/process/maestro-launch/booth.jpg" muted loop playsinline preload="none" controls aria-label="The HumanX booth video"></video>
-        </div>
+        <button class="ml-btn" type="button" id="boothOpen">Watch the booth video<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 2v8l7-4z" fill="currentColor"/></svg></button>
+        <p class="ml-note">It ran on a loop without sound and ends on a QR code to the Maestro page.</p>
+        <dialog class="ml-lb" id="boothLb" aria-label="The HumanX booth video"><button type="button" class="ml-lb-x" aria-label="Close">&times;</button><video src="" data-src="../images/process/maestro-launch/booth.mp4" poster="../images/process/maestro-launch/booth.jpg" controls playsinline preload="none"></video></dialog>
       </section>
 
       <section class="cream">
@@ -243,13 +249,22 @@
     document.querySelectorAll('video[data-lazy]').forEach(function (v) { v.muted = true; io.observe(v); });
   }());
 </script>
+<script>
+  (function () {
+    var d = document.getElementById('boothLb'), v = d.querySelector('video');
+    document.getElementById('boothOpen').addEventListener('click', function () { if (!v.getAttribute('src')) v.src = v.dataset.src; d.showModal(); v.play().catch(function () {}); });
+    d.querySelector('.ml-lb-x').addEventListener('click', function () { d.close(); });
+    d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+    d.addEventListener('close', function () { v.pause(); });
+  }());
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <script>
   // live animations over the scrolling site screenshots, so they play as you scroll inside the frames
   (function () {
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) {
       var el = e.target;
-      if (e.isIntersecting && !el._a) el._a = lottie.loadAnimation({ container: el, renderer: 'svg', loop: true, autoplay: true, path: '../images/process/maestro-launch/lottie/' + el.dataset.l });
+      if (e.isIntersecting && !el._a) el._a = lottie.loadAnimation({ container: el, renderer: 'svg', loop: true, autoplay: true, path: '../images/process/maestro-launch/lottie/' + el.dataset.l }), el._a.addEventListener('DOMLoaded', function () { el.classList.add('on'); });
       else if (el._a) { if (e.isIntersecting) el._a.play(); else el._a.pause(); }
     }); }, { rootMargin: '100px 0px' });
     document.querySelectorAll('.ml-mock .ov-l').forEach(function (el) { io.observe(el); });
