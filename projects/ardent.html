@@ -60,6 +60,27 @@
   .phone .scroll { aspect-ratio: 390 / 844; }
   .phones figcaption { margin-top: 12px; text-align: center; color: var(--a-mute); }
 
+  /* Website: the live site in a desktop and a phone frame, same staging as the Jamba Hackathon and Maestro pages */
+  .an-mock { position: relative; overflow: hidden; aspect-ratio: 16 / 10; border-radius: 10px; background: radial-gradient(120% 90% at 70% 110%, #2A1240 0, #020107 60%); }
+  .an-desk { position: absolute; left: 6%; top: 8%; width: 72%; }
+  .an-phone-sm { position: absolute; right: 7%; bottom: -6%; width: 19%; }
+  .an-browser { border-radius: 10px; overflow: hidden; background: #000; }
+  .an-browser .bar { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #111; }
+  .an-browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #2C2A2E; }
+  .an-browser .bar span { margin-left: 12px; font: 500 11px ui-monospace, monospace; color: #8C8690; }
+  .an-phone { border-radius: 10px; overflow: hidden; background: #000; }
+  /* the live site, rendered at its real width and scaled to the frame (scale set by the script at the end) */
+  .an-live { position: relative; overflow: hidden; background: #000; }
+  .an-desk .an-live { aspect-ratio: 16 / 10; }
+  .an-phone-sm .an-live { aspect-ratio: 390 / 844; }
+  .an-live iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; }
+  .an-open { margin-top: 24px; }
+  @media (max-width: 760px) {
+    .an-mock { aspect-ratio: auto; padding: 16px 16px 24px; display: grid; gap: 22px; justify-items: center; }
+    .an-mock .an-desk, .an-mock .an-phone-sm { position: static; width: 100%; }
+    .an-mock .an-phone-sm { width: 62%; }
+  }
+
   /* Social: six animated posts */
   .posts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .posts video { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--a-space); }
@@ -148,14 +169,12 @@
         <p class="cap">Scroll inside the frames.</p>
       </div>
     </section>
-    <div class="browser show">
-      <div class="bar"><i></i><i></i><i></i><span>ardent.example/ar-1</span></div>
-      <div class="scroll" tabindex="0" aria-label="The AR-1 product page, full length"><div class="shot"><img src="../images/process/ardent/site-ar-1.jpg?v=3" alt="The AR-1 product page" loading="lazy"><video class="ov" data-src="../ardent-fusion/web/site/media/holding.mp4" poster="../ardent-fusion/web/site/media/holding.jpg" muted loop playsinline preload="none" aria-hidden="true" style="left:0.000%;top:0.000%;width:100.000%;height:9.846%;object-position:50% 0%;-webkit-mask-image:linear-gradient(0deg, transparent 0, rgba(0,0,0,.3) 22%, #000 55%);mask-image:linear-gradient(0deg, transparent 0, rgba(0,0,0,.3) 22%, #000 55%)"></video><video class="ov" data-src="../ardent-fusion/web/site/media/holding.mp4" poster="../ardent-fusion/web/site/media/holding.jpg" muted loop playsinline preload="none" aria-hidden="true" style="left:4.417%;top:37.074%;width:44.583%;height:6.300%;object-position:50% 50%;border-radius:2.24% / 3.36%"></video><video class="ov" data-src="../ardent-fusion/web/site/media/small.mp4" poster="../ardent-fusion/web/site/media/small.jpg" muted loop playsinline preload="none" aria-hidden="true" style="left:0.000%;top:82.530%;width:100.000%;height:12.687%;object-position:50% 100%;-webkit-mask-image:linear-gradient(180deg, transparent 10%, rgba(0,0,0,.45) 36%, #000 60%);mask-image:linear-gradient(180deg, transparent 10%, rgba(0,0,0,.45) 36%, #000 60%)"></video></div></div>
+    <div class="an-mock show">
+      <div class="an-browser an-desk"><div class="bar"><i></i><i></i><i></i><span>ardent.example/ar-1</span></div>
+        <div class="an-live" data-w="1280" data-h="800"><iframe src="../ardent-fusion/web/site/ar-1.html" title="The AR-1 product page on desktop, live: scroll inside the frame" loading="lazy"></iframe></div></div>
+      <div class="an-phone an-phone-sm"><div class="an-live" data-w="390" data-h="844"><iframe src="../ardent-fusion/web/site/technology.html" title="The Technology page on a phone, live: scroll inside the frame" loading="lazy"></iframe></div></div>
     </div>
-    <div class="phones">
-      <figure><div class="phone"><div class="scroll" tabindex="0"><div class="shot"><img src="../images/process/ardent/site-technology-phone.jpg?v=3" alt="Technology page on a phone" loading="lazy"><video class="ov" data-src="../ardent-fusion/web/site/media/plasma.mp4" poster="../ardent-fusion/web/site/media/plasma.jpg" muted loop playsinline preload="none" aria-hidden="true" style="left:0.000%;top:1.340%;width:100.000%;height:4.584%;object-position:70% 50%;-webkit-mask-image:linear-gradient(0deg, transparent 0, #000 35%);mask-image:linear-gradient(0deg, transparent 0, #000 35%)"></video><video class="ov" data-src="../ardent-fusion/web/site/media/holding.mp4" poster="../ardent-fusion/web/site/media/holding.jpg" muted loop playsinline preload="none" aria-hidden="true" style="left:0.000%;top:26.481%;width:100.000%;height:4.584%;object-position:50% 0%;-webkit-mask-image:linear-gradient(0deg, transparent 0, #000 35%);mask-image:linear-gradient(0deg, transparent 0, #000 35%)"></video><video class="ov" data-src="../ardent-fusion/web/site/media/small.mp4" poster="../ardent-fusion/web/site/media/small.jpg" muted loop playsinline preload="none" aria-hidden="true" style="left:0.000%;top:51.234%;width:100.000%;height:4.584%;object-position:50% 100%;-webkit-mask-image:linear-gradient(180deg, transparent 10%, rgba(0,0,0,.45) 36%, #000 60%);mask-image:linear-gradient(180deg, transparent 10%, rgba(0,0,0,.45) 36%, #000 60%)"></video></div></div></div><figcaption class="cap">Technology</figcaption></figure>
-      <figure><div class="phone"><div class="scroll" tabindex="0"><div class="shot"><img src="../images/process/ardent/site-ar-1-phone.jpg?v=3" alt="AR-1 product page on a phone" loading="lazy"><video class="ov" data-src="../ardent-fusion/web/site/media/holding.mp4" poster="../ardent-fusion/web/site/media/holding.jpg" muted loop playsinline preload="none" aria-hidden="true" style="left:0.000%;top:2.041%;width:100.000%;height:6.982%;object-position:50% 0%;-webkit-mask-image:linear-gradient(0deg, transparent 0, #000 35%);mask-image:linear-gradient(0deg, transparent 0, #000 35%)"></video><video class="ov" data-src="../ardent-fusion/web/site/media/holding.mp4" poster="../ardent-fusion/web/site/media/holding.jpg" muted loop playsinline preload="none" aria-hidden="true" style="left:4.359%;top:55.800%;width:91.282%;height:6.364%;object-position:50% 50%;border-radius:3.37% / 5.06%"></video></div></div></div><figcaption class="cap">AR-1</figcaption></figure>
-    </div>
+    <a class="btn an-open" href="../ardent-fusion/web/site/home.html" target="_blank" rel="noopener">Open the site<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
 
     <section class="block">
       <div class="block-label"><h2>Social campaign</h2></div>
@@ -232,6 +251,16 @@
     homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
     glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],
   });
+</script>
+<script>
+  // Live site in the mockup: each iframe renders at the real desktop or phone width and is scaled to its frame
+  (function () {
+    const fit = () => document.querySelectorAll('.an-live').forEach((f) => {
+      const w = +f.dataset.w, h = +f.dataset.h, k = f.clientWidth / w, fr = f.querySelector('iframe');
+      fr.style.width = w + 'px'; fr.style.height = h + 'px'; fr.style.transform = 'scale(' + k + ')';
+    });
+    fit(); addEventListener('resize', fit);
+  }());
 </script>
 </body>
 </html>
