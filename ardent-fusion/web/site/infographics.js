@@ -13,19 +13,22 @@
   // 01 reactor: tilted view of 18 coils looping around a ring of plasma, the AR-1 lit
   const ring = (el) => {
     const id = 'i' + uid++, cx = 320, cy = 200, R = 205, a = 46, b = 80, el0 = 28 * Math.PI / 180, se = Math.sin(el0), ce = Math.cos(el0);
-    // D shape: the inner leg is nearly straight
-    const P = (phi, t) => { const c = Math.cos(t), r = R + (c >= 0 ? a * c : -a * 0.7 * Math.abs(c) ** 0.6); return [cx + r * Math.cos(phi), cy + r * Math.sin(phi) * se - b * Math.sin(t) * ce]; };
-    const loop = (phi) => 'M' + Array.from({ length: 121 }, (_, i) => P(phi, i / 120 * Math.PI * 2).map((v) => v.toFixed(1)).join(' ')).join(' L') + 'Z';
+    // each coil is a loop around the plasma tube
+    const P = (phi, t) => { const c = Math.cos(t), r = R + a * c; return [cx + r * Math.cos(phi), cy + r * Math.sin(phi) * se - b * Math.sin(t) * ce]; };
+    const arc = (phi, t0, t1) => 'M' + Array.from({ length: 61 }, (_, i) => P(phi, t0 + (t1 - t0) * i / 60).map((v) => v.toFixed(1)).join(' ')).join(' L');
     const HERO = 3, coils = Array.from({ length: 18 }, (_, i) => ({ i, phi: i / 18 * Math.PI * 2 + Math.PI / 36 }));
-    const draw = (c, k) => { const on = c.i === HERO, d = loop(c.phi);
-      return `<g class="coilp${on ? ' hero' : ''}" style="--d:${300 + k * 80}ms"><path d="${d}" pathLength="1" fill="none" stroke="#000" stroke-width="15" stroke-linejoin="round"/><path d="${d}" pathLength="1" fill="none" stroke="${on ? ICE : EDGE}" stroke-width="${on ? 2.5 : 1}" stroke-opacity="${on ? 1 : .8}"/></g>`; };
-    const back = coils.filter((c) => Math.sin(c.phi) < 0), front = coils.filter((c) => Math.sin(c.phi) >= 0);
-    const order = [...back.sort((p, q) => Math.sin(p.phi) - Math.sin(q.phi)), ...front.sort((p, q) => Math.sin(p.phi) - Math.sin(q.phi))];
+    // each coil wraps the plasma: the leg nearer the viewer crosses in front of the glow, the far leg passes behind it
+    // (front coils show their outer leg, back coils their inner leg)
+    const OUT = [-Math.PI / 2, Math.PI / 2], IN = [Math.PI / 2, Math.PI * 1.5];
+    const half = (c, near, k) => { const on = c.i === HERO, front = Math.sin(c.phi) >= 0, [t0, t1] = (front === near) ? OUT : IN, d = arc(c.phi, t0, t1);
+      return `<g class="coilp${on ? ' hero' : ''}" style="--d:${300 + k * 80}ms"><path d="${d}" pathLength="1" fill="none" stroke="#000" stroke-width="9" stroke-linecap="round"/><path d="${d}" pathLength="1" fill="none" stroke="${on ? ICE : EDGE}" stroke-width="${on ? 2.5 : 1.1}" stroke-opacity="${on ? 1 : near ? .9 : .7}" stroke-linecap="round"/></g>`; };
+    const order = [...coils].sort((p, q) => Math.sin(p.phi) - Math.sin(q.phi));
     const [hx, hy] = P(coils[HERO].phi, -Math.PI / 2);
     el.innerHTML = `<svg viewBox="0 6 640 464" role="img" aria-label="A reactor seen from above at an angle: 18 coil modules loop around a ring of plasma. One of them is the AR-1.">${defs(id)}
-      ${order.filter((c) => Math.sin(c.phi) < 0).map((c) => draw(c, order.indexOf(c))).join('')}
-      <ellipse class="glow" cx="${cx}" cy="${cy}" rx="${R}" ry="${R * se}" fill="none" stroke="url(#${id}-hot)" stroke-width="64" filter="url(#${id}-blur)"/>
-      ${order.filter((c) => Math.sin(c.phi) >= 0).map((c) => draw(c, order.indexOf(c))).join('')}
+      ${order.map((c, k) => half(c, false, k)).join('')}
+      <ellipse class="glow" cx="${cx}" cy="${cy}" rx="${R}" ry="${R * se}" fill="none" stroke="url(#${id}-hot)" stroke-width="46" filter="url(#${id}-blur)"/>
+      <ellipse cx="${cx}" cy="${cy}" rx="${R}" ry="${R * se}" fill="none" stroke="url(#${id}-hot)" stroke-width="10" stroke-opacity=".9"/>
+      ${order.map((c, k) => half(c, true, k)).join('')}
       <g class="late"><path d="M${hx.toFixed(1)} ${(hy + 10).toFixed(1)}V392H620" fill="none" stroke="${ICE}" stroke-width="1.2"/>${T(620, 382, '1 × ' + window.KF_BRAND.product + ' MODULE', { c: ICE, a: 'end', z: 17 })}</g>
       <path d="M20 422H620" stroke="${EDGE}"/>
       ${T(20, 452, '18 MODULES · ONE REACTOR', { c: OFF, z: 16 })}${T(620, 452, 'ILLUSTRATIVE, NOT TO SCALE', { a: 'end', z: 14 })}</svg>`;
