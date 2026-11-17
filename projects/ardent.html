@@ -68,6 +68,13 @@
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
   .pair img { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--a-space); }
 
+  /* Sales kit */
+  .sheets { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .sheets img, .deck img { display: block; width: 100%; height: auto; background: var(--a-space); }
+  .deck { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .deck img { border-radius: 6px; }
+  .kit-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
   .tools { list-style: none; margin-top: 24px; }
   .tools li { padding: 14px 0; border-top: 1px solid var(--line); font-size: 16px; color: var(--ink-2); }
   .tools b { font-family: var(--label); font-weight: 500; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; }
@@ -82,6 +89,7 @@
     .posts { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; scrollbar-width: none; }
     .posts video { scroll-snap-align: start; }
     .pair { grid-template-columns: 1fr; }
+    .deck { gap: 6px; } .deck img { border-radius: 3px; }
   }
 </style>
 <link rel="stylesheet" href="../css/bubbles.css?v=3">
@@ -109,7 +117,7 @@
     <dl class="facts">
       <div><dt>Project</dt><dd>Self-initiated concept</dd></div>
       <div><dt>Role</dt><dd>Web design · motion · campaign</dd></div>
-      <div><dt>Scope</dt><dd>5-page site · social · expo stand and swag</dd></div>
+      <div><dt>Scope</dt><dd>5-page site · social · expo stand and swag · sales kit</dd></div>
       <div><dt>Year</dt><dd>2026</dd></div>
     </dl>
   </header>
@@ -173,6 +181,30 @@
       <!-- tote.jpg: the ChatGPT tote mockup; until it's saved, the stickers stand in -->
       <img src="../images/process/ardent/tote.jpg" onerror="this.onerror=null;this.src='../images/process/ardent/stickers.jpg'" alt="A black Ardent tote covered in the sticker set, with the logo along the bottom" loading="lazy">
       <img src="../images/process/ardent/shirt.jpg" alt="The Ardent shirt, front with a woven logo on the pocket and back with the ringed wordmark" loading="lazy">
+    </div>
+
+    <section class="block">
+      <div class="block-label"><h2>Sales kit</h2></div>
+      <div class="prose">
+        <p>The goal: make every sales conversation shorter. A two-page datasheet answers the engineering questions before the call, and a nine-slide deck carries one idea per slide, from the energy problem to the order.</p>
+        <p>Both reuse the website's diagrams and type, with the data set in mono so the numbers are easy to scan.</p>
+        <div class="kit-links"><a class="btn" href="../images/process/ardent/Ardent-AR-1-datasheet.pdf" target="_blank" rel="noopener">Datasheet PDF</a><a class="btn" href="../images/process/ardent/Ardent-sales-deck.pdf" target="_blank" rel="noopener">Deck PDF</a></div>
+      </div>
+    </section>
+    <div class="sheets show">
+      <img src="../images/process/ardent/sales-datasheet-1.jpg" alt="Datasheet page 1: the AR-1 Magnet Module, key figures, four benefits and how it works" loading="lazy">
+      <img src="../images/process/ardent/sales-datasheet-2.jpg" alt="Datasheet page 2: specification tables, the coil cross-section, application notes and contact" loading="lazy">
+    </div>
+    <div class="deck">
+      <img src="../images/process/ardent/sales-deck-01.jpg" alt="Sales deck, slide 1: title, the magnet that makes fusion small" loading="lazy">
+      <img src="../images/process/ardent/sales-deck-02.jpg" alt="Sales deck, slide 2: the problem, electricity demand growing about 4% a year" loading="lazy">
+      <img src="../images/process/ardent/sales-deck-03.jpg" alt="Sales deck, slide 3: why fusion, deuterium and tritium fuse into helium and a neutron" loading="lazy">
+      <img src="../images/process/ardent/sales-deck-04.jpg" alt="Sales deck, slide 4: our approach, stronger magnets for a smaller reactor, with the field curve" loading="lazy">
+      <img src="../images/process/ardent/sales-deck-05.jpg" alt="Sales deck, slide 5: the AR-1, with the coil cross-section and key figures" loading="lazy">
+      <img src="../images/process/ardent/sales-deck-06.jpg" alt="Sales deck, slide 6: proof and roadmap, 21.3 T held for six hours, then 2026 to the 2030s" loading="lazy">
+      <img src="../images/process/ardent/sales-deck-07.jpg" alt="Sales deck, slide 7: why now, every reactor needs eighteen coils" loading="lazy">
+      <img src="../images/process/ardent/sales-deck-08.jpg" alt="Sales deck, slide 8: team, four placeholder portraits" loading="lazy">
+      <img src="../images/process/ardent/sales-deck-09.jpg" alt="Sales deck, slide 9: contact, let's size your magnet set, Hall 4 B21" loading="lazy">
     </div>
   </div>
 </main>
