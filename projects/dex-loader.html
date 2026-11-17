@@ -24,8 +24,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/v2.css?v=12">
-<link rel="stylesheet" href="../css/case-study.css?v=10">
+<link rel="stylesheet" href="../css/v2.css?v=13">
+<link rel="stylesheet" href="../css/case-study.css?v=11">
 <style>
   /* Dex study */
   .stage--dex { background: #fff; display: grid; place-items: center; aspect-ratio: 16 / 8.5; }
@@ -57,7 +57,7 @@
     .pose { scroll-snap-align: start; }
   }
 </style>
-<link rel="stylesheet" href="../css/bubbles.css?v=3">
+<link rel="stylesheet" href="../css/bubbles.css?v=4">
 </head>
 <body>
 
@@ -79,10 +79,10 @@
     <h1 class="cs-title">Dex Loader</h1>
     <p class="cs-summary">A logo loader for Dex, an IT support agent for Microsoft 365, shown while it maps a company’s IT environment. The logo’s square blocks split, assemble and recolour at 12 fps, stepping like pixel art. A nine-block version on an 8 × 8 grid carries the same motion into the chat. Both shipped in Dex’s onboarding.</p>
     <dl class="facts">
-      <div><dt>Client</dt><dd>Dex</dd></div>
-      <div><dt>Role</dt><dd>Motion design</dd></div>
-      <div><dt>Scope</dt><dd>Logo loader · chat loader</dd></div>
-      <div><dt>Year</dt><dd>2026</dd></div>
+      <div><dt>Client</dt> <dd>Dex</dd></div>
+      <div><dt>Role</dt> <dd>Motion design</dd></div>
+      <div><dt>Scope</dt> <dd>Logo loader · chat loader</dd></div>
+      <div><dt>Year</dt> <dd>2026</dd></div>
     </dl>
   </header>
 
@@ -176,7 +176,7 @@
 
 <footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
   <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
-  <h2 class="bub-name">LET'S TALK</h2>
+  <h2 class="bub-name"><a href="mailto:arielmotion@gmail.com">LET'S TALK</a></h2>
   <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
 </footer>
 
@@ -190,10 +190,10 @@
 </script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 <script src="../js/v2.js?v=4"></script>
-<script src="../js/bubbles.js?v=9"></script>
+<script src="../js/bubbles.js?v=12"></script>
 <script>
   Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
-    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    a: ["LET'S", 'TALK'], b: [], titleHref: 'mailto:arielmotion@gmail.com', top: .26, topPhone: .24, seed: 31, scale: .45,
     pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
     homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
     glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],

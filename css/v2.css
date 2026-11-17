@@ -138,3 +138,9 @@ h1, h2, h3, .h2, .cs-title, .block-label h2, .case-meta h3, .mini h4, .kpi b, .p
 
 /* ─── Arrow icon (a drawn ↗, never the text character: iOS turns that into an emoji) ─── */
 .arw { display: inline-block; width: .72em; height: .72em; margin-left: .2em; vertical-align: -.02em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Phones: 44px touch area on the name link */
+@media (pointer: coarse), (max-width: 860px) {
+  .brand { position: relative; }
+  .brand::after { content: ""; position: absolute; inset: -10px -8px; }
+}

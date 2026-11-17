@@ -38,6 +38,7 @@
   nav.top.show { transform: none; }
   nav.top .w { display: flex; align-items: center; gap: 30px; height: 68px; font-size: 14px; color: var(--soft); }
   nav.top .logo { color: var(--ink); font-weight: 600; font-size: 17px; margin-right: 8px; }
+  @media (pointer: coarse), (max-width: 860px) { nav.top .logo { position: relative; } nav.top .logo::after { content: ''; position: absolute; inset: -9px -6px; } }
   nav.top .logo i { font-style: normal; font-weight: 300; }
   nav.top .menu { display: flex; gap: 30px; }
   nav.top .menu a:hover { color: var(--ink); }

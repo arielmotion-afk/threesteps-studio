@@ -24,8 +24,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600&family=Caveat+Brush&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/v2.css?v=12">
-<link rel="stylesheet" href="../css/case-study.css?v=10">
+<link rel="stylesheet" href="../css/v2.css?v=13">
+<link rel="stylesheet" href="../css/case-study.css?v=11">
 <style>
   /* ─── Bloom: the app's Iris palette lives only inside its panels; the page keeps the site's look ─── */
   :root { --iris: #2E2A6B; --iris-card: #3D3986; --iris-fg: #F1EEFF; --iris-sub: #B9B3E6;
@@ -154,7 +154,7 @@
   }
   .swipe-hint { display: none; margin-top: 10px; }
 </style>
-<link rel="stylesheet" href="../css/bubbles.css?v=3">
+<link rel="stylesheet" href="../css/bubbles.css?v=4">
 </head>
 <body>
 
@@ -179,10 +179,10 @@
       <a class="btn" href="https://bloom.arielmotion.workers.dev" target="_blank" rel="noopener">Open the app<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
     </div>
     <dl class="facts">
-      <div><dt>Project</dt><dd>Personal</dd></div>
-      <div><dt>Role</dt><dd>Identity · illustration · UI · motion</dd></div>
-      <div><dt>Scope</dt><dd>Logotype · 9 characters · 4 headers</dd></div>
-      <div><dt>Year</dt><dd>2026</dd></div>
+      <div><dt>Project</dt> <dd>Personal</dd></div>
+      <div><dt>Role</dt> <dd>Identity · illustration · UI · motion</dd></div>
+      <div><dt>Scope</dt> <dd>Logotype · 9 characters · 4 headers</dd></div>
+      <div><dt>Year</dt> <dd>2026</dd></div>
     </dl>
   </header>
 
@@ -285,7 +285,7 @@
 
 <footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
   <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
-  <h2 class="bub-name">LET'S TALK</h2>
+  <h2 class="bub-name"><a href="mailto:arielmotion@gmail.com">LET'S TALK</a></h2>
   <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
 </footer>
 
@@ -301,10 +301,10 @@
 }());
 </script>
 <script src="../js/v2.js?v=4"></script>
-<script src="../js/bubbles.js?v=9"></script>
+<script src="../js/bubbles.js?v=12"></script>
 <script>
   Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
-    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    a: ["LET'S", 'TALK'], b: [], titleHref: 'mailto:arielmotion@gmail.com', top: .26, topPhone: .24, seed: 31, scale: .45,
     pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
     homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
     glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],

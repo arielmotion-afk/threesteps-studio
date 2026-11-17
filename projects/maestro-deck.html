@@ -167,6 +167,7 @@
   .ui button:hover { border-color: #8A8682; }
   .ui .nav { display: flex; gap: 8px; align-items: center; }
   .ui .count { min-width: 64px; text-align: center; }
+  @media (pointer: coarse), (max-width: 860px) { .ui a, .ui button { position: relative; } .ui a::after { content: ''; position: absolute; inset: -14px -6px; } .ui button::after { content: ''; position: absolute; inset: -3px; border-radius: 999px; } }   /* 44px touch areas on phones */
   body.shot .ui { display: none; }
   body.shot .stage { inset: 0; }
 </style>

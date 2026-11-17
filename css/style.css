@@ -1599,3 +1599,9 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 300; pointer-even
 
 /* ─── Arrow icon (a drawn ↗, never the text character: iOS turns that into an emoji) ─── */
 .arw { display: inline-block; width: .72em; height: .72em; margin-left: .2em; vertical-align: -.02em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Phones: small links and video buttons get a 44px touch area without changing how they look */
+@media (pointer: coarse), (max-width: 860px) {
+  .nav-back, .nav-logo, .vc-play-btn, .vc-vol-btn, .vc-fs-btn { position: relative; }
+  .nav-back::after, .nav-logo::after, .vc-play-btn::after, .vc-vol-btn::after, .vc-fs-btn::after { content: ""; position: absolute; inset: -14px -12px; }
+}

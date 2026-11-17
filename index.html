@@ -25,8 +25,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Mona+Sans:wdth,wght@125,900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/v2.css?v=12">
-<link rel="stylesheet" href="css/bubbles.css?v=3">
+<link rel="stylesheet" href="css/v2.css?v=13">
+<link rel="stylesheet" href="css/bubbles.css?v=4">
 <style>
   /* For now: no project carousel (and no intro line above it). The header stops short of the fold,
      so the client logos and the top of the work section peek in on the first screen. */
@@ -182,7 +182,8 @@
   @media (max-width: 860px) {
     .case-meta h3 { font-size: 19px; }
     .hero { padding-top: 40px; }
-    .cases { grid-template-columns: 1fr; }
+    .cases { grid-template-columns: minmax(0, 1fr); }   /* a long label can't widen the column past the screen */
+    .case-meta { flex-wrap: wrap; row-gap: 2px; }
     .dc-head { flex-direction: column; align-items: flex-start; }
     .minis > .mini { flex-basis: 78%; }
     .case--featured .case-media { aspect-ratio: 16 / 10; }
@@ -428,7 +429,7 @@
 
 <footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
   <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
-  <h2 class="bub-name">LET'S TALK</h2>
+  <h2 class="bub-name"><a href="mailto:arielmotion@gmail.com">LET'S TALK</a></h2>
   <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
 </footer>
 
@@ -665,7 +666,7 @@
 <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 <script src="js/fabric-glass.js"></script>
 <script src="js/v2.js?v=4"></script>
-<script src="js/bubbles.js?v=9"></script>
+<script src="js/bubbles.js?v=12"></script>
 <script>
   // Header: big name, three bubbles stacked on it; footer: one bubble off to the side and a sunset glow
   Bubbles.scene(document.getElementById('bubHero'), document.getElementById('bubHeroCanvas'), {
@@ -674,7 +675,7 @@
     phone: [[.64, .17], [.24, .7], [.86, .6]], liftPhone: .04,
   });
   Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
-    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    a: ["LET'S", 'TALK'], b: [], titleHref: 'mailto:arielmotion@gmail.com', top: .26, topPhone: .24, seed: 31, scale: .45,
     pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: 'files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
     homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
     glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],

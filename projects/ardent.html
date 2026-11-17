@@ -23,8 +23,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/v2.css?v=12">
-<link rel="stylesheet" href="../css/case-study.css?v=10">
+<link rel="stylesheet" href="../css/v2.css?v=13">
+<link rel="stylesheet" href="../css/case-study.css?v=11">
 <style>
   /* ─── Ardent: the brand's black and its two glow colours live only inside its panels; the page keeps the site's look ─── */
   :root { --a-space: #020107; --a-pink: #F02DBE; --a-ice: #39F2F7; --a-off: #EDF1F2; --a-mute: #8B96AD; --a-edge: rgba(124,242,176,.22); }
@@ -76,7 +76,7 @@
   .an-live iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; }
   .an-open { margin-top: 24px; }
   @media (max-width: 760px) {
-    .an-mock { aspect-ratio: auto; padding: 16px 16px 24px; display: grid; gap: 22px; justify-items: center; }
+    .an-mock { margin-top: 32px; aspect-ratio: auto; padding: 16px 16px 24px; display: grid; gap: 22px; justify-items: center; }
     .an-mock .an-desk, .an-mock .an-phone-sm { position: static; width: 100%; }
     .an-mock .an-phone-sm { width: 62%; }
   }
@@ -113,7 +113,7 @@
     .deck { gap: 6px; } .deck img { border-radius: 3px; }
   }
 </style>
-<link rel="stylesheet" href="../css/bubbles.css?v=3">
+<link rel="stylesheet" href="../css/bubbles.css?v=4">
 </head>
 <body>
 
@@ -136,10 +136,10 @@
     <p class="cs-summary">A fictional fusion magnet company. I designed its website, social campaign, expo stand and sales kit.</p>
 <div class="cs-actions"><a class="btn" href="../ardent-fusion/web/site/home.html" target="_blank" rel="noopener">Visit the site<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></div>
     <dl class="facts">
-      <div><dt>Project</dt><dd>Self-initiated concept</dd></div>
-      <div><dt>Role</dt><dd>Web design · motion · campaign</dd></div>
-      <div><dt>Scope</dt><dd>5-page site · social · expo stand and swag · sales kit</dd></div>
-      <div><dt>Year</dt><dd>2026</dd></div>
+      <div><dt>Project</dt> <dd>Self-initiated concept</dd></div>
+      <div><dt>Role</dt> <dd>Web design · motion · campaign</dd></div>
+      <div><dt>Scope</dt> <dd>5-page site · social · expo stand and swag · sales kit</dd></div>
+      <div><dt>Year</dt> <dd>2026</dd></div>
     </dl>
   </header>
 
@@ -217,7 +217,7 @@
 
 <footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
   <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
-  <h2 class="bub-name">LET'S TALK</h2>
+  <h2 class="bub-name"><a href="mailto:arielmotion@gmail.com">LET'S TALK</a></h2>
   <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
 </footer>
 
@@ -231,10 +231,10 @@
 }());
 </script>
 <script src="../js/v2.js?v=4"></script>
-<script src="../js/bubbles.js?v=9"></script>
+<script src="../js/bubbles.js?v=12"></script>
 <script>
   Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
-    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    a: ["LET'S", 'TALK'], b: [], titleHref: 'mailto:arielmotion@gmail.com', top: .26, topPhone: .24, seed: 31, scale: .45,
     pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
     homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
     glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],

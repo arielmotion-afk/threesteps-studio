@@ -31,6 +31,7 @@ async function scene(hero, cv, cfg) {
   let pillY = 0, pillDirty = true; const pills = (cfg.pills || []).map((o) => { const it = typeof o === 'string' ? { label: o } : { ...o }; Object.assign(it, { x: 0, y: 0, r: 0, vx: 0, vy: 0, vr: 0, cx: 0, cy: 0, w: 0, h: 0 });
     if (it.href) { const a = document.createElement('a'); a.className = 'bub-hit'; a.href = it.href; a.setAttribute('aria-label', it.aria || it.label); if (/^http|\.pdf$/.test(it.href)) { a.target = '_blank'; a.rel = 'noopener'; } hero.appendChild(a); it.a = a; }
     return it; });
+  let titleA = null; if (cfg.titleHref) { titleA = document.createElement('a'); titleA.className = 'bub-hit bub-title-hit'; titleA.href = cfg.titleHref; titleA.tabIndex = -1; titleA.setAttribute('aria-hidden', 'true'); hero.appendChild(titleA); }   // the drawn title can be a link too
   let W, H, dpr, phone;
   function drawType() {
     tc.width = W; tc.height = H; tx.clearRect(0, 0, W, H); tx.fillStyle = '#000';
@@ -42,6 +43,7 @@ async function scene(hero, cv, cfg) {
     let x = C ? W / 2 : 7 * vw, y = (C ? (H - blockH) / 2 - H * (phone ? (cfg.liftPhone || .03) : .03) : H * (phone ? cfg.topPhone : cfg.top)) + px * .82;   // centred: the whole block sits in the middle
     tx.textAlign = C ? 'center' : 'left';
     tx.font = T.a.replace('F', px + 'px'); tx.letterSpacing = (T.at * px) + 'px';
+    if (titleA) { const tw = Math.max(...cfg.a.map((l) => tx.measureText(l).width)), th = px * (.82 + .86 * (cfg.a.length - 1)); Object.assign(titleA.style, { left: (C ? x - tw / 2 : x) / dpr + 'px', top: (y - px * .82) / dpr + 'px', width: tw / dpr + 'px', height: th / dpr + 'px', borderRadius: '0' }); }
     cfg.a.forEach((line, n) => { if (n) y += px * .86; tx.fillText(line, x, y); });
     tx.font = T.b.replace('F', gr + 'px'); tx.letterSpacing = (T.bt * gr) + 'px';
     cfg.b.forEach((line, n) => { y += gr * (n ? .88 : .95); tx.fillText(line, x, y); }); tx.letterSpacing = '0px';

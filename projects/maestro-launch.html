@@ -21,8 +21,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=5">
-<link rel="stylesheet" href="../css/bubbles.css?v=3">
+<link rel="stylesheet" href="../css/style.css?v=6">
+<link rel="stylesheet" href="../css/bubbles.css?v=4">
 <style>
   /* Maestro Launch: dark page, the orb's peach glow is the only accent */
   body.ml { --bg: #212121; --text: #EEEAE4; --muted: #8E8A86; --border: #333130; --tile-bg: #262626; --accent: #FED7AC; --panel: #212121; }
@@ -110,7 +110,7 @@
   .ml-lb { margin: auto; inset: 0; height: fit-content; border: 0; padding: 0; background: #000; width: min(92vw, 1280px); max-width: none; overflow: visible; }
   .ml-lb::backdrop { background: rgba(10,10,10,.85); }
   .ml-lb video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
-  .ml-lb-x { position: absolute; right: 0; top: -44px; width: 40px; height: 40px; border: 0; background: none; color: #F3ECE2; font-size: 30px; line-height: 1; cursor: pointer; }
+  .ml-lb-x { position: absolute; right: 0; top: -48px; width: 44px; height: 44px; display: grid; place-items: center; border: 0; background: none; color: #F3ECE2; cursor: pointer; }
   .ml-learned { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.6; max-width: 58ch; color: var(--text); }
 
   @media (max-width: 860px) {
@@ -160,9 +160,9 @@
       <section class="credits">
         <h2 class="section-label">Credits</h2>
         <ul class="credits-list">
-          <li><span class="credit-role">Visual language</span><span class="credit-name">Adva Cohen</span></li>
-          <li><span class="credit-role">Motion, animation &amp; campaign assets</span><span class="credit-name">Ariel Paz</span></li>
-          <li><span class="credit-role">Client</span><span class="credit-name">AI21 Labs, 2025</span></li>
+          <li><span class="credit-role">Visual language</span> <span class="credit-name">Adva Cohen</span></li>
+          <li><span class="credit-role">Motion, animation &amp; campaign assets</span> <span class="credit-name">Ariel Paz</span></li>
+          <li><span class="credit-role">Client</span> <span class="credit-name">AI21 Labs, 2025</span></li>
         </ul>
       </section>
 
@@ -188,7 +188,7 @@
         </div>
         <button class="ml-btn" type="button" id="boothOpen">Watch the booth video<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 2v8l7-4z" fill="currentColor"/></svg></button>
         <p class="ml-note">It ran on a loop without sound and ends on a QR code to the Maestro page.</p>
-        <dialog class="ml-lb" id="boothLb" aria-label="The HumanX booth video"><button type="button" class="ml-lb-x" aria-label="Close">&times;</button><video src="" data-src="../images/process/maestro-launch/booth.mp4" poster="../images/process/maestro-launch/booth.jpg" controls playsinline preload="none"></video></dialog>
+        <dialog class="ml-lb" id="boothLb" aria-label="The HumanX booth video"><button type="button" class="ml-lb-x" aria-label="Close"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></button><video src="" data-src="../images/process/maestro-launch/booth.mp4" poster="../images/process/maestro-launch/booth.jpg" controls playsinline preload="none"></video></dialog>
       </section>
 
       <section class="cream">
@@ -228,15 +228,15 @@
 
   <footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
   <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
-  <h2 class="bub-name">LET'S TALK</h2>
+  <h2 class="bub-name"><a href="mailto:arielmotion@gmail.com">LET'S TALK</a></h2>
   <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
 </footer>
 
   <script src="../js/main.js?v=3"></script>
-<script src="../js/bubbles.js?v=11"></script>
+<script src="../js/bubbles.js?v=12"></script>
 <script>
   Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
-    scheme: 'Maestro', a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    scheme: 'Maestro', a: ["LET'S", 'TALK'], b: [], titleHref: 'mailto:arielmotion@gmail.com', top: .26, topPhone: .24, seed: 31, scale: .45,
     pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
     homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
     glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],

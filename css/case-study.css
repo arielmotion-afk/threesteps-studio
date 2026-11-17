@@ -74,3 +74,9 @@ td:first-child { font-family: var(--label); font-size: 12.5px; padding-right: 16
   .chips { flex-wrap: nowrap; overflow-x: auto; padding: 0 16px; scroll-padding: 0 16px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .chips::-webkit-scrollbar { display: none; }
 }
+
+/* Phones: 44px touch area on the back link */
+@media (pointer: coarse), (max-width: 860px) {
+  .back { position: relative; }
+  .back::after { content: ""; position: absolute; inset: -13px -10px; }
+}

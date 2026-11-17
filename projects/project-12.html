@@ -21,8 +21,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=5">
-<link rel="stylesheet" href="../css/bubbles.css?v=3">
+<link rel="stylesheet" href="../css/style.css?v=6">
+<link rel="stylesheet" href="../css/bubbles.css?v=4">
 </head>
 <body>
 
@@ -59,9 +59,9 @@
       <section class="credits">
         <h2 class="section-label">ADAM · Credits</h2>
         <ul class="credits-list">
-          <li><span class="credit-role">Client</span><span class="credit-name">Notch</span></li>
-          <li><span class="credit-role">Motion Design</span><span class="credit-name">Ariel Paz</span></li>
-          <li><span class="credit-role">Design</span><span class="credit-name">Noa Schlosser</span></li>
+          <li><span class="credit-role">Client</span> <span class="credit-name">Notch</span></li>
+          <li><span class="credit-role">Motion Design</span> <span class="credit-name">Ariel Paz</span></li>
+          <li><span class="credit-role">Design</span> <span class="credit-name">Noa Schlosser</span></li>
         </ul>
       </section>
 
@@ -93,9 +93,9 @@
         <section class="credits">
           <h2 class="section-label">Credits</h2>
           <ul class="credits-list">
-            <li><span class="credit-role">Client</span><span class="credit-name">Notch</span></li>
-            <li><span class="credit-role">Motion Design</span><span class="credit-name">Ariel Paz</span></li>
-            <li><span class="credit-role">Design</span><span class="credit-name">Noa Schlosser</span></li>
+            <li><span class="credit-role">Client</span> <span class="credit-name">Notch</span></li>
+            <li><span class="credit-role">Motion Design</span> <span class="credit-name">Ariel Paz</span></li>
+            <li><span class="credit-role">Design</span> <span class="credit-name">Noa Schlosser</span></li>
           </ul>
         </section>
       </div>
@@ -107,15 +107,15 @@
 
   <footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
   <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
-  <h2 class="bub-name">LET'S TALK</h2>
+  <h2 class="bub-name"><a href="mailto:arielmotion@gmail.com">LET'S TALK</a></h2>
   <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
 </footer>
 
   <script src="../js/main.js?v=3"></script>
-<script src="../js/bubbles.js?v=9"></script>
+<script src="../js/bubbles.js?v=12"></script>
 <script>
   Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
-    a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    a: ["LET'S", 'TALK'], b: [], titleHref: 'mailto:arielmotion@gmail.com', top: .26, topPhone: .24, seed: 31, scale: .45,
     pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
     homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
     glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],
