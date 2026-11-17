@@ -44,6 +44,13 @@
   .hk-full { margin-top: 14px; }
   .hk-phones { display: grid; justify-items: center; padding: 40px 0 0; }
   .hk-phones figure { width: min(300px, 62%); margin: 0; }
+  .hk-kit-line { max-width: 60ch; margin: 0 0 24px; }
+  .hk-kit { display: grid; grid-template-columns: 1fr 1.25fr; gap: 14px; max-width: 900px; margin: 0 auto; align-items: start; }
+  .hk-kit img { display: block; width: 100%; height: auto; border-radius: 10px; }
+  .hk-kit-slides { display: grid; gap: 14px; }
+  .hk-kit-files { max-width: 900px; margin: 18px auto 0; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15px; }
+  .hk-kit-files a { display: inline-flex; align-items: center; gap: 4px; color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+  @media (max-width: 860px) { .hk-kit { grid-template-columns: 1fr; } }
   @media (max-width: 860px) {
     .hk-mock { aspect-ratio: 4 / 3.4; }
     .hk-desk { left: 4%; top: 6%; width: 84%; }
@@ -128,6 +135,21 @@
           <img src="../images/process/ai21-hackathon/stickers.jpg" alt="A closed laptop with circle and pill stickers reading Context, Window and 48H, the AI21 logo and a cursor, next to the half-used sticker sheet" loading="lazy">
           <img src="../images/process/ai21-hackathon/mug.jpg" alt="A black mug on a windowsill, printed all round with the circle grid and the words The Context Window Hackathon 48H, with the AI21 logo" loading="lazy">
         </div>
+      </section>
+
+      <hr class="project-rule">
+
+      <section>
+        <h2 class="section-label">Participant kit</h2>
+        <p class="project-description hk-kit-line">A one-pager and a demo-day deck template, so teams present consistently without needing a designer.</p>
+        <div class="hk-kit">
+          <img class="hk-kit-page" src="../images/process/ai21-hackathon/kit-one-pager.jpg" alt="The A4 participant one-pager: the circle grid header, schedule, team forming, judging, prizes, help and a QR code to the landing page" loading="lazy">
+          <div class="hk-kit-slides">
+            <img src="../images/process/ai21-hackathon/kit-deck-example.jpg" alt="Demo-day deck, title slide filled in for an example team: Clause Finder, Team 07" loading="lazy">
+            <img src="../images/process/ai21-hackathon/kit-deck-blank.jpg" alt="Demo-day deck template, the What we built slide with placeholders and an empty screenshot frame" loading="lazy">
+          </div>
+        </div>
+        <p class="hk-kit-files"><a href="../files/ai21-hackathon/Context-Window-participant-one-pager.pdf" target="_blank" rel="noopener">One-pager, PDF<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a><a href="../files/ai21-hackathon/Context-Window-demo-deck-example.pdf" target="_blank" rel="noopener">Deck, filled example<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a><a href="../files/ai21-hackathon/Context-Window-demo-deck-blank.pdf" target="_blank" rel="noopener">Deck, blank template<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></p>
       </section>
 
       <hr class="project-rule">
