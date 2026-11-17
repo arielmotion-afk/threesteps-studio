@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maestro Launch · Three Steps Studio</title>
+  <meta name="description" content="Maestro launch for AI21 Labs: Adva Cohen's visual language brought to motion and rolled out across web, social, film and a conference booth.">
+  <meta property="og:title" content="Maestro Launch · Three Steps Studio">
+  <meta property="og:description" content="A visual language for an AI that orchestrates, brought to motion.">
+  <meta property="og:url" content="https://threesteps.studio/projects/maestro-launch.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://threesteps.studio/images/og/maestro-launch.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://threesteps.studio/images/og/maestro-launch.jpg">
+  <link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@125,500;125,700;125,800;125,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=5">
+<link rel="stylesheet" href="../css/bubbles.css?v=3">
+<style>
+  /* Maestro Launch: dark page, the orb's peach glow is the only accent */
+  body.ml { --bg: #212121; --text: #EEEAE4; --muted: #8E8A86; --border: #333130; --tile-bg: #262626; --accent: #FED7AC; --panel: #212121; }
+  .ml .project-description { color: #CFCAC4; }
+  .ml-hero { background: #212121; display: grid; place-items: center; }
+  .ml-hero video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .ml-lede { font-family: var(--font-display); font-stretch: condensed; font-weight: 500; font-size: clamp(1.25rem, 2.4vw, 1.9rem); line-height: 1.25; color: var(--text); margin-top: 18px; max-width: 34ch; }
+  .ml .credit-name { color: var(--text); }
+  .ml-intro { max-width: 62ch; color: #CFCAC4; line-height: 1.7; margin: -4px 0 32px; }
+  .ml-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .ml-grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .ml-grid--4 { grid-template-columns: repeat(4, 1fr); }
+  .ml figure { margin: 0; }
+  .ml figure > img, .ml figure > video { display: block; width: 100%; height: auto; background: var(--panel); }
+  .ml figcaption { margin-top: 10px; font-size: .875rem; line-height: 1.55; color: var(--muted); max-width: 52ch; }
+  .ml figcaption b { color: var(--text); font-weight: 500; }
+  .ml-wide { grid-column: 1 / -1; }
+  .fit { aspect-ratio: 16 / 10; object-fit: cover; }
+  .ml-palette { display: grid; grid-template-columns: repeat(6, 1fr); aspect-ratio: 16 / 10; background: var(--panel); }
+  .ml-palette span { display: flex; align-items: flex-end; padding: 10px; font: 500 11px ui-monospace, monospace; color: rgba(0,0,0,.6); }
+  .ml-palette span:first-child { color: rgba(255,255,255,.55); box-shadow: inset 0 0 0 1px #333; }
+  .ml-type { aspect-ratio: 16 / 10; object-fit: cover; }
+
+  .ml-principle { display: grid; grid-template-columns: 5fr 7fr; gap: 40px; align-items: center; padding: 28px 0; border-top: 1px solid var(--border); }
+  .ml-principle:first-of-type { border-top: 0; padding-top: 0; }
+  .ml-principle h3 { font-family: var(--font-display); font-stretch: condensed; font-weight: 700; font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.15; margin-bottom: 10px; }
+  .ml-principle p { color: #CFCAC4; line-height: 1.65; max-width: 40ch; }
+  .ml-principle .n { display: block; font: 500 12px ui-monospace, monospace; color: var(--accent); margin-bottom: 14px; letter-spacing: .06em; }
+  .ml-principle video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--panel); }
+
+  .ml-sub { display: grid; grid-template-columns: 220px 1fr; gap: 32px; padding: 32px 0; border-top: 1px solid var(--border); }
+  .ml-sub:first-of-type { border-top: 0; padding-top: 0; }
+  .ml-sub h3 { font-family: var(--font-display); font-stretch: condensed; font-weight: 700; font-size: 1.25rem; line-height: 1.2; }
+  .ml-sub > div > p { color: #CFCAC4; margin-bottom: 20px; max-width: 60ch; line-height: 1.65; }
+  .ml-light video { background: #F6F4F1; }
+  .ml-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; font-weight: 600; background: var(--accent); color: #1A1410; margin-top: 24px; }
+  .ml-btn:hover { background: #FFE6C9; }
+  .ml-film { position: relative; display: block; }
+  .ml-film img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .ml-film span { position: absolute; left: 16px; bottom: 16px; padding: 8px 14px; border-radius: 999px; background: rgba(11,11,11,.72); font-size: 14px; font-weight: 500; }
+  .ml-browser { border-radius: 10px; overflow: hidden; background: #161616; border: 1px solid var(--border); }
+  .ml-browser .bar { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #111; }
+  .ml-browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #2C2A2E; }
+  .ml-browser .bar span { margin-left: 12px; font: 500 11px ui-monospace, monospace; color: #8C8690; }
+  .ml-scroll { aspect-ratio: 16 / 10; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.26) transparent; }
+  .ml-scroll::-webkit-scrollbar { width: 8px; background: transparent; }
+  .ml-scroll::-webkit-scrollbar-track { background: transparent; }
+  .ml-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.26); border: 2px solid transparent; background-clip: padding-box; border-radius: 8px; }
+  .ml-scroll img { display: block; width: 100%; height: auto; }
+  @media (max-width: 560px) { .ml-scroll { aspect-ratio: 4 / 5; } }
+
+  /* cream bands that run edge to edge */
+  .ml section.cream { --text: #1C1A19; --muted: #8F887F; --border: #E0D9CF; color: var(--text); background: #F5F1EB; box-shadow: 0 0 0 100vmax #F5F1EB; clip-path: inset(0 -100vmax); padding: 96px 0; margin: 0; }
+  .ml section.cream .section-label { color: #8F887F; }
+  .ml section.cream .ml-intro, .ml section.cream figcaption { color: #57514B; }
+  .ml section.cream figcaption b { color: #1C1A19; }
+  .ml section:not(.cream):not(.credits) { padding: 96px 0; }
+  .ml .ml-browser { box-shadow: 0 40px 100px -40px rgba(0,0,0,.45); }
+  .ml-mock { position: relative; aspect-ratio: 16 / 10.4; border-radius: 10px; overflow: hidden; background: radial-gradient(110% 90% at 72% 105%, #4A3B33 0, #1D1C1B 58%); }
+  .ml-mock .mm-desk { position: absolute; left: 5%; top: 7%; width: 71%; }
+  .ml-mock .mm-desk .ml-scroll { aspect-ratio: 16 / 10; }
+  .ml-mock .mm-phone { position: absolute; right: 6%; top: 12%; width: 19.5%; border-radius: 14px; overflow: hidden; background: #212121; border: 1px solid #3A3836; box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); }
+  .ml-mock .mm-desk { border: 1px solid #3A3836; }
+  .ml-mock .mm-phone .ml-scroll { aspect-ratio: 390 / 844; }
+  @media (max-width: 760px) {
+    .ml-mock { aspect-ratio: auto; padding: 16px 16px 24px; display: grid; gap: 22px; justify-items: center; }
+    .ml-mock .mm-desk, .ml-mock .mm-phone { position: static; width: 100%; }
+    .ml-mock .mm-phone { width: 62%; }
+  }
+  .ml-mock .shot { position: relative; }
+  .ml-mock .ov-l { position: absolute; background: #212121; }
+  .ml-mock .ov-l.paper { background: #FBFAF8; }
+  .ml .bub--foot { background: #212121; }
+  .ml .bub-legal { color: #8E8A86; }
+  .ml .bub-name { color: #F3ECE2; }
+  .ml-booths { display: grid; gap: 28px; }
+  .ml-stand { position: relative; aspect-ratio: 16 / 10; border-radius: 0; overflow: hidden; background: #DCDBD8; }
+  .ml-stand iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+  .ml-stand .scr.glass { pointer-events: none; background: linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.03) 38%, rgba(255,255,255,0) 39%, rgba(255,255,255,0) 100%), linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.25)); box-shadow: inset 0 0 0 10px rgba(0,0,0,.55), inset 0 0 60px rgba(0,0,0,.6); filter: none; }
+  .ml-stand > img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .ml-stand .scr { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; object-fit: cover; background: #111; filter: brightness(.92); }
+  .ml-learned { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.6; max-width: 58ch; color: var(--text); }
+
+  @media (max-width: 860px) {
+    .ml-grid--3, .ml-grid--4 { grid-template-columns: repeat(2, 1fr); }
+    .ml-principle { grid-template-columns: 1fr; gap: 18px; }
+    .ml-sub { grid-template-columns: 1fr; gap: 14px; }
+  }
+  @media (max-width: 560px) {
+    .ml-grid { grid-template-columns: 1fr; }
+    .ml-grid--4 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .ml-palette { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body class="ml">
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Ariel Paz<span class="nav-logo-suffix">&nbsp;·&nbsp;Motion Design &amp; Video Editing</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../files/Ariel-Paz-CV.pdf" class="cv" target="_blank" rel="noopener">Resume<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a></li>
+    </ul>
+  </nav>
+
+  <main class="project-page">
+
+    <div class="ml-hero project-video-wrap">
+      <video src="../images/process/maestro-launch/social.mp4" poster="../images/process/maestro-launch/social.jpg" autoplay muted loop playsinline aria-label="The Maestro launch film for social"></video>
+    </div>
+
+    <div class="project-content">
+
+      <header class="project-header">
+        <div class="project-header-left">
+          <h1 class="project-title">Maestro Launch</h1>
+          <span class="project-category">Launch campaign · AI21 Labs</span>
+        </div>
+        <div class="project-header-right">
+          <p class="ml-lede">The launch campaign for AI21 Maestro, from the launch video to the conference floor to the sales call.</p>
+          <p class="project-description">AI21 Maestro plans and runs multi-step AI tasks for enterprise teams. I led motion for the launch: the launch video, the HumanX conference stand and the LinkedIn campaign. The sales deck is the piece I'd add now. Adva Cohen designed the visual language the campaign is built on.</p>
+        </div>
+      </header>
+
+      <hr class="project-rule">
+
+      <section class="credits">
+        <h2 class="section-label">Credits</h2>
+        <ul class="credits-list">
+          <li><span class="credit-role">Visual language</span><span class="credit-name">Adva Cohen</span></li>
+          <li><span class="credit-role">Motion, animation &amp; campaign assets</span><span class="credit-name">Ariel Paz</span></li>
+          <li><span class="credit-role">Client</span><span class="credit-name">AI21 Labs, 2025</span></li>
+        </ul>
+      </section>
+
+
+      <section class="cream">
+        <h2 class="section-label">Release website</h2>
+        <p class="ml-intro">Built to capture demand from the campaign. The orb opens the page, How it works runs as one live diagram I rebuilt in code from the launch animations, and Book a demo repeats down the page.</p>
+            <div class="ml-mock">
+              <div class="ml-browser mm-desk"><div class="bar"><i></i><i></i><i></i><span>ai21.com/maestro</span></div>
+                <div class="ml-scroll" tabindex="0" aria-label="The release site on desktop, scroll to see the full page"><div class="shot"><img src="../images/process/maestro-launch/site-full.jpg?v=3" alt="The Maestro release site on desktop, full length: the orb hero, the How it works diagram, Why Maestro, the problem, use cases, enterprise readiness, a pilot plan and a demo form" loading="lazy" width="1440" height="8165"><div class="ov-l paper" data-l="scalable.json" style="left:47.994%;top:29.856%;width:45.061%;height:5.269%"></div><div class="ov-l" data-l="transparent.json" style="left:6.944%;top:36.510%;width:36.049%;height:4.252%"></div><div class="ov-l" data-l="adaptive.json" style="left:47.994%;top:42.146%;width:45.061%;height:3.650%"></div></div></div></div>
+              <div class="mm-phone"><div class="ml-scroll" tabindex="0" aria-label="The release site on a phone, scroll to see the full page"><div class="shot"><img src="../images/process/maestro-launch/site-full-phone.jpg?v=1" alt="The Maestro release site on a phone, full length" loading="lazy" width="780" height="19992"><div class="ov-l paper" data-l="scalable.json" style="left:4.103%;top:27.801%;width:91.795%;height:2.405%"></div><div class="ov-l" data-l="transparent.json" style="left:4.103%;top:34.372%;width:91.795%;height:2.415%"></div><div class="ov-l" data-l="adaptive.json" style="left:4.103%;top:40.728%;width:91.795%;height:1.676%"></div></div></div></div>
+            </div>
+            <a class="ml-btn" href="maestro-site.html">Open the site<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+          
+      </section>
+
+      <section>
+        <h2 class="section-label">Convention</h2>
+        <p class="ml-intro">Two stand designs I drafted for AI21 at HumanX: a corner stand and a curved pop-up wall with a counter. Neither was built because of budget. The booth video plays on the screens in both.</p>
+        <div class="ml-booths">
+          <figure><div class="ml-stand" style="aspect-ratio:1498/1050"><img src="../images/process/maestro-launch/booth-render-1.jpg?v=5" alt="Draft 1: a corner stand with oak floor, timber slats, a standing table and the booth video on a screen set inside the orb on the back wall" loading="lazy"><video class="scr" data-w="1498" data-quad="914,412 1151,441 1151,594 914,565" data-src="../images/process/maestro-launch/booth.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><i class="scr glass" data-w="1498" data-quad="914,412 1151,441 1151,594 914,565"></i></div><figcaption><b>Draft 1.</b> A 6 × 3 m corner stand with a screen wall, timber slats and a standing table.</figcaption></figure>
+          <figure><div class="ml-stand" style="aspect-ratio:1498/1050"><img src="../images/process/maestro-launch/booth-render-2.jpg?v=3" alt="Draft 2: a curved pop-up wall with the Maestro orb and a counter with a screen" loading="lazy"><video class="scr" data-w="1498" data-quad="220,388 452,388 452,518 220,518" data-src="../images/process/maestro-launch/booth.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><i class="scr glass" data-w="1498" data-quad="220,388 452,388 452,518 220,518"></i></div><figcaption><b>Draft 2.</b> A 3 m curved pop-up wall and a counter with a screen, for a smaller stand.</figcaption></figure>
+        </div>
+        <p class="ml-intro" style="margin-top:56px">The booth video ran on a loop and tells the whole story without sound, so it reads from across the hall. It ends on a QR code that takes visitors to the Maestro page.</p>
+        <div class="spot-video-wrap" style="background:var(--panel)">
+          <video data-lazy src="../images/process/maestro-launch/booth.mp4" poster="../images/process/maestro-launch/booth.jpg" muted loop playsinline preload="none" controls aria-label="The HumanX booth video"></video>
+        </div>
+      </section>
+
+      <section class="cream">
+        <h2 class="section-label">Sales deck</h2>
+        <p class="ml-intro">The campaign built awareness, but nothing in it was made for the sales call that follows. This is the deck I'd add: ten slides for a first discovery call, in the classic order. Why now, the problem, the solution, how it works, business outcomes, use cases, how Maestro compares, and a pilot plan with success criteria. It ends on an agreed next step.</p>
+            <div class="ml-grid">
+              <figure><img src="../images/process/maestro-launch/deck-5.jpg?v=2" alt="Deck slide: How it works, with inputs flowing into the orb and validated output on the right" loading="lazy" width="1600" height="900"><figcaption><b>05</b> How it works, animated in the deck</figcaption></figure>
+              <figure><img src="../images/process/maestro-launch/deck-6.jpg?v=2" alt="Deck slide: Business outcomes, with placeholders for accuracy, time to production and cost per task" loading="lazy" width="1600" height="900"><figcaption><b>06</b> Business outcomes</figcaption></figure>
+              <figure><img src="../images/process/maestro-launch/deck-9.jpg?v=2" alt="Deck slide: How Maestro compares with building in-house or using an agent framework alone" loading="lazy" width="1600" height="900"><figcaption><b>09</b> How Maestro compares</figcaption></figure>
+              <figure><img src="../images/process/maestro-launch/deck-10.jpg?v=2" alt="Deck slide: A scoped pilot plan from discovery to decision, with the next meeting" loading="lazy" width="1600" height="900"><figcaption><b>10</b> Pilot plan and next steps</figcaption></figure>
+            </div>
+            <a class="ml-btn" href="maestro-deck.html">Open the deck<svg class="arw" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+          
+      </section>
+
+      <section>
+        <h2 class="section-label">LinkedIn content</h2>
+        <p class="ml-intro">Four square videos for LinkedIn, each in two versions: Join the waitlist before launch, and Learn more after it. Each one explains a single part of the product in under 45 seconds.</p>
+            <div class="ml-grid ml-grid--4">
+              <figure><video data-lazy src="../images/process/maestro-launch/hero.mp4" poster="../images/process/maestro-launch/hero-poster.jpg" muted loop playsinline preload="none" aria-label="Square ad: Maestro title"></video></figure>
+              <figure><video data-lazy src="../images/process/maestro-launch/ad-fireball.mp4" poster="../images/process/maestro-launch/ad-fireball-poster.jpg" muted loop playsinline preload="none" aria-label="Square ad: Fireball zoom in"></video></figure>
+              <figure><video data-lazy src="../images/process/maestro-launch/ad-llm.mp4" poster="../images/process/maestro-launch/ad-llm-poster.jpg" muted loop playsinline preload="none" aria-label="Square ad: LLM box"></video></figure>
+              <figure><video data-lazy src="../images/process/maestro-launch/ad-steps.mp4" poster="../images/process/maestro-launch/ad-steps-poster.jpg" muted loop playsinline preload="none" aria-label="Square ad: Steps"></video></figure>
+            </div>
+      </section>
+
+      <hr class="project-rule">
+
+      <section>
+        <h2 class="section-label">What I learned</h2>
+        <p class="ml-learned">The campaign was strong, but sales joined too late to use it. It built awareness, and nothing was ready for the stages after it. Next time I'd start with sales: what reps need on a first call, which objections come up, and what gets a prospect to a pilot. Then I'd build the launch from there.</p>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="bub bub--foot" id="bubFoot" aria-label="Contact">
+  <canvas id="bubFootCanvas" aria-hidden="true"></canvas>
+  <h2 class="bub-name">LET'S TALK</h2>
+  <span class="bub-legal">© 2026 Ariel Paz · Three Steps Studio</span>
+</footer>
+
+  <script src="../js/main.js?v=3"></script>
+<script src="../js/bubbles.js?v=10"></script>
+<script>
+  Bubbles.scene(document.getElementById('bubFoot'), document.getElementById('bubFootCanvas'), {
+    scheme: 'Maestro', a: ["LET'S", 'TALK'], b: [], top: .26, topPhone: .24, seed: 31, scale: .45,
+    pills: [{ label: 'ARIELMOTION@GMAIL.COM', href: 'mailto:arielmotion@gmail.com', aria: 'Email arielmotion@gmail.com' }, { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/ariel-paz-motion/', aria: 'LinkedIn' }, { label: 'RESUME', href: '../files/Ariel-Paz-CV.pdf', aria: 'Resume (PDF)' }],
+    homes: [{ hx: .8, hy: .46, r: .17 }], phone: [[.82, .3]],
+    glow: [.5, 1.04, .7, 1.05], glow2: [.72, 1.02, 1.1, 1.6],
+  });
+</script>
+<script>
+  // Below-the-fold loops load and play only while on screen
+  (function () {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { var v = e.target; if (e.isIntersecting) v.play().catch(function () {}); else v.pause(); }); }, { rootMargin: '200px 0px', threshold: 0.01 });
+    document.querySelectorAll('video[data-lazy]').forEach(function (v) { v.muted = true; io.observe(v); });
+  }());
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script>
+  // live animations over the scrolling site screenshots, so they play as you scroll inside the frames
+  (function () {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) {
+      var el = e.target;
+      if (e.isIntersecting && !el._a) el._a = lottie.loadAnimation({ container: el, renderer: 'svg', loop: true, autoplay: true, path: '../images/process/maestro-launch/lottie/' + el.dataset.l });
+      else if (el._a) { if (e.isIntersecting) el._a.play(); else el._a.pause(); }
+    }); }, { rootMargin: '100px 0px' });
+    document.querySelectorAll('.ml-mock .ov-l').forEach(function (el) { io.observe(el); });
+  }());
+</script>
+<script>
+/* Booth renders: the booth video is pinned onto the screen in each photo with a perspective transform. */
+(function () {
+  function solve(A, b) { // Gaussian elimination, 8x8
+    for (var i = 0; i < 8; i++) {
+      var m = i; for (var r = i + 1; r < 8; r++) if (Math.abs(A[r][i]) > Math.abs(A[m][i])) m = r;
+      var t = A[i]; A[i] = A[m]; A[m] = t; t = b[i]; b[i] = b[m]; b[m] = t;
+      for (r = i + 1; r < 8; r++) { var f = A[r][i] / A[i][i]; for (var c = i; c < 8; c++) A[r][c] -= f * A[i][c]; b[r] -= f * b[i]; }
+    }
+    var x = []; for (i = 7; i >= 0; i--) { var s = b[i]; for (c = i + 1; c < 8; c++) s -= A[i][c] * x[c]; x[i] = s / A[i][i]; } return x;
+  }
+  function fit(v) {
+    var box = v.parentNode.getBoundingClientRect(), k = box.width / +v.dataset.w, w = 1280, h = 720;
+    var q = v.dataset.quad.split(' ').map(function (p) { return p.split(',').map(function (n) { return n * k; }); });
+    var src = [[0, 0], [w, 0], [w, h], [0, h]], A = [], b = [];
+    for (var i = 0; i < 4; i++) {
+      var x = src[i][0], y = src[i][1], X = q[i][0], Y = q[i][1];
+      A.push([x, y, 1, 0, 0, 0, -x * X, -y * X]); b.push(X);
+      A.push([0, 0, 0, x, y, 1, -x * Y, -y * Y]); b.push(Y);
+    }
+    var o = solve(A, b);
+    v.style.transform = 'matrix3d(' + [o[0], o[3], 0, o[6], o[1], o[4], 0, o[7], 0, 0, 1, 0, o[2], o[5], 0, 1].join(',') + ')';
+  }
+  var vids = [].slice.call(document.querySelectorAll('.ml-stand video.scr')), quads = [].slice.call(document.querySelectorAll('.ml-stand .scr'));
+  function all() { quads.forEach(fit); }
+  all(); addEventListener('resize', all);
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.play().catch(function () {}); } else v.pause();
+    });
+  }, { rootMargin: '200px' });
+  vids.forEach(function (v) { io.observe(v); });
+}());
+</script>
+</body>
+</html>

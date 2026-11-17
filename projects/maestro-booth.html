@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maestro HumanX stand · Three Steps Studio</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Two HumanX stand drafts for AI21 Maestro, built as live CSS 3D scenes. 1 m = 160 px.
+     ?d=1 corner stand, ?d=2 curved pop-up wall with counter. Embedded on the case study. -->
+<style>
+  :root { --ink: #F3ECE2; --peach: #FED7AC; --pink: #DFBDCE; --core: #FFF0DD; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #DCDBD8; font-family: 'Be Vietnam Pro', sans-serif; }
+  .room { position: absolute; inset: 0; background: radial-gradient(80% 70% at 50% 40%, #EEEDEA 0%, #D7D6D2 70%, #C9C8C4 100%); }
+  .fit { position: absolute; left: 50%; top: 50%; width: 1600px; height: 1000px; transform-origin: 50% 50%; }
+  .cam { position: absolute; left: 50%; top: 58%; perspective: 5200px; perspective-origin: 50% 20%; }
+  .world { position: absolute; transform-style: preserve-3d; }
+  .f { position: absolute; left: 0; top: 0; transform-origin: 0 0; backface-visibility: hidden; }
+  .g { position: absolute; transform-style: preserve-3d; }
+  .g .f { backface-visibility: hidden; }
+  /* materials */
+  .oak { background: repeating-linear-gradient(90deg, #E8D4B4 0 46px, #E2CBA8 46px 48px, #EAD8BB 48px 96px, #DEC6A1 96px 98px); }
+  .oak-side { background: #FED7AC; }
+  .wallx { background: #2A2A2A; }
+  .edge { background: #F2EFEA; }
+  .slat { background: linear-gradient(90deg, #E9D7BA, #D9C29E); }
+  .slat-s { background: #CDB48D; }
+  .blk { background: #1B1B1B; }
+  .blk2 { background: #121212; }
+  .mtl { background: linear-gradient(#3A3A3A, #1E1E1E); }
+  /* graphics panels */
+  .panel { position: absolute; overflow: hidden; background: #212121; color: var(--ink); }
+  .panel canvas { position: absolute; pointer-events: none; }
+  .logo { position: absolute; font-weight: 600; letter-spacing: -.01em; }
+  .logo i { font-style: normal; font-weight: 300; }
+  .hl { position: absolute; font-weight: 300; text-transform: uppercase; letter-spacing: -.035em; line-height: .92; }
+  .g8 { background: linear-gradient(90deg, #D6CFF4, var(--core) 30%, var(--peach) 62%, var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .mono { position: absolute; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #A9A39C; }
+  .screen { position: absolute; background: #000; border: 6px solid #0C0C0C; border-radius: 4px; overflow: hidden; box-shadow: 0 0 40px rgba(254,215,172,.15); }
+  .screen video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .shadow { position: absolute; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.35), transparent); }
+  .cap { position: absolute; left: 44px; bottom: 34px; font: 500 15px 'Be Vietnam Pro'; letter-spacing: .12em; text-transform: uppercase; color: #8E8A86; }
+</style></head>
+<body>
+<div class="room"></div>
+<div class="fit" id="fit"><div class="cam"><div class="world" id="world"></div></div>
+  <span class="cap" id="cap"></span></div>
+<script src="../js/maestro-orb.js?v=5"></script>
+<script>
+(function () {
+  var W = document.getElementById('world'), d = (location.hash.replace('#', '').replace('c', '') || new URLSearchParams(location.search).get('d') || '1');
+  if (/c/.test(location.hash)) document.getElementById('cap').style.display = 'none';
+  var M = 160;   // px per metre
+  function el(tag, cls, css, parent, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (css) e.style.cssText = css; if (html) e.innerHTML = html; (parent || W).appendChild(e); return e; }
+  // a box: x right, y down (y is the top), z toward the viewer; faces carry their own classes
+  function box(x, y, z, w, h, dd, c) {
+    c = c || {};
+    var g = el('div', 'g', 'transform:translate3d(0,0,0)');
+    var F = function (cls, w_, h_, tr) { return el('div', 'f ' + (cls || ''), 'width:' + w_ + 'px;height:' + h_ + 'px;transform:' + tr, g); };
+    var out = {};
+    out.front = F(c.front || c.all, w, h, 'translate3d(' + x + 'px,' + y + 'px,' + (z + dd) + 'px)');
+    out.back = F(c.back || c.all, w, h, 'translate3d(' + (x + w) + 'px,' + y + 'px,' + z + 'px) rotateY(180deg)');
+    out.right = F(c.right || c.side || c.all, dd, h, 'translate3d(' + (x + w) + 'px,' + y + 'px,' + (z + dd) + 'px) rotateY(90deg)');
+    out.left = F(c.left || c.side || c.all, dd, h, 'translate3d(' + x + 'px,' + y + 'px,' + z + 'px) rotateY(-90deg)');
+    out.top = F(c.top || c.all, w, dd, 'translate3d(' + x + 'px,' + y + 'px,' + z + 'px) rotateX(90deg)');
+    return out;
+  }
+  function disc(cx, y, cz, r, cls) { return el('div', 'f ' + cls, 'width:' + 2 * r + 'px;height:' + 2 * r + 'px;border-radius:50%;transform:translate3d(' + (cx - r) + 'px,' + y + 'px,' + (cz - r) + 'px) rotateX(90deg)'); }
+  function orb(parent, css, o) { var c = el('canvas', '', css, parent); requestAnimationFrame(function () { MaestroOrb(c, o); }); return c; }
+  function horizon(parent, css) { return orb(parent, css, { radiusBy: 'width', scale: .62, squash: 3.6, center: [.5, 1.45] }); }
+  function screen(parent, css) { return el('div', 'screen', css, parent, '<video src="../images/process/maestro-launch/booth.mp4" poster="../images/process/maestro-launch/booth.jpg" muted loop playsinline autoplay></video>'); }
+  function lamp(x, y, z, rot) {
+    box(x - 3, y - 18, z, 6, 22, 30, { all: 'blk' });
+    box(x - 14, y - 26, z + 26, 28, 10, 20, { all: 'blk2' });
+  }
+  function shadow(cx, cz, rw, rd, op) { el('div', 'f shadow', 'width:' + rw * 2 + 'px;height:' + rd * 2 + 'px;opacity:' + (op || 1) + ';transform:translate3d(' + (cx - rw) + 'px,-1px,' + (cz - rd) + 'px) rotateX(90deg)'); }
+
+  var cap = document.getElementById('cap'), world = W;
+
+  if (d === '1') {
+    // ---------- Draft 1: corner stand, 6 x 3 m, walls 2.6 m ----------
+    var BW = 6 * M, BD = 3 * M, WH = 2.6 * M, T = 14;
+    world.style.transform = 'rotateX(-22deg) rotateY(-34deg) translate3d(' + (-BW / 2) + 'px,0,' + (-BD / 2) + 'px)';
+    box(0, 0, 0, BW, 18, BD, { top: 'oak', front: 'oak-side', right: 'oak-side', left: 'oak-side', back: 'oak-side' });
+    // walls
+    var back = box(0, -WH, 0, BW, WH, T, { all: 'edge' });
+    var side = box(0, -WH, T, T, WH, BD - T, { all: 'edge' });
+    // back wall graphic
+    var p = el('div', 'panel', 'width:' + BW + 'px;height:' + WH + 'px', back.front);
+    el('span', 'logo', 'left:210px;top:46px;font-size:30px', p, 'AI21 <i>Maestro</i>');
+    el('div', 'hl', 'left:210px;top:140px;font-size:54px', p, 'Reliable<br><span class="g8">knowledge<br>agents</span>');
+    el('span', 'mono', 'left:212px;top:350px;font-size:13px', p, 'For enterprise work · Now available');
+    screen(p, 'left:' + (BW * .56) + 'px;top:62px;width:384px;height:216px');
+    horizon(p, 'left:0;bottom:0;width:100%;height:46%');
+    // timber slats in the corner
+    for (var i = 0; i < 7; i++) box(T + 8 + i * 22, -WH, T, 10, WH, 12, { front: 'slat', side: 'slat-s', top: 'slat-s', back: 'slat-s' });
+    // side wall graphic (inner face)
+    var q = el('div', 'panel', 'width:' + (BD - T) + 'px;height:' + WH + 'px', side.right);
+    q.style.transform = 'scaleX(-1)';
+    var qi = el('div', '', 'position:absolute;inset:0;transform:scaleX(-1)', q);
+    orb(qi, 'left:42%;top:38%;width:110%;height:110%;transform:translate(-50%,-50%)', { scale: .26 });
+    el('div', 'hl', 'left:0;width:84%;top:126px;text-align:center;font-size:28px', qi, 'Watch Maestro<br><span class="g8">run a task</span>');
+    el('img', '', 'position:absolute;left:42%;top:268px;width:84px;height:84px;transform:translateX(-50%);border-radius:10px', qi).src = '../images/process/maestro-launch/booth-qr.png';
+    el('span', 'mono', 'left:0;width:84%;top:366px;text-align:center;font-size:12px', qi, 'Book a demo · ai21.com/maestro');
+    // track lights
+    [140, 420, 640, 860].forEach(function (x) { lamp(x, -WH, T); });
+    // high table and stools
+    var tx = 2.15 * M, tz = 1.75 * M;
+    shadow(tx, tz, 90, 70, .8);
+    disc(tx, -170, tz, 48, 'blk');
+    box(tx - 4, -170, tz - 4, 8, 170, 8, { all: 'mtl' });
+    disc(tx, -2, tz, 26, 'blk2');
+    [[-85, -20], [70, -45], [-40, 70], [55, 60]].forEach(function (o) {
+      var sx = tx + o[0], sz = tz + o[1];
+      shadow(sx, sz, 34, 28, .6);
+      disc(sx, -112, sz, 24, 'mtl');
+      [[-14, -14], [12, -14], [-14, 12], [12, 12]].forEach(function (l) { box(sx + l[0], -112, sz + l[1], 4, 112, 4, { all: 'blk' }); });
+    });
+    // brochure stand with the sales deck
+    var bx = 5.25 * M, bz = .55 * M;
+    box(bx, -250, bz, 70, 250, 6, { all: 'blk' });
+    ['deck-5', 'deck-6', 'deck-9', 'deck-10'].forEach(function (k, n) {
+      var c = el('div', 'f', 'width:62px;height:44px;background:url(../images/process/maestro-launch/' + k + '.jpg?v=2) center/cover;border:1px solid #333;transform:translate3d(' + (bx + 4) + 'px,' + (-238 + n * 58) + 'px,' + (bz + 12) + 'px) rotateX(-12deg)');
+    });
+    cap.textContent = 'Draft 1 · 6 × 3 m corner stand · HumanX';
+  } else {
+    // ---------- Draft 2: curved pop-up wall, 3 m, with a podium counter ----------
+    var CW = 3 * M, CH = 2.3 * M, N = 40, R = 3.2 * M, A = CW / R;   // arc
+    world.style.transform = 'scale3d(1.55,1.55,1.55) rotateX(-8deg) rotateY(-14deg) translate3d(' + (-CW * .32) + 'px,' + (CH * .28) + 'px,0)';
+    shadow(CW / 2 + 40, 40, 360, 120, .7);
+    var strips = [];
+    for (var s = 0; s < N; s++) {
+      var a0 = -A / 2 + (s + .5) * A / N, sw = CW / N + .6;
+      var x = R * Math.sin(a0) + CW / 2 - sw / 2, z = -(R - R * Math.cos(a0));
+      var strip = el('div', 'f', 'width:' + sw + 'px;height:' + CH + 'px;overflow:hidden;transform:translate3d(' + x + 'px,' + (-CH) + 'px,' + z + 'px) rotateY(' + a0 + 'rad)');
+      strips.push(strip);
+    }
+    // the graphic: a live panel sliced into strips (each strip holds the full panel offset)
+    strips.forEach(function (strip, s) {
+      var inner = el('div', 'panel', 'left:' + (-s * CW / N) + 'px;top:0;width:' + CW + 'px;height:' + CH + 'px', strip);
+      el('img', '', 'position:absolute;left:50%;top:44%;width:' + (CH * .92) + 'px;height:' + (CH * .92) + 'px;transform:translate(-50%,-50%);pointer-events:none', inner).src = '../images/process/maestro-launch/orb.png';
+      el('span', 'logo', 'left:0;right:0;top:22px;text-align:center;font-size:20px', inner, 'AI21 <i>Maestro</i>');
+      el('div', 'hl', 'left:0;right:0;top:282px;text-align:center;font-size:27px;white-space:nowrap', inner, 'Reliable <span class="g8">knowledge agents</span>');
+      el('span', 'mono', 'left:0;right:0;top:322px;text-align:center;font-size:9px', inner, 'For enterprise work · Now available');
+      inner.dataset.s = s;
+    });
+    // lamps on the top edge
+    lamp(CW * .22, -CH, -30); lamp(CW * .78, -CH, -30);
+    // podium counter
+    var px = -1.15 * M, pz = 1.0 * M, PW = 1.0 * M, PH = 1.0 * M, PD = .5 * M;
+    shadow(px + PW / 2, pz + PD / 2, 110, 60, .7);
+    var pc = box(px, -PH + 18, pz, PW, PH - 36, PD, { all: 'blk' });
+    box(px, -18, pz, PW, 18, PD, { all: 'blk2' });
+    box(px - 8, -PH - 6, pz - 8, PW + 16, 24, PD + 16, { all: 'mtl' });
+    var cp = el('div', 'panel', 'width:' + PW + 'px;height:' + (PH - 36) + 'px', pc.front);
+    horizon(cp, 'left:0;bottom:0;width:100%;height:60%');
+    el('span', 'logo', 'left:0;right:0;top:40px;text-align:center;font-size:20px', cp, 'AI21 <i>Maestro</i>');
+    // screen on the counter
+    var sc = el('div', 'f', 'width:220px;height:124px;transform:translate3d(' + (px - 30) + 'px,' + (-PH - 140) + 'px,' + (pz + 30) + 'px) rotateX(-6deg)');
+    screen(sc, 'inset:0');
+    box(px + 70, -PH - 18, pz + 30, 16, 14, 16, { all: 'blk' });
+    cap.textContent = 'Draft 2 · 3 m curved pop-up wall and counter · HumanX';
+  }
+
+  function fit() { var k = Math.min(innerWidth / 1600, innerHeight / 1000); document.getElementById('fit').style.transform = 'translate(-50%,-50%) scale(' + k + ')'; }
+  addEventListener('resize', fit); fit();
+}());
+</script>
+</body></html>

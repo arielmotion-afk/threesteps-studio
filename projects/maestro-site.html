@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI21 Maestro · Reliable knowledge agents for enterprise work</title>
+<meta name="description" content="AI21 Maestro plans, runs and checks multi-step AI tasks for enterprise teams.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<style>
+  :root { --dark: #212121; --panel: #282828; --ink: #F3ECE2; --soft: #B8B2AA; --mute: #7F7A74; --line: #353331;
+    --paper: #F5F1EB; --pInk: #1C1A19; --pSoft: #57514B; --pMute: #8F887F; --pLine: #E0D9CF;
+    --peach: #FED7AC; --pink: #DFBDCE; --core: #FFF0DD; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { background: var(--dark); color: var(--ink); font: 400 17px/1.5 'Be Vietnam Pro', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  a { color: inherit; text-decoration: none; }
+  .w { width: min(1240px, 100% - 64px); margin: 0 auto; }
+  .mono { font: 500 12px 'Be Vietnam Pro', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+  .ph { color: var(--peach); font-family: 'Be Vietnam Pro', sans-serif; font-size: .82em; }
+  .light .ph { color: #B4671F; }
+  .g { background: linear-gradient(90deg, #D6CFF4, var(--core) 30%, var(--peach) 62%, var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .light .g { background-image: linear-gradient(90deg, #7D72CF, #C7779F 45%, #E0864E); }
+  .btn { display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 99px; background: var(--ink); color: #1B1B1B; font-weight: 600; font-size: 15px; transition: background .2s; }
+  .btn:hover { background: var(--peach); }
+  .btn.o { background: none; color: var(--ink); border: 1px solid #3A3836; }
+  .btn.o:hover { border-color: var(--soft); }
+  .H { font-weight: 300; text-transform: uppercase; letter-spacing: -.035em; line-height: .95; }
+  .rv { opacity: 0; transform: translateY(28px); transition: opacity .9s, transform .9s cubic-bezier(.2,.7,.1,1); }
+  .rv.in { opacity: 1; transform: none; }
+
+  nav.top { position: fixed; left: 0; right: 0; top: 0; z-index: 30; transform: translateY(-100%); transition: transform .45s cubic-bezier(.2,.7,.1,1); background: rgba(33,33,33,.78); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.04); }
+  nav.top.show { transform: none; }
+  nav.top .w { display: flex; align-items: center; gap: 30px; height: 68px; font-size: 14px; color: var(--soft); }
+  nav.top .logo { color: var(--ink); font-weight: 600; font-size: 17px; margin-right: 8px; }
+  nav.top .logo i { font-style: normal; font-weight: 300; }
+  nav.top .menu { display: flex; gap: 30px; }
+  nav.top .menu a:hover { color: var(--ink); }
+  nav.top .sp { flex: 1; }
+  nav.top .btn { height: 40px; font-size: 14px; padding: 0 18px; }
+
+  .hero { position: relative; overflow-x: clip; overflow-y: visible; z-index: 0; min-height: 100svh; display: grid; align-items: center; padding: 40px 0; background: var(--dark); }
+  .space { position: absolute; left: 50%; top: 50%; width: 1600px; height: 1400px; transform: translate(-50%,-50%); pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 92%); mask-image: linear-gradient(to bottom, #000 55%, transparent 92%); }
+  .space canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .space::after { content: ''; position: absolute; left: 50%; top: 50%; width: 900px; height: 900px; transform: translate(-50%,-50%); border-radius: 50%;
+    background: radial-gradient(closest-side, transparent 55%, rgba(254,215,172,.07) 70%, transparent 85%); filter: blur(10px); }
+  .hero .w { position: relative; z-index: 1; text-align: center; }
+  .hero h1 { font-size: clamp(52px, 8.6vw, 132px); max-width: 11ch; margin: 0 auto; text-shadow: 0 0 60px rgba(254,215,172,.15); }
+  .hero .tag { margin: 26px 0 34px; color: var(--soft); letter-spacing: .14em; }
+  .hero .sub { max-width: 46ch; margin: 26px auto 34px; color: var(--soft); font-size: clamp(17px, 1.5vw, 20px); font-weight: 300; }
+  .hero .ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .badge { display: inline-flex; align-items: center; gap: 10px; }
+  .badge i { width: 7px; height: 7px; border-radius: 50%; background: var(--peach); box-shadow: 0 0 12px var(--peach); }
+
+  .console { margin-top: 84px; background: rgba(33,33,33,.86); backdrop-filter: blur(6px); border: 1px solid #343130; border-radius: 20px; overflow: hidden; text-align: left;
+    box-shadow: 0 0 0 1px rgba(254,215,172,.05), 0 50px 140px -40px rgba(254,215,172,.22); }
+  .task { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-bottom: 1px solid #343130; }
+  .task .field { flex: 1; min-width: 0; height: 44px; border-radius: 99px; background: #2A2A2A; border: 1px solid #3A3836; display: flex; align-items: center; padding: 0 18px; color: #D8D2CA; font-size: 15px; white-space: nowrap; overflow: hidden; }
+  .task .field i { flex: none; width: 2px; height: 19px; background: var(--peach); margin-left: 3px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .task .run { flex: none; height: 44px; padding: 0 20px; border-radius: 99px; background: var(--ink); color: #1B1B1B; font-weight: 600; display: flex; align-items: center; }
+  .stages { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .stage { position: relative; border-right: 1px solid #343130; padding-top: 34px; }
+  .stage:last-child { border: 0; }
+  .stage .lot.d { aspect-ratio: 660 / 270; }
+  .stage .lot.m { display: none; aspect-ratio: 345 / 285; max-width: 420px; margin: 0 auto; }
+  .stage .lab { position: absolute; left: 16px; top: 14px; }
+  .stage .lab b { color: var(--peach); font-weight: 500; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 32px; text-align: left; }
+  .steps div { border-top: 1px solid var(--line); padding-top: 16px; }
+  .steps h3 { font-weight: 500; font-size: 20px; margin: 6px 0 4px; }
+  .steps p { color: var(--soft); font-size: 15px; font-weight: 300; }
+
+  section.sec { padding: 140px 0; }
+  .light { background: var(--paper); color: var(--pInk); }
+  .light .mono { color: var(--pMute); }
+  .head { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 56px; }
+  .head h2 { font-size: clamp(40px, 6.4vw, 96px); }
+  .head p { max-width: 40ch; color: var(--soft); font-weight: 300; }
+  .light .head p { color: var(--pSoft); }
+
+  .traps { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--pLine); }
+  .traps div { padding: 32px 32px 0 0; }
+  .traps div + div { padding-left: 32px; border-left: 1px solid var(--pLine); }
+  .traps .n { font: 300 64px/1 'Be Vietnam Pro'; letter-spacing: -.04em; }
+  .traps h3 { font-size: 24px; font-weight: 500; margin: 22px 0 8px; }
+  .traps p { color: var(--pSoft); }
+
+  .feat { display: grid; grid-template-columns: 1fr 1.25fr; gap: 72px; align-items: center; padding: 56px 0; }
+  .feat + .feat { border-top: 1px solid var(--line); }
+  .feat:nth-child(odd) .vis { order: -1; }
+  .feat h3 { font-size: clamp(40px, 4.8vw, 72px); margin: 14px 0 18px; }
+  .feat p { color: var(--soft); font-weight: 300; font-size: 19px; max-width: 38ch; }
+  .feat .kpi { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--mute); font-size: 15px; max-width: 38ch; }
+  .vis { position: relative; border-radius: 18px; overflow: hidden; background: #212121; }
+  .vis .lot { display: block; }
+  .vis.paper { background: #FBFAF8; border-color: #FBFAF8; }
+
+  .case { display: grid; grid-template-columns: 70px 1.2fr 1fr auto; gap: 28px; align-items: center; padding: 34px 0; border-top: 1px solid var(--pLine); }
+  .case:last-child { border-bottom: 1px solid var(--pLine); }
+  .case h3 { font-size: clamp(30px, 3.8vw, 58px); transition: transform .4s; }
+  .case p { color: var(--pSoft); }
+  .case .go { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--pLine); display: grid; place-items: center; transition: background .3s, border-color .3s, color .3s; }
+  .case:hover .go { background: var(--pInk); border-color: var(--pInk); color: var(--paper); }
+  .case:hover h3 { transform: translateX(8px); }
+  .case .team { display: block; margin-bottom: 8px; }
+
+  .ent { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+  .ent div { padding: 28px 24px 0 0; }
+  .ent div + div { padding-left: 24px; border-left: 1px solid var(--line); }
+  .ent h3 { font-size: 20px; font-weight: 500; margin-bottom: 8px; }
+  .ent .soft { color: var(--soft); }
+
+  .plan { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .plan > div { background: #FFFFFF; border: 1px solid var(--pLine); border-radius: 18px; padding: 30px; min-height: 260px; display: flex; flex-direction: column; }
+  .plan > div.hot { background: var(--pInk); color: var(--paper); border-color: var(--pInk); box-shadow: 0 30px 80px -30px rgba(224,134,78,.5); }
+  .plan > div.hot .mono { color: var(--peach); }
+  .plan h3 { font-size: 30px; font-weight: 400; letter-spacing: -.02em; margin: 18px 0 10px; }
+  .plan p { color: var(--pSoft); }
+  .plan > div.hot p { color: #CFC8BF; }
+  .plan .btn { margin-top: auto; align-self: start; }
+
+  .end { position: relative; overflow: hidden; padding: 150px 0 140px; }
+  .end { padding-bottom: 300px; }
+  .end .space { top: auto; bottom: 0; left: 0; right: 0; width: 100%; height: 46vh; transform: none; -webkit-mask-image: none; mask-image: none; opacity: .75; }
+  .end .space::after { display: none; }
+  .end .w { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .end h2 { font-size: clamp(44px, 6vw, 92px); }
+  .end .sub { color: var(--soft); margin-top: 20px; font-weight: 300; font-size: 19px; }
+  form { background: rgba(33,33,33,.8); backdrop-filter: blur(10px); border: 1px solid #343130; border-radius: 20px; padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  label { display: grid; gap: 6px; font: 500 11px 'Be Vietnam Pro', sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+  label.full { grid-column: 1 / -1; }
+  input, select { height: 48px; border: 0; border-bottom: 1px solid #45413E; background: transparent; color: var(--ink); font: 300 17px 'Be Vietnam Pro'; padding: 0 2px; border-radius: 0; }
+  select option { background: #212121; }
+  input:focus, select:focus { outline: none; border-color: var(--peach); }
+  form button { grid-column: 1 / -1; margin-top: 10px; height: 52px; border: 0; border-radius: 99px; background: var(--ink); color: #1B1B1B; font: 600 16px 'Be Vietnam Pro'; cursor: pointer; }
+  form button:hover { background: var(--peach); }
+  form .note { grid-column: 1 / -1; text-align: center; font: 400 11px 'Be Vietnam Pro', sans-serif; color: var(--mute); }
+  footer { border-top: 1px solid var(--line); }
+  footer .w { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 26px 0 40px; color: var(--mute); font-size: 13px; }
+
+
+  /* how it works: the three comps edge to edge as one strip, played on one shared clock */
+  .hs { position: relative; padding: 120px 0 130px; }
+  .hs-head { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 36px; }
+  .hs-head h2 { font-size: clamp(36px, 5vw, 76px); margin-top: 12px; }
+  .hs-head .task { width: min(100%, 860px); margin: 12px 0 28px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .hs-head .task > .mono { flex: none; }
+  .hs-head .task .field { width: 100%; flex: none; clip-path: inset(0 42% round 99px); opacity: 0; transition: clip-path .9s .25s cubic-bezier(.2,.8,.1,1), opacity .35s .25s; }
+  .hs-head.in .task .field { clip-path: inset(-40px -40px round 99px); opacity: 1; }
+  .task .field { flex: 1; min-width: 0; height: 52px; border-radius: 99px; background: linear-gradient(180deg, #2C2B2B, #232323); border: 1px solid transparent; background-clip: padding-box; box-shadow: 0 0 0 1px rgba(201,195,240,.35), 0 20px 60px -30px rgba(254,215,172,.35); display: flex; align-items: center; justify-content: center; padding: 0 34px; color: #F1ECE6; font: 400 16px 'Be Vietnam Pro', sans-serif; white-space: nowrap; overflow: hidden; }
+  .task .field i { flex: none; width: 2px; height: 19px; background: var(--peach); margin-left: 3px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .flow { margin: 64px 0 44px; overflow: hidden; }
+  .flow-in { position: relative; width: min(100% - 128px, 1440px); margin: 0 auto; }
+  .forb { position: absolute; left: 40%; top: 50.5%; width: 26%; aspect-ratio: 1; transform: translate(-50%,-50%); pointer-events: none; opacity: .35; }
+  .flowsvg { position: relative; display: block; width: 100%; height: auto; overflow: visible; font-family: 'Be Vietnam Pro', sans-serif; }
+  .flowsvg .bx { fill: url(#bxf); stroke: url(#bxs); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; }
+  .flowsvg .ln { fill: none; stroke: #EAE5DE; stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .flowsvg .ln.fix { stroke: #F2C9A6; }
+  .flowsvg .lab { fill: #A9A39C; font-size: 12px; letter-spacing: .04em; }
+  .flowsvg .tx { fill: #F1ECE6; font-size: 16px; }
+  .flowsvg .tx.sm { font-size: 13px; }
+  .flowsvg .ic { fill: none; stroke: #E9DFF1; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+  .flowsvg .dotw { fill: #F1ECE6; }
+  .flowsvg .sq { fill: #AEB6EE; }
+  .flowsvg .vd { fill: #FFF4E6; filter: drop-shadow(0 0 5px rgba(253,211,197,.9)); transition: fill .3s; }
+  .flowsvg .vd.bad { fill: #F2A48A; }
+  .flowsvg .node { opacity: 0; }
+  .flowsvg .node.lit .bx { filter: drop-shadow(0 0 10px rgba(254,215,172,.45)); }
+  .flowsvg .spk { fill: #FFF6EA; filter: drop-shadow(0 0 6px #FDD3C5); }
+  .caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .cap { border-top: 1px solid var(--line); padding-top: 16px; }
+  .cap .mono b { color: var(--peach); font-weight: 500; }
+  .cap h3 { font-weight: 500; font-size: 20px; margin: 6px 0 4px; }
+  .cap p { color: var(--soft); font-size: 15px; font-weight: 300; max-width: 36ch; }
+  @media (max-width: 900px) {
+    .hs { padding: 88px 0 72px; }
+    .hs-head .task { width: 100%; }
+    .task .field { height: auto; min-height: 64px; padding: 14px 22px; white-space: normal; font-size: 16px; border-radius: 28px; }
+    .flow { overflow-x: auto; scrollbar-width: none; }
+    .flow::-webkit-scrollbar { display: none; }
+    .flow-in { width: 1100px; }
+    .caps { grid-template-columns: 1fr; gap: 18px; }
+  }
+
+  @media (max-width: 900px) {
+    .w { width: calc(100% - 32px); }
+    nav.top .menu { display: none; }
+    section.sec { padding: 96px 0; }
+    .head { flex-direction: column; align-items: start; }
+    .stages { grid-template-columns: 1fr; }
+    .stage { border-right: 0; border-bottom: 1px solid #343130; }
+    .stage .lot.d { display: none; }
+    .stage .lot.m { display: block; }
+    .task .field { font-size: 13px; }
+    .steps, .traps, .plan, .ent { grid-template-columns: 1fr; }
+    .traps div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--pLine); margin-top: 28px; }
+    .ent div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); margin-top: 28px; }
+    .feat { grid-template-columns: 1fr; gap: 28px; }
+    .feat:nth-child(odd) .vis { order: 0; }
+    .case { grid-template-columns: 1fr; gap: 10px; }
+    .case .go, .case > .mono { display: none; }
+    .end .w { grid-template-columns: 1fr; }
+    form { grid-template-columns: 1fr; padding: 22px; }
+    .space { width: 900px; height: 900px; }
+    .end { padding-bottom: 220px; }
+  }
+  html.shot .hero { min-height: 900px; }
+  @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } }
+</style>
+</head>
+<body>
+
+
+<nav class="top"><div class="w">
+  <a class="logo" href="#">AI21 <i>Maestro</i></a>
+  <span class="menu"><a href="#how">How it works</a><a href="#why">Why Maestro</a><a href="#cases">Use cases</a><a href="#enterprise">Enterprise</a></span>
+  <span class="sp"></span>
+  <a class="btn" href="#demo">Book a demo</a>
+</div></nav>
+
+<header class="hero">
+  <div class="space" aria-hidden="true"><canvas id="heroOrb"></canvas><canvas id="heroDust"></canvas></div>
+  <div class="w">
+    <h1 class="H">Reliable <span class="g">knowledge agents</span></h1>
+    <p class="tag mono">For enterprise work · Now available</p>
+    <div class="ctas"><a class="btn" href="#demo">Book a demo</a><a class="btn o" href="#how">See how it works</a></div>
+
+  </div>
+</header>
+
+<section class="hs" id="how">
+  <div class="w hs-head rv"><div><h2 class="H">Watch Maestro <span class="g">run a task</span></h2></div>
+    <div class="task"><span class="mono">Task</span><div class="field"><span id="taskText"></span><i></i></div></div></div>
+  <div class="flow rv" id="flow"><div class="flow-in">
+    <canvas class="forb" id="flowOrb" aria-hidden="true"></canvas>
+    <svg class="flowsvg" viewBox="0 0 1600 440" aria-label="Maestro takes requirements, tools, models and budget, plans steps, runs them in parallel, validates and returns output">
+<defs><linearGradient id="bxf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#363535"/><stop offset="1" stop-color="#252525"/></linearGradient>
+<linearGradient id="bxs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C7C1EE"/><stop offset=".55" stop-color="#EFE6DC"/><stop offset="1" stop-color="#E3BFD2"/></linearGradient>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L8 5 L1 9" fill="none" stroke="#EAE5DE" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="node" data-t="0.0"><rect class="bx" x="30" y="190" width="64" height="64" rx="16"/><g class="ic" transform="translate(43.1 203.1) scale(2.1)"><path d="M11 2H4v14h10V5z M11 2v3h3 M6.5 9h5 M6.5 12h5"/></g></g>
+<g class="node" data-t="1.6"><text class="lab" x="226.0" y="36" text-anchor="middle">Requirements</text><rect class="bx" x="150" y="46" width="152" height="48" rx="14"/><g class="ic" transform="translate(176.25 58.75) scale(1.25)"><path d="M3 15h4l9-9-4-4-9 9v4z M11 3l4 4"/></g><g class="ic" transform="translate(214.75 58.75) scale(1.25)"><path d="M3 15h4l9-9-4-4-9 9v4z M11 3l4 4"/></g><g class="ic" transform="translate(253.25 58.75) scale(1.25)"><path d="M3 15h4l9-9-4-4-9 9v4z M11 3l4 4"/></g></g>
+<g class="node" data-t="1.85"><text class="lab" x="288.0" y="118" text-anchor="middle">Tools</text><rect class="bx" x="214" y="128" width="148" height="48" rx="14"/><g class="ic" transform="translate(238.25 140.75) scale(1.25)"><ellipse cx="9" cy="4" rx="6" ry="2.5"/><path d="M3 4v10c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V4 M3 9c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5"/></g><g class="ic" transform="translate(276.75 140.75) scale(1.25)"><path d="M2 7c4-4 10-4 14 0 M4.5 10c2.6-2.4 6.4-2.4 9 0 M7 13c1.1-1 2.9-1 4 0"/><circle cx="9" cy="15.5" r=".9"/></g><g class="ic" transform="translate(315.25 140.75) scale(1.25)"><path d="M11 2H4v14h10V5z M11 2v3h3"/><circle cx="9" cy="10" r="2.4"/><path d="M10.8 11.8 13 14"/></g></g>
+<g class="node" data-t="2.1"><text class="lab" x="229.0" y="268" text-anchor="middle">Models</text><rect class="bx" x="140" y="278" width="178" height="48" rx="14"/><text class="tx" x="162.5" y="307.5">Jamba</text><g class="ic" transform="translate(234.5 290.75) scale(1.25)"><circle cx="9" cy="9" r="6.5"/><path d="M5 6.5c2 2 6 2 8 0 M5 11.5c2-2 6-2 8 0"/></g><g class="ic" transform="translate(273.0 290.75) scale(1.25)"><path d="M9 1.5v15 M1.5 9h15 M3.8 3.8l10.4 10.4 M14.2 3.8 3.8 14.2"/></g></g>
+<g class="node" data-t="2.35"><text class="lab" x="274.0" y="350" text-anchor="middle">Budget</text><rect class="bx" x="214" y="360" width="120" height="48" rx="14"/><g class="ic" transform="translate(243.5 372.75) scale(1.25)"><rect x="2" y="3.5" width="14" height="12" rx="2"/><path d="M2 7.5h14 M6 2v3 M12 2v3"/></g><g class="ic" transform="translate(282.0 372.75) scale(1.25)"><path d="M9 2v14 M13 5.5C12 4 10.6 3.5 9 3.5 6.8 3.5 5 4.6 5 6.3 5 10 13 8 13 11.8 13 13.5 11.2 14.5 9 14.5 7.2 14.5 5.6 13.8 4.8 12.4"/></g></g>
+<path class="ln trunk" d="M94 222 L556 222" pathLength="1" data-t="0.6" data-d="1.0" marker-end="url(#ah)"/>
+<path class="ln" d="M302 70.0 L428.0 70.0 Q440 70.0 440.0 82.0 L440.0 194.0 Q440 206 452.0 206.0 L556 206" pathLength="1" data-t="1.9" data-d="0.8" marker-end="url(#ah)"/>
+<path class="ln" d="M362 152.0 L398.0 152.0 Q410 152.0 410.0 164.0 L410.0 202.0 Q410 214 422.0 214.0 L556 214" pathLength="1" data-t="2.1" data-d="0.8" marker-end="url(#ah)"/>
+<path class="ln" d="M318 302.0 L398.0 302.0 Q410 302.0 410.0 290.0 L410.0 242.0 Q410 230 422.0 230.0 L556 230" pathLength="1" data-t="2.3" data-d="0.8" marker-end="url(#ah)"/>
+<path class="ln" d="M334 384.0 L428.0 384.0 Q440 384.0 440.0 372.0 L440.0 250.0 Q440 238 452.0 238.0 L556 238" pathLength="1" data-t="2.5" data-d="0.8" marker-end="url(#ah)"/>
+<path class="ln" d="M724 222 L756 222" pathLength="1" data-t="3.4" data-d="0.3" marker-end="url(#ah)"/>
+<g class="node draft" data-t="3.6"><rect class="bx" x="758" y="203" width="96" height="38" rx="19"/><text class="tx" x="806" y="227" text-anchor="middle">Step</text></g>
+<path class="ln plan" d="M854 222 L864.0 222.0 Q874 222 874.0 210.0 L874.0 142.0 Q874 130 886.0 130.0 L898 130" pathLength="1" data-t="3.9" data-d="0.5" marker-end="url(#ah)"/>
+<g class="node" data-t="4.2"><rect class="bx" x="900" y="113" width="92" height="34" rx="17"/><text class="tx sm" x="918" y="135">LLM</text><circle class="dotw" cx="964" cy="130" r="3.2"/><circle class="dotw" cx="975" cy="130" r="3.2"/></g>
+<path class="ln run" d="M992 130 L1014 130" pathLength="1" data-t="5.0" data-d="0.3" marker-end="url(#ah)"/>
+<g class="node" data-t="5.2"><rect class="bx" x="1016" y="113" width="84" height="34" rx="17"/><text class="tx sm" x="1032" y="135">Tool</text><rect class="sq" x="1072" y="124" width="12" height="12" rx="2.5"/></g>
+<path class="ln run" d="M1100 130 L1126 130" pathLength="1" data-t="5.8" data-d="0.3" marker-end="url(#ah)"/>
+<path class="ln plan" d="M854 222 L898 222" pathLength="1" data-t="4.0" data-d="0.5" marker-end="url(#ah)"/>
+<g class="node" data-t="4.3"><rect class="bx" x="900" y="205" width="92" height="34" rx="17"/><text class="tx sm" x="918" y="227">LLM</text><circle class="dotw" cx="964" cy="222" r="3.2"/><circle class="dotw" cx="975" cy="222" r="3.2"/></g>
+<path class="ln run" d="M992 222 L1014 222" pathLength="1" data-t="5.0" data-d="0.3" marker-end="url(#ah)"/>
+<g class="node" data-t="5.2"><rect class="bx" x="1016" y="205" width="84" height="34" rx="17"/><text class="tx sm" x="1032" y="227">Tool</text><rect class="sq" x="1072" y="216" width="12" height="12" rx="2.5"/></g>
+<path class="ln run" d="M1100 222 L1126 222" pathLength="1" data-t="5.8" data-d="0.3" marker-end="url(#ah)"/>
+<path class="ln plan" d="M854 222 L864.0 222.0 Q874 222 874.0 234.0 L874.0 302.0 Q874 314 886.0 314.0 L898 314" pathLength="1" data-t="4.1" data-d="0.5" marker-end="url(#ah)"/>
+<g class="node" data-t="4.3999999999999995"><rect class="bx" x="900" y="297" width="92" height="34" rx="17"/><text class="tx sm" x="918" y="319">LLM</text><circle class="dotw" cx="964" cy="314" r="3.2"/><circle class="dotw" cx="975" cy="314" r="3.2"/></g>
+<path class="ln run" d="M992 314 L1014 314" pathLength="1" data-t="5.0" data-d="0.3" marker-end="url(#ah)"/>
+<g class="node" data-t="5.2"><rect class="bx" x="1016" y="297" width="84" height="34" rx="17"/><text class="tx sm" x="1032" y="319">Tool</text><rect class="sq" x="1072" y="308" width="12" height="12" rx="2.5"/></g>
+<path class="ln run" d="M1100 314 L1126 314" pathLength="1" data-t="5.8" data-d="0.3" marker-end="url(#ah)"/>
+<g class="node val" data-t="6.0"><rect class="bx" x="1128" y="96" width="32" height="252" rx="16"/><text class="lab" x="1144" y="372" text-anchor="middle">Validate</text><circle class="vd" cx="1144" cy="130" r="5"/><circle class="vd" cx="1142" cy="176" r="3"/><circle class="vd" cx="1145" cy="222" r="6"/><circle class="vd" cx="1143" cy="268" r="3.5"/><circle class="vd" cx="1144" cy="314" r="5"/></g>
+<path class="ln run" d="M1160 222 L1196 222" pathLength="1" data-t="6.6" data-d="0.3" marker-end="url(#ah)"/>
+<g class="node" data-t="6.8"><rect class="bx" x="1198" y="205" width="92" height="34" rx="17"/><text class="tx sm" x="1216" y="227">LLM</text><circle class="dotw" cx="1262" cy="222" r="3.2"/><circle class="dotw" cx="1273" cy="222" r="3.2"/></g>
+<path class="ln run" d="M1290 222 L1318 222" pathLength="1" data-t="7.2" data-d="0.3" marker-end="url(#ah)"/>
+<g class="node val" data-t="7.4"><rect class="bx" x="1320" y="96" width="32" height="252" rx="16"/><text class="lab" x="1336" y="372" text-anchor="middle">Validate</text><circle class="vd" cx="1336" cy="150" r="4"/><circle class="vd" cx="1334" cy="196" r="6"/><circle class="vd" cx="1338" cy="248" r="3"/><circle class="vd" cx="1336" cy="298" r="5"/></g>
+<path class="ln fix" d="M1320 326 L1302.0 326.0 Q1290 326 1290.0 338.0 L1290.0 400.0 Q1290 412 1278.0 412.0 L1256.0 412.0 Q1244 412 1244.0 400.0 L1244 241" pathLength="1" data-t="8.2" data-d="1.0" marker-end="url(#ah)"/>
+<path class="ln out" d="M1352 222 L1390 222" pathLength="1" data-t="9.8" data-d="0.3" marker-end="url(#ah)"/>
+<g class="node chk" data-t="10.0"><rect class="bx" x="1392" y="198" width="48" height="48" rx="12"/><g class="ic" transform="translate(1401 207) scale(1.7)"><path d="M2 9.5l3.5 3.5L12 6 M7.5 13l1 1L16 6"/></g></g>
+<path class="ln out" d="M1440 222 L1466 222" pathLength="1" data-t="10.3" data-d="0.3" marker-end="url(#ah)"/>
+<g class="node outbox" data-t="10.5"><rect class="bx" x="1468" y="160" width="124" height="124" rx="16"/><g class="ic" transform="translate(1515 186) scale(1.6)"><rect x="2" y="2" width="14" height="14" rx="3"/><path d="M6 9h7 M10 6l3 3-3 3"/></g><text class="tx" x="1530" y="252" text-anchor="middle">Output</text></g>
+<g id="sparks"></g>
+</svg>
+  </div></div>
+  <div class="w caps rv">
+    <div class="cap"><span class="mono"><b>01</b> · Input</span><h3>Set the goal</h3><p>Goals, inputs and constraints, with control of models, tools and rules.</p></div>
+    <div class="cap"><span class="mono"><b>02</b> · Plan &amp; execute</span><h3>Maestro plans and runs</h3><p>It breaks the task into steps and runs them in parallel with file search, web search or an LLM.</p></div>
+    <div class="cap"><span class="mono"><b>03</b> · Output</span><h3>Every step checked</h3><p>Each step is validated against the requirements, and Maestro corrects itself when one fails.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="why">
+  <div class="w">
+    <div class="head rv"><div><h2 class="H">Built for work <span class="g">that has to be right</span></h2></div></div>
+    <div class="feat rv">
+      <div><h3 class="H g">Accurate</h3><p>Maestro validates every step and corrects itself. Offline simulations tune accuracy, speed and cost before anything reaches production.</p>
+        <p class="kpi">Requirements are checked on every run.</p></div>
+      <div class="vis paper"><div class="lot" data-l="scalable.json" style="aspect-ratio:660/430"></div></div>
+    </div>
+    <div class="feat rv">
+      <div><h3 class="H g">Transparent</h3><p>An execution graph with confidence scores shows how every decision was made, so risk and compliance teams can sign off.</p>
+        <p class="kpi">Every run ships with a trace and a validation report.</p></div>
+      <div class="vis"><div class="lot" data-l="transparent.json" style="aspect-ratio:1620/1060"></div></div>
+    </div>
+    <div class="feat rv">
+      <div><h3 class="H g">Adaptable</h3><p>The plan adjusts to each task's inputs, goals, latency and cost, so one system covers many workflows without hand-coded logic.</p>
+        <p class="kpi">Cost and latency limits are set per task.</p></div>
+      <div class="vis"><div class="lot" data-l="adaptive.json" style="aspect-ratio:1340/600"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec light">
+  <div class="w">
+    <div class="head rv"><div><h2 class="H">Enterprise AI <span class="g">has stalled</span></h2></div>
+      <p>Most agents fall into one of two traps, and both keep projects stuck before production.</p></div>
+    <div class="traps rv">
+      <div><span class="n g">01</span><h3>Unreliable</h3><p>The model makes decisions at runtime with no guardrails, so results change from run to run.</p></div>
+      <div><span class="n g">02</span><h3>Slow to build</h3><p>Every step of the workflow is coded by hand, which takes months of R&amp;D.</p></div>
+      <div><span class="n g">03</span><h3>Brittle</h3><p>Hallucinations, lost context and no grounding in the company's own data.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec light" id="cases">
+  <div class="w">
+    <div class="head rv"><div><h2 class="H">Where teams <span class="g">start</span></h2></div>
+      <p>Enterprise knowledge work with many steps, strict requirements and a clear owner.</p></div>
+    <div class="rv">
+      <a class="case" href="#demo"><span class="mono">01</span><div><span class="mono team">Legal · Compliance</span><h3 class="H">Regulatory change tracking</h3></div><p>Follow regulatory changes and produce compliance impact summaries.</p><span class="go">→</span></a>
+      <a class="case" href="#demo"><span class="mono">02</span><div><span class="mono team">Product · Customer success</span><h3 class="H">Customer insight reports</h3></div><p>Turn CRM notes, support tickets and feedback forms into one report.</p><span class="go">→</span></a>
+      <a class="case" href="#demo"><span class="mono">03</span><div><span class="mono team">Finance · Sales</span><h3 class="H">Analysis and RFPs</h3></div><p>Financial analysis, RFP responses and contract analysis.</p><span class="go">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="enterprise">
+  <div class="w">
+    <div class="head rv"><div><h2 class="H">Ready for <span class="g">security review</span></h2></div>
+      <p>Everything procurement and IT ask for before a pilot.</p></div>
+    <div class="ent rv">
+      <div><h3>Deployment</h3><p class="soft">SaaS, private VPC or on-premise.</p></div>
+      <div><h3>Security</h3><p class="soft">Built for enterprise security and compliance reviews.</p></div>
+      <div><h3>Data</h3><p class="soft">Your data stays yours, with retention set by your policy.</p></div>
+      <div><h3>Integrations</h3><p class="soft">LangChain, LlamaIndex and Amazon Bedrock, through one API call.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec light">
+  <div class="w">
+    <div class="head rv"><div><h2 class="H">Start with <span class="g">one workflow</span></h2></div></div>
+    <div class="plan rv">
+      <div><span class="mono">Step 1 · Free</span><h3>Discovery call</h3><p>30 minutes to pick one workflow and write down its requirements.</p></div>
+      <div class="hot"><span class="mono">Step 2</span><h3>Scoped pilot</h3><p>Maestro on real data, with success criteria agreed up front.</p><a class="btn" href="#demo" style="margin-top:28px">Book a demo</a></div>
+      <div><span class="mono">Step 3</span><h3>Rollout</h3><p>A results review with your team, then a plan to scale across workflows.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="end" id="demo">
+  <div class="space" aria-hidden="true"><canvas id="endOrb"></canvas><canvas id="endDust"></canvas></div>
+  <div class="w">
+    <div class="rv"><h2 class="H">See Maestro on <span class="g">your own workflow</span></h2><p class="sub">Book a 30-minute call. Bring one workflow.</p></div>
+    <form class="rv" onsubmit="event.preventDefault(); this.querySelector('.note').textContent = 'Thanks. A member of the team will reply within one business day.';">
+      <label>First name<input autocomplete="off"></label>
+      <label>Last name<input autocomplete="off"></label>
+      <label class="full">Work email<input type="email" autocomplete="off"></label>
+      <label>Company<input autocomplete="off"></label>
+      <label>Company size<select><option>1 to 200</option><option>201 to 1,000</option><option>1,001 to 5,000</option><option>5,000+</option></select></label>
+      <label class="full">Workflow to start with<input autocomplete="off"></label>
+      <button type="submit">Book a demo</button>
+      <p class="note">Replies within one business day.</p>
+    </form>
+  </div>
+</section>
+
+<footer><div class="w"><span>AI21 Maestro</span><span>© 2025 AI21 Labs</span></div></footer>
+
+<script>if (/shot/.test(location.search)) document.documentElement.classList.add('shot');</script>
+<script src="../js/maestro-orb.js?v=5"></script>
+<script src="../js/maestro-flow.js?v=5" defer></script>
+<script>
+(function () {
+  var hs0 = matchMedia('(max-width: 900px)').matches ? .22 : .25;
+  MaestroOrb(document.getElementById('heroOrb'), { scale: hs0 });
+  MaestroDust(document.getElementById('heroDust'), { scale: hs0, count: 220, stars: 180 });
+  var hz = { radiusBy: 'width', scale: .62, squash: 3.6, center: [.5, 1.5] };
+  MaestroOrb(document.getElementById('endOrb'), hz);
+  MaestroDust(document.getElementById('endDust'), Object.assign({ count: 160, stars: 90 }, hz));
+
+  var rv = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target); } }); }, { threshold: .15 });
+  document.querySelectorAll('.rv').forEach(function (el) { rv.observe(el); });
+
+  var mobile = matchMedia('(max-width: 900px)').matches;
+  var lio = new IntersectionObserver(function (es) { es.forEach(function (e) {
+    var el = e.target;
+    if (e.isIntersecting && !el._a) el._a = lottie.loadAnimation({ container: el, renderer: 'svg', loop: true, autoplay: true, path: '../images/process/maestro-launch/lottie/' + el.dataset.l });
+    else if (el._a) { if (e.isIntersecting) el._a.play(); else el._a.pause(); }
+  }); }, { rootMargin: '300px 0px' });
+  document.querySelectorAll('.lot').forEach(function (el) {
+    lio.observe(el);
+  });
+
+
+  // the top bar stays hidden until the page starts scrolling
+  var bar = document.querySelector('nav.top');
+  function barState() { bar.classList.toggle('show', scrollY > 60); }
+  addEventListener('scroll', barState, { passive: true }); barState();
+
+  var tasks = ['Summarise this quarter\'s regulatory changes and flag what affects our contracts', 'Build a customer insight report from last month\'s tickets and CRM notes', 'Draft answers to this RFP from our product docs and past proposals'];
+  var out = document.getElementById('taskText'), ti = 0, ci = 0, dir = 1;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { out.textContent = tasks[0]; return; }
+  (function type() {
+    var t = tasks[ti]; ci += dir; out.textContent = t.slice(0, ci);
+    if (dir > 0 && ci >= t.length) { dir = -1; return setTimeout(type, 5200); }
+    if (dir < 0 && ci <= 0) { dir = 1; ti = (ti + 1) % tasks.length; return setTimeout(type, 400); }
+    setTimeout(type, dir > 0 ? 28 : 10);
+  }());
+}());
+</script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maestro Sales Deck · Three Steps Studio</title>
+<meta name="description" content="A ten-slide sales deck concept for AI21 Maestro, built in the launch's visual language.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/images/favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="/images/favicon-light.png?v=3" media="(prefers-color-scheme: light)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #212121; --ink: #F4F1EC; --mute: #9A9692; --line: #5A5856; --box: #2A2A2A; --peach: #FED7AC; --pink: #DFBDCE; --lilac: #8A97C3; --core: #FFF0DD; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #181818; color: var(--ink); font-family: 'Be Vietnam Pro', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow: hidden; }
+  .stage { position: fixed; inset: 0 0 68px; }
+  .deck { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center; }
+  .slide { position: absolute; inset: 0; background: var(--bg); padding: 96px 112px; display: none; overflow: hidden; }
+  .slide.on { display: block; }
+  .ph { color: var(--peach); font-family: 'Be Vietnam Pro', sans-serif; font-size: .82em; letter-spacing: -.01em; }
+  .brand { position: absolute; left: 112px; bottom: 56px; font: 500 15px 'Be Vietnam Pro'; color: var(--mute); letter-spacing: .02em; }
+  .num { position: absolute; right: 112px; bottom: 56px; font: 400 15px 'Be Vietnam Pro', sans-serif; color: var(--mute); }
+  .kicker { font: 500 16px 'Be Vietnam Pro', sans-serif; color: var(--mute); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 28px; }
+  h1, h2 { font-weight: 400; letter-spacing: -.025em; line-height: 1.06; }
+  h1 { font-size: 104px; }
+  h2 { font-size: 64px; max-width: 1120px; }
+  .grad { background: linear-gradient(90deg, var(--core) 0%, var(--peach) 45%, var(--pink) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { font-size: 26px; line-height: 1.45; color: #CFCBC6; max-width: 900px; margin-top: 32px; font-weight: 300; }
+
+  /* pills and boxes, as in Adva's stills */
+  .pill { display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 22px; border: 1.5px solid #D9D6D2; border-radius: 999px; font-size: 19px; background: linear-gradient(180deg, #3A3A3A, #262626); }
+  .box { border: 1.5px solid var(--line); border-radius: 14px; background: linear-gradient(160deg, #2E2E2E, #242424); }
+  .glow { box-shadow: 0 0 0 1px rgba(253,211,197,.35), 0 0 28px rgba(253,211,197,.28); }
+
+  /* 1 cover */
+  .s-cover .orb { position: absolute; right: -60px; top: 50%; width: 900px; mix-blend-mode: lighten; transform: translateY(-50%); animation: breathe 6s ease-in-out infinite; -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent); mask-image: radial-gradient(closest-side, #000 72%, transparent); }
+  .s-cover .copy { position: absolute; left: 112px; top: 50%; transform: translateY(-50%); }
+  .s-cover .sub { font-size: 30px; color: #CFCBC6; margin-top: 24px; font-weight: 300; }
+  @keyframes breathe { 0%,100% { transform: translateY(-50%) scale(1); filter: brightness(1); } 50% { transform: translateY(-50%) scale(1.035); filter: brightness(1.08); } }
+
+  /* 2 problem */
+  .rows { margin-top: 64px; display: grid; gap: 0; max-width: 1180px; }
+  .rows div { display: grid; grid-template-columns: 80px 1fr; padding: 26px 0; border-top: 1px solid #3A3A3A; font-size: 30px; font-weight: 300; }
+  .rows div:last-child { border-bottom: 1px solid #3A3A3A; }
+  .rows b { font: 400 18px 'Be Vietnam Pro', sans-serif; color: var(--mute); padding-top: 8px; }
+
+  /* 3 what it does */
+  .trio { position: absolute; left: 112px; right: 112px; top: 430px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .trio .box { padding: 36px 34px; min-height: 250px; }
+  .trio h3 { font-size: 30px; font-weight: 500; margin-bottom: 14px; }
+  .trio p { font-size: 21px; line-height: 1.45; color: #C7C3BE; font-weight: 300; }
+  .ico { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 26px; background: linear-gradient(135deg, var(--core), var(--pink) 60%, var(--lilac)); color: #222; font: 600 20px 'Be Vietnam Pro', sans-serif; }
+
+  /* 4 how it works, animated */
+  .hiw { position: absolute; left: 80px; right: 80px; top: 300px; height: 470px; }
+  .hiw svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .hiw .path { fill: none; stroke: #8F8C88; stroke-width: 1.6; stroke-dasharray: 600; stroke-dashoffset: 600; }
+  .slide.on .hiw .path { animation: draw 1.4s ease-out forwards; }
+  .slide.on .hiw .path.d2 { animation-delay: .3s; } .slide.on .hiw .path.d3 { animation-delay: .6s; } .slide.on .hiw .path.d4 { animation-delay: .9s; }
+  .slide.on .hiw .path.out { animation-delay: 1.8s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .hiw .spark { fill: #FFF6EA; filter: drop-shadow(0 0 6px #FDD3C5); opacity: 0; }
+  .slide.on .hiw .spark { animation: on 0s 2.2s forwards; }
+  @keyframes on { to { opacity: 1; } }
+  .hiw .in { position: absolute; left: 0; display: flex; flex-direction: column; gap: 6px; opacity: 0; }
+  .hiw .in span { font-size: 15px; color: var(--mute); }
+  .hiw .in .pill { height: 40px; font-size: 17px; }
+  .slide.on .hiw .in { animation: fade .6s ease-out forwards; }
+  .hiw .core { position: absolute; left: 50%; top: 50%; width: 420px; transform: translate(-50%,-50%); opacity: 0; }
+  .slide.on .hiw .core { animation: fade .9s 1.2s ease-out forwards, pulse 5s 2.1s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.15); } }
+  .hiw .core-label { position: absolute; left: 50%; top: calc(50% + 150px); transform: translate(-50%,-50%); color: var(--mute); font-size: 22px; white-space: nowrap; opacity: 0; }
+  .slide.on .hiw .core-label { animation: fade .6s 1.6s forwards; }
+  .hiw .outbox { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 360px; padding: 30px 34px; opacity: 0; font: 400 18px/2 'Be Vietnam Pro', sans-serif; }
+  .hiw .outbox i { font-style: normal; color: var(--peach); }
+  .slide.on .hiw .outbox { animation: fade .6s 2.4s forwards; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  .hiw .cap { position: absolute; bottom: -10px; font: 400 15px 'Be Vietnam Pro', sans-serif; color: var(--mute); text-transform: uppercase; letter-spacing: .05em; }
+
+  /* 5 graph */
+  .graph { position: absolute; right: 112px; top: 150px; width: 760px; height: 560px; }
+  .graph svg { width: 100%; height: 100%; overflow: visible; }
+  .graph .curve { fill: none; stroke: #E9E5DF; stroke-width: 2.2; stroke-dasharray: 900; stroke-dashoffset: 900; }
+  .slide.on .graph .curve { animation: draw 2.2s .3s cubic-bezier(.3,.7,.3,1) forwards; }
+  .graph .dot { fill: var(--peach); filter: drop-shadow(0 0 10px var(--peach)); opacity: 0; }
+  .slide.on .graph .dot { animation: fade .4s 2.3s forwards; }
+  .graph .tag { position: absolute; display: flex; align-items: center; gap: 10px; padding: 8px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 16px; background: #262626; }
+  .graph .tag i { width: 20px; height: 20px; border-radius: 5px; display: block; }
+  .s-graph .copy { position: absolute; left: 112px; top: 96px; width: 600px; }
+  .s-graph h2 { font-size: 56px; }
+
+  /* 6 transparency */
+  .trace { position: absolute; left: 112px; right: 112px; top: 370px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .trace .box { padding: 32px; }
+  .trace h4 { font: 500 15px 'Be Vietnam Pro', sans-serif; color: var(--mute); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 22px; }
+  .trace ol { list-style: none; display: grid; gap: 12px; }
+  .trace li { display: flex; align-items: center; gap: 14px; font-size: 20px; }
+  .trace li .pill { height: 38px; font-size: 16px; min-width: 210px; }
+  .trace li em { font-style: normal; color: var(--mute); font-size: 17px; }
+  .req { font: 400 19px/2.1 'Be Vietnam Pro', sans-serif; }
+  .req i { font-style: normal; color: var(--peach); }
+
+  /* 7 use cases */
+  .cases { position: absolute; left: 112px; right: 112px; top: 360px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .cases .box { padding: 34px; min-height: 330px; display: flex; flex-direction: column; }
+  .cases h3 { font-size: 28px; font-weight: 500; margin-bottom: 14px; }
+  .cases p { font-size: 20px; line-height: 1.45; color: #C7C3BE; font-weight: 300; }
+  .cases .res { margin-top: auto; padding-top: 22px; border-top: 1px solid #3A3A3A; font-size: 22px; }
+
+  /* 8 why ai21 */
+  .why { margin-top: 70px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 80px; max-width: 1300px; }
+  .why div { padding: 30px 0; border-top: 1px solid #3A3A3A; }
+  .why h3 { font-size: 28px; font-weight: 500; margin-bottom: 10px; }
+  .why p { font-size: 21px; color: #C7C3BE; font-weight: 300; line-height: 1.45; }
+
+  /* 9 proof */
+  .quote { position: absolute; left: 112px; right: 520px; top: 240px; }
+  .quote blockquote { font-size: 60px; line-height: 1.15; letter-spacing: -.02em; font-weight: 300; }
+  .quote cite { display: block; margin-top: 40px; font-style: normal; font-size: 22px; }
+  .stat { position: absolute; right: 112px; top: 240px; width: 340px; padding: 36px; }
+  .stat .big { font-size: 34px; margin: 16px 0 10px; }
+  .stat p { font-size: 18px; color: var(--mute); }
+
+  /* 10 start */
+  .steps3 { position: absolute; left: 112px; right: 112px; top: 380px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .steps3 > div { position: relative; }
+  .steps3 .pill { margin-bottom: 26px; }
+  .steps3 h3 { font-size: 28px; font-weight: 500; margin-bottom: 12px; }
+  .steps3 p { font-size: 20px; color: #C7C3BE; line-height: 1.45; font-weight: 300; }
+  .steps3 > div:not(:last-child)::after { content: ''; position: absolute; left: 150px; right: -20px; top: 22px; border-top: 1.5px solid var(--line); }
+  .cta { position: absolute; left: 112px; bottom: 120px; display: flex; gap: 48px; align-items: baseline; font-size: 26px; }
+  .cta .url { font-size: 34px; }
+
+
+  /* sales slides */
+  .kpis { position: absolute; left: 112px; right: 112px; top: 420px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .kpis--4 { grid-template-columns: repeat(4, 1fr); top: 360px; }
+  .kpis .box { padding: 34px; min-height: 260px; display: flex; flex-direction: column; }
+  .kpis .big { font-size: 56px; letter-spacing: -.02em; margin: 6px 0 14px; }
+  .kpis p { font-size: 21px; color: #C7C3BE; font-weight: 300; line-height: 1.4; }
+  .kpis .lab { font: 500 15px 'Be Vietnam Pro', sans-serif; text-transform: uppercase; letter-spacing: .05em; color: var(--mute); }
+  .kpis .src { margin-top: auto; font-size: 16px; }
+  .foot { position: absolute; left: 112px; bottom: 110px; font-size: 18px; }
+  .ticks { list-style: none; margin-top: 36px; display: grid; gap: 14px; }
+  .ticks li { display: flex; gap: 14px; font-size: 21px; color: #CFCBC6; font-weight: 300; }
+  .ticks li::before { content: ''; flex: none; width: 9px; height: 9px; margin-top: 10px; border-radius: 50%; background: var(--peach); box-shadow: 0 0 10px var(--peach); }
+  .cmp { position: absolute; left: 112px; right: 112px; top: 330px; border-collapse: collapse; font-size: 21px; width: calc(100% - 224px); }
+  .cmp th, .cmp td { text-align: left; padding: 20px 22px; border-bottom: 1px solid #3A3A3A; font-weight: 300; }
+  .cmp th { font: 500 15px 'Be Vietnam Pro', sans-serif; text-transform: uppercase; letter-spacing: .05em; color: var(--mute); }
+  .cmp td:first-child { color: var(--ink); font-weight: 400; }
+  .cmp td:not(:first-child) { color: #A9A5A0; }
+  .cmp .me { background: rgba(254,215,172,.06); color: var(--ink) !important; font-weight: 500; }
+  .cmp th.me { color: var(--peach); }
+  .plan { position: absolute; left: 112px; right: 112px; top: 380px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  .plan > div { position: relative; }
+  .plan .pill { margin-bottom: 26px; }
+  .plan h3 { font-size: 26px; font-weight: 500; margin-bottom: 10px; }
+  .plan p { font-size: 19px; color: #C7C3BE; line-height: 1.45; font-weight: 300; }
+  .plan > div:not(:last-child)::after { content: ''; position: absolute; left: 170px; right: -10px; top: 22px; border-top: 1.5px solid var(--line); }
+
+  /* chrome */
+  .ui { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; font: 400 13px 'Be Vietnam Pro', sans-serif; color: #8A8682; z-index: 5; }
+  .ui a { color: #CFCBC6; text-decoration: none; }
+  .ui button { background: none; border: 1px solid #3A3A3A; color: #CFCBC6; width: 40px; height: 40px; border-radius: 999px; cursor: pointer; font-size: 16px; }
+  .ui button:hover { border-color: #8A8682; }
+  .ui .nav { display: flex; gap: 8px; align-items: center; }
+  .ui .count { min-width: 64px; text-align: center; }
+  body.shot .ui { display: none; }
+  body.shot .stage { inset: 0; }
+</style>
+</head>
+<body>
+<div class="stage"><div class="deck" id="deck">
+
+  <section class="slide s-cover">
+    <video class="orb" src="../images/process/maestro-launch/web-orb.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+    <div class="copy">
+      <h1><span class="grad">AI21 Maestro</span></h1>
+      <p class="sub">Reliable knowledge agents for enterprise work</p>
+    </div>
+    <span class="brand">AI21 Labs</span>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Why now</p>
+    <h2>Every enterprise has an AI pilot. Few have one in production.</h2>
+    <div class="kpis">
+      <div class="box"><p class="big">Everywhere</p><p>Almost every enterprise team has an AI pilot running.</p></div>
+      <div class="box"><p class="big">Stuck</p><p>Few of them make it into production.</p></div>
+      <div class="box"><p class="big">Trust</p><p>What holds them back is reliability.</p></div>
+    </div>
+    <span class="brand">AI21 Labs</span><span class="num">02</span>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">The problem</p>
+    <h2>Enterprise agents stall in one of two ways.</h2>
+    <div class="rows">
+      <div><b>01</b>Unreliable: the model makes decisions at runtime with no guardrails.</div>
+      <div><b>02</b>Slow to build: every step is hard-coded, which takes months of R&amp;D.</div>
+      <div><b>03</b>Brittle: hallucinations, lost context and no grounding in company data.</div>
+    </div>
+    <span class="brand">AI21 Labs</span><span class="num">03</span>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">What Maestro does</p>
+    <h2>Maestro is a system for building reliable knowledge agents.</h2>
+    <div class="trio">
+      <div class="box"><div class="ico">1</div><h3>Plan</h3><p>It breaks the task into steps and picks file search, web search or an LLM for each one.</p></div>
+      <div class="box glow"><div class="ico">2</div><h3>Execute</h3><p>It runs steps in parallel and adjusts the plan to goals, latency and cost.</p></div>
+      <div class="box"><div class="ico">3</div><h3>Validate</h3><p>It checks every step against the requirements and corrects itself.</p></div>
+    </div>
+    <span class="brand">AI21 Labs</span><span class="num">04</span>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">How it works</p>
+    <h2 style="font-size:56px">You define the task. Maestro plans the rest.</h2>
+    <div class="hiw">
+      <svg viewBox="0 0 1440 470" preserveAspectRatio="none" aria-hidden="true">
+        <path class="path" d="M190 60 H420 Q450 60 450 90 V200 Q450 230 480 230 H560"/>
+        <path class="path d2" d="M190 175 H400 Q430 175 430 205 V215 Q430 230 460 230 H560"/>
+        <path class="path d3" d="M190 290 H400 Q430 290 430 270 V255 Q430 240 460 240 H560"/>
+        <path class="path d4" d="M190 405 H420 Q450 405 450 375 V270 Q450 240 480 240 H560"/>
+        <path class="path out" d="M880 235 H1080"/>
+        <circle class="spark" r="4"><animateMotion dur="2.4s" repeatCount="indefinite" path="M190 60 H420 Q450 60 450 90 V200 Q450 230 480 230 H560"/></circle>
+        <circle class="spark" r="4"><animateMotion dur="2.4s" begin=".6s" repeatCount="indefinite" path="M190 175 H400 Q430 175 430 205 V215 Q430 230 460 230 H560"/></circle>
+        <circle class="spark" r="4"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M190 290 H400 Q430 290 430 270 V255 Q430 240 460 240 H560"/></circle>
+        <circle class="spark" r="4"><animateMotion dur="2.4s" begin="1.8s" repeatCount="indefinite" path="M190 405 H420 Q450 405 450 375 V270 Q450 240 480 240 H560"/></circle>
+        <circle class="spark" r="4"><animateMotion dur="1.6s" repeatCount="indefinite" path="M880 235 H1080"/></circle>
+      </svg>
+      <div class="in" style="top:18px"><span>Requirements</span><div class="pill">Accuracy · Format</div></div>
+      <div class="in" style="top:133px;animation-delay:.2s"><span>Tools</span><div class="pill">Search · Data · Files</div></div>
+      <div class="in" style="top:248px;animation-delay:.4s"><span>Models</span><div class="pill">Jamba · Others</div></div>
+      <div class="in" style="top:363px;animation-delay:.6s"><span>Budget</span><div class="pill">Cost · Latency</div></div>
+      <video class="core" src="../images/process/maestro-launch/web-orb.mp4" autoplay muted loop playsinline aria-hidden="true" style="width:400px;mix-blend-mode:lighten;-webkit-mask-image:radial-gradient(closest-side,#000 70%,transparent);mask-image:radial-gradient(closest-side,#000 70%,transparent)"></video>
+      <div class="outbox box"><span style="font-family:'Be Vietnam Pro';font-size:22px;display:block;margin-bottom:8px">Output</span>Requirement 1: <i>[True]</i><br>Requirement 2: <i>[True]</i><br>Requirement 3: <i>[True]</i></div>
+      <span class="cap" style="left:0">Input</span><span class="cap" style="left:50%;transform:translateX(-50%)">Plan &amp; execute</span><span class="cap" style="right:0">Output</span>
+    </div>
+    <span class="brand">AI21 Labs</span><span class="num">05</span>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Business outcomes</p>
+    <h2>What changes for the business.</h2>
+    <div class="kpis kpis--4">
+      <div class="box glow"><p class="lab">Accuracy</p><p class="big">Checked</p><p>every step validated against the requirements</p></div>
+      <div class="box"><p class="lab">Time to production</p><p class="big">Faster</p><p>without months of R&amp;D or hand-coded logic</p></div>
+      <div class="box"><p class="lab">Cost per task</p><p class="big">Capped</p><p>by a budget and latency limit you set</p></div>
+      <div class="box"><p class="lab">Audit trail</p><p class="big">Every run</p><p>ships with a trace and a validation report</p></div>
+    </div>
+    <span class="brand">AI21 Labs</span><span class="num">06</span>
+  </section>
+
+  <section class="slide s-graph">
+    <div class="copy">
+      <p class="kicker">Control</p>
+      <h2>Quality you can set, inside the budget you set.</h2>
+      <p class="lede" style="font-size:23px">Maestro spends compute only where it raises accuracy, and stops at the cost and latency limits you set.</p>
+      <ul class="ticks"><li>Offline simulations tune accuracy, speed and cost before production</li><li>Execution graph with confidence scores for every run</li><li>Pass or fail per requirement</li></ul>
+    </div>
+    <div class="graph">
+      <svg viewBox="0 0 760 560" aria-hidden="true">
+        <path d="M60 30 V500 H740" fill="none" stroke="#8F8C88" stroke-width="1.5"/>
+        <path d="M60 110 H700" fill="none" stroke="#6A6764" stroke-width="1.2" stroke-dasharray="5 6"/>
+        <path d="M560 70 V500" fill="none" stroke="#6A6764" stroke-width="1.2" stroke-dasharray="5 6"/>
+        <path class="curve" d="M62 498 C 110 260, 260 120, 560 110"/>
+        <circle class="dot" cx="560" cy="110" r="11"/>
+        <text x="20" y="116" fill="#9A9692" font-size="15" font-family="Geist Mono">100%</text>
+        <text x="553" y="56" fill="#F4F1EC" font-size="22" font-family="Inter Tight">$</text>
+      </svg>
+      <div class="tag" style="left:20px;top:-26px"><i style="background:linear-gradient(135deg,#FED7AC,#F2A97E)"></i>Accuracy</div>
+      <div class="tag" style="right:-20px;bottom:30px"><i style="background:linear-gradient(135deg,#B8C2EC,#8A97C3)"></i>Compute</div>
+    </div>
+    <span class="brand">AI21 Labs</span><span class="num">07</span>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Use cases</p>
+    <h2>Where teams start.</h2>
+    <div class="cases">
+      <div class="box"><h3>Compliance</h3><p>Track regulatory changes and produce compliance impact summaries.</p><p class="res">Legal · Compliance</p></div>
+      <div class="box"><h3>Customer insights</h3><p>Reports built from CRM notes, support tickets and feedback forms.</p><p class="res">Product · Customer success</p></div>
+      <div class="box"><h3>Analysis and RFPs</h3><p>Financial analysis, RFP responses and contract analysis.</p><p class="res">Finance · Sales</p></div>
+    </div>
+    <span class="brand">AI21 Labs</span><span class="num">08</span>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Why AI21</p>
+    <h2>How Maestro compares.</h2>
+    <table class="cmp">
+      <thead><tr><th></th><th>Build in-house</th><th>Agent framework alone</th><th class="me">AI21 Maestro</th></tr></thead>
+      <tbody>
+        <tr><td>Requirements checked on every run</td><td>Custom work</td><td>Partial</td><td class="me">Built in</td></tr>
+        <tr><td>Cost and latency limits</td><td>Custom work</td><td>Manual</td><td class="me">Set per task</td></tr>
+        <tr><td>Audit trail for compliance</td><td>Custom work</td><td>Logs only</td><td class="me">Trace and report</td></tr>
+        <tr><td>Fits the current stack</td><td>Yes</td><td>Yes</td><td class="me">One API call</td></tr>
+      </tbody>
+    </table>
+    <span class="brand">AI21 Labs</span><span class="num">09</span>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Next steps</p>
+    <h2>A scoped pilot with success criteria agreed up front.</h2>
+    <div class="plan">
+      <div><span class="pill">Week 0</span><h3>Discovery</h3><p>Pick one workflow, its owner and its requirements.</p></div>
+      <div><span class="pill">Week 1</span><h3>Success criteria</h3><p>Agree the accuracy, cost and latency targets that define a win.</p></div>
+      <div><span class="pill glow">Pilot</span><h3>Pilot</h3><p>Maestro runs on real data, with results reviewed weekly.</p></div>
+      <div><span class="pill">Review</span><h3>Decision</h3><p>Results review with the buying team and a rollout plan.</p></div>
+    </div>
+    <div class="cta"><span class="url grad">ai21.com/maestro</span><span>Book a demo</span></div>
+    <span class="brand">AI21 Labs</span><span class="num">10</span>
+  </section>
+
+</div></div>
+
+<div class="ui">
+  <a href="maestro-launch.html">← Back to the case study</a>
+  <div class="nav"><button id="prev" type="button" aria-label="Previous slide">←</button><span class="count" id="count">1 / 10</span><button id="next" type="button" aria-label="Next slide">→</button></div>
+</div>
+
+<script>
+  (function () {
+    var deck = document.getElementById('deck'), slides = deck.querySelectorAll('.slide'), n = slides.length, i = 0;
+    function fit() { var k = Math.min(innerWidth / 1600, (innerHeight - (document.body.classList.contains('shot') ? 0 : 68)) / 900); deck.style.transform = 'translate(-50%,-50%) scale(' + k + ')'; }
+    function go(j) { i = Math.max(0, Math.min(n - 1, j)); slides.forEach(function (s, k) { s.classList.toggle('on', k === i); }); document.getElementById('count').textContent = (i + 1) + ' / ' + n; history.replaceState(null, '', '#' + (i + 1)); }
+    if (/shot/.test(location.hash)) document.body.classList.add('shot');
+    addEventListener('resize', fit); fit();
+    go((parseInt(location.hash.replace(/\D/g, ''), 10) || 1) - 1);
+    document.getElementById('prev').onclick = function () { go(i - 1); };
+    document.getElementById('next').onclick = function () { go(i + 1); };
+    addEventListener('keydown', function (e) { if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(i + 1); } if (['ArrowLeft', 'PageUp'].includes(e.key)) go(i - 1); });
+    var x0 = null; addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    addEventListener('touchend', function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1)); x0 = null; });
+  }());
+</script>
+</body>
+</html>
