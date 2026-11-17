@@ -33,6 +33,10 @@ img,video{display:block;max-width:100%}
 .btn:hover{transform:translateY(-1px)}
 .btn--theme{background:var(--theme);color:var(--ink)}
 .btn--ghost{background:transparent;color:inherit;border-color:currentColor}
+/* inside the portfolio mockup (an iframe), the page's own scrollbar goes dark so it doesn't show as a white strip */
+html.framed{scrollbar-color:#3A383C #0B0B0B;scrollbar-width:thin}
+html.framed::-webkit-scrollbar{width:8px;background:#0B0B0B}
+html.framed::-webkit-scrollbar-thumb{background:#3A383C;border-radius:4px}
 p,li,span,figcaption,summary,dd,.lede{text-wrap:pretty}
 h1,h2,h3,.prizes b,.models b{text-wrap:balance}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -369,6 +373,7 @@ footer .label{color:#8C8690}
 <footer class="wrap"><div class="in"><img src="../shared/ai21.png" alt="AI21"><span class="label">Context Window · AI21 internal hackathon · 10 to 11 Dec</span></div></footer>
 
 <script>
+if (window.self !== window.top) document.documentElement.classList.add('framed');
 (() => {
   const START = Date.parse('2026-12-10T07:00:00Z');   // 09:00 Tel Aviv
   const HOURS = 48, END = START + HOURS * 3600e3;
