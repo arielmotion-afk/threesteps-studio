@@ -4,3 +4,7 @@ videos-to-add/
 videos-compressed/
 .DS_Store
 **/.DS_Store
+
+# Private work: pitch decks and notes stay out of this public repo
+pitches/
+GIT_CLEANUP_TODO.md
