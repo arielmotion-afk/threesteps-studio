@@ -29,11 +29,11 @@
   .hk-mock { position: relative; overflow: hidden; aspect-ratio: 16 / 10; border-radius: 10px; margin-top: 8px; background: radial-gradient(120% 90% at 70% 110%, #3A1D35 0, #000 60%); }
   .hk-desk { position: absolute; left: 6%; top: 8%; width: 72%; }
   .hk-phone-sm { position: absolute; right: 7%; bottom: -6%; width: 19%; }
-  .hk-browser { border-radius: 10px; overflow: hidden; background: #000; }
+  .hk-browser { border-radius: 10px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,.16); }
   .hk-browser .bar { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #111; }
   .hk-browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #2C2A2E; }
   .hk-browser .bar span { margin-left: 12px; font: 500 11px ui-monospace, monospace; color: #8C8690; }
-  .hk-phone { border-radius: 10px; overflow: hidden; background: #000; }
+  .hk-phone { border-radius: 10px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,.16); }
   /* the live landing page, rendered at its real width and scaled to the frame (scale set by the script below) */
   .hk-live { position: relative; overflow: hidden; background: #000; }
   .hk-desk .hk-live { aspect-ratio: 16 / 10; }
@@ -190,6 +190,10 @@
       fr.style.width = w + 'px'; fr.style.height = h + 'px'; fr.style.transform = 'scale(' + k + ')';
     });
     fit(); addEventListener('resize', fit);
+    // dark, thin scrollbars inside the live frames (same-origin, so the style goes straight into each page)
+    const SKIN = 'html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.26) transparent}::-webkit-scrollbar{width:10px;background:transparent}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.26);border:3px solid transparent;background-clip:padding-box;border-radius:10px}';
+    const skin = (fr) => { try { const d = fr.contentDocument; if (!d || !d.head || d.getElementById('mock-skin')) return; const s = d.createElement('style'); s.id = 'mock-skin'; s.textContent = SKIN; d.head.appendChild(s); } catch (e) {} };
+    document.querySelectorAll('.hk-live iframe').forEach((fr) => { fr.addEventListener('load', () => skin(fr)); skin(fr); });
   }());
 </script>
 </body>

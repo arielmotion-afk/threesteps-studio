@@ -64,11 +64,11 @@
   .an-mock { position: relative; overflow: hidden; aspect-ratio: 16 / 10; border-radius: 10px; background: radial-gradient(120% 90% at 70% 110%, #2A1240 0, #020107 60%); }
   .an-desk { position: absolute; left: 6%; top: 8%; width: 72%; }
   .an-phone-sm { position: absolute; right: 7%; bottom: -6%; width: 19%; }
-  .an-browser { border-radius: 10px; overflow: hidden; background: #000; }
+  .an-browser { border-radius: 10px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,.16); }
   .an-browser .bar { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #111; }
   .an-browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #2C2A2E; }
   .an-browser .bar span { margin-left: 12px; font: 500 11px ui-monospace, monospace; color: #8C8690; }
-  .an-phone { border-radius: 10px; overflow: hidden; background: #000; }
+  .an-phone { border-radius: 10px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,.16); }
   /* the live site, rendered at its real width and scaled to the frame (scale set by the script at the end) */
   .an-live { position: relative; overflow: hidden; background: #000; }
   .an-desk .an-live { aspect-ratio: 16 / 10; }
@@ -175,7 +175,7 @@
     </section>
     <div class="posts show">
       <video src="../images/process/ardent/video-post-1.mp4" poster="../images/process/ardent/video-post-1.jpg" muted loop playsinline autoplay aria-label="Video post: a magnet at 20 K morphs into the plasma it holds at 100 million K, then the expo stand"></video>
-      <video src="../images/process/ardent/video-post-2.mp4" poster="../images/process/ardent/video-post-2.jpg" muted loop playsinline autoplay aria-label="Video post: the camera moves along a glowing ribbon: double the field, sixteen times the power density, the same power in a smaller machine"></video>
+      <video src="../images/process/ardent/video-post-2.mp4?v=2" poster="../images/process/ardent/video-post-2.jpg?v=2" muted loop playsinline autoplay aria-label="Video post: the camera moves along a glowing ribbon: double the field, sixteen times the power density, the same power in a smaller machine"></video>
       <video src="../images/process/ardent/video-post-3.mp4" poster="../images/process/ardent/video-post-3.jpg" muted loop playsinline autoplay aria-label="Video post: the camera follows a glow to the small ring that holds it: one coil module, tested at full field, eighteen make one machine"></video>
     </div>
 
@@ -251,6 +251,10 @@
       fr.style.width = w + 'px'; fr.style.height = h + 'px'; fr.style.transform = 'scale(' + k + ')';
     });
     fit(); addEventListener('resize', fit);
+    // dark, thin scrollbars inside the live frames (same-origin, so the style goes straight into each page)
+    const SKIN = 'html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.26) transparent}::-webkit-scrollbar{width:10px;background:transparent}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.26);border:3px solid transparent;background-clip:padding-box;border-radius:10px}';
+    const skin = (fr) => { try { const d = fr.contentDocument; if (!d || !d.head || d.getElementById('mock-skin')) return; const s = d.createElement('style'); s.id = 'mock-skin'; s.textContent = SKIN; d.head.appendChild(s); } catch (e) {} };
+    document.querySelectorAll('.an-live iframe').forEach((fr) => { fr.addEventListener('load', () => skin(fr)); skin(fr); });
   }());
 </script>
 </body>
