@@ -6,6 +6,7 @@
 // Colour schemes: glow core, glow field, ink, bubble tint (3 stops seen through the bubbles) and tint strength
 const SCHEMES = {
   'Ice chrome':     { core: '#3FB6FF', core2: '#A98BFF', field: '#E4E9F1', ink: '#060A16', tint: ['#ffffff', '#B49CFF', '#5CF2DC'], tk: .38, fk: 1.25 },
+  'Maestro':        { core: '#FED7AC', core2: '#DFBDCE', field: '#212121', ink: '#F3ECE2', tint: ['#ffffff', '#FFE2C2', '#D6CFF4'], tk: .38, fk: 1.1 },
 };
 const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
 let S = SCHEMES['Ice chrome'];
@@ -20,6 +21,7 @@ let T = TYPES['Mona Sans wide'], redraw = () => {};
 // One scene = one section with its own canvas, text lines and bubbles (used by the header and the footer)
 const redraws = []; redraw = () => redraws.forEach((f) => f());
 async function scene(hero, cv, cfg) {
+  if (cfg.scheme && SCHEMES[cfg.scheme]) S = SCHEMES[cfg.scheme];   // a page can pick its own colours
   const gl = cv.getContext('webgl', { premultipliedAlpha: false, antialias: false });
   if (!gl) { hero.classList.add('no-gl'); return; }
   await document.fonts.load("600 16px 'Inter Tight'"); await Promise.all(Object.values(TYPES).flatMap((x) => [x.a, x.b]).map((f) => document.fonts.load(f.replace('F', '100px'))));
